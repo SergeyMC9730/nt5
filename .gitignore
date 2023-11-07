@@ -56,3 +56,5 @@ out
 .vs
 .vscode
 build
+./build/*
+./build
