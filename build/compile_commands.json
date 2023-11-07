@@ -1,0 +1,307 @@
+[
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -Dnt5renderer_EXPORTS -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIC -o CMakeFiles/nt5renderer.dir/src/renderer/src/close.c.o -c /home/mint/nt5/src/renderer/src/close.c",
+  "file": "/home/mint/nt5/src/renderer/src/close.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -Dnt5renderer_EXPORTS -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIC -o CMakeFiles/nt5renderer.dir/src/renderer/src/join.c.o -c /home/mint/nt5/src/renderer/src/join.c",
+  "file": "/home/mint/nt5/src/renderer/src/join.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -Dnt5renderer_EXPORTS -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIC -o CMakeFiles/nt5renderer.dir/src/renderer/src/thread.c.o -c /home/mint/nt5/src/renderer/src/thread.c",
+  "file": "/home/mint/nt5/src/renderer/src/thread.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -Dnt5renderer_EXPORTS -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIC -o CMakeFiles/nt5renderer.dir/src/renderer/src/variables.c.o -c /home/mint/nt5/src/renderer/src/variables.c",
+  "file": "/home/mint/nt5/src/renderer/src/variables.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -Dnt5install_EXPORTS -I/home/mint/nt5/src/nt_install/include -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/external/cJSON -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIC -o CMakeFiles/nt5install.dir/src/nt_install/src/main.c.o -c /home/mint/nt5/src/nt_install/src/main.c",
+  "file": "/home/mint/nt5/src/nt_install/src/main.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -Dnt5install_EXPORTS -I/home/mint/nt5/src/nt_install/include -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/external/cJSON -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIC -o CMakeFiles/nt5install.dir/src/nt_install/src/strings.c.o -c /home/mint/nt5/src/nt_install/src/strings.c",
+  "file": "/home/mint/nt5/src/nt_install/src/strings.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -Dnt5boot_EXPORTS -I/home/mint/nt5/src/boot/include -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/nt_install/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/external/cJSON -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIC -o CMakeFiles/nt5boot.dir/src/boot/src/main.c.o -c /home/mint/nt5/src/boot/src/main.c",
+  "file": "/home/mint/nt5/src/boot/src/main.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/boot/include -I/home/mint/nt5/src/renderer/include -I/home/mint/nt5/src/renderer/raylib/src -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -g -fPIE -o CMakeFiles/nt5.dir/src/launcher/main.c.o -c /home/mint/nt5/src/launcher/main.c",
+  "file": "/home/mint/nt5/src/launcher/main.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIC -o src/external/cJSON/CMakeFiles/cjson.dir/cJSON.c.o -c /home/mint/nt5/src/external/cJSON/cJSON.c",
+  "file": "/home/mint/nt5/src/external/cJSON/cJSON.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/CMakeFiles/cJSON_test.dir/test.c.o -c /home/mint/nt5/src/external/cJSON/test.c",
+  "file": "/home/mint/nt5/src/external/cJSON/test.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIC -Wno-error -fvisibility=default -Wno-switch-enum -o src/external/cJSON/tests/CMakeFiles/unity.dir/unity/src/unity.c.o -c /home/mint/nt5/src/external/cJSON/tests/unity/src/unity.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/unity/src/unity.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_examples.dir/parse_examples.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_examples.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_examples.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_number.dir/parse_number.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_number.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_number.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_hex4.dir/parse_hex4.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_hex4.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_hex4.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_string.dir/parse_string.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_string.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_string.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_array.dir/parse_array.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_array.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_array.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_object.dir/parse_object.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_object.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_object.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_value.dir/parse_value.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_value.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_value.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/print_string.dir/print_string.c.o -c /home/mint/nt5/src/external/cJSON/tests/print_string.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/print_string.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/print_number.dir/print_number.c.o -c /home/mint/nt5/src/external/cJSON/tests/print_number.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/print_number.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/print_array.dir/print_array.c.o -c /home/mint/nt5/src/external/cJSON/tests/print_array.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/print_array.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/print_object.dir/print_object.c.o -c /home/mint/nt5/src/external/cJSON/tests/print_object.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/print_object.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/print_value.dir/print_value.c.o -c /home/mint/nt5/src/external/cJSON/tests/print_value.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/print_value.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/misc_tests.dir/misc_tests.c.o -c /home/mint/nt5/src/external/cJSON/tests/misc_tests.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/misc_tests.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/parse_with_opts.dir/parse_with_opts.c.o -c /home/mint/nt5/src/external/cJSON/tests/parse_with_opts.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/parse_with_opts.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/compare_tests.dir/compare_tests.c.o -c /home/mint/nt5/src/external/cJSON/tests/compare_tests.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/compare_tests.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/cjson_add.dir/cjson_add.c.o -c /home/mint/nt5/src/external/cJSON/tests/cjson_add.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/cjson_add.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/readme_examples.dir/readme_examples.c.o -c /home/mint/nt5/src/external/cJSON/tests/readme_examples.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/readme_examples.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/tests/CMakeFiles/minify_tests.dir/minify_tests.c.o -c /home/mint/nt5/src/external/cJSON/tests/minify_tests.c",
+  "file": "/home/mint/nt5/src/external/cJSON/tests/minify_tests.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/fuzzing/CMakeFiles/fuzz_main.dir/fuzz_main.c.o -c /home/mint/nt5/src/external/cJSON/fuzzing/fuzz_main.c",
+  "file": "/home/mint/nt5/src/external/cJSON/fuzzing/fuzz_main.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DCJSON_API_VISIBILITY -DCJSON_EXPORT_SYMBOLS -DENABLE_LOCALES  -std=c89 -pedantic -Wall -Wextra -Werror -Wstrict-prototypes -Wwrite-strings -Wshadow -Winit-self -Wcast-align -Wformat=2 -Wmissing-prototypes -Wstrict-overflow=2 -Wcast-qual -Wundef -Wswitch-default -Wconversion -Wc++-compat -fstack-protector-strong -Wcomma -Wdouble-promotion -Wparentheses -Wunused-macros -Wmissing-variable-declarations -Wused-but-marked-unused -Wswitch-enum -fvisibility=hidden  -g -fPIE -o src/external/cJSON/fuzzing/CMakeFiles/fuzz_main.dir/cjson_read_fuzzer.c.o -c /home/mint/nt5/src/external/cJSON/fuzzing/cjson_read_fuzzer.c",
+  "file": "/home/mint/nt5/src/external/cJSON/fuzzing/cjson_read_fuzzer.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/renderer/raylib/src -isystem /home/mint/nt5/src/renderer/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -std=gnu99 -o src/renderer/raylib/raylib/CMakeFiles/raylib.dir/rcore.c.o -c /home/mint/nt5/src/renderer/raylib/src/rcore.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/rcore.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/renderer/raylib/src -isystem /home/mint/nt5/src/renderer/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -std=gnu99 -o src/renderer/raylib/raylib/CMakeFiles/raylib.dir/rmodels.c.o -c /home/mint/nt5/src/renderer/raylib/src/rmodels.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/rmodels.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/renderer/raylib/src -isystem /home/mint/nt5/src/renderer/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -std=gnu99 -o src/renderer/raylib/raylib/CMakeFiles/raylib.dir/rshapes.c.o -c /home/mint/nt5/src/renderer/raylib/src/rshapes.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/rshapes.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/renderer/raylib/src -isystem /home/mint/nt5/src/renderer/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -std=gnu99 -o src/renderer/raylib/raylib/CMakeFiles/raylib.dir/rtext.c.o -c /home/mint/nt5/src/renderer/raylib/src/rtext.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/rtext.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/renderer/raylib/src -isystem /home/mint/nt5/src/renderer/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -std=gnu99 -o src/renderer/raylib/raylib/CMakeFiles/raylib.dir/rtextures.c.o -c /home/mint/nt5/src/renderer/raylib/src/rtextures.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/rtextures.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/renderer/raylib/src -isystem /home/mint/nt5/src/renderer/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -std=gnu99 -o src/renderer/raylib/raylib/CMakeFiles/raylib.dir/utils.c.o -c /home/mint/nt5/src/renderer/raylib/src/utils.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/utils.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/mint/nt5/src/renderer/raylib/src -isystem /home/mint/nt5/src/renderer/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -std=gnu99 -o src/renderer/raylib/raylib/CMakeFiles/raylib.dir/raudio.c.o -c /home/mint/nt5/src/renderer/raylib/src/raudio.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/raudio.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/context.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/context.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/context.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/init.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/init.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/init.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/input.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/input.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/input.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/monitor.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/monitor.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/monitor.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/platform.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/platform.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/platform.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/vulkan.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/vulkan.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/window.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/window.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/window.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/egl_context.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/egl_context.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/osmesa_context.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/osmesa_context.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_init.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_init.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_init.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_monitor.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_monitor.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_window.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_window.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_window.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_joystick.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/null_joystick.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_module.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_module.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_module.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_time.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_time.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_thread.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_thread.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/x11_init.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/x11_init.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/x11_monitor.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/x11_monitor.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/x11_window.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/x11_window.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/xkb_unicode.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/xkb_unicode.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/glx_context.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/glx_context.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/linux_joystick.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/linux_joystick.c"
+},
+{
+  "directory": "/home/mint/nt5/build",
+  "command": "/usr/bin/clang -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/include -I/home/mint/nt5/src/renderer/raylib/src/external/glfw/src -I/home/mint/nt5/build/src/renderer/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o src/renderer/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_poll.c.o -c /home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_poll.c",
+  "file": "/home/mint/nt5/src/renderer/raylib/src/external/glfw/src/posix_poll.c"
+}
+]
