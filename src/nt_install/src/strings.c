@@ -1,5 +1,25 @@
-char *__boot_install_strings[] = {
-    "Q WERTYUIOPASDFGHJKLZXCVBNMqwertyuiop[]{}asdfghjkl;'zxcvbnm,./1234567890!@#$%^&*()-=+:<>?\"`~\u2550", // required for codepoints to load
-    "NT Setup", "\u2550",
-    "FPS : %d"
+char *__boot_install_strings[64] = {  
+    "Q WERTYUIOPASDFGHJKLZXCVBNMqwertyuiop[]{}asdfghjkl;'zxcvbnm,./1234567890!@#$%^&*()-=+:<>?\"`~\u2550\u2022\0", // required for codepoints to load
+    "NT Setup", "\u2550\0",
+    "FPS : %d\0",
+    "Press F6 if you need to install a third party SCSI or RAID driver...\0",
+    "Press F2 to run Automated System Recovery (ASR)...\0",
+    "Setup is starting NT\0",
+    "NT Professional Setup\0",
+    "Welcome to Setup.\0",
+    "This portion of the Setup program prepares Michaelsoft(R)\0",
+    "NT XP to run on your computer.\0",
+    "\u2022  To set up NT XP now, press ENTER.\0",
+    "\u2022  To repair an NT XP installation using Recovery\0",
+    "   Console, press R.\0",
+    "\u2022  To quit Setup without installation NT XP, press F3.\0",
+    "ENTER=Continue  R=Repair  F3=Quit\0",
+    "NT XP License Agreement\0",
+    "ntresources/license.txt\0",
+    "F8=I agree  ESC=I do not agree\0",
+    "Please wait until Setup formats the partition\0",
+    "C:  Partition1 [New (Raw)]\0",
+    "16385 MB (16384 free)\0",
+    "on 16400 MB Disk 0 at Id 0 on bus 0 on atapi [MBR].\0",
+    
 };
