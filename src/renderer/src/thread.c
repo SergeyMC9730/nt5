@@ -59,5 +59,7 @@ void _renderer_create_environment() {
 
 	pthread_create(&_renderer_state.thread, NULL, _renderer_create_environment1, NULL);
 
-	while (!(_renderer_state.status & RENDERER_READY)) {}
+	while (!(_renderer_state.status & RENDERER_READY)) {
+		usleep(1000000 / 3);
+	}
 }

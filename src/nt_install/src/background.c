@@ -3,6 +3,9 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <nt5emul/bi/text.h>
+#include <nt5emul/bi/rectangle.h>
+
 extern char *__boot_install_strings[4];
 extern ntinstall_t __state;
 
@@ -23,7 +26,7 @@ void _biDrawBackground(const char *product_name, const char *help_shortcuts) {
 
     _biTextDraw(__state.buffers[0], l + 3, 2, GRAY);
 
-    _biRectangleDraw((Rectangle){0, 24, 85, 1}, help_gray);
+    _biRectangleDraw((Rectangle){0, 29, 85, 1}, help_gray);
 
-    _biTextDraw(help_shortcuts, 2, 24, BLACK);
+    _biTextDraw(help_shortcuts, 2, 29, BLACK);
 }

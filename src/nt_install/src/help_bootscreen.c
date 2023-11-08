@@ -16,7 +16,7 @@ extern ntinstall_t __state;
 extern void _biAlarm1(int signum);
 
 void _boot_install_update_step1() {
-    SetWindowSize(640, 400);
+    // SetWindowSize(640, 400);
 
     int codepointCount = 0;
     int *codepoints = LoadCodepoints(__boot_install_strings[0], &codepointCount);

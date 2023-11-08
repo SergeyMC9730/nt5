@@ -14,8 +14,4 @@ void _boot_install_beginstep3() {
     _renderer_state.layers[0].update = _boot_install_update_step3;
 
     __state.buffers[2] = LoadFileText(__boot_install_strings[17]);
-
-    for (int i = 0; i < 20; i++) {
-        printf("%d - %s\n", i, __boot_install_strings[i]);
-    }
 }

@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 
+#include <nt5emul/bi/text.h>
+
 extern char *__boot_install_strings[64];
 
 void _boot_install_update_step2() {
