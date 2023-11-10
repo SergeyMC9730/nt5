@@ -20,7 +20,7 @@ void _boot_install_draw_step4() {
     
     _biDrawBackground(__boot_install_strings[7], __boot_install_strings[23]);
 
-    _biTextDraw(__boot_install_strings[19], 2, 4, gray);
+    _biTextDraw(__boot_install_strings[19], 3, 4, gray);
 
     _biDrawMenu(__state.menu0);
 

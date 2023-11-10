@@ -5,6 +5,7 @@ project ("nt5")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(src/external/cJSON)
+add_subdirectory(src/external/libarchive)
 
 file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
 add_subdirectory(src/renderer/raylib)
@@ -21,7 +22,7 @@ add_library(nt5install SHARED ${NTINSTALL_SRC})
 
 target_include_directories(nt5install PRIVATE "src/nt_install/include" "src/renderer/include" "src/renderer/raylib/src" "src/external/cJSON")
 
-target_link_libraries(nt5install nt5renderer cjson)
+target_link_libraries(nt5install nt5renderer cjson archive)
 
 
 file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.h")

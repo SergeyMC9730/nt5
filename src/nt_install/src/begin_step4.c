@@ -16,8 +16,6 @@ char *__boot_install_objects00[1] = {
 extern void _boot_install_update_step4();
 extern void _boot_install_draw_step4();
 
-// STEP 5
-
 void _boot_install_beginstep4() {
     __state.buffers[3] = MemAlloc(256);
     __state.buffers[4] = MemAlloc(256);
@@ -42,7 +40,7 @@ void _boot_install_beginstep4() {
     __boot_install_objects00[0] = __state.buffers[3];
 
     __state.menu0.items_total = 1;
-    __state.menu0.objects = __boot_install_objects00;
+    __state.menu0.objects = (const char **)__boot_install_objects00;
     __state.menu0.click_handler = _boot_install_beginstep5;
     __state.menu0.y = 17;
     __state.menu0.x = 5;

@@ -1,5 +1,5 @@
 char *__boot_install_strings[64] = {  
-    /* 0 */ "Q WERTYUIOPASDFGHJKLZXCVBNMqwertyuiop[]{}asdfghjkl;'zxcvbnm,./1234567890!@#$%^&*()-=+:<>?\"`~═•│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀", // required for codepoints to load
+    /* 0 */ "Q WERTYUIOPASDFGHJKLZXCVBNMqwertyuiop[]{}asdfghjkl;'zxcvbnmЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮёйцукенгшщзхъфывапролджэячсмитьбю,._/1234567890!@#$%^&*()-=+:<>?\"`~═•│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀\\", // required for codepoints to load
     
     /* 1 */ "NT Setup",
 
@@ -66,9 +66,11 @@ char *__boot_install_strings[64] = {
 
     /* 30*/ "Format the partition using the NTFS file system (Quick)",
 
-    /* 31*/ "Format the partition using the FAT file system (Quick)",
+    /* 31*/ "Format the partition using the FAT file system (Quick) ",
 
-    /* 32*/ "Format the partition using the NTFS file system",
+    /* 32*/ "Format the partition using the NTFS file system        ",
 
-    /* 33*/ "Format the partition using the FAT file system"
+    /* 33*/ "Format the partition using the FAT file system         ",
+
+    /* 34*/ "ENTER=Continue  ESC=Cancel"
 };
