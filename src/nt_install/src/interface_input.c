@@ -6,12 +6,16 @@
 
 #include <string.h>
 
+#include <nt5emul/boot_install.h>
+
+void _boot_install_timer(void(*callback)(), float seconds);
+
+extern ntinstall_t __state;
+
 void _biUpdateInput(char *buffer, size_t max_input_length) {
     size_t current_length = strlen(buffer);
 
     int key = GetCharPressed();
-
-    // printf("%d %c\n", key, (char)key);
 
     while (key > 0) {
         if (((current_length) < max_input_length)) {
@@ -20,8 +24,8 @@ void _biUpdateInput(char *buffer, size_t max_input_length) {
 
         key = GetCharPressed();
     }
-
-    if (IsKeyPressed(KEY_BACKSPACE)) {
+    
+    if (IsKeyPressedRepeat(KEY_BACKSPACE) || IsKeyPressed(KEY_BACKSPACE)) {
         buffer[--current_length] = 0;
     }
 }
@@ -39,8 +43,16 @@ void _biDrawInput(char *buffer, size_t max_input_length, Vector2 position, Color
         left--;
     }
 
-    if (left != 0) {
+    if ((left != 0) && __state.show_input_pointer) {
         size_t l = strlen(buffer);
         _biTextDraw("_", position.x + l, position.y, col);
     }
+}
+
+int test2 = 500;
+
+void _biUpdatePointer() {
+    __state.show_input_pointer = !__state.show_input_pointer;
+
+    _boot_install_timer(_biUpdatePointer, 0.5f);
 }

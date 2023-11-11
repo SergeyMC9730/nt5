@@ -4,6 +4,8 @@
 
 #include <string.h>
 
+#include <unistd.h>
+
 void _renderer_update() {
 	for (unsigned short i = 0; i < 64; i++) {
 		if (_renderer_state.layers[i].update != NULL)_renderer_state.layers[i].update();
@@ -29,7 +31,7 @@ void *_renderer_create_environment1(void *ptr) {
 
 	memset(_renderer_state.layers, 0, layers_size);
 
-	SetTargetFPS(60);
+	SetTargetFPS(GetMonitorRefreshRate(0));
 
 	_renderer_state.status = RENDERER_READY;
 	

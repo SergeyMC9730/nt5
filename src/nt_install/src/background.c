@@ -22,7 +22,7 @@ void _biDrawBackground(const char *product_name, const char *help_shortcuts) {
         _biTextDraw(__boot_install_strings[2], i, 2, help_gray);
     }
 
-    snprintf(__state.buffers[0], 32, __boot_install_strings[3], GetFPS());
+    snprintf(__state.buffers[0], 32, __boot_install_strings[3], (1.f / GetFrameTime()));
 
     _biTextDraw(__state.buffers[0], l + 3, 2, GRAY);
 

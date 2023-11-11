@@ -9,18 +9,24 @@
 extern ntinstall_t __state;
 extern char *__boot_install_strings[64];
 
-void _boot_install_update_step7() {
+#define FIELD_SIZE 64
+
+void _boot_install_update_step6() {
     static char *files[] = {
         "123", "456", "789"
     };
 
-    _biUpdateInput(__state.buffers[3], 32);
+    _biUpdateInput(__state.buffers[3], FIELD_SIZE);
 }
 
-void _boot_install_draw_step7() {
+void _boot_install_draw_step6() {
+    Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
+
     _biDrawBackground(__boot_install_strings[7], __boot_install_strings[34]);
 
-    _biTextDraw(__boot_install_strings[35], 3, 4, WHITE);
+    _biTextDraw(__boot_install_strings[35], 3, 4, gray);
 
-    _biDrawInput(__state.buffers[3], 32, (Vector2){24, 10}, BLACK, WHITE);
+    size_t l = FIELD_SIZE;
+
+    _biDrawInput(__state.buffers[3], l, (Vector2){(80 - l) / 2, 15}, BLACK, WHITE);
 }

@@ -5,7 +5,7 @@ char *__boot_install_strings[64] = {
 
     /* 2 */ "\u2550\0",
 
-    /* 3 */ "FPS : %d\0",
+    /* 3 */ "FPS : %.2f\0",
 
     /* 4 */ "Press F6 if you need to install a third party SCSI or RAID driver...\0",
     
@@ -72,5 +72,7 @@ char *__boot_install_strings[64] = {
 
     /* 33*/ "Format the partition using the FAT file system         ",
 
-    /* 34*/ "ENTER=Continue  ESC=Cancel"
+    /* 34*/ "ENTER=Continue  ESC=Cancel",
+
+    /* 35*/ "Please enter path to Windows XP installation files.\n\nThey are required for getting text and image\ndata when booting into graphical environment.\n\n  * Linux Example: /media/user/GPTMPVOL_RU/i386\n  * Windows Example: D:\\i386"
 };

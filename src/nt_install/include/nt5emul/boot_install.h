@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-#define BOOT_INSTALL_SKIP_STEP1 1
+#define BOOT_INSTALL_SKIP_STEP1 0
 
 #include <nt5emul/bi/menu.h>
 
@@ -15,6 +15,8 @@ typedef struct ntinstall_t {
     unsigned char idx0;
 
     bi_menu_t menu0;
+
+    bool show_input_pointer;
 } ntinstall_t;
 
 void _boot_install_begin();

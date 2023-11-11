@@ -13,7 +13,28 @@
 extern char *__boot_install_strings[64];
 extern ntinstall_t __state;
 
-extern void _biAlarm1(int signum);
+// extern void _boot_install_update_step2();
+// extern void _boot_install_draw_step2();
+
+extern void _boot_install_timer(void(*callback)(), float seconds);
+
+bool _bi1stop = false;
+
+void _boot_install_update_step1_text() {
+    if (_bi1stop) return;
+
+    int lines = 3;
+
+    __state.buffers[1] = __boot_install_strings[4 + (__state.idx0 % lines)];
+
+    __state.idx0++;
+
+    if (__state.idx0 >= (lines + 1)) {
+        _boot_install_beginstep2();
+    } else {
+        _boot_install_timer(_boot_install_update_step1_text, 5.f);
+    }
+}
 
 void _boot_install_update_step1() {
     // SetWindowSize(640, 400);
@@ -27,22 +48,13 @@ void _boot_install_update_step1() {
 
     free(codepoints);
 
-    struct sigaction act;
-
-    act.sa_handler = &_biAlarm1;
-    act.sa_flags = SA_RESTART;
-
-    sigaction(SIGALRM, &act, NULL);
-    
-    alarm(5);
-
-    _biAlarm1(SIGALRM);
+    _boot_install_update_step1_text();
 
     _renderer_state.layers[0].update = NULL;
 
     #if BOOT_INSTALL_SKIP_STEP1 == 1
     _boot_install_beginstep2();
-    alarm(0);
+    _bi1stop = true;
     #endif
 }
 
