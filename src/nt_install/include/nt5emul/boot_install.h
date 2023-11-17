@@ -21,11 +21,15 @@ typedef struct ntinstall_t {
 
 void _boot_install_begin();
 
+void _boot_install_shortcuts_update(); // global shortcuts
+
 void _boot_install_beginstep1(); // loading data
 void _boot_install_beginstep2(); // welcome screen
 void _boot_install_beginstep3(); // reading license agreement
 void _boot_install_beginstep4(); // partition manager
 void _boot_install_beginstep5(int idx, bi_menu_t *menu); // partition formatting
-void _boot_install_beginstep6(int idx, bi_menu_t *menu); // formatting progress
+void _boot_install_beginstep6(int idx, bi_menu_t *menu); // xp installation files path selecting
+void _boot_install_beginstep7(); // formatting
 
 void _biDrawBackground(const char *product_name, const char *help_shortcuts);
+void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, Color bg_color, Color status_color, Color status_text_color);

@@ -13,14 +13,8 @@ void _boot_install_update_step7() {
     static char *files[] = {
         "123", "456", "789"
     };
-
-    _biUpdateInput(__state.buffers[3], 32);
 }
 
 void _boot_install_draw_step7() {
     _biDrawBackground(__boot_install_strings[7], __boot_install_strings[34]);
-
-    _biTextDraw(__boot_install_strings[35], 3, 4, WHITE);
-
-    _biDrawInput(__state.buffers[3], 32, (Vector2){24, 10}, BLACK, WHITE);
 }

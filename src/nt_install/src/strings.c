@@ -74,5 +74,7 @@ char *__boot_install_strings[64] = {
 
     /* 34*/ "ENTER=Continue  ESC=Cancel",
 
-    /* 35*/ "Please enter path to Windows XP installation files.\n\nThey are required for getting text and image\ndata when booting into graphical environment.\n\n  * Linux Example: /media/user/GPTMPVOL_RU/i386\n  * Windows Example: D:\\i386"
+    /* 35*/ "Please enter path to Windows XP installation files.\n\nThey are required for getting text and image\ndata when booting into graphical environment.\n\n  * Linux Example: /media/user/GPTMPVOL_RU/i386\n  * Windows Example: D:\\i386",
+
+    /* 36*/ "Entered path does not exist!"
 };
