@@ -1,49 +1,58 @@
 #include <nt5emul/bi/frame.h>
 #include <nt5emul/bi/text.h>
 
+// null check
+#ifndef NULL
+#define NULL (void *)0
+#endif
+
 void _biDrawFrameEx(Rectangle r, Color col, const char **mapping) {
+    if (mapping == NULL) return;
+    
+    unsigned char index = 0;
+
     // draw up side
 
     for (int i = 0; i < r.width; i++) {
-        char *to_draw = mapping[0]; // ─
+        index = 0; // ─
 
-        if (i == 0) to_draw = mapping[1]; // ┌
-        if (i == r.width) to_draw = mapping[2]; // ┐
+        if (i == 0) index = 1; // ┌
+        else if (i == r.width) index = 2; // ┐
 
-        _biTextDraw(to_draw, r.x + i, r.y, col);
+        _biTextDraw(mapping[index], r.x + i, r.y, col);
     }
 
     // draw left side
 
     for (int i = 0; i < r.height; i++) {
-        char *to_draw = mapping[3]; // │
+        index = 3; // │
 
-        if (i == 0) to_draw = mapping[1]; // ┌
-        if (i == r.height) to_draw = mapping[4]; // └
+        if (i == 0) index = 1; // ┌
+        else if (i == r.height) index = 4; // └
 
-        _biTextDraw(to_draw, r.x, r.y + i, col);
+        _biTextDraw(mapping[index], r.x, r.y + i, col);
     }
 
     // draw right side
 
     for (int i = 0; i < r.height; i++) {
-        char *to_draw = mapping[3]; // │
+        index = 3; // │
 
-        if (i == 0) to_draw = mapping[2]; // ┐
-        if (i == r.height) to_draw = mapping[5]; // ┘
+        if (i == 0) index = 2; // ┐
+        else if (i == r.height) index = 3; // ┘
 
-        _biTextDraw(to_draw, r.x + r.width, r.y + i, col);
+        _biTextDraw(mapping[index], r.x + r.width, r.y + i, col);
     }
 
     // draw down side
 
     for (int i = 0; i < (r.width + 1); i++) {
-        char *to_draw = mapping[6]; // ─
+       index = 6; // ─
 
-        if (i == 0) to_draw = mapping[4]; // └
-        if (i == r.width) to_draw = mapping[5]; // ┘
+        if (i == 0) index = 4; // └
+        else if (i == r.width) index = 5; // ┘
 
-        _biTextDraw(to_draw, r.x + i, r.y + r.height, col);
+        _biTextDraw(mapping[index], r.x + i, r.y + r.height, col);
     }
 
     return;

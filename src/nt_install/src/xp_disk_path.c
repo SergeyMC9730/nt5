@@ -6,8 +6,10 @@
 #include <nt5emul/renderer.h>
 #include <nt5emul/boot_install.h>
 
-extern ntinstall_t __state;
-extern char *__boot_install_strings[64];
+// expose internal values
+
+extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all strings
+extern ntinstall_t __state; // installation state
 
 #define FIELD_SIZE 64
 

@@ -6,8 +6,10 @@
 
 #include <stdio.h>
 
-extern char *__boot_install_strings[64];
-extern ntinstall_t __state;
+// expose internal values
+
+extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all strings
+extern ntinstall_t __state; // installation state
 
 // STEP 4
 

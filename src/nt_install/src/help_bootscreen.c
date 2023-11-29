@@ -10,15 +10,18 @@
 #include <signal.h>
 #include <unistd.h>
 
-extern char *__boot_install_strings[64];
-extern ntinstall_t __state;
+// expose internal values
 
-// extern void _boot_install_update_step2();
-// extern void _boot_install_draw_step2();
+extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all strings
+extern ntinstall_t __state; // installation state
 
+// expose timer
 extern void _boot_install_timer(void(*callback)(), float seconds);
 
 bool _bi1stop = false;
+
+// expose NT renderer
+extern renderer_state_t _renderer_state;
 
 void _boot_install_update_step1_text() {
     if (_bi1stop) return;

@@ -4,41 +4,51 @@
 #include <stdio.h>
 #include <string.h>
 
-extern ntinstall_t __state;
-extern char *__boot_install_strings[64];
+// expose internal values
 
-char *__boot_install_objects00[1] = {
-    "QWE"
-};
+extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all strings
+extern ntinstall_t __state; // installation state
 
 // STEP 4
 
+// expose renderer for this state
 extern void _boot_install_update_step4();
 extern void _boot_install_draw_step4();
 
+char *__boot_install_objects00[1] = {0};
+
+// expose NT renderer
+extern renderer_state_t _renderer_state;
+
 void _boot_install_beginstep4() {
+    // allocate two buffers
     __state.buffers[3] = MemAlloc(256);
     __state.buffers[4] = MemAlloc(256);
 
-    const char *s1 = __boot_install_strings[21];
+    const char *s1 = __boot_install_strings[21]; // Unpartitioned space
 
+    // format string
     snprintf(__state.buffers[3], 256, "     %s               %d MB", s1, 16 * 1024);
 
+    // check occupied space by this string 
+    // and   process   math   calculations  
     size_t occupied_space = strlen(__state.buffers[3]);
-    int spaces = 80 - occupied_space - 14 + 2;
+    int spaces = 80 - occupied_space - 12;
     int i = 0;
 
+    // bi_menu would highlight an entire string
+    // include    any     empty     characters.
     while (i < spaces) {
         strcat(__state.buffers[4], " ");
         i++;
     }
 
+    // add two strings
     strcat(__state.buffers[3], __state.buffers[4]);
-
-    // MemFree(__state.buffers[4]);
 
     __boot_install_objects00[0] = __state.buffers[3];
 
+    // create bi_menu
     __state.menu0.items_total = 1;
     __state.menu0.objects = (const char **)__boot_install_objects00;
     __state.menu0.click_handler = _boot_install_beginstep5;

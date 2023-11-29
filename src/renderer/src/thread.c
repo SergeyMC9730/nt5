@@ -4,64 +4,50 @@
 
 #include <string.h>
 
-#include <unistd.h>
+// expose internal state
+extern renderer_state_t _renderer_state;
 
-void _renderer_update() {
-	for (unsigned short i = 0; i < 64; i++) {
-		if (_renderer_state.layers[i].update != NULL)_renderer_state.layers[i].update();
-	}
-}
-
-void _renderer_draw() {
-	for (unsigned short i = 0; i < 64; i++) {
-		if (_renderer_state.layers[i].draw != NULL)_renderer_state.layers[i].draw();
-	}
-}
-
-void *_renderer_create_environment1(void *ptr) {
+void *_renderer_thread(void *ptr) {
+	// init raylib window
 	InitWindow(640, 480, "NT5");
 
+	// check if layers already exists and free if they
 	if (_renderer_state.layers != NULL) {
 		MemFree((void *)_renderer_state.layers);
 	}
 
-	int layers_size = sizeof(renderer_layer_t) * 64;
+	// calculate layer array size
+	int layers_size = sizeof(renderer_layer_t) * RENDERER_LAYERS;
 
+	// allocate array
 	_renderer_state.layers = (renderer_layer_t *)(MemAlloc(layers_size));
 
+	// make it empty
 	memset(_renderer_state.layers, 0, layers_size);
 
+	// set window fps to main monitor's refresh rate
 	SetTargetFPS(GetMonitorRefreshRate(0));
 
+	// set status as READY
 	_renderer_state.status = RENDERER_READY;
 	
 	while (!WindowShouldClose()) {
 		if (_renderer_state.status & RENDERER_REQUESTED_STOP) break;
 
+		// update renderer
 		_renderer_update();
 
+		// begin drawing
 		BeginDrawing();
 
-		ClearBackground(BLACK);
-	
+		// draw everything
 		_renderer_draw();
 
+		// complete drawing
 		EndDrawing();
 	}
 
 	CloseWindow();
 
 	return NULL;
-} 
-
-void _renderer_create_environment() {
-	if (_renderer_state.thread != 0) {
-		_renderer_close_environment();
-	}
-
-	pthread_create(&_renderer_state.thread, NULL, _renderer_create_environment1, NULL);
-
-	while (!(_renderer_state.status & RENDERER_READY)) {
-		usleep(1000000 / 3);
-	}
 }

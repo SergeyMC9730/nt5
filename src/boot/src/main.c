@@ -11,12 +11,13 @@
 #include <sys/stat.h>
 
 void _boot_begin() {
-	printf("hello world\n");
-
-	_renderer_create_environment();
-	
+	// create "nt" folder
 	mkdir("nt", 0777);
 
+	// init NT renderer
+	_renderer_create_environment();
+	
+	// begin installation process if config is not found
 	if (!FileExists("nt/config.json")) {
 		_boot_install_begin();
 	}

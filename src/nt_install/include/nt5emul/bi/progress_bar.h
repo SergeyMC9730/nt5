@@ -2,4 +2,5 @@
 
 #include <raylib.h>
 
-void _biDrawProgressBar(float percentage, Rectangle position, Color color_bg, Color color_fg);
+// draw progress bar
+void _biDrawProgressBar(float percentage, Rectangle position, Color background_color, Color foreground_color);

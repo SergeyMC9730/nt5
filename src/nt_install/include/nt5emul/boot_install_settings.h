@@ -1,0 +1,4 @@
+#pragma once
+
+#define BOOT_INSTALL_SKIP_STEP1 0
+#define BOOT_INSTALL_STRING_ARRAY_SIZE 64

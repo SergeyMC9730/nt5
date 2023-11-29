@@ -5,7 +5,9 @@
 
 #include <nt5emul/bi/text.h>
 
-extern char *__boot_install_strings[64];
+// expose internal values
+
+extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all strings
 
 void _boot_install_update_step2() {
     if (IsKeyPressed(KEY_F3)) {

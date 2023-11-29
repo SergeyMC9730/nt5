@@ -2,7 +2,9 @@
 
 #include <nt5emul/renderer.h>
 
-extern ntinstall_t __state;
+// expose internal values
+
+extern ntinstall_t __state; // installation state
 
 // STEP 1
 
@@ -12,6 +14,9 @@ extern void _boot_install_draw_step1();
 extern void _biUpdatePointer();
 
 extern void _boot_install_timer(void(*callback)(), float seconds);
+
+// expose NT renderer
+extern renderer_state_t _renderer_state;
 
 void _boot_install_begin() {
     SetTargetFPS(30);

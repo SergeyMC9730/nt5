@@ -12,6 +12,7 @@ typedef struct renderer_layer_t {
 #include <stdbool.h>
 
 typedef struct renderer_state_t {
+#define RENDERER_LAYERS 4
 	renderer_layer_t *layers;
 	pthread_t thread;
 
@@ -22,10 +23,9 @@ typedef struct renderer_state_t {
 
 #pragma pack(pop)
 
-extern renderer_state_t _renderer_state;
-
 void _renderer_create_environment();
 void _renderer_close_environment();
 void _renderer_update();
 void _renderer_draw();
 void _renderer_join();
+void *_renderer_thread(void *ptr);

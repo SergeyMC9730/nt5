@@ -4,8 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 
-extern ntinstall_t __state;
-extern char *__boot_install_strings[64];
+// expose internal values
+
+extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all strings
+extern ntinstall_t __state; // installation state
 
 char *__boot_install_objects01[4] = {
     
@@ -19,6 +21,9 @@ extern void _boot_install_draw_step5();
 // STEP 6
 
 extern void _boot_install_beginstep6(int idx, bi_menu_t *menu);
+
+// expose NT renderer
+extern renderer_state_t _renderer_state;
 
 void _boot_install_beginstep5(int idx, bi_menu_t *menu) {
     for (int i = 0; i < 4; i++) {
