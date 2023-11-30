@@ -6,7 +6,7 @@
 #define NULL (void *)0
 #endif
 
-void _biDrawFrameEx(Rectangle r, Color col, const char **mapping) {
+void _biDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *description) {
     if (mapping == NULL) return;
     
     unsigned char index = 0;
@@ -55,13 +55,32 @@ void _biDrawFrameEx(Rectangle r, Color col, const char **mapping) {
         _biTextDraw(mapping[index], r.x + i, r.y + r.height, col);
     }
 
+    // draw text
+
+    if (description == NULL) return;
+
+    Vector2 tPos = {
+        r.x + 1,
+        r.y + 1
+    };
+
+    _biTextDraw(description, tPos.x, tPos.y, col);
+
     return;
 }
 
-void _biDrawFrame(Rectangle r, Color col) {
+void _biDrawFrame(Rectangle r, Color col, const char *description) {
     const char *mapping[] = {
         "─", "┌", "┐", "│", "└", "┘", "─"
     };
 
-    return _biDrawFrameEx(r, col, mapping);
+    return _biDrawFrameEx(r, col, mapping, description);
+}
+
+void _biDrawFrameDouble(Rectangle r, Color col, const char *description) {
+    const char *mapping[] = {
+        "═", "╔", "╗", "║", "╚", "╝", "═"
+    };
+
+    return _biDrawFrameEx(r, col, mapping, description);
 }

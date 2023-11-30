@@ -57,7 +57,6 @@ void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, C
 }
 
 void _biDrawBackground(const char *product_name, const char *help_shortcuts) {
-
     return _biDrawBackgroundEx(
         product_name,
         help_shortcuts, 

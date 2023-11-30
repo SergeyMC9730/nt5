@@ -14,3 +14,5 @@
 
 void _boot_install_begin();
 void _boot_install_shortcuts_update(); // global shortcuts
+
+void _boot_install_throw_error(const char *error);

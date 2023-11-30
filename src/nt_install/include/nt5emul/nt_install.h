@@ -10,9 +10,19 @@ typedef struct ntinstall_t {
 
     char *buffers[16];
 
+    // menu related variables
     unsigned char idx0;
-
     bi_menu_t menu0;
 
     bool show_input_pointer;
+
+    unsigned char selected_format_option;
+
+    bool status_bar_is_error;
+    const char *status_bar_error;
+
+    const char *product_name_label;
+    const char *status_bar_label;
+
+    float timer0;
 } ntinstall_t;

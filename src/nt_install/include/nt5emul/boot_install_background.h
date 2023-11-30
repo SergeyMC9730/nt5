@@ -14,3 +14,7 @@ void _biDrawBackgroundEx(
     Color status_color,
     Color status_text_color
 );
+
+// background layer functions
+void _boot_install_backgroundInit();
+void _boot_install_drawBackground();

@@ -14,12 +14,12 @@ void _boot_install_update_step5() {
     _biUpdateMenu(&__state.menu0);
 }
 void _boot_install_draw_step5() {
-    Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
-    Color bg = (Color){0x00, 0x09, 0xAB, 0xFF};
-    
-    _biDrawBackground(__boot_install_strings[7], __boot_install_strings[34]);
+    Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF}; // gray
+    Color bg = (Color){0x00, 0x09, 0xAB, 0xFF}; // blue
 
+    // draw string from third buffer
     _biTextDraw(__state.buffers[3], 3, 4, gray);
 
+    // draw menu
     _biDrawMenu(__state.menu0);
 }

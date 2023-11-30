@@ -14,7 +14,11 @@ void _boot_install_update_step2() {
         exit(0);
     }
 
-    if (IsKeyPressed(KEY_R)) {}
+    // recovery option
+    if (IsKeyPressed(KEY_R)) {
+        // Cannot load Recovery Console: Not Implemented
+        _boot_install_throw_error(__boot_install_strings[43]);
+    }
 
     if (IsKeyPressed(KEY_ENTER)) {
         _boot_install_beginstep3();
@@ -23,7 +27,7 @@ void _boot_install_update_step2() {
 void _boot_install_draw_step2() {
     Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
 
-    _biDrawBackground(__boot_install_strings[7], __boot_install_strings[15]);
+    // print welcome text
 
     _biTextDraw(__boot_install_strings[8], 2, 4, WHITE);
 

@@ -2,6 +2,10 @@
 
 #include <raylib.h>
 
+#include <nt5emul/bi/ntcore.h>
+
+#include <nt5emul/bi/timer.h>
+
 typedef struct bi_timer_t {
     unsigned long long ms;
 
@@ -11,14 +15,16 @@ typedef struct bi_timer_t {
 #include <time.h>
 #include <errno.h> 
 
-void *_bi_timer_thread(bi_timer_t *timer) {
+void _bi_timer_thread(ntcore_t core, void *arg) {
+    bi_timer_t *timer = (bi_timer_t *)arg;
+
     struct timespec ts;
     int res;
 
     if (timer->ms < 0)
     {
         errno = EINVAL;
-        return (void *)1;
+        return;
     }
 
     ts.tv_sec = timer->ms / 1000;
@@ -32,16 +38,19 @@ void *_bi_timer_thread(bi_timer_t *timer) {
 
     MemFree(timer); 
 
-    return (void *)0;
+    return;
 }
 
 void _boot_install_timer(void(*callback)(), float seconds) {
+    _biInitCores();
+
+    // allocate timer
     bi_timer_t *timer = (bi_timer_t *)MemAlloc(sizeof(bi_timer_t));
 
     timer->ms = (unsigned long long)((unsigned long long)(seconds * 1000.f));
+
     timer->callback = callback;
 
-    pthread_t thread;
-
-    pthread_create(&thread, NULL, &_bi_timer_thread, timer);
+    // create job
+    _biRequestCoreJob(_bi_timer_thread, timer);
 }

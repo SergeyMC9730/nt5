@@ -30,10 +30,14 @@ void _boot_install_beginstep4() {
     // format string
     snprintf(__state.buffers[3], 256, "     %s               %d MB", s1, 16 * 1024);
 
+    // get Render width in characters
+    int szX = GetRenderWidth() / __state.base_size.x; // 8
+    int szY = GetRenderHeight() / __state.base_size.y; // 16
+
     // check occupied space by this string 
     // and   process   math   calculations  
     size_t occupied_space = strlen(__state.buffers[3]);
-    int spaces = 80 - occupied_space - 12;
+    int spaces = szX - occupied_space - 12;
     int i = 0;
 
     // bi_menu would highlight an entire string
@@ -55,6 +59,11 @@ void _boot_install_beginstep4() {
     __state.menu0.y = 17;
     __state.menu0.x = 5;
 
-    _renderer_state.layers[0].draw = _boot_install_draw_step4;
-    _renderer_state.layers[0].update = _boot_install_update_step4;
+    _renderer_state.layers[1].draw = _boot_install_draw_step4;
+    _renderer_state.layers[1].update = _boot_install_update_step4;
+
+    //  NT Professional Setup
+    __state.product_name_label = __boot_install_strings[7];
+    // ENTER=Install  C=Create Partition  F3=Quit
+    __state.status_bar_label = __boot_install_strings[23];
 }

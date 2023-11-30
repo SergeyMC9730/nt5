@@ -10,10 +10,10 @@ char *__boot_install_strings[64] = {
             ",.;!?:" // punctuation      
             "/\\|" // slashes
             "1234567890" // numbers
-            "<>-=+~*" // math signs
+            "<>-=+~*^%№" // math signs
             "\"'`" // quotation marks
-            "@#$%^&_" // random characters 
-            "═•│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀", // lines
+            "@#$&_" // random characters 
+            "═ • │ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ █ ▄ ▌ ▐ ▀ ", // lines
     
     /* 1 */ "NT Setup",
 
@@ -98,5 +98,21 @@ char *__boot_install_strings[64] = {
             "  * Linux Example: /media/user/GPTMPVOL_RU/i386\n"
             "  * Windows Example: D:\\i386",
 
-    /* 36*/ "Entered path does not exist!"
+    /* 36*/ "Entered path does not exist!",
+
+    /* 37*/ "F9 Info:\n",
+
+    /* 38*/ " * C%zu - %s\n",
+
+    /* 39*/ "busy",
+
+    /* 40*/ "free",
+
+    /* 41*/ "Cannot load driver: Not Implemented",
+
+    /* 42*/ "Cannot load ASR: Not Implemented",
+
+    /* 43*/ "Cannot load Recovery Console: Not Implemented",
+
+    /* 44*/ " Setup is formating..."
 };

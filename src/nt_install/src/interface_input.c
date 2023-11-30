@@ -17,18 +17,29 @@ extern ntinstall_t __state; // installation state
 void _biUpdateInput(char *buffer, size_t max_input_length) {
     size_t current_length = strlen(buffer);
 
+    // get pressed character
     int key = GetCharPressed();
 
+    // do it in a loop because 
+    // pressed key might be an 
+    // unicode character
     while (key > 0) {
+        // check if current length is smaller 
+        // than    maximum    input    length
+        // also  check for  array  boundaries
         if (((current_length) < (max_input_length - 1))) {
+            // put char
             buffer[current_length++] = (char)key;
         }
 
+        // get pressed char again
         key = GetCharPressed();
     }
 
+    // array boundaries check
     if (current_length == 0) return;
     
+    // remove one char
     if (IsKeyPressedRepeat(KEY_BACKSPACE) || IsKeyPressed(KEY_BACKSPACE)) {
         buffer[--current_length] = 0;
     }

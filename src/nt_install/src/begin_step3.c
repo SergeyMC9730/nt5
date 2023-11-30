@@ -16,11 +16,17 @@ extern void _boot_install_draw_step3();
 extern renderer_state_t _renderer_state;
 
 void _boot_install_beginstep3() {
-    _renderer_state.layers[0].draw = _boot_install_draw_step3;
-    _renderer_state.layers[0].update = _boot_install_update_step3;
+    _renderer_state.layers[1].draw = _boot_install_draw_step3;
+    _renderer_state.layers[1].update = _boot_install_update_step3;
+
+    //  NT XP License Agreement
+    __state.product_name_label = __boot_install_strings[16];
+    // F8=I agree  ESC=I do not agree
+    __state.show_input_pointer = __boot_install_strings[18];
 
     // check if license exist
     if (FileExists(__boot_install_strings[17])) {
+        // ntresources/license.txt
         __state.buffers[2] = LoadFileText(__boot_install_strings[17]);
 
         return;
