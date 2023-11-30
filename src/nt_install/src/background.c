@@ -49,10 +49,10 @@ void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, C
     // check if help shortcuts exists and do processing of it
     if (help_shortcuts != NULL) {
         // draw status background
-        _biRectangleDraw((Rectangle){0, 29, 85, 1}, status_color);
+        _biRectangleDraw((Rectangle){0, window_size_y - 1, window_size_x, 1}, status_color);
 
         // draw help shortcuts
-        _biTextDraw(help_shortcuts, 2, 29, status_text_color);
+        _biTextDraw(help_shortcuts, 2, window_size_y - 1, status_text_color);
     }
 }
 

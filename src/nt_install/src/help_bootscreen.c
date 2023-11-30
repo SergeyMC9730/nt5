@@ -43,7 +43,7 @@ void _boot_install_update_step1_text() {
 
 void _boot_install_update1_step1() {
     if (IsKeyPressed(KEY_F6)) {
-        // Cannot load driver: Not Implemented
+        // Cannot load SCSI and RAID drivers: Not Implemented
         _boot_install_throw_error(__boot_install_strings[41]);
     }
     else if (IsKeyPressed(KEY_F2)) {

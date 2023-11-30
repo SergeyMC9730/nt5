@@ -108,11 +108,13 @@ char *__boot_install_strings[64] = {
 
     /* 40*/ "free",
 
-    /* 41*/ "Cannot load driver: Not Implemented",
+    /* 41*/ "Cannot load SCSI and RAID drivers: Not Implemented",
 
     /* 42*/ "Cannot load ASR: Not Implemented",
 
     /* 43*/ "Cannot load Recovery Console: Not Implemented",
 
-    /* 44*/ " Setup is formating..."
+    /* 44*/ " Setup is formating...",
+
+    /* 45*/ "Cannot load Create Partition routine: Not Implemented"
 };

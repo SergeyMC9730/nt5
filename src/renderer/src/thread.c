@@ -9,7 +9,7 @@ extern renderer_state_t _renderer_state;
 
 void *_renderer_thread(void *ptr) {
 	// init raylib window
-	InitWindow(640, 480, "NT5");
+	InitWindow(1280, 720, "NT5");
 
 	// check if layers already exists and free if they
 	if (_renderer_state.layers != NULL) {
