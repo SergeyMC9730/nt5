@@ -4,37 +4,64 @@ project ("nt5")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# debug: address sanitizer
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address,leak")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,leak")
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=address,leak")
 
+# external:cJSON
 add_subdirectory(src/external/cJSON)
+
+# external:libarchive
 add_subdirectory(src/external/libarchive)
 
-file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
+# external:libfuzzy
+file(GLOB LIBFUZZY_SRC CONFIGURE_DEPENDS "src/external/libpe/libfuzzy/*.c")
+add_library (fuzzy SHARED ${LIBFUZZY_SRC})
+target_include_directories(fuzzy PRIVATE "src/external/libpe/libfuzzy")
+
+# external:libudis86
+file(GLOB LIBUDIS86_SRC CONFIGURE_DEPENDS "src/external/libpe/libudis86/*.c")
+add_library (udis86 SHARED ${LIBFUZZY_SRC})
+target_include_directories(udis86 PRIVATE "src/external/libpe/libudis86")
+
+# external:libpe
+file(GLOB LIBPE_SRC CONFIGURE_DEPENDS "src/external/libpe/*.c")
+add_library(pe SHARED ${LIBPE_SRC})
+target_include_directories(pe PRIVATE "src/external/libpe/include" "src/external/libfuzzy", "src/external/libpe/libudis86")
+target_link_libraries(pe fuzzy udis86)
+
+# external:raylib
 add_subdirectory(src/renderer/raylib)
 
+# nt5render
+file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
 add_library(nt5renderer SHARED ${NTRENDERER_SRC})
 target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src")
 target_link_libraries(nt5renderer raylib)
 
+# nt5tools
 file(GLOB NTTOOLS_SRC CONFIGURE_DEPENDS "src/nt_tools/src/*.c" "src/nt_tools/include/*/*.h")
 add_library (nt5tools SHARED ${NTTOOLS_SRC})
 target_include_directories(nt5tools PRIVATE "src/nt_tools/include")
 
+# nt5install
 file(GLOB NTINSTALL_SRC CONFIGURE_DEPENDS "src/nt_install/src/*.c" "src/nt_install/include/*/*.h")
 add_library(nt5install SHARED ${NTINSTALL_SRC})
 target_include_directories(nt5install PRIVATE "src/nt_install/include" "src/nt_tools/include" "src/renderer/include" "src/renderer/raylib/src" "src/external/cJSON" "src/external/libarchive/libarchive")
 target_link_libraries(nt5install nt5renderer cjson archive nt5tools)
 
+# nt5boot
 file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.h")
 add_library (nt5boot SHARED ${NTBOOT_SRC})
 target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/external/cJSON")
 target_link_libraries(nt5boot nt5renderer cjson nt5install)
 
+# nt5
 file(GLOB NT_SRC CONFIGURE_DEPENDS "src/launcher/*.c")
 add_executable(nt5 ${NT_SRC})
 target_include_directories(nt5 PRIVATE "src/boot/include" "src/renderer/include")
 target_link_libraries(nt5 nt5boot)
 
+# copy nt resources
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/ntresources)

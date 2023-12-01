@@ -7,3 +7,6 @@
 [submodule "src/external/libarchive"]
 	path = src/external/libarchive
 	url = https://github.com/libarchive/libarchive.git
+[submodule "src/external/libpe"]
+	path = src/external/libpe
+	url = https://github.com/merces/libpe.git
