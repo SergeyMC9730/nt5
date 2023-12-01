@@ -1,5 +1,5 @@
 #include <nt5emul/boot_install.h>
-
+#include <nt5emul/bi/cabinet.h>
 #include <nt5emul/renderer.h>
 
 // expose internal values
@@ -34,4 +34,8 @@ void _boot_install_begin() {
     _boot_install_backgroundInit();
 
     _boot_install_timer(_biUpdatePointer, 0.5f);
+
+    // init cabinet information
+
+    _boot_install_create_cab_files();
 }

@@ -4,6 +4,10 @@
 
 #include <nt5emul/bi/menu.h>
 
+#include <nt5emul/bi/cabfile.h>
+
+#include <stddef.h>
+
 typedef struct ntinstall_t {
     Font font;
     Vector2 base_size;
@@ -25,4 +29,8 @@ typedef struct ntinstall_t {
     const char *status_bar_label;
 
     float timer0;
+
+    rsb_array_cabfile *cabfile_list;
+    const char *cabfile_current_file;
+    int max_cabfile_length;
 } ntinstall_t;

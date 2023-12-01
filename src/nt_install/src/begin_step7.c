@@ -20,6 +20,13 @@ void _boot_install_beginstep7() {
     _renderer_state.layers[1].update = _boot_install_update_step7;
     _renderer_state.layers[1].draw = _boot_install_draw_step7;
 
+    // allocate buffer 7
+    __state.buffers[7] = MemAlloc(64);
+    // reset buffer 7
+    memset(__state.buffers[7], 0, 64);
+    // copy input from user to buffer 7
+    strncpy(__state.buffers[7], __state.buffers[3], 64);
+
     // reset buffer 3
     memset(__state.buffers[3], 0, 64);
 

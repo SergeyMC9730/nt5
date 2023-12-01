@@ -1,13 +1,9 @@
 #include <nt5emul/renderer.h>
 #include <nt5emul/boot_install.h>
+#include <nt5emul/bi/xp_detection.h>
 
 #include <stdio.h>
 #include <string.h>
-
-#include <signal.h>
-#include <unistd.h>
-
-#include <sys/time.h>
 
 // expose internal values
 
@@ -29,4 +25,6 @@ void _boot_install_beginstep6(int idx, bi_menu_t *menu) {
     // reallocate and fill buffer 3 with zeros
     __state.buffers[3] = MemRealloc(__state.buffers[3], 64);
     memset(__state.buffers[3], 0, 64);
+
+    _boot_install_detect_xp();
 }

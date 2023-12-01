@@ -24,7 +24,7 @@ file(GLOB NTINSTALL_SRC CONFIGURE_DEPENDS "src/nt_install/src/*.c" "src/nt_insta
 
 add_library(nt5install SHARED ${NTINSTALL_SRC})
 
-target_include_directories(nt5install PRIVATE "src/nt_install/include" "src/renderer/include" "src/renderer/raylib/src" "src/external/cJSON")
+target_include_directories(nt5install PRIVATE "src/nt_install/include" "src/renderer/include" "src/renderer/raylib/src" "src/external/cJSON" "src/external/libarchive/libarchive")
 
 target_link_libraries(nt5install nt5renderer cjson archive)
 

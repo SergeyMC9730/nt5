@@ -95,7 +95,7 @@ char *__boot_install_strings[64] = {
             "They are required for getting text and image\n"
             "data when booting into graphical environment.\n\n"
             
-            "  * Linux Example: /media/user/GPTMPVOL_RU/i386\n"
+            "  * Linux Example: /media/user/GRTMPVOL_RU/i386\n"
             "  * Windows Example: D:\\i386",
 
     /* 36*/ "Entered path does not exist!",
@@ -116,5 +116,15 @@ char *__boot_install_strings[64] = {
 
     /* 44*/ " Setup is formating...",
 
-    /* 45*/ "Cannot load Create Partition routine: Not Implemented"
+    /* 45*/ "Cannot load Create Partition routine: Not Implemented",
+
+    /* 46*/ "Please wait while Setup copies files",
+
+    /* 47*/ "to the Windows installation folders.",
+
+    /* 48*/ "This might take several minutes to complete.",
+
+    /* 49*/ " Setup is copying files...",
+
+    /* 50*/ "│Copying: %s"
 };
