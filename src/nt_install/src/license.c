@@ -14,7 +14,7 @@ void _boot_install_update_step3() {
     // F8=I agree  ESC=I do not agree
     __state.show_input_pointer = __boot_install_strings[18];
 
-    if (IsKeyPressed(KEY_F8)) {
+    if (IsKeyPressed(KEY_F8) || BOOT_INSTALL_SKIP_TO_COPY) {
         // if F8 key is pressed then go to the next step
         _boot_install_beginstep4();
     }

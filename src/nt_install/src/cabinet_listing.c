@@ -1,4 +1,4 @@
-const char *_bi_cabinet_listing[567] = {
+const char *_bi_cabinet_listing[] = {
     // sounds
 
     "blip.wa_", "*nt/sounds/blip.wav", "blip.wav",
@@ -274,4 +274,7 @@ const char *_bi_cabinet_listing[567] = {
     "xptht18d.jp_", "*nt/images/user/ui/xptht18d.jpg", "xptht18d.jpg",
     "xptht19d.jp_", "*nt/images/user/ui/xptht19d.jpg", "xptht19d.jpg",
     "xptht20d.jp_", "*nt/images/user/ui/xptht20d.jpg", "xptht20d.jpg",
+
+    // binaries
+    "explorer.ex_", "*nt/binary/explorer.exe", "explorer.exe"
 };

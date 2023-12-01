@@ -20,6 +20,10 @@ void _boot_install_update_step4() {
     }
 
     _biUpdateMenu(&__state.menu0);
+
+    #if BOOT_INSTALL_SKIP_TO_COPY == 1
+    __state.menu0.click_handler(0, &__state.menu0);
+    #endif
 }
 void _boot_install_draw_step4() {
     Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};

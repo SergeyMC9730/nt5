@@ -29,6 +29,7 @@ void _boot_install_thread8() {
 
     // create folders
     mkdir("nt/sounds", 0777);
+
     mkdir("nt/images", 0777);
     mkdir("nt/images/user", 0777);
     mkdir("nt/images/user/avatars", 0777);
@@ -36,6 +37,9 @@ void _boot_install_thread8() {
     mkdir("nt/images/user/ad", 0777);
     mkdir("nt/images/placeholders", 0777);
     mkdir("nt/images/user/ui", 0777);
+    
+    mkdir("nt/binary", 0777);
+
     while (i < l) {
         // get cabinet by index
         struct cabfile c = RSBGetAtIndexcabfile(__state.cabfile_list, i);

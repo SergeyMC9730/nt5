@@ -58,16 +58,22 @@ void _boot_install_extract_cabinet(const char *cab, const char *path) {
 
     if (!exists) return;
 
+    // create archive data
     struct archive *a = archive_read_new();
     struct archive_entry *entry;
 
     int r = 0;
 
+    // set options for libarchive
     archive_read_support_filter_all(a);
     archive_read_support_format_all(a);
+
+    // open cabfile
     r = archive_read_open_filename(a, path, 256);
 
     if (r != ARCHIVE_OK) {
+        // unable to open file
+
         printf("r=%d; something is wrong (%d %s); exiting\n", r, archive_errno(a), archive_error_string(a));
 
         archive_read_close(a);

@@ -48,7 +48,7 @@ void _boot_install_close() {
         __state.cabfile_list = NULL;
     }
 
-    system("./nt5 &");
+    system("(./nt5 &) &> /dev/null");
 
     // close renderer
     _renderer_close_environment();

@@ -20,7 +20,7 @@ void _boot_install_update_step2() {
         _boot_install_throw_error(__boot_install_strings[43]);
     }
 
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyPressed(KEY_ENTER) || BOOT_INSTALL_SKIP_TO_COPY) {
         _boot_install_beginstep3();
     }
 }
