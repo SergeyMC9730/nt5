@@ -7,7 +7,7 @@
 #include <string.h>
 
 #include <nt5emul/bi/xp_detection.h>
-#include <nt5emul/bi/timer.h>
+#include <nt5emul/timer.h>
 
 // expose internal values
 
@@ -54,5 +54,5 @@ void _boot_install_detect_xp() {
     // free buffer
     MemFree(buffer);
 
-    if (__state.detection_required) _boot_install_timer(_boot_install_detect_xp, 0.5f);
+    if (__state.detection_required) _ntInstallTimer(_boot_install_detect_xp, 0.5f);
 }

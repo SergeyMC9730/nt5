@@ -1,13 +1,11 @@
-#include <nt5emul/bi/ntcore.h>
+#include <nt5emul/ntcore.h>
 
-#include <raylib.h>
+#include <stdlib.h>
 
-ntcore_t *nt_cores = NULL;
+struct ntcore *nt_cores = NULL;
 
-#include <nt5emul/boot_install_settings.h>
-
-void *_biCoreJob(void *arg) {
-    ntcore_t *core = (ntcore_t *)arg;
+void *_ntCoreJob(void *arg) {
+    struct ntcore *core = (struct ntcore *)arg;
 
     do {
         // lock mutex
@@ -29,13 +27,13 @@ void *_biCoreJob(void *arg) {
     return NULL;
 }
 
-void _biInitCores() {
+void _ntInitCores() {
     if (nt_cores != NULL) return; // we dont want to init them twice
 
-    size_t cores = NT_CORES;
+    size_t cores = 16;
 
     // allocate array for cores
-    nt_cores = (ntcore_t *)MemAlloc(sizeof(ntcore_t) * cores); // 4 nt cores
+    nt_cores = (struct ntcore *)malloc(sizeof(struct ntcore) * cores); // 4 nt cores
 
     for (size_t i = 0; i < cores; i++) {
         // create condition and mutex
@@ -43,14 +41,14 @@ void _biInitCores() {
         pthread_mutex_init(&nt_cores[i].mutex, NULL);
 
         // create thread
-        pthread_create(&nt_cores[i].thread, NULL, &_biCoreJob, &nt_cores[i].executes_job);
+        pthread_create(&nt_cores[i].thread, NULL, &_ntCoreJob, &nt_cores[i].executes_job);
     }
 }
 
-void _biRequestCoreJob(void (*job)(struct ntcore_t core, void *argument), void *arg) {
+void _ntRequestCoreJob(void (*job)(struct ntcore core, void *argument), void *arg) {
     bool request_acomplished = false;
     
-    size_t cores = NT_CORES;
+    size_t cores = 16;
 
     do {
         for (size_t i = 0; i < cores; i++) {
@@ -68,6 +66,6 @@ void _biRequestCoreJob(void (*job)(struct ntcore_t core, void *argument), void *
     } while (true);
 }
 
-bool _biCoreBusy(size_t id) {
-    return nt_cores[id % NT_CORES].executes_job;
+bool _ntCoreBusy(size_t id) {
+    return nt_cores[id % 16].executes_job;
 }

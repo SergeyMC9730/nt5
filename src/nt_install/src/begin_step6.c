@@ -19,6 +19,14 @@ extern void _boot_install_draw_step6();
 extern renderer_state_t _renderer_state;
 
 void _boot_install_beginstep6(int idx, bi_menu_t *menu) {
+    __state.selected_format_option = idx;
+
+    if (idx >= 2) {
+        __state.timer0_max = 3.f;
+    } else {
+        __state.timer0_max = 1.f;
+    }
+
     _renderer_state.layers[1].update = _boot_install_update_step6;
     _renderer_state.layers[1].draw = _boot_install_draw_step6;
 

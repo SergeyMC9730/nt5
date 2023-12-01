@@ -1,5 +1,5 @@
 #include <nt5emul/renderer.h>
-#include <nt5emul/bi/ntcore.h>
+#include <nt5emul/ntcore.h>
 #include <nt5emul/boot_install_settings.h>
 
 #include <raylib.h>
@@ -17,9 +17,9 @@ void _boot_install_shortcuts_update() {
         const char *s_busy = __boot_install_strings[39]; // busy
         const char *s_free = __boot_install_strings[40]; // free
 
-        for (size_t i = 0; i < NT_CORES; i++) {
+        for (size_t i = 0; i < 16; i++) {
             // check if core is busy or not
-            bool busy = _biCoreBusy(i);
+            bool busy = _ntCoreBusy(i);
             
             //  * C%zu - %s
             printf(__boot_install_strings[38], i, busy ? s_busy : s_free);

@@ -20,7 +20,7 @@ void _boot_install_update_step7() {
 
     __state.timer0 += delta;
 
-    if (__state.timer0 >= 1.f) {
+    if (__state.timer0 >= __state.timer0_max) {
         __state.timer0 = 0.f;
         _boot_install_beginstep8();
     }
@@ -45,7 +45,7 @@ void _boot_install_draw_step7() {
     _biTextDrawCentered(__state.buffers[4], 0xFF, 7, gray);
 
     // get percentage of timer
-    float p = __state.timer0 * 100.f;
+    float p = (__state.timer0 / __state.timer0_max) * 100.f;
 
     // format string
     snprintf(__state.buffers[3], 64, "%d%c", (int)p, '%');
@@ -81,7 +81,7 @@ void _boot_install_draw_step7() {
     r.x = offset - 1;
     r.y = szY - 7;
 
-    _biDrawProgressBar(__state.timer0 * 100.f, r, blue, YELLOW);
+    _biDrawProgressBar(p, r, blue, YELLOW);
 
     _biTextDrawCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
 }

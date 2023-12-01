@@ -1,6 +1,6 @@
 #include <nt5emul/renderer.h>
 #include <nt5emul/boot_install.h>
-#include <nt5emul/bi/timer.h>
+#include <nt5emul/timer.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -18,7 +18,7 @@ extern renderer_state_t _renderer_state;
 
 extern void _boot_install_update_step10();
 extern void _boot_install_draw_step10();
-extern void _boot_install_timer10();
+extern void _ntInstallTimer10();
 
 void _boot_install_beginstep10() {
     __state.buffers[3] = (char *)MemAlloc(128);
@@ -29,5 +29,5 @@ void _boot_install_beginstep10() {
     _renderer_state.layers[1].update = _boot_install_update_step10;
     _renderer_state.layers[1].draw = _boot_install_draw_step10;
 
-    _boot_install_timer(_boot_install_timer10, 1.f);
+    _ntInstallTimer(_ntInstallTimer10, 1.f);
 }

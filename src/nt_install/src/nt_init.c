@@ -2,7 +2,7 @@
 #include <nt5emul/renderer.h>
 #include <nt5emul/nt_install.h>
 #include <nt5emul/boot_install_settings.h>
-#include <nt5emul/bi/timer.h>
+#include <nt5emul/timer.h>
 #include <nt5emul/boot_install_steps.h>
 
 #include <cJSON.h>
@@ -19,7 +19,7 @@ extern renderer_state_t _renderer_state;
 void _boot_install_create_config() {
     // create json object
     cJSON *j = cJSON_CreateObject();
-    cJSON *setup_completed = cJSON_CreateBool(true);
+    cJSON *setup_completed = cJSON_CreateBool(false);
 
     cJSON_AddItemToObject(j, "setup_completed", setup_completed);
 
@@ -45,7 +45,7 @@ void _boot_install_step9_config() {
 }
 
 void _boot_install_update_step9() {
-    _boot_install_timer(_boot_install_step9_config, 1.f / (float)GetFPS());
+    _ntInstallTimer(_boot_install_step9_config, 1.f / (float)GetFPS());
 
     _renderer_state.layers[1].update = NULL;
 }

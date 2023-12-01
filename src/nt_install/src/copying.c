@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #include <nt5emul/bi/cabinet.h>
-#include <nt5emul/bi/timer.h>
+#include <nt5emul/timer.h>
 
 #include <sys/stat.h>
 
@@ -29,7 +29,13 @@ void _boot_install_thread8() {
 
     // create folders
     mkdir("nt/sounds", 0777);
-
+    mkdir("nt/images", 0777);
+    mkdir("nt/images/user", 0777);
+    mkdir("nt/images/user/avatars", 0777);
+    mkdir("nt/images/user/wallpapers", 0777);
+    mkdir("nt/images/user/ad", 0777);
+    mkdir("nt/images/placeholders", 0777);
+    mkdir("nt/images/user/ui", 0777);
     while (i < l) {
         // get cabinet by index
         struct cabfile c = RSBGetAtIndexcabfile(__state.cabfile_list, i);
@@ -74,7 +80,7 @@ void _boot_install_update_step8() {
     __state.cabfile_current_file = "";
     __state.status_bar_label = __state.buffers[5];
 
-    _boot_install_timer(_boot_install_thread8, 0.1f);
+    _ntInstallTimer(_boot_install_thread8, 0.1f);
 
     _renderer_state.layers[1].update = _boot_install_update_step8_1;
 }

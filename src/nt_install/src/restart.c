@@ -1,6 +1,6 @@
 #include <nt5emul/renderer.h>
 #include <nt5emul/boot_install.h>
-#include <nt5emul/bi/timer.h>
+#include <nt5emul/timer.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -48,11 +48,13 @@ void _boot_install_close() {
         __state.cabfile_list = NULL;
     }
 
+    system("./nt5 &");
+
     // close renderer
     _renderer_close_environment();
 }
 
-void _boot_install_timer10() {
+void _ntInstallTimer10() {
     __state.timer1++;
 
     // close nt5 when ENTER is pressed or timer == 15
@@ -61,7 +63,7 @@ void _boot_install_timer10() {
     }
 
     // loop
-    _boot_install_timer(_boot_install_timer10, 1.f);
+    _ntInstallTimer(_ntInstallTimer10, 1.f);
 }
 
 // expose NT renderer

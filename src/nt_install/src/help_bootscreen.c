@@ -16,7 +16,7 @@ extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all stri
 extern ntinstall_t __state; // installation state
 
 // expose timer
-extern void _boot_install_timer(void(*callback)(), float seconds);
+extern void _ntInstallTimer(void(*callback)(), float seconds);
 
 bool _bi1stop = false;
 
@@ -37,7 +37,7 @@ void _boot_install_update_step1_text() {
     if (__state.idx0 >= (lines + 1)) {
         _boot_install_beginstep2();
     } else {
-        _boot_install_timer(_boot_install_update_step1_text, 5.f);
+        _ntInstallTimer(_boot_install_update_step1_text, 5.f);
     }
 }
 

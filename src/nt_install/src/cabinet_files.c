@@ -37,7 +37,7 @@ struct cabfile *_boot_install_cab_putcabinet(const char *path) {
     return res;
 }
 
-extern const char *_bi_cabinet_listing[384];
+extern const char *_bi_cabinet_listing[567];
 
 void _boot_install_create_cab_files() {
     __state.cabfile_list = RSBCreateArraycabfile();

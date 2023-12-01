@@ -8,7 +8,7 @@
 
 #include <nt5emul/boot_install.h>
 
-void _boot_install_timer(void(*callback)(), float seconds);
+void _ntInstallTimer(void(*callback)(), float seconds);
 
 // expose internal values
 
@@ -67,5 +67,5 @@ void _biDrawInput(char *buffer, size_t max_input_length, Vector2 position, Color
 void _biUpdatePointer() {
     __state.show_input_pointer = !__state.show_input_pointer;
 
-    _boot_install_timer(_biUpdatePointer, 0.5f);
+    _ntInstallTimer(_biUpdatePointer, 0.5f);
 }

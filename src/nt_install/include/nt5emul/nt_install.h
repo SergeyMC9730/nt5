@@ -29,6 +29,8 @@ typedef struct ntinstall_t {
     const char *status_bar_label;
 
     float timer0;
+    float timer0_max;
+
     int timer1;
 
     rsb_array_cabfile *cabfile_list;

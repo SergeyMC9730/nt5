@@ -13,13 +13,13 @@ extern void _boot_install_draw_step1();
 
 extern void _biUpdatePointer();
 
-extern void _boot_install_timer(void(*callback)(), float seconds);
+extern void _ntInstallTimer(void(*callback)(), float seconds);
 
 // expose NT renderer
 extern renderer_state_t _renderer_state;
 
 void _boot_install_begin() {
-    SetTargetFPS(30);
+    // SetTargetFPS(30);
 
     _renderer_state.layers[1].draw = _boot_install_draw_step1;
     _renderer_state.layers[1].update = _boot_install_update_step1;
@@ -33,7 +33,7 @@ void _boot_install_begin() {
     // init background
     _boot_install_backgroundInit();
 
-    _boot_install_timer(_biUpdatePointer, 0.5f);
+    _ntInstallTimer(_biUpdatePointer, 0.5f);
 
     // init cabinet information
 
