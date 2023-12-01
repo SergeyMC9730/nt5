@@ -14,7 +14,7 @@
 extern ntinstall_t __state; // installation state
 
 void _boot_install_detect_xp() {
-        // try to find mounted xp image
+    // try to find mounted xp image
 
     // get user
     char *user = getenv("USER");
@@ -54,5 +54,5 @@ void _boot_install_detect_xp() {
     // free buffer
     MemFree(buffer);
 
-    _boot_install_timer(_boot_install_detect_xp, 0.5f);
+    if (__state.detection_required) _boot_install_timer(_boot_install_detect_xp, 0.5f);
 }

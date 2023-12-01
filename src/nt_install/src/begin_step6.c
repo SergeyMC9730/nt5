@@ -27,4 +27,10 @@ void _boot_install_beginstep6(int idx, bi_menu_t *menu) {
     memset(__state.buffers[3], 0, 64);
 
     _boot_install_detect_xp();
+
+    if (__state.buffers[3][0] == 0) {
+        __state.detection_required = true;
+
+        _boot_install_detect_xp();
+    }
 }

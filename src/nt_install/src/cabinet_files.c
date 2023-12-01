@@ -65,8 +65,6 @@ void _boot_install_create_cab_files() {
             // it is a cabinet file
 
             current_cab = _boot_install_cab_putcabinet(f);
-
-            printf("loaded new cabinet %s\n", f);
         } else if (f[0] == '*') {
             // it is a destination path
 

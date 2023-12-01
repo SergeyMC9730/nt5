@@ -141,6 +141,8 @@ void _boot_install_extract_cabinet(const char *cab, const char *path) {
         snprintf(buffer, 256, "rm %s", f.internal_name);
         system(buffer);
 
+        MemFree(buffer);
+
         i++;
     }
 

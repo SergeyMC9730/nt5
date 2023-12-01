@@ -31,4 +31,6 @@ void _boot_install_beginstep7() {
     memset(__state.buffers[3], 0, 64);
 
     __state.status_bar_label = "";
+
+    __state.detection_required = false;
 }

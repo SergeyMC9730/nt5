@@ -10,3 +10,5 @@ void _boot_install_beginstep5(int idx, bi_menu_t *menu); // partition formatting
 void _boot_install_beginstep6(int idx, bi_menu_t *menu); // xp installation files path selecting
 void _boot_install_beginstep7(); // formatting
 void _boot_install_beginstep8(); // copying files
+void _boot_install_beginstep9(); // setting up environment
+void _boot_install_beginstep10(); // restarting pc

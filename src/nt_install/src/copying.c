@@ -44,6 +44,8 @@ void _boot_install_thread8() {
 
         i++;
     }
+
+    _boot_install_beginstep9();
 }
 
 void _boot_install_update_step8_1() {

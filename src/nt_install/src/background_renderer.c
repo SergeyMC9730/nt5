@@ -20,6 +20,8 @@ void _boot_install_backgroundInit() {
 }
 
 void _boot_install_drawBackground() {
+    if (__state.halt) return;
+
     Color blue = (Color){0x00, 0x09, 0xAB, 0xFF};
 
     const char *status = (__state.status_bar_is_error) ? __state.status_bar_error :  __state.status_bar_label;

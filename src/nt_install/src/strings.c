@@ -90,7 +90,9 @@ char *__boot_install_strings[64] = {
     /* 34*/ "ENTER=Continue  ESC=Cancel",
 
     // this giant string is going to be concatenated on compile time
-    /* 35*/ "Please enter path to Windows XP installation files.\n\n"
+    /* 35*/ "Please enter path to Windows XP installation files.\n"
+            "You can also mount a CD drive with XP and Setup\n"
+            "would try to detect it.\n\n"
             
             "They are required for getting text and image\n"
             "data when booting into graphical environment.\n\n"
@@ -126,5 +128,22 @@ char *__boot_install_strings[64] = {
 
     /* 49*/ " Setup is copying files...",
 
-    /* 50*/ "│Copying: %s"
+    /* 50*/ "│Copying: %s",
+
+    /* 51*/ "Please wait while Setup initializes your NT XP configuration.",
+
+    /* 52*/ "This portion of Setup has completed successfully.\n\n"
+
+            "If there is a floppy disk in drive A:, remove it.\n\n"
+
+            "To restart your computer, press ENTER.\n"
+            "When your computer restarts, Setup will continue.",
+
+    /* 53*/ "Your computer will reboot in %d seconds...",
+
+    /* 54*/ "ENTER=Restart Computer",
+
+    /* 55*/ "Restarting computer...",
+
+    /* 56*/ "Creating information file config.json..."
 };
