@@ -3,4 +3,4 @@
 #include <raylib.h>
 
 // draw rectangle
-void _biRectangleDraw(Rectangle r, Color col);
+void _ntTuiDrawRectangle(Rectangle r, Color col);

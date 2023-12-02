@@ -1,4 +1,4 @@
-#include <nt5emul/bi/text.h>
+#include <nt5emul/tui/text.h>
 #include <nt5emul/renderer.h>
 #include <nt5emul/nt_install.h>
 #include <nt5emul/boot_install_settings.h>
@@ -54,5 +54,5 @@ void _boot_install_draw_step9() {
     Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
 
     // Please wait while Setup initializes your NT XP configuration.
-    _biTextDrawCentered(__boot_install_strings[51], 0xFF, 7, gray);
+    _ntTuiDrawTextCentered(__boot_install_strings[51], 0xFF, 7, gray);
 }

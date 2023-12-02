@@ -3,8 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <nt5emul/bi/text.h>
-#include <nt5emul/bi/rectangle.h>
+#include <nt5emul/tui/text.h>
+#include <nt5emul/tui/rectangle.h>
 
 // expose internal values
 
@@ -22,7 +22,7 @@ void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, C
 
     // check if product name exists and do processing of it
     if (product_name != NULL) {
-        _biTextDraw(product_name, 0, 1, status_color);
+        _ntTuiDrawText(product_name, 0, 1, status_color);
 
         // get length of product name
         l = strlen(product_name) + 1;
@@ -30,7 +30,7 @@ void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, C
         // draw line below product name
         for (unsigned int i = 0; i < l; i++) {
             // ═
-            _biTextDraw(__boot_install_strings[2], i, 2, status_color);
+            _ntTuiDrawText(__boot_install_strings[2], i, 2, status_color);
         }
     }
 
@@ -44,15 +44,15 @@ void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, C
         just  set  its  length  to -3  and X 
         position  for  fps label  would be 0
     */
-    _biTextDraw(__state.buffers[0], l + 3, 2, GRAY);
+    _ntTuiDrawText(__state.buffers[0], l + 3, 2, GRAY);
 
     // check if help shortcuts exists and do processing of it
     if (help_shortcuts != NULL) {
         // draw status background
-        _biRectangleDraw((Rectangle){0, window_size_y - 1, window_size_x, 1}, status_color);
+        _ntTuiDrawRectangle((Rectangle){0, window_size_y - 1, window_size_x, 1}, status_color);
 
         // draw help shortcuts
-        _biTextDraw(help_shortcuts, 2, window_size_y - 1, status_text_color);
+        _ntTuiDrawText(help_shortcuts, 2, window_size_y - 1, status_text_color);
     }
 }
 

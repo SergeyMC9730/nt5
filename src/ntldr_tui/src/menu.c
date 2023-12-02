@@ -1,11 +1,14 @@
-#include <nt5emul/boot_install.h>
+#include <nt5emul/tui/environment.h>
+
+extern struct nt_tui_environment _ntTuiEnvironment;
 
 #include <string.h>
 
-#include <nt5emul/bi/text.h>
-#include <nt5emul/bi/rectangle.h>
+#include <nt5emul/tui/text.h>
+#include <nt5emul/tui/rectangle.h>
+#include <nt5emul/tui/menu.h>
 
-void _biUpdateMenu(bi_menu_t *menu) {
+void _ntUpdateMenu(struct nt_tui_menu *menu) {
     if (!menu || menu->items_total == 0) return;
 
     // check if KEY_DOWN is pressed
@@ -38,16 +41,16 @@ void _biUpdateMenu(bi_menu_t *menu) {
     return;
 }
 
-void _biDrawMenu(bi_menu_t menu) {
-    // gray color
-    Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
-    // blue color
-    Color bg = (Color){0x00, 0x09, 0xAB, 0xFF};
+void _ntTuiDrawMenu(struct nt_tui_menu menu) {
+    // // gray color
+    // Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
+    // // blue color
+    // Color bg = (Color){0x00, 0x09, 0xAB, 0xFF};
 
     int i = 0;
 
     while (i < menu.items_total) {
-        Color text_color = gray;
+        Color text_color = menu.unselected_text_color;
 
         if (i == menu.selected_item) {
             Rectangle rect;
@@ -59,14 +62,14 @@ void _biDrawMenu(bi_menu_t menu) {
             rect.height = 1;
 
             // draw rectangle
-            _biRectangleDraw(rect, gray);
+            _ntTuiDrawRectangle(rect, menu.selected_background_color);
             
-            // set text color to blue
-            text_color = bg;
+            // set text color to selected one
+            text_color = menu.selected_text_color;
         }
 
         // draw text
-        _biTextDraw(menu.objects[i], menu.x, menu.y + i, text_color);
+        _ntTuiDrawText(menu.objects[i], menu.x, menu.y + i, text_color);
 
         i++; 
     }

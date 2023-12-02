@@ -18,7 +18,7 @@ extern void _boot_install_draw_step6();
 // expose NT renderer
 extern renderer_state_t _renderer_state;
 
-void _boot_install_beginstep6(int idx, bi_menu_t *menu) {
+void _boot_install_beginstep6(int idx, struct nt_tui_menu *menu) {
     __state.selected_format_option = idx;
 
     if (idx >= 2) {

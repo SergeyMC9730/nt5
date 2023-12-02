@@ -11,10 +11,6 @@ extern ntinstall_t __state; // installation state
 extern void _boot_install_update_step1();
 extern void _boot_install_draw_step1();
 
-extern void _biUpdatePointer();
-
-extern void _ntInstallTimer(void(*callback)(), float seconds);
-
 // expose NT renderer
 extern renderer_state_t _renderer_state;
 
@@ -32,8 +28,6 @@ void _boot_install_begin() {
 
     // init background
     _boot_install_backgroundInit();
-
-    _ntInstallTimer(_biUpdatePointer, 0.5f);
 
     // init cabinet information
 

@@ -28,7 +28,7 @@ target_include_directories(udis86 PRIVATE "src/external/libpe/libudis86")
 # external:libpe
 file(GLOB LIBPE_SRC CONFIGURE_DEPENDS "src/external/libpe/*.c")
 add_library(pe SHARED ${LIBPE_SRC})
-target_include_directories(pe PRIVATE "src/external/libpe/include" "src/external/libfuzzy", "src/external/libpe/libudis86")
+target_include_directories(pe PRIVATE "src/external/libpe/include" "src/external/libfuzzy" "src/external/libpe/libudis86")
 target_link_libraries(pe fuzzy udis86)
 
 # external:raylib
@@ -45,17 +45,35 @@ file(GLOB NTTOOLS_SRC CONFIGURE_DEPENDS "src/nt_tools/src/*.c" "src/nt_tools/inc
 add_library (nt5tools SHARED ${NTTOOLS_SRC})
 target_include_directories(nt5tools PRIVATE "src/nt_tools/include")
 
+# nt5tui
+file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/include/*/*.h")
+add_library(nt5tui SHARED ${NTTUI_SRC})
+target_include_directories(nt5tui PRIVATE 
+    "src/ntldr_tui/include" 
+    "src/ntldr_tui/raylib/src" 
+    "src/nt_tools/include"
+)
+target_link_libraries(nt5tui nt5renderer nt5tools)
+
 # nt5install
 file(GLOB NTINSTALL_SRC CONFIGURE_DEPENDS "src/nt_install/src/*.c" "src/nt_install/include/*/*.h")
 add_library(nt5install SHARED ${NTINSTALL_SRC})
-target_include_directories(nt5install PRIVATE "src/nt_install/include" "src/nt_tools/include" "src/renderer/include" "src/renderer/raylib/src" "src/external/cJSON" "src/external/libarchive/libarchive")
-target_link_libraries(nt5install nt5renderer cjson archive nt5tools)
+target_include_directories(nt5install PRIVATE 
+    "src/nt_install/include" 
+    "src/nt_tools/include" 
+    "src/renderer/include" 
+    "src/renderer/raylib/src" 
+    "src/external/cJSON" 
+    "src/external/libarchive/libarchive"
+    "src/ntldr_tui/include"
+)
+target_link_libraries(nt5install nt5tui cjson archive nt5tools)
 
 # nt5boot
 file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.h")
 add_library (nt5boot SHARED ${NTBOOT_SRC})
-target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/external/cJSON")
-target_link_libraries(nt5boot nt5renderer cjson nt5install)
+target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/external/cJSON" "src/external/libpe/include")
+target_link_libraries(nt5boot nt5renderer cjson nt5install pe)
 
 # nt5
 file(GLOB NT_SRC CONFIGURE_DEPENDS "src/launcher/*.c")

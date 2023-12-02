@@ -1,8 +1,8 @@
 #include <nt5emul/boot_install.h>
 #include <nt5emul/renderer.h>
 
-#include <nt5emul/bi/text.h>
-#include <nt5emul/bi/frame.h>
+#include <nt5emul/tui/text.h>
+#include <nt5emul/tui/frame.h>
 
 #include <stdio.h>
 
@@ -19,7 +19,7 @@ void _boot_install_update_step4() {
         _boot_install_throw_error(__boot_install_strings[45]);
     }
 
-    _biUpdateMenu(&__state.menu0);
+    _ntUpdateMenu(&__state.menu0);
 
     #if BOOT_INSTALL_SKIP_TO_COPY == 1
     __state.menu0.click_handler(0, &__state.menu0);
@@ -30,9 +30,9 @@ void _boot_install_draw_step4() {
     Color bg = (Color){0x00, 0x09, 0xAB, 0xFF};
 
     // partition tutorial string
-    _biTextDraw(__boot_install_strings[19], 3, 4, gray);
+    _ntTuiDrawText(__boot_install_strings[19], 3, 4, gray);
 
-    _biDrawMenu(__state.menu0);
+    _ntTuiDrawMenu(__state.menu0);
 
     // %d MB Disk %d at Id %d on bus %d on atapi [MBR]
     snprintf(__state.buffers[4], 256, __boot_install_strings[20], 16 * 1024, __state.menu0.selected_item, 0, 0);
@@ -40,5 +40,5 @@ void _boot_install_draw_step4() {
     // get render width in characters
     int szX = GetRenderWidth() / __state.base_size.x;
 
-    _biDrawFrame((Rectangle){2, 14, szX - 5, 13}, gray, __state.buffers[4]);
+    _ntTuiDrawFrame((Rectangle){2, 14, szX - 5, 13}, gray, __state.buffers[4]);
 }

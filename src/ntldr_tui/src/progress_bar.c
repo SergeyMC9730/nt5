@@ -1,7 +1,7 @@
-#include <nt5emul/bi/progress_bar.h>
-#include <nt5emul/bi/rectangle.h>
+#include <nt5emul/tui/progress_bar.h>
+#include <nt5emul/tui/rectangle.h>
 
-void _biDrawProgressBar(float percentage, Rectangle position, Color color_bg, Color color_fg) {
+void _ntTuiDrawProgressBar(float percentage, Rectangle position, Color color_bg, Color color_fg) {
     // boundary check
     if (percentage > 100.f) {
         percentage = 100.f; 
@@ -10,11 +10,11 @@ void _biDrawProgressBar(float percentage, Rectangle position, Color color_bg, Co
     }
 
     // draw background rectangle
-    _biRectangleDraw(position, color_bg);
+    _ntTuiDrawRectangle(position, color_bg);
 
     // calculate size for a foreground rectangle
     position.width *= (percentage / 100.f);
 
     // draw rectangle
-    _biRectangleDraw(position, color_fg);
+    _ntTuiDrawRectangle(position, color_fg);
 }

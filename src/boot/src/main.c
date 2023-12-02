@@ -20,5 +20,9 @@ void _boot_begin() {
 	// begin installation process if config is not found
 	if (!FileExists("nt/config.json")) {
 		_boot_install_begin();
+
+		return;
 	}
+
+	_boot_try_parse_explorer();
 }

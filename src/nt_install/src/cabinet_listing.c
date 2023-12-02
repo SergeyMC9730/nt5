@@ -217,7 +217,7 @@ const char *_bi_cabinet_listing[] = {
 
     // placeholders
 
-    "bigfoot.bm_", "*nt/images/user/placeholders/bigfoot.bmp", "bigfoot.bmp",
+    "bigfoot.bm_", "*nt/images/placeholders/bigfoot.bmp", "bigfoot.bmp",
 
     // ui
 

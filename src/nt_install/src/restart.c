@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <nt5emul/bi/text.h>
-#include <nt5emul/bi/frame.h>
-#include <nt5emul/bi/progress_bar.h>
+#include <nt5emul/tui/text.h>
+#include <nt5emul/tui/frame.h>
+#include <nt5emul/tui/progress_bar.h>
 
 // expose internal values
 
@@ -93,7 +93,7 @@ void _boot_install_draw_step10() {
     int szY = GetRenderHeight() / __state.base_size.y;
 
     // restart information
-    _biTextDraw(__boot_install_strings[52], 3, 4, gray);
+    _ntTuiDrawText(__boot_install_strings[52], 3, 4, gray);
 
     // get percentage of timer
     float p = (float)__state.timer1 / 15.f * 100.f;
@@ -109,7 +109,7 @@ void _boot_install_draw_step10() {
     r.x = offset - 1;
     r.y = (szY - r.height) / 2 + 2;
 
-    _biDrawFrameDouble(r, gray, NULL);
+    _ntTuiDrawFrameDouble(r, gray, NULL);
 
     offset += 5;
 
@@ -120,7 +120,7 @@ void _boot_install_draw_step10() {
     r.y += 3;
 
     // draw second frame
-    _biDrawFrame(r, gray, NULL);
+    _ntTuiDrawFrame(r, gray, NULL);
 
     // generate progress bar rectangle
 
@@ -131,7 +131,7 @@ void _boot_install_draw_step10() {
     r.x = offset - 1;
     r.y++;
 
-    _biDrawProgressBar(p, r, blue, RED);
+    _ntTuiDrawProgressBar(p, r, blue, RED);
 
-    _biTextDrawCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
+    _ntTuiDrawTextCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
 }

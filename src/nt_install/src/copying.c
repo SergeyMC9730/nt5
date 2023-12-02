@@ -1,8 +1,8 @@
-#include <nt5emul/bi/frame.h>
-#include <nt5emul/bi/rectangle.h>
-#include <nt5emul/bi/text.h>
-#include <nt5emul/bi/input.h>
-#include <nt5emul/bi/progress_bar.h>
+#include <nt5emul/tui/frame.h>
+#include <nt5emul/tui/rectangle.h>
+#include <nt5emul/tui/text.h>
+#include <nt5emul/tui/input.h>
+#include <nt5emul/tui/progress_bar.h>
 
 #include <nt5emul/renderer.h>
 #include <nt5emul/boot_install.h>
@@ -104,11 +104,11 @@ void _boot_install_draw_step8() {
     int szY = GetRenderHeight() / __state.base_size.y;
 
     // Please wait while Setup copies files
-    _biTextDrawCentered(__boot_install_strings[46], 0xFF, 5, gray);
+    _ntTuiDrawTextCentered(__boot_install_strings[46], 0xFF, 5, gray);
     // to the Windows installation folders.
-    _biTextDrawCentered(__boot_install_strings[47], 0xFF, 6, gray);
+    _ntTuiDrawTextCentered(__boot_install_strings[47], 0xFF, 6, gray);
     // This might take several minutes to complete.
-    _biTextDrawCentered(__boot_install_strings[48], 0xFF, 7, gray);
+    _ntTuiDrawTextCentered(__boot_install_strings[48], 0xFF, 7, gray);
 
     // get percentage of timer
     float p = __state.timer0 * 100.f;
@@ -125,7 +125,7 @@ void _boot_install_draw_step8() {
     r.y = (szY - r.height) / 2 + 1;
 
     //  Setup is copying files...
-    _biDrawFrameDouble(r, gray, __boot_install_strings[49]);
+    _ntTuiDrawFrameDouble(r, gray, __boot_install_strings[49]);
 
     offset += 5;
 
@@ -136,7 +136,7 @@ void _boot_install_draw_step8() {
     r.y += 3;
 
     // draw second frame
-    _biDrawFrame(r, gray, NULL);
+    _ntTuiDrawFrame(r, gray, NULL);
 
     // generate progress bar rectangle
 
@@ -147,7 +147,7 @@ void _boot_install_draw_step8() {
     r.x = offset - 1;
     r.y++;
 
-    _biDrawProgressBar(__state.timer0 * 100.f, r, blue, YELLOW);
+    _ntTuiDrawProgressBar(__state.timer0 * 100.f, r, blue, YELLOW);
 
-    _biTextDrawCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
+    _ntTuiDrawTextCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
 }

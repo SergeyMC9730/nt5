@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include <nt5emul/bi/text.h>
+#include <nt5emul/tui/text.h>
 
 // expose internal values
 
@@ -28,7 +28,7 @@ void _boot_install_draw_step3() {
     Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
 
     // draw license agreement
-    _biTextDraw(__state.buffers[2], 3, 4, gray);
+    _ntTuiDrawText(__state.buffers[2], 3, 4, gray);
 
     // F8=I agree  ESC=I do not agree
     __state.show_input_pointer = __boot_install_strings[18];

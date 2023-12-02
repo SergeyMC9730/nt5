@@ -1,19 +1,5 @@
 char *__boot_install_strings[64] = {
-    // this giant string is going to be concatenated on compile time
-    // required for codepoints to load
-
-    /* 0 */ "QWERTYUIOPASDFGHJKLZXCVBNM" // english alphabet with all upper case characters
-            "qwertyuiopasdfghjklzxcvbnmzxcvbnm" // english alphabet with all lower case characters
-            "[]{}()" // brackets
-            "ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ" // cyrillic alphabet with all upper case characters
-            "ёйцукенгшщзхъфывапролджэячсмитьбю" // cyrillic alphabet with all lower case chararcters
-            ",.;!?:" // punctuation      
-            "/\\|" // slashes
-            "1234567890" // numbers
-            "<>-=+~*^%№" // math signs
-            "\"'`" // quotation marks
-            "@#$&_" // random characters 
-            "═ • │ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ █ ▄ ▌ ▐ ▀ ", // lines
+    /* 0*/ "",
     
     /* 1 */ "NT Setup",
 

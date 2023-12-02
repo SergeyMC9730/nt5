@@ -1,8 +1,6 @@
 #include <nt5emul/renderer.h>
 #include <nt5emul/boot_install.h>
-
-// expose timer
-extern void _ntInstallTimer(void(*callback)(), float seconds);
+#include <nt5emul/timer.h>
 
 // expose internal values
 

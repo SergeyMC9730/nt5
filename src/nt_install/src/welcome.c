@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include <nt5emul/bi/text.h>
+#include <nt5emul/tui/text.h>
 
 // expose internal values
 
@@ -29,16 +29,16 @@ void _boot_install_draw_step2() {
 
     // print welcome text
 
-    _biTextDraw(__boot_install_strings[8], 2, 4, WHITE);
+    _ntTuiDrawText(__boot_install_strings[8], 2, 4, WHITE);
 
-    _biTextDraw(__boot_install_strings[9], 3, 6, gray);
-    _biTextDraw(__boot_install_strings[10], 3, 7, gray);
+    _ntTuiDrawText(__boot_install_strings[9], 3, 6, gray);
+    _ntTuiDrawText(__boot_install_strings[10], 3, 7, gray);
 
 
-    _biTextDraw(__boot_install_strings[11], 6, 10, gray);
+    _ntTuiDrawText(__boot_install_strings[11], 6, 10, gray);
 
-    _biTextDraw(__boot_install_strings[12], 6, 12, gray);
-    _biTextDraw(__boot_install_strings[13], 6, 13, gray);
+    _ntTuiDrawText(__boot_install_strings[12], 6, 12, gray);
+    _ntTuiDrawText(__boot_install_strings[13], 6, 13, gray);
 
-    _biTextDraw(__boot_install_strings[14], 6, 15, gray);
+    _ntTuiDrawText(__boot_install_strings[14], 6, 15, gray);
 }

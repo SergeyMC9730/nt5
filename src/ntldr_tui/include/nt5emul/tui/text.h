@@ -3,7 +3,7 @@
 #include <raylib.h>
 
 // draw text
-void _biTextDraw(const char *str, unsigned char x, unsigned char y, Color col);
+void _ntTuiDrawText(const char *str, unsigned char x, unsigned char y, Color col);
 
 /*
     draw text centered
@@ -13,4 +13,4 @@ void _biTextDraw(const char *str, unsigned char x, unsigned char y, Color col);
 
     in other cases x and y are gonna be position offsets.
 */
-void _biTextDrawCentered(const char *str, signed char x, signed char y, Color col);
+void _ntTuiDrawTextCentered(const char *str, signed char x, signed char y, Color col);

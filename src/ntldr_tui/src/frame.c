@@ -1,12 +1,12 @@
-#include <nt5emul/bi/frame.h>
-#include <nt5emul/bi/text.h>
+#include <nt5emul/tui/frame.h>
+#include <nt5emul/tui/text.h>
 
 // null check
 #ifndef NULL
 #define NULL (void *)0
 #endif
 
-void _biDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *description) {
+void _ntTuiDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *description) {
     if (mapping == NULL) return;
     
     unsigned char index = 0;
@@ -19,7 +19,7 @@ void _biDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *de
         if (i == 0) index = 1; // ┌
         else if (i == r.width) index = 2; // ┐
 
-        _biTextDraw(mapping[index], r.x + i, r.y, col);
+        _ntTuiDrawText(mapping[index], r.x + i, r.y, col);
     }
 
     // draw left side
@@ -30,7 +30,7 @@ void _biDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *de
         if (i == 0) index = 1; // ┌
         else if (i == r.height) index = 4; // └
 
-        _biTextDraw(mapping[index], r.x, r.y + i, col);
+        _ntTuiDrawText(mapping[index], r.x, r.y + i, col);
     }
 
     // draw right side
@@ -41,7 +41,7 @@ void _biDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *de
         if (i == 0) index = 2; // ┐
         else if (i == r.height) index = 3; // ┘
 
-        _biTextDraw(mapping[index], r.x + r.width, r.y + i, col);
+        _ntTuiDrawText(mapping[index], r.x + r.width, r.y + i, col);
     }
 
     // draw down side
@@ -52,7 +52,7 @@ void _biDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *de
         if (i == 0) index = 4; // └
         else if (i == r.width) index = 5; // ┘
 
-        _biTextDraw(mapping[index], r.x + i, r.y + r.height, col);
+        _ntTuiDrawText(mapping[index], r.x + i, r.y + r.height, col);
     }
 
     // draw text
@@ -64,23 +64,23 @@ void _biDrawFrameEx(Rectangle r, Color col, const char **mapping, const char *de
         r.y + 1
     };
 
-    _biTextDraw(description, tPos.x, tPos.y, col);
+    _ntTuiDrawText(description, tPos.x, tPos.y, col);
 
     return;
 }
 
-void _biDrawFrame(Rectangle r, Color col, const char *description) {
+void _ntTuiDrawFrame(Rectangle r, Color col, const char *description) {
     const char *mapping[] = {
         "─", "┌", "┐", "│", "└", "┘", "─"
     };
 
-    return _biDrawFrameEx(r, col, mapping, description);
+    return _ntTuiDrawFrameEx(r, col, mapping, description);
 }
 
-void _biDrawFrameDouble(Rectangle r, Color col, const char *description) {
+void _ntTuiDrawFrameDouble(Rectangle r, Color col, const char *description) {
     const char *mapping[] = {
         "═", "╔", "╗", "║", "╚", "╝", "═"
     };
 
-    return _biDrawFrameEx(r, col, mapping, description);
+    return _ntTuiDrawFrameEx(r, col, mapping, description);
 }

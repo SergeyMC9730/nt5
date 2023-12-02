@@ -1,8 +1,8 @@
-#include <nt5emul/bi/frame.h>
-#include <nt5emul/bi/rectangle.h>
-#include <nt5emul/bi/text.h>
-#include <nt5emul/bi/input.h>
-#include <nt5emul/bi/progress_bar.h>
+#include <nt5emul/tui/frame.h>
+#include <nt5emul/tui/rectangle.h>
+#include <nt5emul/tui/text.h>
+#include <nt5emul/tui/input.h>
+#include <nt5emul/tui/progress_bar.h>
 
 #include <nt5emul/renderer.h>
 #include <nt5emul/boot_install.h>
@@ -41,8 +41,8 @@ void _boot_install_draw_step7() {
     int szY = GetRenderHeight() / __state.base_size.y;
 
     // Please wait until Setup formats the partition
-    _biTextDrawCentered(__boot_install_strings[25], 0xFF, 5, gray);
-    _biTextDrawCentered(__state.buffers[4], 0xFF, 7, gray);
+    _ntTuiDrawTextCentered(__boot_install_strings[25], 0xFF, 5, gray);
+    _ntTuiDrawTextCentered(__state.buffers[4], 0xFF, 7, gray);
 
     // get percentage of timer
     float p = (__state.timer0 / __state.timer0_max) * 100.f;
@@ -59,7 +59,7 @@ void _boot_install_draw_step7() {
     r.y = szY - 11;
 
     //  Setup is formating...
-    _biDrawFrameDouble(r, gray, __boot_install_strings[44]);
+    _ntTuiDrawFrameDouble(r, gray, __boot_install_strings[44]);
 
     offset += 5;
 
@@ -70,7 +70,7 @@ void _boot_install_draw_step7() {
     r.y = szY - 8;
 
     // draw second frame
-    _biDrawFrame(r, gray, NULL);
+    _ntTuiDrawFrame(r, gray, NULL);
 
     // generate progress bar rectangle
 
@@ -81,7 +81,7 @@ void _boot_install_draw_step7() {
     r.x = offset - 1;
     r.y = szY - 7;
 
-    _biDrawProgressBar(p, r, blue, YELLOW);
+    _ntTuiDrawProgressBar(p, r, blue, YELLOW);
 
-    _biTextDrawCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
+    _ntTuiDrawTextCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
 }

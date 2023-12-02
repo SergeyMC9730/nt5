@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-#include <nt5emul/bi/menu.h>
+#include "../../../ntldr_tui/include/nt5emul/tui/menu.h"
 
 #include <nt5emul/bi/cabfile.h>
 
@@ -16,7 +16,7 @@ typedef struct ntinstall_t {
 
     // menu related variables
     unsigned char idx0;
-    bi_menu_t menu0;
+    struct nt_tui_menu menu0;
 
     bool show_input_pointer;
 
