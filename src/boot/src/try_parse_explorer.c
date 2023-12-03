@@ -35,10 +35,12 @@ void _boot_try_parse_explorer() {
     IMAGE_DATA_DIRECTORY *dir = ctx.pe.directories[i];
 
     printf(":: DIRECTORIES (%d) ::\n", ctx.pe.num_directories);
-    while (dir != NULL) {
+    while (i < ctx.pe.num_directories) {
+        dir = ctx.pe.directories[i];
+
         printf("i=%d; size=%d; vaddr=0x%02X\n", i, dir->Size, dir->VirtualAddress);
         
-        dir = ctx.pe.directories[++i];
+        i++;
     }
 
     i = 0;

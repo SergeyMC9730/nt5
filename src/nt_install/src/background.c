@@ -12,6 +12,8 @@ extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all stri
 extern ntinstall_t __state; // installation state
 
 void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, Color bg_color, Color status_color, Color status_text_color) {    
+    if (__state.buffers[0] == NULL) return;
+    
     int window_size_x = GetRenderWidth() / __state.base_size.x; // get x size in characters
     int window_size_y = GetRenderHeight() / __state.base_size.y; // get y size in characters
     
