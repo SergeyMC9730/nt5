@@ -2,13 +2,12 @@
 
 #include <raylib.h>
 
-// expose NT renderer
-extern renderer_state_t _renderer_state;
+void _ntRendererCloseEnvironment() {
+	renderer_state_t *st = _ntRendererGetState();
 
-void _renderer_close_environment() {
-	_renderer_state.status |= RENDERER_REQUESTED_STOP;
+	st->status |= RENDERER_REQUESTED_STOP;
 
-	_renderer_join();
+	_ntRendererJoin();
 
-	_renderer_state.status = 0;
+	st->status = 0;
 }

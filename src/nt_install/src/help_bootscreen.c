@@ -53,8 +53,6 @@ void _boot_install_update1_step1() {
     }
 }
 
-extern struct nt_tui_environment _ntTuiEnvironment;
-
 void _boot_install_update_step1() {
     // // load codepoints
     // int codepointCount = 0;
@@ -71,8 +69,10 @@ void _boot_install_update_step1() {
 
     _ntTuiLoadEnvironmentDefault();
 
-    __state.font = _ntTuiEnvironment.font;
-    __state.base_size = _ntTuiEnvironment.base_font_size;
+    struct nt_tui_environment * tui_e = _ntGetTuiEnvironment();
+
+    __state.font = tui_e->font;
+    __state.base_size = tui_e->base_font_size;
 
     __state.product_name_label = __boot_install_strings[1];
     __state.status_bar_label = __state.buffers[1];

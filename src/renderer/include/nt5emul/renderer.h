@@ -23,9 +23,10 @@ typedef struct renderer_state_t {
 
 #pragma pack(pop)
 
-void _renderer_create_environment();
-void _renderer_close_environment();
-void _renderer_update();
-void _renderer_draw();
-void _renderer_join();
-void *_renderer_thread(void *ptr);
+void _ntRendererCreateEnvironment();
+void _ntRendererCloseEnvironment();
+void _ntRendererUpdate();
+void _ntRendererDraw();
+void _ntRendererJoin();
+void *_ntRendererThread(void *ptr);
+renderer_state_t *_ntRendererGetState();

@@ -21,6 +21,9 @@ struct nt_tui_menu {
 
     Color selected_background_color;
     Color selected_text_color;
+
+    // additional pointer for callbacks
+    void *ptr;
 };
 
 // update menu

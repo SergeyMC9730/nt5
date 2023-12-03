@@ -29,12 +29,12 @@ target_include_directories(udis86 PRIVATE "src/external/libpe/libudis86")
 file(GLOB LIBPE_SRC CONFIGURE_DEPENDS "src/external/libpe/*.c")
 add_library(pe SHARED ${LIBPE_SRC})
 target_include_directories(pe PRIVATE "src/external/libpe/include" "src/external/libfuzzy" "src/external/libpe/libudis86")
-target_link_libraries(pe fuzzy udis86)
+target_link_libraries(pe fuzzy udis86 ssl)
 
 # external:raylib
 add_subdirectory(src/renderer/raylib)
 
-# nt5render
+# nt5renderer
 file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
 add_library(nt5renderer SHARED ${NTRENDERER_SRC})
 target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src")
@@ -50,10 +50,22 @@ file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/inc
 add_library(nt5tui SHARED ${NTTUI_SRC})
 target_include_directories(nt5tui PRIVATE 
     "src/ntldr_tui/include" 
-    "src/ntldr_tui/raylib/src" 
+    "src/renderer/raylib/src"
     "src/nt_tools/include"
 )
-target_link_libraries(nt5tui nt5renderer nt5tools)
+target_link_libraries(nt5tui raylib nt5tools)
+
+file(GLOB PEVIEWER_SRC CONFIGURE_DEPENDS "src/pe_viewer/src/*.c" "src/pe_viewer/include/*/*.h")
+add_executable(pe-viewer ${PEVIEWER_SRC})
+target_include_directories(pe-viewer PRIVATE 
+    "src/pe_viewer/include"
+    "src/ntldr_tui/include" 
+    "src/renderer/include"
+    "src/renderer/raylib/src"
+    "src/external/libpe/include"
+)
+target_link_libraries(pe-viewer nt5tui nt5renderer pe)
+
 
 # nt5install
 file(GLOB NTINSTALL_SRC CONFIGURE_DEPENDS "src/nt_install/src/*.c" "src/nt_install/include/*/*.h")
@@ -67,7 +79,7 @@ target_include_directories(nt5install PRIVATE
     "src/external/libarchive/libarchive"
     "src/ntldr_tui/include"
 )
-target_link_libraries(nt5install nt5tui cjson archive nt5tools)
+target_link_libraries(nt5install nt5renderer nt5tui cjson archive nt5tools)
 
 # nt5boot
 file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.h")

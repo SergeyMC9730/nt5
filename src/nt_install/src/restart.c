@@ -51,7 +51,7 @@ void _boot_install_close() {
     system("(./nt5 &) &> /dev/null");
 
     // close renderer
-    _renderer_close_environment();
+    _ntRendererCloseEnvironment();
 }
 
 void _ntInstallTimer10() {

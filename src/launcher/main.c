@@ -6,7 +6,7 @@
 int main() {
 	_boot_begin();
 
-	_renderer_join();
+	_ntRendererJoin();
 
 	return 0;
 }

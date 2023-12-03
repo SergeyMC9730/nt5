@@ -1,8 +1,7 @@
 #include <nt5emul/renderer.h>
 
-// expose internal state
-extern renderer_state_t _renderer_state;
+void _ntRendererJoin() {
+    renderer_state_t *st = _ntRendererGetState();
 
-void _renderer_join() {
-    pthread_join(_renderer_state.thread, NULL);
+    pthread_join(st->thread, NULL);
 }

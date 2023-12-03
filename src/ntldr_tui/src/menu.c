@@ -35,18 +35,13 @@ void _ntUpdateMenu(struct nt_tui_menu *menu) {
     else if (IsKeyPressed(KEY_ENTER)) {
         // run callback
 
-        menu->click_handler(menu->selected_item, menu);
+        if (menu->click_handler != NULL) menu->click_handler(menu->selected_item, menu);
     }
 
     return;
 }
 
 void _ntTuiDrawMenu(struct nt_tui_menu menu) {
-    // // gray color
-    // Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
-    // // blue color
-    // Color bg = (Color){0x00, 0x09, 0xAB, 0xFF};
-
     int i = 0;
 
     while (i < menu.items_total) {
