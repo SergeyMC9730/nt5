@@ -38,6 +38,23 @@ void _ntUpdateMenu(struct nt_tui_menu *menu) {
         if (menu->click_handler != NULL) menu->click_handler(menu->selected_item, menu);
     }
 
+    else if (IsKeyPressed(KEY_PAGE_DOWN)) {
+        menu->selected_item += menu->items_total / 2;
+
+        if (menu->selected_item >= menu->items_total) {
+            menu->selected_item = menu->items_total - 1;
+        }
+    }
+
+    else if (IsKeyPressed(KEY_PAGE_UP)) {
+        menu->selected_item -= menu->items_total / 2;
+
+        // do boundary check
+        if (menu->selected_item < 0) {
+            menu->selected_item = 0;
+        }
+    }
+
     return;
 }
 

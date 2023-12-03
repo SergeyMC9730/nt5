@@ -1,4 +1,5 @@
 #include <nt5emul/tui/file_selector.h>
+#include <nt5emul/directory_exist.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -39,7 +40,7 @@ void _ntFileSelectorClick(int idx, struct nt_tui_menu *menu) {
 
     printf("file: %s\n", filepath);
 
-    if (DirectoryExists(filepath)) {
+    if (_ntDirectoryExist(filepath)) {
         if (m->want_file) {
             free((char *)m->path);
             m->path = filepath;

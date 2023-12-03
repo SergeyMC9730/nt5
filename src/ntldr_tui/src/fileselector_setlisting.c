@@ -2,6 +2,7 @@
 #include <stdio.h> 
 #include <string.h>
 #include <nt5emul/tui/file_selector.h>
+#include <nt5emul/directory_exist.h>
 
 void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
     DIR *d = opendir(m->path);
@@ -61,7 +62,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
             const char *folder_open = " >";
 
-            if (!DirectoryExists(dir->d_name)) {
+            if (!_ntDirectoryExist(dir->d_name)) {
                 folder_open = "";
             }
 
