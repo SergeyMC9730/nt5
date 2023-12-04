@@ -10,6 +10,8 @@ void _ntUnloadFileSelector(struct nt_file_selector_menu *menu) {
     }
 
     RSBDestroyString(menu->listing);
+    RSBDestroyString(menu->wanted_fileformats);
+    RSBDestroyColor(menu->colors);
 
     free(menu);
     

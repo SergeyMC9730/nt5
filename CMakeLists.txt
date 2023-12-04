@@ -42,7 +42,7 @@ target_link_libraries(nt5renderer raylib)
 
 file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c", "src/arrays/include/*/*.c")
 add_library(nt5arrays SHARED ${NTARRAYS_SRC})
-target_include_directories(nt5arrays PRIVATE "src/arrays/include")
+target_include_directories(nt5arrays PRIVATE "src/arrays/include" "src/renderer/raylib/src")
 
 # nt5tools
 file(GLOB NTTOOLS_SRC CONFIGURE_DEPENDS "src/nt_tools/src/*.c" "src/nt_tools/include/*/*.h")

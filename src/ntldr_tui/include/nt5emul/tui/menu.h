@@ -14,6 +14,9 @@ struct nt_tui_menu {
     // menu object pointer
     const char **objects;
 
+    // set color for any UNSELECTED menu object
+    Color *object_colors;
+
     int x; // menu X;
     int y; // menu Y
 

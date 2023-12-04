@@ -19,6 +19,8 @@ struct nt_file_selector_menu *_ntLoadFileSelector(const char *path, int items_pe
     m->path = p;
    
     m->listing = RSBCreateArrayString();
+    m->wanted_fileformats = RSBCreateArrayString();
+    m->colors = RSBCreateArrayColor();
 
     m->want_file = true;
 

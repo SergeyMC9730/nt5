@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../../arrays/include/nt5emul/arrays/rsb_array_string.h"
+#include "../../../arrays/include/nt5emul/arrays/rsb_array_color.h"
 #include <nt5emul/tui/menu.h>
 
 struct nt_file_selector_menu {
@@ -17,6 +18,9 @@ struct nt_file_selector_menu {
 
     int items_per_page;
     int page;
+
+    rsb_array_String *wanted_fileformats;
+    rsb_array_Color *colors;
 
     void (*callback)(struct nt_file_selector_menu *menu, const char *file_path);
 };

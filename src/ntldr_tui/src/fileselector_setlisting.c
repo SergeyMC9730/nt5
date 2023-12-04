@@ -19,13 +19,13 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
         }
 
         i = 0;
+
         while (m->listing->len != 0) {
             RSBPopElementString(m->listing);
-
-            i++;
         }
-
-        i = 0;
+        while (m->colors->len != 0) {
+            RSBPopElementColor(m->colors);
+        }
 
         int has_prev = 0;
 
@@ -41,6 +41,9 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
             strncpy(prev_page, prev_page_str, l - 1);
 
             RSBAddElementString(m->listing, prev_page);
+
+            Color c = YELLOW;
+            RSBAddElementColor(m->colors, c);
 
             has_prev = 1;
         }
@@ -62,13 +65,36 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
             const char *folder_open = " >";
 
-            if (!_ntDirectoryExist(dir->d_name)) {
+            // printf(" * path: %s")
+
+            size_t l1 = strlen(dir->d_name) + strlen(m->path) + 2;
+
+            char *bf = (char *)malloc(l1);
+
+            snprintf(bf, l1, "%s/%s", m->path, dir->d_name);
+
+            Color c = m->base.unselected_text_color;
+
+            if (!_ntDirectoryExist(bf)) {
                 folder_open = "";
+
+                if (m->want_file) {
+                    for (size_t j = 0; j < m->wanted_fileformats->len; j++) {
+                        const char *req = RSBGetAtIndexString(m->wanted_fileformats, j);
+
+                        if (IsFileExtension(bf, req)) {
+                            c = GREEN;
+                        }
+                    }
+                }
             }
+
+            free(bf);
 
             snprintf(str_a, l, "%s%s", str_r, folder_open);
 
             RSBAddElementString(m->listing, (const char *)str_a);
+            RSBAddElementColor(m->colors, c);
 
             i++;
         }
@@ -84,7 +110,10 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
             strncpy(next_page, next_page_str, l - 1);
 
+            Color c = YELLOW;
+
             RSBAddElementString(m->listing, next_page);
+            RSBAddElementColor(m->colors, c);
         }
 
         closedir(d);
@@ -94,4 +123,5 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
     m->base.items_total = m->listing->len;
     m->base.objects = m->listing->objects;
+    m->base.object_colors = m->colors->objects;
 }

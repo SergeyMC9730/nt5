@@ -38,7 +38,7 @@ void _ntFileSelectorClick(int idx, struct nt_tui_menu *menu) {
 
     snprintf(filepath, l1, "%s/%s", m->path, obj);
 
-    printf("file: %s\n", filepath);
+    printf("path: %s (is dir %d; is file %d)\n", filepath, _ntDirectoryExist(filepath), !_ntDirectoryExist(filepath));
 
     if (_ntDirectoryExist(filepath)) {
         if (m->want_file) {

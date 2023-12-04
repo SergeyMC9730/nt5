@@ -64,6 +64,12 @@ void _ntTuiDrawMenu(struct nt_tui_menu menu) {
     while (i < menu.items_total) {
         Color text_color = menu.unselected_text_color;
 
+        if (menu.object_colors != NULL) {
+            Color c = menu.object_colors[i];
+
+            if (c.a == 0xFF) text_color = c; 
+        }
+
         if (i == menu.selected_item) {
             Rectangle rect;
 
