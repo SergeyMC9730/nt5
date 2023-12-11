@@ -40,6 +40,7 @@ add_library(nt5renderer SHARED ${NTRENDERER_SRC})
 target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src")
 target_link_libraries(nt5renderer raylib)
 
+# nt5arrays
 file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c", "src/arrays/include/*/*.c")
 add_library(nt5arrays SHARED ${NTARRAYS_SRC})
 target_include_directories(nt5arrays PRIVATE "src/arrays/include" "src/renderer/raylib/src")
@@ -59,6 +60,7 @@ target_include_directories(nt5tui PRIVATE
 )
 target_link_libraries(nt5tui raylib nt5tools)
 
+# pe-viewer
 file(GLOB PEVIEWER_SRC CONFIGURE_DEPENDS "src/pe_viewer/src/*.c" "src/pe_viewer/include/*/*.h")
 add_executable(pe-viewer ${PEVIEWER_SRC})
 target_include_directories(pe-viewer PRIVATE 
