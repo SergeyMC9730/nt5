@@ -5,8 +5,9 @@
 #pragma pack(push, 1)
 
 typedef struct renderer_layer_t {
-	void (*draw)();
-	void (*update)();
+	void (*draw)(void *user);
+	void (*update)(void *user);
+	void *user;
 } renderer_layer_t;
 
 #include <stdbool.h>

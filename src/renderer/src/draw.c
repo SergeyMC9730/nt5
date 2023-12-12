@@ -6,6 +6,6 @@ void _ntRendererDraw() {
 	for (unsigned short i = 0; i < RENDERER_LAYERS; i++) {
 		// draw each layer
 
-		if (st->layers[i].draw != NULL) st->layers[i].draw();
+		if (st->layers[i].draw != NULL) st->layers[i].draw(st->layers[i].user);
 	}
 }

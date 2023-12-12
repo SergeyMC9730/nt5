@@ -34,11 +34,10 @@ target_link_libraries(pe fuzzy udis86 ssl)
 # external:raylib
 add_subdirectory(src/renderer/raylib)
 
-# nt5renderer
-file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
-add_library(nt5renderer SHARED ${NTRENDERER_SRC})
-target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src")
-target_link_libraries(nt5renderer raylib)
+# external:inih
+file(GLOB LIBINIH_SRC CONFIGURE_DEPENDS "src/external/inih/*.c")
+add_library(inih SHARED ${LIBINIH_SRC})
+target_include_directories(inih PRIVATE "src/external/inih")
 
 # nt5arrays
 file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c", "src/arrays/include/*/*.c")
@@ -49,6 +48,12 @@ target_include_directories(nt5arrays PRIVATE "src/arrays/include" "src/renderer/
 file(GLOB NTTOOLS_SRC CONFIGURE_DEPENDS "src/nt_tools/src/*.c" "src/nt_tools/include/*/*.h")
 add_library (nt5tools SHARED ${NTTOOLS_SRC})
 target_include_directories(nt5tools PRIVATE "src/nt_tools/include")
+
+# nt5renderer
+file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
+add_library(nt5renderer SHARED ${NTRENDERER_SRC})
+target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src" "src/arrays/include" "src/external/inih")
+target_link_libraries(nt5renderer raylib nt5arrays inih)
 
 # nt5tui
 file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/include/*/*.h")
@@ -92,7 +97,7 @@ target_link_libraries(nt5install nt5renderer nt5tui cjson archive nt5tools nt5ar
 # nt5boot
 file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.h")
 add_library (nt5boot SHARED ${NTBOOT_SRC})
-target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/external/cJSON" "src/external/libpe/include")
+target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/external/cJSON" "src/arrays/include" "src/external/libpe/include")
 target_link_libraries(nt5boot nt5renderer cjson nt5install pe)
 
 # nt5

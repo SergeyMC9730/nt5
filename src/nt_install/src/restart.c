@@ -99,7 +99,7 @@ void _boot_install_draw_step10() {
     float p = (float)__state.timer1 / 15.f * 100.f;
 
     // format string
-    snprintf(__state.buffers[3], 128, __boot_install_strings[53], 15 - __state.timer1);
+    if (__state.buffers[3] != NULL) snprintf(__state.buffers[3], 128, __boot_install_strings[53], 15 - __state.timer1);
 
     int offset = 7;
 
@@ -133,5 +133,5 @@ void _boot_install_draw_step10() {
 
     _ntTuiDrawProgressBar(p, r, blue, RED);
 
-    _ntTuiDrawTextCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
+    if (__state.buffers[3] != NULL) _ntTuiDrawTextCentered(__state.buffers[3], 0xFF, r.y - 2, gray);
 }

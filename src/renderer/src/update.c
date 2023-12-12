@@ -6,6 +6,6 @@ void _ntRendererUpdate() {
 	for (unsigned short i = 0; i < RENDERER_LAYERS; i++) {
 		// update each layer
 
-		if (st->layers[i].update != NULL) st->layers[i].update();
+		if (st->layers[i].update != NULL) st->layers[i].update(st->layers[i].user);
 	}
 }
