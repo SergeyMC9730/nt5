@@ -48,5 +48,7 @@ struct dwm_basic_theme {
 
     Color background_color; // Background
 
+    int title_bar_size;
+
     const char *theme_path;
 };

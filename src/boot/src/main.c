@@ -26,10 +26,12 @@ void _boot_begin() {
 		return;
 	}
 
+	SetWindowSize(1024, 768);
+
 	// _boot_try_parse_explorer();
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
 
-	struct dwm_window wnd = _ntCreateWindow("TEST", (Vector2){100, 100});
+	struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200, 300});
 
 	wnd.position = (Vector2){200, 200};
 

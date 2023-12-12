@@ -13,43 +13,51 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
         wnd->size.x, wnd->size.y
     };
 
-    Vector2 lighter_border_size[3] = {
-        {
-            wnd->position.x,
-            wnd->position.y + wnd->size.y - 1,
-        },
-        {
-            wnd->position.x,
-            wnd->position.y
-        },
-        {
-            wnd->position.x + wnd->size.x - 1,
-            wnd->position.y,
-        }
-    };
+    Color border1 = ctx->theme.basic.active_border_color;
+    Color border2 = ctx->theme.basic.window_base_color;
 
-    Vector2 lighter_border_size2[3] = {
-        {
-            wnd->position.x + 1,
-            wnd->position.y + wnd->size.y - 2,
-        },
-        {
-            wnd->position.x + 1,
-            wnd->position.y - 1,
-        },
-        {
-            wnd->position.x + wnd->size.x - 1 - 1,
-            wnd->position.y - 1,
-        }
-    };
+    Color border3 = ctx->theme.basic.button_dk_shadow;
+    Color border4 = ctx->theme.basic.button_shadow_color;
 
-    Color border1 = ctx->theme.basic.inactive_border_color;
+    Color *gr = ctx->theme.basic.window_inactive_title_gradient;
+
+    size_t title_bar_size = ctx->theme.basic.title_bar_size;
 
     if (ctx->selected_window == wnd) {
-        border1 = ctx->theme.basic.active_border_color;
+        gr = ctx->theme.basic.window_active_title_gradient;
     }
 
-    DrawLineStrip(lighter_border_size, 3, border1);
+    DrawLine(sz.x, sz.y, sz.x + sz.width - 1, sz.y, border1);
+    DrawLine(sz.x, sz.y, sz.x, sz.y + sz.height, border1);
+
+    DrawLine(sz.x - 1, sz.y + sz.height, sz.x + sz.width, sz.y + sz.height, border3);
+    DrawLine(sz.x + sz.width, sz.y + sz.height, sz.x + sz.width, sz.y, border3);
+
+    DrawLine(sz.x + 1, sz.y + 1, sz.x + sz.width - 2, sz.y + 1, border2);
+    DrawLine(sz.x + 1, sz.y + 1, sz.x + 1, sz.y + sz.height - 1, border2);
+
+    DrawLine(sz.x - 1 + 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + sz.height - 1, border4);
+    DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
+
+    DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
+
+    Rectangle title_bar_rect = {
+        sz.x + 2, sz.y + 3,
+        sz.width - 5, title_bar_size
+    };
+
+    DrawRectangleGradientH(title_bar_rect.x, title_bar_rect.y, title_bar_rect.width, title_bar_rect.height, gr[0], gr[1]);
+
+    float font_sz = ctx->fonts.tahoma8_bld.real_size * 0.5f;
+    float spacing = 1.f;
+
+    Vector2 text_sz = MeasureTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, font_sz, spacing);
+
+    int y_align = (title_bar_size - text_sz.y) / 2;
+
+    DrawTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, (Vector2){
+        title_bar_rect.x + 2, title_bar_rect.y + y_align
+    }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
 
     if (wnd->draw != NULL) wnd->draw(wnd, ctx);
 }

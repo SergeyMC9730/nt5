@@ -10,6 +10,11 @@ void _ntDestroyDwmContext(struct dwm_context *ctx) {
     // destroy windows
     RSBDestroyDWMWindow(ctx->windows);
 
+    // unload fonts
+
+    // UnloadFont(ctx->fonts.tahoma8_std);
+    // UnloadFont(ctx->fonts.tahoma8_bld);
+
     // free context
     free(ctx);
 }
