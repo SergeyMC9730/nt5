@@ -52,8 +52,8 @@ target_include_directories(nt5tools PRIVATE "src/nt_tools/include")
 # nt5renderer
 file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
 add_library(nt5renderer SHARED ${NTRENDERER_SRC})
-target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src" "src/arrays/include" "src/external/inih")
-target_link_libraries(nt5renderer raylib nt5arrays inih)
+target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src" "src/nt_tools/include" "src/arrays/include" "src/external/inih")
+target_link_libraries(nt5renderer raylib nt5arrays inih nt5tools)
 
 # nt5tui
 file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/include/*/*.h")
@@ -62,6 +62,7 @@ target_include_directories(nt5tui PRIVATE
     "src/ntldr_tui/include" 
     "src/renderer/raylib/src"
     "src/nt_tools/include"
+    "src/arrays/include"
 )
 target_link_libraries(nt5tui raylib nt5tools)
 
@@ -97,7 +98,7 @@ target_link_libraries(nt5install nt5renderer nt5tui cjson archive nt5tools nt5ar
 # nt5boot
 file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.h")
 add_library (nt5boot SHARED ${NTBOOT_SRC})
-target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/external/cJSON" "src/arrays/include" "src/external/libpe/include")
+target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/ntldr_tui/include"  "src/external/cJSON" "src/arrays/include" "src/external/libpe/include")
 target_link_libraries(nt5boot nt5renderer cjson nt5install pe)
 
 # nt5

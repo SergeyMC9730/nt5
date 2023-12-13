@@ -2,6 +2,7 @@
 #include <nt5emul/renderer.h>
 #include <ini.h>
 #include <string.h>
+#include <unistd.h>
 
 void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     // load fonts
@@ -57,7 +58,10 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
     st->layers[0].user = ctx;
     st->layers[0].update = _ntCreateDwmContextMain;
 
-    while (ctx->loading_finished != true) {}
+    while (ctx->loading_finished != true) {
+        // wait 0.10 seconds before checking again
+		usleep(1000000 / 10);
+    }
 
     // return context
     return ctx;

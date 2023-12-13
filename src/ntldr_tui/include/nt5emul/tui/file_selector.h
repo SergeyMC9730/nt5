@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../arrays/include/nt5emul/arrays/rsb_array_string.h"
-#include "../../../arrays/include/nt5emul/arrays/rsb_array_color.h"
+#include <nt5emul/arrays/rsb_array_string.h>
+#include <nt5emul/arrays/rsb_array_color.h>
 #include <nt5emul/tui/menu.h>
 
 struct nt_file_selector_menu {

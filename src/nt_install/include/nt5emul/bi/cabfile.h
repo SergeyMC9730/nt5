@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 
-#include "../../../arrays/include/nt5emul/arrays/rsb_array_gen.h"
+#include <nt5emul/arrays/rsb_array_gen.h>
 
 struct cabfile_file {
     const char *internal_name;

@@ -31,11 +31,15 @@ void _boot_begin() {
 	// _boot_try_parse_explorer();
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
 
-	struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200, 300});
+	for (int i = 0; i < 4; i++) {
+		int c = i * 50;
 
-	wnd.position = (Vector2){200, 200};
+		struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200 + c, 300});
 
-	_ntPushWindow(ctx, wnd);
+		wnd.position = (Vector2){50 + c, 50 + c};
+
+		_ntPushWindow(ctx, wnd);
+	}
 
 	renderer_state_t * st = _ntRendererGetState();
 

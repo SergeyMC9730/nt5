@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../ntldr_tui/include/nt5emul/tui/menu.h"
+#include <nt5emul/tui/menu.h>
 
 void _boot_install_beginstep1(); // loading data
 void _boot_install_beginstep2(); // welcome screen

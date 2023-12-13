@@ -41,12 +41,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
 
-    Rectangle title_bar_rect = {
-        sz.x + 2, sz.y + 3,
-        sz.width - 5, title_bar_size
-    };
-
-    DrawRectangleGradientH(title_bar_rect.x, title_bar_rect.y, title_bar_rect.width, title_bar_rect.height, gr[0], gr[1]);
+    DrawRectangleGradientH(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height, gr[0], gr[1]);
 
     float font_sz = ctx->fonts.tahoma8_bld.real_size * 0.5f;
     float spacing = 1.f;
@@ -56,7 +51,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     int y_align = (title_bar_size - text_sz.y) / 2;
 
     DrawTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, (Vector2){
-        title_bar_rect.x + 2, title_bar_rect.y + y_align
+        wnd->titlebar_rect.x + 2, wnd->titlebar_rect.y + y_align
     }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
 
     if (wnd->draw != NULL) wnd->draw(wnd, ctx);

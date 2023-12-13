@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-#include "../../../ntldr_tui/include/nt5emul/tui/menu.h"
+#include <nt5emul/tui/menu.h>
 
 #include <nt5emul/bi/cabfile.h>
 

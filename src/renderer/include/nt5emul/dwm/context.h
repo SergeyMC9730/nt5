@@ -27,6 +27,8 @@ struct dwm_context {
     struct dwm_context_fonts fonts;
 
     bool loading_finished;
+
+    int global_process_increment;
 };
 
 // draw dwm context
@@ -42,3 +44,9 @@ void _ntDestroyDwmContext(struct dwm_context *ctx);
 
 // push window to the dwm context
 void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd);
+
+// get dwm process ids
+rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx);
+
+// get process by process id
+struct dwm_window *_ntGetDWMProcess(struct dwm_context *ctx, int pid);

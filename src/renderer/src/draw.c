@@ -7,5 +7,7 @@ void _ntRendererDraw() {
 		// draw each layer
 
 		if (st->layers[i].draw != NULL) st->layers[i].draw(st->layers[i].user);
+	
+		DrawFPS(2, 2);
 	}
 }
