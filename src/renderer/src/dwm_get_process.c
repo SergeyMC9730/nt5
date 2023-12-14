@@ -8,7 +8,7 @@ struct dwm_window *_ntGetDWMProcess(struct dwm_context *ctx, int pid) {
     while (i < l) {
         struct dwm_window *ptr = ctx->windows->objects + i;
 
-        if (ptr->process.pid == pid) return ptr;
+        if (!ptr->closed.state && ptr->process.pid == pid) return ptr;
 
         i++;
     }

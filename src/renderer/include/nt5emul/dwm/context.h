@@ -9,8 +9,11 @@ RSB_ARRAY_DEF_GEN(struct dwm_window, DWMWindow);
 
 struct dwm_context_font {
     Font font;
+
     int xp_size;
     int real_size;
+
+    float spacing;
 };
 
 struct dwm_context_fonts {

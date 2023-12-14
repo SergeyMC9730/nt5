@@ -1,5 +1,6 @@
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>
+#include <nt5emul/dwm/button.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -44,7 +45,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     DrawRectangleGradientH(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height, gr[0], gr[1]);
 
     float font_sz = ctx->fonts.tahoma8_bld.real_size * 0.5f;
-    float spacing = 1.f;
+    float spacing = ctx->fonts.tahoma8_bld.spacing;
 
     Vector2 text_sz = MeasureTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, font_sz, spacing);
 
@@ -53,6 +54,26 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     DrawTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, (Vector2){
         wnd->titlebar_rect.x + 2, wnd->titlebar_rect.y + y_align
     }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
+
+
+    struct dwm_button btn_test;
+
+    btn_test.text = "X";
+
+    btn_test.button.width = 16;
+    btn_test.button.height = 14;
+
+    int y_align2 = (title_bar_size - btn_test.button.height) / 2;
+
+    btn_test.button.x = sz.x + sz.width - btn_test.button.width - 6;
+    btn_test.button.y = sz.y + y_align2 + 2;
+
+    // printf("button result: %d\n", _ntDrawDWMButton(ctx, btn_test));
+    if (_ntDrawDWMButton(ctx, &btn_test)) {
+        _ntCloseWindow(wnd, ctx);
+    }
+
+    wnd->moving.ability = !(btn_test.howered.state);
 
     if (wnd->draw != NULL) wnd->draw(wnd, ctx);
 }

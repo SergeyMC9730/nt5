@@ -10,10 +10,12 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     int tahoma_size = 24;
 
     ctx->fonts.tahoma8_std.xp_size = 8;
+    ctx->fonts.tahoma8_std.spacing = 1.f;
     ctx->fonts.tahoma8_std.real_size = tahoma_size;
     ctx->fonts.tahoma8_std.font = LoadFontEx("ntresources/tahoma.ttf", ctx->fonts.tahoma8_std.real_size, NULL, 0);
 
     ctx->fonts.tahoma8_bld.xp_size = 8;
+    ctx->fonts.tahoma8_bld.spacing = 1.f;
     ctx->fonts.tahoma8_bld.real_size = tahoma_size;
     ctx->fonts.tahoma8_bld.font = LoadFontEx("ntresources/tahomabd.ttf", ctx->fonts.tahoma8_bld.real_size, NULL, 0);
     

@@ -15,6 +15,12 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
     while (i < l) {
         struct dwm_window wnd = RSBGetAtIndexDWMWindow(ctx->windows, i);
 
+        if (wnd.closed.state) {
+            i++;
+
+            continue;
+        }
+
         // check if wnd is the selected one
         if (ctx->selected_window != NULL && ctx->selected_window->process.pid == wnd.process.pid) {
             i++;

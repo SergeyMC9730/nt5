@@ -4,10 +4,7 @@
 
 #include <nt5emul/arrays/rsb_array_int.h>
 
-struct dwm_window_bool {
-    bool state;
-    bool ability;
-};
+#include <nt5emul/dwm/bool.h>
 
 struct dwm_process {
     int pid;
@@ -23,10 +20,10 @@ struct dwm_window {
     
     const char *title;
 
-    struct dwm_window_bool closed;
-    struct dwm_window_bool hidden;
-    struct dwm_window_bool filled;
-    struct dwm_window_bool moving;
+    struct dwm_bool closed;
+    struct dwm_bool hidden;
+    struct dwm_bool filled;
+    struct dwm_bool moving;
 
     void (*draw)(struct dwm_window *wnd, void *ctx);
     void (*upadte)(struct dwm_window *wnd, void *ctx);
@@ -36,3 +33,4 @@ struct dwm_window _ntCreateWindow(const char *title, Vector2 size);
 
 void _ntDrawWindow(struct dwm_window *wnd, void *ctx);
 void _ntUpdateWindow(struct dwm_window *wnd, void *ctx);
+void _ntCloseWindow(struct dwm_window *wnd, void *ctx);
