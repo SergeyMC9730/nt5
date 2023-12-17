@@ -18,11 +18,18 @@
     Contact SergeyMC9730 -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <dirent.h> 
+#include <stdio.h> 
+#include <stdbool.h>
 
-#include <nt5emul/tui/file_selector.h>
+bool _ntDirectoryExists(const char *path) {
+    DIR *d = opendir(path);
+    
+    if (d) {
+        closedir(d);
 
-// is file pe
-bool _ntPVFileCheck(const char *file_path);
+        return true;
+    }
 
-void _ntPVOnFileClick(struct nt_file_selector_menu *menu, const char *file_path);
+    return false;
+}
