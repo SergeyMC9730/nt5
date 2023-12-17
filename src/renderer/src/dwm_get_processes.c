@@ -21,6 +21,8 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
             continue;
         }
 
+        // printf("process %d %d | ", current_pid, wnd.process.pid);
+
         // check if wnd is the selected one
         if (ctx->selected_window != NULL && ctx->selected_window->process.pid == wnd.process.pid) {
             i++;
@@ -40,9 +42,9 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
     // sort array from the lowest pid to the highest one
     qsort(a->objects, a->len, sizeof(int), _ntSortComparison);
 
-    RSBAddElementInt(a, current_pid);
+    if (current_pid != -1) RSBAddElementInt(a, current_pid);
     
-    // RSBPrintArrayInt(a); printf("\n");
+    RSBPrintArrayInt(a); printf("\n");
 
     return a;
 }

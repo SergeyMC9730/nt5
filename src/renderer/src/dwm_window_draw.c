@@ -69,7 +69,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     btn_test.button.y = sz.y + y_align2 + 2;
 
     // printf("button result: %d\n", _ntDrawDWMButton(ctx, btn_test));
-    if (_ntDrawDWMButton(ctx, &btn_test)) {
+    if (_ntDrawDWMButton(ctx, &btn_test) && wnd == ctx->selected_window) {
         _ntCloseWindow(wnd, ctx);
     }
 

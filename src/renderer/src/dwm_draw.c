@@ -27,6 +27,8 @@ void _ntDrawDwmContext(struct dwm_context *ctx) {
     Vector2 mouse = GetMousePosition();
 
     if (ctx->selected_window != NULL) {
+        ctx->selected_window->titlebar_rect.x -= 24;
+
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             if ( CheckCollisionPointRec(mouse, ctx->selected_window->titlebar_rect)) {
                 if (ctx->selected_window->moving.ability) {
@@ -48,5 +50,7 @@ void _ntDrawDwmContext(struct dwm_context *ctx) {
         } else {
             ctx->selected_window->moving.state = false;
         }
+
+        ctx->selected_window->titlebar_rect.x += 24;
     }
 }

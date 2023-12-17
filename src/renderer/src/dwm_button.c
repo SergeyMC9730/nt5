@@ -18,6 +18,7 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
     Vector2 szText = MeasureTextEx(ctx->fonts.tahoma8_bld.font, btn->text, font_sz, spacing);
 
     int alignY = (sz.height - szText.y) / 2;
+    int alignX = (sz.width - szText.x) / 2;
 
     Color borders[4] = {
         ctx->theme.basic.active_border_color,
@@ -29,7 +30,7 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
     Color border1, border2, border3, border4;
 
     Vector2 text_pos = {
-        btn->button.x + 2,
+        btn->button.x + alignX,
         btn->button.y + alignY
     };
 
@@ -64,9 +65,13 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
 
     DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
 
-    DrawTextEx(ctx->fonts.tahoma8_bld.font, btn->text, (Vector2){
-        text_pos.x, text_pos.y
-    }, font_sz, spacing, ctx->theme.basic.button_text_color);
+    if (btn->text) {
+        // printf("drawing %s at %f:%f\n", btn->text, text_pos.x, text_pos.y);
+
+        DrawTextEx(ctx->fonts.tahoma8_bld.font, btn->text, (Vector2){
+            text_pos.x, text_pos.y
+        }, font_sz, spacing, BLACK);
+    }
 
     return btn->activated.state;
 }
