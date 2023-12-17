@@ -7,6 +7,9 @@ struct dwm_button {
 
     const char *text;
 
+    Texture2D off;
+    Texture2D on;
+
     struct dwm_bool activated;
     struct dwm_bool howered;
 };

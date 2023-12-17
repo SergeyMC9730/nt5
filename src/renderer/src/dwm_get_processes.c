@@ -15,8 +15,12 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
     while (i < l) {
         struct dwm_window wnd = RSBGetAtIndexDWMWindow(ctx->windows, i);
 
+        // printf("wnd info: i=%d; pid=%d =>", i, wnd.process.pid);
+
         if (wnd.closed.state) {
             i++;
+
+            // printf(" ignored (closed)\n");
 
             continue;
         }
@@ -27,11 +31,15 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
         if (ctx->selected_window != NULL && ctx->selected_window->process.pid == wnd.process.pid) {
             i++;
 
+            // printf(" ignored* (selected)\n");
+
             current_pid = wnd.process.pid;
 
             // dont add this pid to the array
             continue;
         }
+
+        // printf(" added\n");
 
         // add pid to the array
         RSBAddElementInt(a, wnd.process.pid);
@@ -44,7 +52,7 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
 
     if (current_pid != -1) RSBAddElementInt(a, current_pid);
     
-    RSBPrintArrayInt(a); printf("\n");
+    // RSBPrintArrayInt(a); printf("\n");
 
     return a;
 }

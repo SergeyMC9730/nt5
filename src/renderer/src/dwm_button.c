@@ -4,9 +4,17 @@
 bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
     Vector2 mouse = GetMousePosition();
 
-    btn->activated.state = IsMouseButtonReleased(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mouse, btn->button);
-    
-    btn->howered.state = IsMouseButtonDown(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mouse, btn->button);
+    Texture2D used_texture = btn->off;
+
+    // check if button can be activated
+    btn->activated.state = IsMouseButtonReleased(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mouse, btn->button) && btn->activated.ability;
+
+    // check if user presses the button but not releases yes
+    btn->howered.state = IsMouseButtonDown(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mouse, btn->button) && btn->howered.ability;
+
+    if (btn->howered.state) {
+        used_texture = btn->on;
+    }
 
     // if (btn->howered = false)
 
@@ -64,6 +72,18 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
     DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
 
     DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
+
+    if (used_texture.width != 0 && used_texture.height != 0) {
+        int alignTY = (sz.height - used_texture.width) / 2;
+        int alignTX = (sz.width - used_texture.height) / 2;
+
+        Vector2 texture_pos = {
+            btn->button.x + alignTX,
+            btn->button.y + alignTY
+        };
+
+        DrawTexture(used_texture, texture_pos.x, texture_pos.y, WHITE);
+    }
 
     if (btn->text) {
         // printf("drawing %s at %f:%f\n", btn->text, text_pos.x, text_pos.y);

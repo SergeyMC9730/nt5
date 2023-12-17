@@ -63,6 +63,9 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     btn_test.button.width = 16;
     btn_test.button.height = 14;
 
+    btn_test.activated.ability = true;
+    btn_test.howered.ability = true;
+
     int y_align2 = (title_bar_size - btn_test.button.height) / 2;
 
     btn_test.button.x = sz.x + sz.width - btn_test.button.width - 6;

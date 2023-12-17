@@ -42,7 +42,7 @@ void _boot_begin() {
 	}
 
 	SetWindowSize(1024, 768);
-	// SetTargetFPS();
+	// SetTargetFPS(30);
 
 	// _boot_try_parse_explorer();
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");

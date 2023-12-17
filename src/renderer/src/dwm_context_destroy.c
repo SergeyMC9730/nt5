@@ -12,8 +12,8 @@ void _ntDestroyDwmContext(struct dwm_context *ctx) {
 
     // unload fonts
 
-    // UnloadFont(ctx->fonts.tahoma8_std);
-    // UnloadFont(ctx->fonts.tahoma8_bld);
+    UnloadFont(ctx->fonts.tahoma8_std.font);
+    UnloadFont(ctx->fonts.tahoma8_bld.font);
 
     // free context
     free(ctx);
