@@ -52,7 +52,7 @@ void _nt_timer_thread(struct ntcore core, void *arg) {
         res = nanosleep(&ts, &ts);
     } while (res && errno == EINTR);
 
-    timer->callback();
+    if (timer->callback != NULL) timer->callback();
 
     free(timer); 
 

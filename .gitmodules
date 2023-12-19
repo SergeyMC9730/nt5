@@ -13,3 +13,9 @@
 [submodule "src/external/inih"]
 	path = src/external/inih
 	url = https://github.com/benhoyt/inih.git
+[submodule "src/external/--recursive"]
+	path = src/external/--recursive
+	url = https://github.com/SergeyMC9730/cterm.git
+[submodule "src/external/cterm"]
+	path = src/external/cterm
+	url = https://github.com/SergeyMC9730/cterm.git

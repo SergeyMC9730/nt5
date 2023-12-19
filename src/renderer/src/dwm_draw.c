@@ -24,7 +24,7 @@
 
 // draw dwm context
 void _ntDrawDwmContext(struct dwm_context *ctx) {
-    ClearBackground(ctx->theme.basic.background_color);
+    if (ctx->theme.basic.background_color.a != 0x00) ClearBackground(ctx->theme.basic.background_color);
 
     rsb_array_Int *pids = _ntGetDWMProcesses(ctx);
 

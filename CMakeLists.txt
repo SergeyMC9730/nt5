@@ -10,10 +10,13 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,leak")
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=address,leak")
 
 # external:cJSON
-add_subdirectory(src/external/cJSON)
+# add_subdirectory(src/external/cJSON)
 
 # external:libarchive
 add_subdirectory(src/external/libarchive)
+
+# external:cterm
+add_subdirectory(src/external/cterm)
 
 # external:libfuzzy
 file(GLOB LIBFUZZY_SRC CONFIGURE_DEPENDS "src/external/libpe/libfuzzy/*.c")
@@ -98,8 +101,18 @@ target_link_libraries(nt5install nt5renderer nt5tui cjson archive nt5tools nt5ar
 # nt5boot
 file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.h")
 add_library (nt5boot SHARED ${NTBOOT_SRC})
-target_include_directories(nt5boot PRIVATE "src/boot/include" "src/renderer/include" "src/nt_install/include" "src/renderer/raylib/src" "src/ntldr_tui/include"  "src/external/cJSON" "src/arrays/include" "src/external/libpe/include")
-target_link_libraries(nt5boot nt5renderer cjson nt5install pe)
+target_include_directories(nt5boot PRIVATE 
+    "src/boot/include" 
+    "src/renderer/include" 
+    "src/nt_install/include" 
+    "src/renderer/raylib/src" 
+    "src/ntldr_tui/include"  
+    "src/external/cJSON" 
+    "src/arrays/include" 
+    "src/external/libpe/include"
+    "src/external"
+)
+target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterm)
 
 # nt5
 file(GLOB NT_SRC CONFIGURE_DEPENDS "src/launcher/*.c")
@@ -107,5 +120,31 @@ add_executable(nt5 ${NT_SRC})
 target_include_directories(nt5 PRIVATE "src/boot/include" "src/renderer/include")
 target_link_libraries(nt5 nt5boot)
 
+# cterm modules
+
+file (GLOB NTMOD_LOGO_SRC CONFIGURE_DEPENDS "src/modules/logo/src/*.c")
+add_library(ntmod_logo ${NTMOD_LOGO_SRC})
+target_include_directories(ntmod_logo PRIVATE 
+    "src/renderer/include" 
+    "src/modules/logo/src/include" 
+    "src/external" 
+    "src/renderer/raylib/src" 
+    "src/nt_tools/include"
+    "src/global/include"
+)
+target_link_libraries(ntmod_logo nt5renderer raylib)
+
 # copy nt resources
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/ntresources)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/ntresources
+)
+
+# copy cterm binaries
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/src/external/cterm/applications $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications
+)
+
+# copy nt modules to cterm folder
+add_custom_command(TARGET ntmod_logo POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_logo.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_logo.so
+)

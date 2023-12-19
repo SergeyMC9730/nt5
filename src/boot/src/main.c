@@ -32,6 +32,12 @@
 
 #include <sys/stat.h>
 
+#include <cterm/libcterm.h>
+#include <cterm/applications/api.h>
+
+// extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
+extern cterm_command_reference_t find_command(char *command);
+
 void _boot_begin_debug(void *user) {
 	struct dwm_context *ctx = (struct dwm_context *)user;
 
@@ -64,7 +70,7 @@ void _boot_begin() {
 	}
 
 	SetWindowSize(1024, 768);
-	// SetTargetFPS(30);
+	// SetTargetFPS(15);
 
 	// _boot_try_parse_explorer();
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
@@ -81,11 +87,30 @@ void _boot_begin() {
 
 	renderer_state_t * st = _ntRendererGetState();
 
-	st->layers[0].user = ctx;
-	st->layers[0].draw = _ntDrawDwmContext;
-
 	st->layers[1].user = ctx;
 	st->layers[1].update = _boot_begin_debug;
 
+	_cterm_init();
+
+	usleep(1000000);
+
+	// register_command("testlol", "small test", false, NULL);
+	cterm_command_reference_t ref = find_command("logo");
+
+	if (ref.callback) {
+		ref.callback(NULL);
+
+		st->layers[0].user = ctx;
+		st->layers[0].draw = _ntDrawDwmContext;
+	}
+
+	usleep(5500000);
+
+	ctx->theme.basic.background_color.a = 0x00;
+
+	st->layers[2].user = ctx;
+	st->layers[2].draw = st->layers[0].draw;
+
+	st->layers[0].draw = NULL;
 	// _ntDestroyDwmContext(ctx);
 }
