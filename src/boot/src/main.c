@@ -75,15 +75,15 @@ void _boot_begin() {
 	// _boot_try_parse_explorer();
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
 
-	for (int i = 0; i < 1; i++) {
-		int c = i * 50;
+	// for (int i = 0; i < 1; i++) {
+	// 	int c = i * 50;
 
-		struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200 + c, 300});
+	// 	struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200 + c, 300});
 
-		wnd.position = (Vector2){50 + c, 50 + c};
+	// 	wnd.position = (Vector2){50 + c, 50 + c};
 
-		_ntPushWindow(ctx, wnd);
-	}
+	// 	_ntPushWindow(ctx, wnd);
+	// }
 
 	renderer_state_t * st = _ntRendererGetState();
 

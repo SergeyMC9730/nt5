@@ -122,17 +122,31 @@ target_link_libraries(nt5 nt5boot)
 
 # cterm modules
 
+# logo
 file (GLOB NTMOD_LOGO_SRC CONFIGURE_DEPENDS "src/modules/logo/src/*.c")
 add_library(ntmod_logo ${NTMOD_LOGO_SRC})
 target_include_directories(ntmod_logo PRIVATE 
     "src/renderer/include" 
-    "src/modules/logo/src/include" 
+    "src/modules/logo/include" 
     "src/external" 
     "src/renderer/raylib/src" 
     "src/nt_tools/include"
     "src/global/include"
 )
 target_link_libraries(ntmod_logo nt5renderer raylib)
+
+# oobe
+file (GLOB NTMOD_OOBE_SRC CONFIGURE_DEPENDS "src/modules/oobe/src/*.c")
+add_library(ntmod_oobe ${NTMOD_OOBE_SRC})
+target_include_directories(ntmod_oobe PRIVATE 
+    "src/renderer/include" 
+    "src/modules/oobe/include" 
+    "src/external" 
+    "src/renderer/raylib/src" 
+    "src/nt_tools/include"
+    "src/global/include"
+)
+target_link_libraries(ntmod_oobe nt5renderer raylib)
 
 # copy nt resources
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
@@ -147,4 +161,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 # copy nt modules to cterm folder
 add_custom_command(TARGET ntmod_logo POST_BUILD 
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_logo.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_logo.so
+)
+add_custom_command(TARGET ntmod_oobe POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_oobe.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_oobe.so
 )
