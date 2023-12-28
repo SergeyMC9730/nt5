@@ -21,7 +21,14 @@
 #include <nt5emul/modules/oobe/msoobe_command.h>
 #include <nt5emul/modules/oobe/state.h>
 #include <nt5emul/modules/oobe/render.h>
+
 #include <nt5emul/renderer.h>
+
+#include <nt5emul/timer.h>
+
+void msoobe_decrement_time(void *ctx) {
+    _state.minutes_left -= 10;
+}
 
 bool msoobe_command(void *data) {
     renderer_state_t *st = _ntRendererGetState();
@@ -33,6 +40,16 @@ bool msoobe_command(void *data) {
     _state.old_draw = layer->draw;
     _state.old_update = layer->update;
     _state.old_ctx = layer->user;
+
+    _state.dwm_ctx = data;
+
+    int times = 4;
+
+    _state.minutes_left = times * 10;
+
+    for (int i = 0; i < times; i++) {
+        _ntInstallTimer(msoobe_decrement_time, (float)times * (float)(i + 1));
+    }
 
     layer->draw = draw_background;
 

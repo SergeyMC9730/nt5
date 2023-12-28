@@ -44,6 +44,8 @@ struct module_state {
     void (*old_draw)(void *user);
     void (*old_update)(void *user);
     void *old_ctx;
+
+    int minutes_left;
 };
 
 extern struct module_state _state;

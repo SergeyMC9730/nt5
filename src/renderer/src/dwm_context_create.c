@@ -24,11 +24,33 @@
 #include <string.h>
 #include <unistd.h>
 
+// Font _ntLoadPixelatedFont(const char *fileName, int fontSize, int *codepoints, int codepointCount) {
+//    Font font = { 0 };
+
+//     // Loading file to memory
+//     int dataSize = 0;
+//     unsigned char *fileData = LoadFileData(fileName, &dataSize);
+
+//     if (fileData != NULL)
+//     {
+//         // Loading font from memory data
+//         font = LoadFontFromMemory(GetFileExtension(fileName), fileData, dataSize, fontSize, codepoints, codepointCount);
+
+//         UnloadFileData(fileData);
+//     }
+//     else font = GetFontDefault();
+
+//     return font;
+// }
+
 void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {
     data->xp_size = xsz;
     data->spacing = sp;
     data->real_size = rsz;
+
     data->font = LoadFontEx(font, data->real_size, NULL, 0);
+
+    SetTextureFilter(data->font.texture, TEXTURE_FILTER_POINT);
 }
 
 void _ntCreateDwmContextMain(struct dwm_context *ctx) {
@@ -39,8 +61,12 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     _ntLoadDwmFont(&ctx->fonts.tahoma8_std, 8, 1.f, 8 * font_mul, "nt/fonts/tahoma.ttf");
     _ntLoadDwmFont(&ctx->fonts.tahoma8_bld, 8, 1.f, 8 * font_mul, "nt/fonts/tahomabd.ttf");
 
+    font_mul = 2;
+
     _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 1.f, 9 * font_mul, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 1.f, 9 * font_mul, "nt/fonts/tahomabd.ttf");
+    _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9 * font_mul, "nt/fonts/tahomabd.ttf");
+
+    font_mul = 3;
 
     _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 9, 1.f, 9 * font_mul, "nt/fonts/framd.ttf");
     

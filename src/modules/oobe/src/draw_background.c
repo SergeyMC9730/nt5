@@ -26,6 +26,10 @@
 #define NULL (void *)0
 #endif
 
+struct oobe_install_step oobe_steps[] = {
+    {"Collecting\ninformation", true}, {"Dynamic\nUpdate", true}, {"Preparing\ninstallation", true}, {"Installing\nWindows", false, true}, {"Finalizing\ninstallation"}
+};
+
 void draw_background(void *ctx) {
     if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
 
@@ -87,10 +91,38 @@ void draw_background(void *ctx) {
     _ntModOobeDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
     _ntModOobeDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
 
-    // draw logo
-
-//    _ntModOobeDrawSizedTexture(_state.logo_texture, (Vector2){logo_sz, logo_sz}, (Vector2){x, y}, (Vector2){});
+    // draw logo    
     DrawTextureEx(_state.logo_texture, (Vector2){10, 2}, 0.f, 0.7f, WHITE);
 
-    
+    // draw steps
+    int sl = _ntModOobeDrawSteps(oobe_steps, sizeof(oobe_steps) / sizeof(struct oobe_install_step)); 
+
+    // draw completion time
+
+    // get bold tahoma font from the DWM
+    struct dwm_context_font font = _state.dwm_ctx->fonts.tahoma9_bld;
+
+    // calculate text position based on the steps length
+    Vector2 text_pos = {
+        26,
+        sl + 20
+    };
+
+    // draw completion text
+    DrawTextEx(
+        font.font, // font
+        TextFormat("Setup will complete in\napproximately:\n      %d minutes", _state.minutes_left), // formatted string
+        text_pos, // pos
+        font.real_size, // size in pixels
+        font.spacing, // spacing
+        WHITE // color
+    );
+
+    // draw description
+
+    // check if F2 key is pressed
+	if (IsKeyPressed(KEY_F2)) {
+		// dump core information
+        _ntDumpCores();
+	}
 }

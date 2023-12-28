@@ -31,7 +31,7 @@ struct dwm_context_font {
     Font font;
 
     int xp_size;
-    int real_size;
+    float real_size;
 
     float spacing;
 };

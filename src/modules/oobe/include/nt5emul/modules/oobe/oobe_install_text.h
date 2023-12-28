@@ -22,8 +22,7 @@
 
 #include <stdbool.h>
 
-struct oobe_install_step {
+struct oobe_install_text {
     const char *name;
-    bool done;
-    bool selected;
+    const char *description;
 };

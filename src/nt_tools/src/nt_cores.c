@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,12 +15,13 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/ntcore.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 struct ntcore *nt_cores = NULL;
 
@@ -50,10 +51,14 @@ void *_ntCoreJob(void *arg) {
 void _ntInitCores() {
     if (nt_cores != NULL) return; // we dont want to init them twice
 
-    size_t cores = 16;
+    size_t cores = NT_CORES_MAXIMUM;
+    size_t size = sizeof(struct ntcore) * cores;
 
     // allocate array for cores
-    nt_cores = (struct ntcore *)malloc(sizeof(struct ntcore) * cores); // 4 nt cores
+    nt_cores = (struct ntcore *)malloc(size); // 4 nt cores
+
+    // cleanup array
+    memset(nt_cores, 0, size);
 
     for (size_t i = 0; i < cores; i++) {
         // create condition and mutex
@@ -68,7 +73,7 @@ void _ntInitCores() {
 void _ntRequestCoreJob(void (*job)(struct ntcore core, void *argument), void *arg) {
     bool request_acomplished = false;
     
-    size_t cores = 16;
+    size_t cores = NT_CORES_MAXIMUM;
 
     do {
         for (size_t i = 0; i < cores; i++) {
@@ -87,5 +92,17 @@ void _ntRequestCoreJob(void (*job)(struct ntcore core, void *argument), void *ar
 }
 
 bool _ntCoreBusy(size_t id) {
-    return nt_cores[id % 16].executes_job;
+    return nt_cores[id % NT_CORES_MAXIMUM].executes_job;
+}
+
+#include <stdio.h>
+
+void _ntDumpCores() {
+    size_t cores = NT_CORES_MAXIMUM;
+
+    for (size_t i = 0; i < cores; i++) {
+        struct ntcore *core = nt_cores + i;
+
+        printf("core(%zu): job:%d\n", i, core->executes_job);
+    }
 }
