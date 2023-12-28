@@ -35,6 +35,10 @@
 #include <cterm/libcterm.h>
 #include <cterm/applications/api.h>
 
+#include <nt5emul/nt_config.h>
+
+#define SKIP_LOGO 1
+
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);
 
@@ -62,8 +66,13 @@ void _boot_begin() {
 	// init NT renderer
 	_ntRendererCreateEnvironment();
 	
-	// begin installation process if config is not found
-	if (!FileExists("nt/config.json")) {
+	const char *config_path = "nt/config.json";
+
+	struct nt_config config = _ntGetConfig(config_path);
+
+	printf("config values: setup: %d; oobe; %d\n", config.setup_completed, config.oobe_completed);
+
+	if (!config.setup_completed) {
 		_boot_install_begin();
 
 		return;
@@ -91,26 +100,46 @@ void _boot_begin() {
 	st->layers[1].update = _boot_begin_debug;
 
 	_cterm_init();
-
+	
+	#if SKIP_LOGO == 0
 	usleep(1000000);
+	#else
+	usleep(10000);
+	#endif
 
-	// register_command("testlol", "small test", false, NULL);
+	// load bootscreen
 	cterm_command_reference_t ref = find_command("logo");
 
+	// check if bootscreen module exist
 	if (ref.callback) {
+		// run it
+		#if SKIP_LOGO == 0
 		ref.callback(NULL);
+		#endif
 
+		// setup dwm layer in background
 		st->layers[0].user = ctx;
 		st->layers[0].draw = _ntDrawDwmContext;
 	}
 
+	#if SKIP_LOGO == 0
+	// wait 5.5 seconds
 	usleep(5500000);
+	#endif
 
+	// set background opacity to be fully transparent
 	ctx->theme.basic.background_color.a = 0x00;
 
+	// move dwm layer to 2 so we will be able to create and manipulate windows inside oobe
 	st->layers[2].user = ctx;
 	st->layers[2].draw = st->layers[0].draw;
 
 	st->layers[0].draw = NULL;
-	// _ntDestroyDwmContext(ctx);
+	
+	// load msoobe
+	ref = find_command("msoobe");
+	if (ref.callback) {
+		// run it
+		ref.callback(NULL);
+	}
 }

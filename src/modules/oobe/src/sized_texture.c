@@ -18,26 +18,22 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/renderer.h>
+#include <nt5emul/modules/oobe/render.h>
 
-#include <unistd.h>
+void _ntModOobeDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin) {
+    Rectangle source = {
+        .x = 0,
+        .y = 0,
+        .width = texture.width * (1.f / size.x),
+        .height = texture.height * (1.f / size.y)
+    };
 
-#include <pthread.h>
+    Rectangle dest = {
+        .x = pos.x,
+        .y = pos.y,
+        .width = texture.width,
+        .height = texture.height
+    };
 
-void _ntRendererCreateEnvironment() {
-	renderer_state_t *st = _ntRendererGetState();
-
-    st->queue = RSBCreateArrayRendererQueue();
-
-	if (st->thread != 0) {
-		_ntRendererCloseEnvironment();
-	}
-
-	pthread_create(&st->thread, NULL, _ntRendererThread, NULL);
-
-		// wait for renderer to be ready
-	while (!(st->status & RENDERER_READY)) {
-		// wait 0.33 seconds before checking again
-		usleep(1000000 / 3);
-	}
+    DrawTexturePro(texture, source, dest, origin, 0.f, WHITE);
 }

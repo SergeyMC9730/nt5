@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/dwm/context.h>
@@ -24,26 +24,30 @@
 #include <string.h>
 #include <unistd.h>
 
+void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {
+    data->xp_size = xsz;
+    data->spacing = sp;
+    data->real_size = rsz;
+    data->font = LoadFontEx(font, data->real_size, NULL, 0);
+}
+
 void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     // load fonts
 
-    int tahoma_size = 24;
+    int font_mul = 3;
 
-    ctx->fonts.tahoma8_std.xp_size = 8;
-    ctx->fonts.tahoma8_std.spacing = 1.f;
-    ctx->fonts.tahoma8_std.real_size = tahoma_size;
-    ctx->fonts.tahoma8_std.font = LoadFontEx("ntresources/tahoma.ttf", ctx->fonts.tahoma8_std.real_size, NULL, 0);
+    _ntLoadDwmFont(&ctx->fonts.tahoma8_std, 8, 1.f, 8 * font_mul, "nt/fonts/tahoma.ttf");
+    _ntLoadDwmFont(&ctx->fonts.tahoma8_bld, 8, 1.f, 8 * font_mul, "nt/fonts/tahomabd.ttf");
 
-    ctx->fonts.tahoma8_bld.xp_size = 8;
-    ctx->fonts.tahoma8_bld.spacing = 1.f;
-    ctx->fonts.tahoma8_bld.real_size = tahoma_size;
-    ctx->fonts.tahoma8_bld.font = LoadFontEx("ntresources/tahomabd.ttf", ctx->fonts.tahoma8_bld.real_size, NULL, 0);
+    _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 1.f, 9 * font_mul, "nt/fonts/tahoma.ttf");
+    _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 1.f, 9 * font_mul, "nt/fonts/tahomabd.ttf");
+
+    _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 9, 1.f, 9 * font_mul, "nt/fonts/framd.ttf");
     
-    // SetTextureFilter(ctx->fonts.tahoma8_std.font.texture, TEXTURE_FILTER_POINT);
-    // SetTextureFilter(ctx->fonts.tahoma8_bld.font.texture, TEXTURE_FILTER_POINT);
-
-    // ctx->fonts.tahoma8_std = LoadFontEx("ntresources/tahoma.ttf", 8, NULL, 0);
-    // ctx->fonts.tahoma8_bld = LoadFontEx("ntresources/tahomabd.ttf", 8, NULL, 0);
+    _ntLoadDwmFont(&ctx->fonts.arial9_std, 9, 1.f, 9 * font_mul, "nt/fonts/arial.ttf");
+    
+    SetTextureFilter(ctx->fonts.tahoma8_std.font.texture, TEXTURE_FILTER_POINT);
+    SetTextureFilter(ctx->fonts.tahoma8_bld.font.texture, TEXTURE_FILTER_POINT);
 
     renderer_state_t *st = _ntRendererGetState();
 

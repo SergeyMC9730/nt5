@@ -18,26 +18,19 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/renderer.h>
+#pragma once
 
-#include <unistd.h>
+void draw_background(void *ctx);
+void msoobe_preload(void *ctx);
 
-#include <pthread.h>
+#include <raylib.h>
+#include <nt5emul/modules/oobe/oobe_install_step.h>
 
-void _ntRendererCreateEnvironment() {
-	renderer_state_t *st = _ntRendererGetState();
+void _ntModOobeDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin);
+void _ntModOobeDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin);
 
-    st->queue = RSBCreateArrayRendererQueue();
+Vector2 _ntModOobeCenterTexture(Texture2D texture, bool x, bool y);
 
-	if (st->thread != 0) {
-		_ntRendererCloseEnvironment();
-	}
+#include <nt5emul/dwm/context.h>
 
-	pthread_create(&st->thread, NULL, _ntRendererThread, NULL);
-
-		// wait for renderer to be ready
-	while (!(st->status & RENDERER_READY)) {
-		// wait 0.33 seconds before checking again
-		usleep(1000000 / 3);
-	}
-}
+void _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size);

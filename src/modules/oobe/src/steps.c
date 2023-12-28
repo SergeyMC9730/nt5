@@ -19,5 +19,33 @@
 */
 
 #include <nt5emul/modules/oobe/state.h>
+#include <nt5emul/modules/oobe/render.h>
 
-struct module_state _state = {0};
+void _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) {
+    Vector2 base_pos = {
+        27, 63
+    };
+
+    for (unsigned long i = 0; i < size; i++) {
+        struct oobe_install_step step = steps[i];
+        
+        Texture2D txt = _state.radio_off_texture;
+        Color text_color = WHITE;
+
+        if (step.done) {
+            txt = _state.radio_on_texture;
+            text_color = ORANGE;
+        }
+
+        DrawTextureV(txt, base_pos, WHITE);
+
+        struct dwm_context_font font = _state.dwm_ctx->fonts.tahoma9_bld;
+
+        Vector2 text_pos = {
+            base_pos.x + txt.width + 8,
+            base_pos.y + 1
+        };
+
+        DrawTextEx(font.font, step.name, text_pos, font.real_size, font.spacing, text_color);
+    }
+}

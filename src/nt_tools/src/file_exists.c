@@ -18,26 +18,18 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/renderer.h>
+#include <dirent.h> 
+#include <stdio.h> 
+#include <stdbool.h>
 
-#include <unistd.h>
+bool _ntFileExists(const char *path) {
+    FILE *f = fopen(path, "rb");
+    
+    if (f) {
+        fclose(f);
 
-#include <pthread.h>
+        return true;
+    }
 
-void _ntRendererCreateEnvironment() {
-	renderer_state_t *st = _ntRendererGetState();
-
-    st->queue = RSBCreateArrayRendererQueue();
-
-	if (st->thread != 0) {
-		_ntRendererCloseEnvironment();
-	}
-
-	pthread_create(&st->thread, NULL, _ntRendererThread, NULL);
-
-		// wait for renderer to be ready
-	while (!(st->status & RENDERER_READY)) {
-		// wait 0.33 seconds before checking again
-		usleep(1000000 / 3);
-	}
+    return false;
 }

@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/renderer.h>
@@ -25,6 +25,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <nt5emul/tui/text.h>
 #include <nt5emul/tui/frame.h>
@@ -68,7 +69,8 @@ void _boot_install_close() {
         __state.cabfile_list = NULL;
     }
 
-    system("(./nt5 &) &> /dev/null");
+    // system("bash -c \"./nt5\" &");
+    // execl("./nt5", "nt5");
 
     // close renderer
     _ntRendererCloseEnvironment();

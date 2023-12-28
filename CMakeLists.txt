@@ -21,17 +21,25 @@ add_subdirectory(src/external/cterm)
 # external:libfuzzy
 file(GLOB LIBFUZZY_SRC CONFIGURE_DEPENDS "src/external/libpe/libfuzzy/*.c")
 add_library (fuzzy SHARED ${LIBFUZZY_SRC})
-target_include_directories(fuzzy PRIVATE "src/external/libpe/libfuzzy")
+target_include_directories(fuzzy PRIVATE 
+    "src/external/libpe/libfuzzy"
+)
 
 # external:libudis86
 file(GLOB LIBUDIS86_SRC CONFIGURE_DEPENDS "src/external/libpe/libudis86/*.c")
 add_library (udis86 SHARED ${LIBFUZZY_SRC})
-target_include_directories(udis86 PRIVATE "src/external/libpe/libudis86")
+target_include_directories(udis86 PRIVATE 
+    "src/external/libpe/libudis86"
+)
 
 # external:libpe
 file(GLOB LIBPE_SRC CONFIGURE_DEPENDS "src/external/libpe/*.c")
 add_library(pe SHARED ${LIBPE_SRC})
-target_include_directories(pe PRIVATE "src/external/libpe/include" "src/external/libfuzzy" "src/external/libpe/libudis86")
+target_include_directories(pe PRIVATE 
+    "src/external/libpe/include"
+    "src/external/libfuzzy"
+    "src/external/libpe/libudis86"
+)
 target_link_libraries(pe fuzzy udis86 ssl)
 
 # external:raylib
@@ -40,22 +48,38 @@ add_subdirectory(src/renderer/raylib)
 # external:inih
 file(GLOB LIBINIH_SRC CONFIGURE_DEPENDS "src/external/inih/*.c")
 add_library(inih SHARED ${LIBINIH_SRC})
-target_include_directories(inih PRIVATE "src/external/inih")
+target_include_directories(inih PRIVATE 
+    "src/external/inih"
+)
 
 # nt5arrays
 file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c", "src/arrays/include/*/*.c")
 add_library(nt5arrays SHARED ${NTARRAYS_SRC})
-target_include_directories(nt5arrays PRIVATE "src/arrays/include" "src/renderer/raylib/src")
+target_include_directories(nt5arrays PRIVATE 
+    "src/arrays/include" 
+    "src/renderer/raylib/src"
+)
 
 # nt5tools
 file(GLOB NTTOOLS_SRC CONFIGURE_DEPENDS "src/nt_tools/src/*.c" "src/nt_tools/include/*/*.h")
 add_library (nt5tools SHARED ${NTTOOLS_SRC})
-target_include_directories(nt5tools PRIVATE "src/nt_tools/include")
+target_include_directories(nt5tools PRIVATE 
+    "src/nt_tools/include"
+    "src/global/include"
+    "src/external/cJSON" 
+)
+target_link_libraries(nt5tools cjson)
 
 # nt5renderer
 file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
 add_library(nt5renderer SHARED ${NTRENDERER_SRC})
-target_include_directories(nt5renderer PRIVATE "src/renderer/include" "src/renderer/raylib/src" "src/nt_tools/include" "src/arrays/include" "src/external/inih")
+target_include_directories(nt5renderer PRIVATE 
+    "src/renderer/include"
+    "src/renderer/raylib/src"
+    "src/nt_tools/include"
+    "src/arrays/include"
+    "src/external/inih"
+)
 target_link_libraries(nt5renderer raylib nt5arrays inih nt5tools)
 
 # nt5tui
@@ -111,13 +135,19 @@ target_include_directories(nt5boot PRIVATE
     "src/arrays/include" 
     "src/external/libpe/include"
     "src/external"
+    "src/nt_tools/include"
+    "src/global/include"
 )
 target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterm)
 
 # nt5
 file(GLOB NT_SRC CONFIGURE_DEPENDS "src/launcher/*.c")
 add_executable(nt5 ${NT_SRC})
-target_include_directories(nt5 PRIVATE "src/boot/include" "src/renderer/include")
+target_include_directories(nt5 PRIVATE 
+    "src/boot/include" 
+    "src/renderer/include"
+    "src/arrays/include"
+)
 target_link_libraries(nt5 nt5boot)
 
 # cterm modules
@@ -132,6 +162,7 @@ target_include_directories(ntmod_logo PRIVATE
     "src/renderer/raylib/src" 
     "src/nt_tools/include"
     "src/global/include"
+    "src/arrays/include" 
 )
 target_link_libraries(ntmod_logo nt5renderer raylib)
 
@@ -145,6 +176,8 @@ target_include_directories(ntmod_oobe PRIVATE
     "src/renderer/raylib/src" 
     "src/nt_tools/include"
     "src/global/include"
+    "src/arrays/include"
+    "src/nt_tools/include"
 )
 target_link_libraries(ntmod_oobe nt5renderer raylib)
 

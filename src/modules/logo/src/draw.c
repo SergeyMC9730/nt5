@@ -6,7 +6,7 @@
 #endif
 
 void logo_draw(void *user) {
-    if (_state.old_draw != NULL) _state.old_draw(user);
+    if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
 
     int w = GetRenderWidth();
     int h = GetRenderHeight();

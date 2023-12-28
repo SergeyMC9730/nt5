@@ -18,26 +18,34 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/renderer.h>
+#include <nt5emul/modules/oobe/render.h>
 
-#include <unistd.h>
+void _ntModOobeDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin) {
+    Vector2 sz = {
+        .x = GetRenderWidth(),
+        .y = GetRenderHeight()
+    };
 
-#include <pthread.h>
+    Rectangle source = {
+        .x = 0,
+        .y = 0,
+        .width = texture.width,
+        .height = texture.height
+    };
 
-void _ntRendererCreateEnvironment() {
-	renderer_state_t *st = _ntRendererGetState();
+    Rectangle dest = {
+        .x = pos.x,
+        .y = pos.y,
+        .width = source.width,
+        .height = source.height
+    };
 
-    st->queue = RSBCreateArrayRendererQueue();
+    if (x_stretched) {
+        dest.width = sz.x * xstretchmul;
+    }
+    if (y_stretched) {
+        dest.height = sz.y * ysctretchmul;
+    }
 
-	if (st->thread != 0) {
-		_ntRendererCloseEnvironment();
-	}
-
-	pthread_create(&st->thread, NULL, _ntRendererThread, NULL);
-
-		// wait for renderer to be ready
-	while (!(st->status & RENDERER_READY)) {
-		// wait 0.33 seconds before checking again
-		usleep(1000000 / 3);
-	}
+    DrawTexturePro(texture, source, dest, origin, 0.f, WHITE);
 }

@@ -18,26 +18,30 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/renderer.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-#include <unistd.h>
+const char *_ntReadTextFile(const char *path) {
+    FILE *file = fopen(path, "rt");
 
-#include <pthread.h>
+    if (!file) return 0;
 
-void _ntRendererCreateEnvironment() {
-	renderer_state_t *st = _ntRendererGetState();
+    fseek(file, 0, SEEK_END);
+    unsigned int size = (unsigned int)ftell(file);
+    fseek(file, 0, SEEK_SET);
 
-    st->queue = RSBCreateArrayRendererQueue();
+    if (!size) return 0;
 
-	if (st->thread != 0) {
-		_ntRendererCloseEnvironment();
-	}
+    // size + zero char
+    char *text = (char *)malloc(size + 1);
 
-	pthread_create(&st->thread, NULL, _ntRendererThread, NULL);
+    unsigned int count = (unsigned int)fread(text, sizeof(char), size, file);
 
-		// wait for renderer to be ready
-	while (!(st->status & RENDERER_READY)) {
-		// wait 0.33 seconds before checking again
-		usleep(1000000 / 3);
-	}
+    if (count < size) text = realloc(text, count + 1);
+
+    text[count] = '\0';
+
+    fclose(file);
+
+    return text;
 }

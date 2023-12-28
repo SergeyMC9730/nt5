@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/nt_install.h>
@@ -57,7 +57,7 @@ struct cabfile *_boot_install_cab_putcabinet(const char *path) {
     return res;
 }
 
-extern const char *_bi_cabinet_listing[570];
+extern const char *_bi_cabinet_listing[594];
 
 void _boot_install_create_cab_files() {
     __state.cabfile_list = RSBCreateArraycabfile();

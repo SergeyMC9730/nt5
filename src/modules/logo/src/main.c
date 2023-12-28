@@ -8,6 +8,7 @@ bool logo_command(void *data) {
 
     _state.old_draw = st->layers[RENDERER_LAYERS - 1].draw;
     _state.old_update = st->layers[RENDERER_LAYERS - 1].update;
+    _state.old_ctx = st->layers[RENDERER_LAYERS - 1].user;
 
     st->layers[RENDERER_LAYERS - 1].draw = logo_draw;
     st->layers[RENDERER_LAYERS - 1].update = logo_update;

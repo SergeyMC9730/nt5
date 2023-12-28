@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,8 +15,9 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
+
 
 #include <nt5emul/tui/frame.h>
 #include <nt5emul/tui/rectangle.h>
@@ -60,11 +61,15 @@ void _boot_install_thread8() {
     
     mkdir("nt/binary", 0777);
 
+    mkdir("nt/fonts", 0777);
+
     while (i < l) {
         // get cabinet by index
         struct cabfile c = RSBGetAtIndexcabfile(__state.cabfile_list, i);
 
         snprintf(__state.buffers[4], 128, "%s/%s", __state.buffers[7], c.cabinet_path);
+
+        // printf("extracting file: %s (exists? %d)\n", __state.buffers[4], FileExists(__state.buffers[4]));
 
         // extract cabinet file
         _boot_install_extract_cabinet(c.cabinet_path, __state.buffers[4]);

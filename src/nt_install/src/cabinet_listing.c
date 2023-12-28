@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 const char *_bi_cabinet_listing[] = {
@@ -296,5 +296,15 @@ const char *_bi_cabinet_listing[] = {
     "xptht20d.jp_", "*nt/images/user/ui/xptht20d.jpg", "xptht20d.jpg",
 
     // binaries
-    "explorer.ex_", "*nt/binary/explorer.exe", "explorer.exe"
+    "explorer.ex_", "*nt/binary/explorer.exe", "explorer.exe",
+
+    // fonts
+    "tahoma.tt_", "*nt/fonts/tahoma.ttf", "tahoma.ttf",
+    "tahomabd.tt_", "*nt/fonts/tahomabd.ttf", "tahomabd.ttf",
+    "framd.tt_", "*nt/fonts/framd.ttf", "framd.ttf",
+    "framdit.tt_", "*nt/fonts/framdit.ttf", "framdit.ttf",
+    "arial.tt_", "*nt/fonts/arial.ttf", "arial.ttf",
+    "arialbd.tt_", "*nt/fonts/arialbd.ttf", "arialbd.ttf",
+    "arialbi.tt_", "*nt/fonts/arialbi.ttf", "arialbi.ttf",
+    "ariali.tt_", "*nt/fonts/ariali.ttf", "ariali.ttf",
 };

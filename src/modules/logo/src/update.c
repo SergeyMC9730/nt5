@@ -5,7 +5,7 @@
 #endif
 
 void logo_update(void *user) {
-    if (_state.old_update != NULL) _state.old_update(user);
+    if (_state.old_update != NULL) _state.old_update(_state.old_ctx);
 
     if (!_state.init_complete) {
         _state.logo_texture = LoadTexture("nt/images/user/ui/mslogo.jpg");

@@ -15,6 +15,7 @@ struct module_state {
 
     void (*old_draw)(void *user);
     void (*old_update)(void *user);
+    void *old_ctx;
 };
 
 extern struct module_state _state;

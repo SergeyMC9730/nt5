@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #pragma once
@@ -39,6 +39,13 @@ struct dwm_context_font {
 struct dwm_context_fonts {
     struct dwm_context_font tahoma8_std;
     struct dwm_context_font tahoma8_bld;
+
+    struct dwm_context_font tahoma9_bld;
+    struct dwm_context_font tahoma9_std;
+
+    struct dwm_context_font franklin24_bld;
+
+    struct dwm_context_font arial9_std;
 };
 
 struct dwm_context {
