@@ -50,6 +50,9 @@ typedef struct renderer_state_t {
 #define RENDERER_REQUESTED_STOP 1
 #define RENDERER_READY 			2
 	unsigned char status;
+
+    // allows renderer to draw fps
+    bool draw_fps;
 } renderer_state_t;
 
 #pragma pack(pop)

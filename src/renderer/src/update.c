@@ -34,13 +34,16 @@ void _ntRendererUpdate() {
     }
 
     // cleanup queue
-    for (size_t i = 0; st->queue->len != 0; i++) RSBPopElementRendererQueue(st->queue);
+    while (st->queue->len != 0) RSBPopElementRendererQueue(st->queue);
 
     // process layers
 
 	for (unsigned short i = 0; i < RENDERER_LAYERS; i++) {
 		// update each layer
 
-		if (st->layers[i].update != NULL) st->layers[i].update(st->layers[i].user);
+		if (st->layers[i].update != NULL) {
+            // update layer if it possible
+            st->layers[i].update(st->layers[i].user);
+        }
 	}
 }
