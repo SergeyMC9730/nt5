@@ -74,4 +74,7 @@ void _ntInstallTimer(void(*callback)(), float seconds) {
 
     // create job
     _ntRequestCoreJob(_nt_timer_thread, timer);
+    
+    // debug
+    printf("timer %f has been created successfully\n", seconds);
 }
