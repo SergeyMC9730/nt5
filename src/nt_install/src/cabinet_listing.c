@@ -307,4 +307,9 @@ const char *_bi_cabinet_listing[] = {
     "arialbd.tt_", "*nt/fonts/arialbd.ttf", "arialbd.ttf",
     "arialbi.tt_", "*nt/fonts/arialbi.ttf", "arialbi.ttf",
     "ariali.tt_", "*nt/fonts/ariali.ttf", "ariali.ttf",
+
+    // boot assets
+
+    /*PROFESSIONAL*/ "win32pro.bm_", "*nt/images/system/win32.bmp", "win32pro.bmp",
+    /*HOME EDITION*/ "win32per.bm_", "*nt/images/system/win32.bmp", "win32per.bmp"
 };

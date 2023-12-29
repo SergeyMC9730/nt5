@@ -119,6 +119,7 @@ target_include_directories(nt5install PRIVATE
     "src/external/libarchive/libarchive"
     "src/ntldr_tui/include"
     "src/arrays/include"
+    "src/global/include"
 )
 target_link_libraries(nt5install nt5renderer nt5tui cjson archive nt5tools nt5arrays)
 

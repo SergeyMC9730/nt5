@@ -31,6 +31,7 @@ void setup_decrement_time(void *ctx) {
 }
 
 #include <unistd.h>
+#include <nt5emul/nt_config.h>
 
 void setup_exit(void *ctx) {
     // get renderer state
@@ -59,6 +60,17 @@ void setup_exit(void *ctx) {
         // unload each texture
         UnloadTexture(textures[i][0]);
     }
+
+    const char *config_path = "nt/config.json";
+
+    // read config
+    struct nt_config config = _ntGetConfig(config_path);
+
+    // set value
+    config.graphical_setup_completed = true;
+
+    // save config
+    _ntSaveConfig(config, config_path);
 }
 
 void setup_exit_queue(void *ctx) {

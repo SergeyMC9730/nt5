@@ -37,7 +37,7 @@
 
 #include <nt5emul/nt_config.h>
 
-#define SKIP_LOGO 1
+#define SKIP_LOGO 0
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);
@@ -58,6 +58,24 @@ void _boot_begin_debug(void *user) {
 	}
 }
 
+#include <unistd.h>
+
+bool _boot_run_logo() {
+	// load bootscreen
+	cterm_command_reference_t ref = find_command("logo");
+
+	// check if bootscreen module exist
+	if (ref.callback) {
+		// run it
+		#if SKIP_LOGO == 0
+		ref.callback(NULL);
+		#endif
+
+		return true;
+	}
+
+	return false;
+}
 
 void _boot_begin() {
 	// create "nt" folder
@@ -78,10 +96,8 @@ void _boot_begin() {
 		return;
 	}
 
-	SetWindowSize(1024, 768);
-	// SetTargetFPS(15);
-
 	// _boot_try_parse_explorer();
+	
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
 
 	// for (int i = 0; i < 1; i++) {
@@ -107,20 +123,11 @@ void _boot_begin() {
 	usleep(10000);
 	#endif
 
-	// load bootscreen
-	cterm_command_reference_t ref = find_command("logo");
-
-	// check if bootscreen module exist
-	if (ref.callback) {
-		// run it
-		#if SKIP_LOGO == 0
-		ref.callback(NULL);
-		#endif
-
-		// setup dwm layer in background
-		st->layers[0].user = ctx;
-		st->layers[0].draw = _ntDrawDwmContext;
-	}
+	_boot_run_logo();
+	
+	// setup dwm layer
+	st->layers[0].user = ctx;
+	st->layers[0].draw = _ntDrawDwmContext;
 
 	#if SKIP_LOGO == 0
 	// wait 5.5 seconds
@@ -135,11 +142,22 @@ void _boot_begin() {
 	st->layers[2].draw = st->layers[0].draw;
 
 	st->layers[0].draw = NULL;
-	
-	// load setup
-	ref = find_command("setup");
-	if (ref.callback) {
-		// run it
-		ref.callback(ctx);
+
+	if (!config.graphical_setup_completed) {
+		// load setup
+		cterm_command_reference_t ref = find_command("setup");
+		if (ref.callback) {
+			// run setup with the dwm context
+			ref.callback(ctx);
+		} else {
+			return;
+		}
+
+		// wait 16.5 seconds
+		usleep(16500000);
+
+		if (_boot_run_logo()) {
+			// WIP
+		}
 	}
 }

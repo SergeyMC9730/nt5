@@ -24,7 +24,9 @@
 
 struct nt_config {
     bool setup_completed;
+    bool graphical_setup_completed;
     bool oobe_completed;
 };
 
 struct nt_config _ntGetConfig(const char *path);
+void _ntSaveConfig(struct nt_config cfg, const char *path);

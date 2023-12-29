@@ -56,8 +56,11 @@ void _boot_install_thread8() {
     mkdir("nt/images/user/avatars", 0777);
     mkdir("nt/images/user/wallpapers", 0777);
     mkdir("nt/images/user/ad", 0777);
-    mkdir("nt/images/placeholders", 0777);
     mkdir("nt/images/user/ui", 0777);
+
+    mkdir("nt/images/system", 0777);
+
+    mkdir("nt/images/placeholders", 0777);
     
     mkdir("nt/binary", 0777);
 
@@ -68,8 +71,6 @@ void _boot_install_thread8() {
         struct cabfile c = RSBGetAtIndexcabfile(__state.cabfile_list, i);
 
         snprintf(__state.buffers[4], 128, "%s/%s", __state.buffers[7], c.cabinet_path);
-
-        // printf("extracting file: %s (exists? %d)\n", __state.buffers[4], FileExists(__state.buffers[4]));
 
         // extract cabinet file
         _boot_install_extract_cabinet(c.cabinet_path, __state.buffers[4]);

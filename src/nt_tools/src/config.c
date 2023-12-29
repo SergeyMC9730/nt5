@@ -21,20 +21,21 @@
 #include <nt5emul/nt_config.h>
 #include <nt5emul/file_exists.h>
 #include <nt5emul/read_text.h>
+
 #include <cJSON.h>
+
 #include <stdio.h>
+#include <stdlib.h>
 
 struct nt_config _ntGetConfig(const char *path) {
-    struct nt_config config;
+    struct nt_config config = {};
 
     if (!_ntFileExists(path)) {
-        printf("file doesn't exist\n");
+        printf("config doesn't exist\n");
         return config;
     }
 
-    char *data = _ntReadTextFile(path);
-    
-    printf("data: %p\n", data);
+    char *data = (char *)_ntReadTextFile(path);
 
     if (!data) return config;
 
@@ -47,7 +48,8 @@ struct nt_config _ntGetConfig(const char *path) {
 
     cJSON *setup_completed = cJSON_GetObjectItem(config_object, "setup_completed");
     cJSON *oobe_completed = cJSON_GetObjectItem(config_object, "oobe_completed");
-
+    cJSON *graphical_setup_completed = cJSON_GetObjectItem(config_object, "graphical_setup_completed");
+    
     if (setup_completed && cJSON_IsBool(setup_completed)) {
         config.setup_completed = setup_completed->valueint;
     }
@@ -56,8 +58,33 @@ struct nt_config _ntGetConfig(const char *path) {
         config.oobe_completed = oobe_completed->valueint;
     }
 
+    if (graphical_setup_completed && cJSON_IsBool(graphical_setup_completed)) {
+        config.graphical_setup_completed = graphical_setup_completed->valueint;
+    }
+
     cJSON_Delete(config_object);
     free(data);
 
     return config;
+}
+
+void _ntSaveConfig(struct nt_config cfg, const char *path) {
+    cJSON *config_object = cJSON_CreateObject();
+
+    cJSON_AddBoolToObject(config_object, "setup_completed", cfg.setup_completed);
+    cJSON_AddBoolToObject(config_object, "oobe_completed", cfg.oobe_completed);
+    cJSON_AddBoolToObject(config_object, "graphical_setup_completed", cfg.graphical_setup_completed);
+
+    char *cfgstr = cJSON_Print(config_object); 
+
+    FILE *cfgfile = fopen(path, "w");
+    
+    if (!cfgfile) goto end;
+
+    fputs(cfgstr, cfgfile); 
+end:
+    cJSON_free(cfgstr); 
+    cJSON_Delete(config_object);
+
+    if (cfgfile != NULL) fclose(cfgfile); 
 }

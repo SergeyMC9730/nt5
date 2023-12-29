@@ -25,6 +25,8 @@
 #include <nt5emul/timer.h>
 #include <nt5emul/boot_install_steps.h>
 
+#include <nt5emul/nt_config.h>
+
 #include <cJSON.h>
 #include <stdio.h>
 // expose internal values
@@ -36,27 +38,10 @@ extern ntinstall_t __state; // installation state
 extern renderer_state_t _renderer_state;
 
 void _boot_install_create_config() {
-    // create json object
-    cJSON *j = cJSON_CreateObject();
-    cJSON *setup_completed = cJSON_CreateBool(true);
-    cJSON *oobe_completed = cJSON_CreateBool(false);
+    struct nt_config config = {};
+    config.setup_completed = true;
 
-    cJSON_AddItemToObject(j, "setup_completed", setup_completed);
-    cJSON_AddItemToObject(j, "oobe_completed", oobe_completed);
-
-    // convert json object into a string
-    char *str = cJSON_Print(j);
-
-    // open config.json stream
-    FILE *fp = fopen("nt/config.json", "w");
-
-    // write json object
-    fputs(str, fp);
-    fclose(fp);
-
-    // destroy json object;
-    cJSON_free(str);
-    cJSON_Delete(j);
+    _ntSaveConfig(config, "nt/config.json");
 }
 
 void _boot_install_step9_config() {
