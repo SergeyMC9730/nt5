@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <dirent.h> 
@@ -98,7 +98,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
             if (!_ntDirectoryExists(bf)) {
                 folder_open = "";
 
-                if (m->want_file) {
+                if (m->requirement == FSFile) {
                     for (size_t j = 0; j < m->wanted_fileformats->len; j++) {
                         const char *req = RSBGetAtIndexString(m->wanted_fileformats, j);
 

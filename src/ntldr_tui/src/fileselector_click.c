@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/tui/file_selector.h>
@@ -78,7 +78,7 @@ void _ntFileSelectorClick(int idx, struct nt_tui_menu *menu) {
     // check if directory <filepath> exists
     if (_ntDirectoryExists(filepath)) {
         // check if we want file
-        if (m->want_file) {
+        if (m->requirement == FSFile) {
             // free path string memory
             free((char *)m->path);
 
@@ -102,7 +102,7 @@ void _ntFileSelectorClick(int idx, struct nt_tui_menu *menu) {
         }
     } else {
         // check if we want file and callback can be used
-        if (m->want_file && m->callback != NULL) {
+        if (m->requirement == FSFile && m->callback != NULL) {
             // call function
             m->callback(m, filepath);
 
