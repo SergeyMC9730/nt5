@@ -22,6 +22,8 @@
 #include <nt5emul/modules/oobe/render.h>
 #include <nt5emul/middle.h>
 
+#include <nt5emul/ntcore.h>
+
 #ifndef NULL
 #define NULL (void *)0
 #endif

@@ -22,4 +22,4 @@
 
 #include <stdbool.h>
 
-bool msoobe_command(void *data);
+bool setup_command(void *data);

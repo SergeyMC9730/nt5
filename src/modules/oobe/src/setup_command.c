@@ -18,7 +18,7 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/oobe/msoobe_command.h>
+#include <nt5emul/modules/oobe/setup_command.h>
 #include <nt5emul/modules/oobe/state.h>
 #include <nt5emul/modules/oobe/render.h>
 
@@ -26,11 +26,11 @@
 
 #include <nt5emul/timer.h>
 
-void msoobe_decrement_time(void *ctx) {
+void setup_decrement_time(void *ctx) {
     _state.minutes_left -= 10;
 }
 
-bool msoobe_command(void *data) {
+bool setup_command(void *data) {
     renderer_state_t *st = _ntRendererGetState();
 
     int layer_index = 0;
@@ -48,13 +48,13 @@ bool msoobe_command(void *data) {
     _state.minutes_left = times * 10;
 
     for (int i = 0; i < times; i++) {
-        _ntInstallTimer(msoobe_decrement_time, (float)times * (float)(i + 1));
+        _ntInstallTimer(setup_decrement_time, (float)times * (float)(i + 1));
     }
 
     layer->draw = draw_background;
 
     // load all textures before rendering oobe layer
-    _ntRendererPushQueue(msoobe_preload, NULL);
+    _ntRendererPushQueue(setup_preload, NULL);
 
     return true;
 }

@@ -21,7 +21,7 @@
 #pragma once
 
 void draw_background(void *ctx);
-void msoobe_preload(void *ctx);
+void setup_preload(void *ctx);
 
 #include <raylib.h>
 #include <nt5emul/modules/oobe/oobe_install_step.h>

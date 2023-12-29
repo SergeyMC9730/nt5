@@ -19,12 +19,12 @@
 */
 
 #include <nt5emul/modules/oobe/state.h>
-#include <nt5emul/modules/oobe/msoobe_command.h>
+#include <nt5emul/modules/oobe/setup_command.h>
 
 void init(cterm_t *info) {
     _state.runtime = info;
     
-    info->register_command("msoobe", "Run Out of Box Experience recreation", false, msoobe_command);
+    info->register_command("setup", "NT5 Graphical Setup", false, setup_command);
 
     return;
 }

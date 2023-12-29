@@ -20,7 +20,7 @@
 
 #include <nt5emul/modules/oobe/state.h>
 
-void msoobe_preload(void *ctx) {
+void setup_preload(void *ctx) {
     _state.logo_texture = LoadTexture("nt/images/user/ui/mslogo.jpg");
     _state.main_bg_texture = LoadTexture("nt/images/user/ui/newmark1.jpg");
     _state.line_bottom_texture = LoadTexture("nt/images/user/ui/newbtm1.jpg");

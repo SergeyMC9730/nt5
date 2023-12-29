@@ -136,8 +136,8 @@ void _boot_begin() {
 
 	st->layers[0].draw = NULL;
 	
-	// load msoobe
-	ref = find_command("msoobe");
+	// load setup
+	ref = find_command("setup");
 	if (ref.callback) {
 		// run it
 		ref.callback(ctx);
