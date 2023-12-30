@@ -110,13 +110,13 @@ bool setup_command(void *data) {
 
     for (int i = 0; i < times; i++) {
         // install timer for time decrementing
-        _ntInstallTimer(setup_decrement_time, (i + 1) * mul);
+        _ntInstallTimer(setup_decrement_time, (i + 1) * mul, NULL);
         // wait 0.1s
         usleep(10000);
     }
 
     // install unloading timer
-    _ntInstallTimer(setup_exit_queue, (times + 1) * mul);
+    _ntInstallTimer(setup_exit_queue, (times + 1) * mul, NULL);
 
     return true;
 }

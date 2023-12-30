@@ -52,6 +52,15 @@ target_include_directories(inih PRIVATE
     "src/external/inih"
 )
 
+# external:rvideo
+set(RVIDEO_SRC "src/external/raylib-video/rvideo.c")
+add_library(rvideo SHARED ${RVIDEO_SRC})
+target_include_directories(rvideo PRIVATE
+    "src/external/raylib-video"
+    "src/renderer/raylib/src"
+)
+target_link_libraries(rvideo avformat avcodec swscale avutil)
+
 # nt5arrays
 file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c", "src/arrays/include/*/*.c")
 add_library(nt5arrays SHARED ${NTARRAYS_SRC})
@@ -78,9 +87,11 @@ target_include_directories(nt5renderer PRIVATE
     "src/renderer/raylib/src"
     "src/nt_tools/include"
     "src/arrays/include"
+
     "src/external/inih"
+    "src/external/raylib-video"
 )
-target_link_libraries(nt5renderer raylib nt5arrays inih nt5tools)
+target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools)
 
 # nt5tui
 file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/include/*/*.h")
@@ -179,6 +190,7 @@ target_include_directories(ntmod_oobe PRIVATE
     "src/global/include"
     "src/arrays/include"
     "src/nt_tools/include"
+    "src/external/raylib-video"
 )
 target_link_libraries(ntmod_oobe nt5renderer raylib)
 

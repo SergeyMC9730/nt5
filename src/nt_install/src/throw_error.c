@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/renderer.h>
@@ -36,5 +36,5 @@ void _boot_install_throw_error(const char *error) {
     __state.status_bar_is_error = true;
     __state.status_bar_error = error;
 
-    _ntInstallTimer(_boot_install_throw_error_end, 0.5f);
+    _ntInstallTimer(_boot_install_throw_error_end, 0.5f, NULL);
 }

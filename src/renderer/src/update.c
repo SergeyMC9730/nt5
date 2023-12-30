@@ -20,6 +20,8 @@
 
 #include <nt5emul/renderer.h>
 
+#include <nt5emul/timer.h>
+
 void _ntRendererUpdate() {
 	renderer_state_t *st = _ntRendererGetState();
 
@@ -27,10 +29,10 @@ void _ntRendererUpdate() {
 
     for (size_t i = 0; i < st->queue->len; i++) {
         // get object inside the queue
-        renderer_queue_object_t qobj = RSBGetAtIndexRendererQueue(st->queue, i);
+        renderer_queue_object_t *qobj = st->queue->objects + i;
 
         // run function if it defined
-        if (qobj.callback != NULL) qobj.callback(qobj.user);
+        if (qobj->callback != NULL) qobj->callback(qobj->user);
     }
 
     // cleanup queue

@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,10 +15,23 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <rvideo.h>
 
-// install asynchronous timer
-void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata);
+struct dwm_video {
+    VideoStream *stream;
+    Texture2D texture;
+
+    const char *path;
+};
+
+// creation functions
+
+struct dwm_video _ntDwmLoadVideo(const char *path);
+void _ntDwmUnloadVideo(struct dwm_video obj);
+
+// updating functions
+
+void _ntDwmUpdateVideo(struct dwm_video vid);

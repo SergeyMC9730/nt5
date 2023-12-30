@@ -25,7 +25,9 @@
 struct bi_timer {
     unsigned long long ms;
 
-    void (*callback)();
+    void *userdata;
+
+    void (*callback)(void *ctx);
 };
 
 #include <time.h>
@@ -52,7 +54,7 @@ void _nt_timer_thread(struct ntcore core, void *arg) {
     } while (res && errno == EINTR);
 
     if (timer->callback != NULL) {
-        timer->callback();
+        timer->callback(timer->userdata);
     }
 
     free(timer); 
@@ -60,7 +62,7 @@ void _nt_timer_thread(struct ntcore core, void *arg) {
     return;
 }
 
-void _ntInstallTimer(void(*callback)(), float seconds) {
+void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata) {
     _ntInitCores();
 
     // allocate timer
@@ -71,6 +73,9 @@ void _ntInstallTimer(void(*callback)(), float seconds) {
 
     // set callback
     timer->callback = callback;
+
+    // set userdata
+    timer->userdata = userdata;
 
     // create job
     _ntRequestCoreJob(_nt_timer_thread, timer);

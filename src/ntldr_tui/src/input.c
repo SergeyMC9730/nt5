@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/tui/input.h>
@@ -32,7 +32,7 @@
 
 extern struct nt_tui_environment _ntTuiEnvironment;
 
-void _ntInstallTimer(void(*callback)(), float seconds);
+void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata);
 
 void _ntUpdateInput(char *buffer, size_t max_input_length) {
     size_t current_length = strlen(buffer);
@@ -87,5 +87,5 @@ void _ntTuiDrawInput(char *buffer, size_t max_input_length, Vector2 position, Co
 void _ntUpdatePointer() {
     _ntTuiEnvironment.show_input_pointer = !_ntTuiEnvironment.show_input_pointer;
 
-    _ntInstallTimer(_ntUpdatePointer, 0.5f);
+    _ntInstallTimer(_ntUpdatePointer, 0.5f, NULL);
 }

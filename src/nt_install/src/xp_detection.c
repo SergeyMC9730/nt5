@@ -99,5 +99,5 @@ void _boot_install_detect_xp() {
     // free buffer
     MemFree(buffer);
 
-    if (__state.detection_required) _ntInstallTimer(_boot_install_detect_xp, 0.5f);
+    if (__state.detection_required) _ntInstallTimer(_boot_install_detect_xp, 0.5f, NULL);
 }

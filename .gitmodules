@@ -19,3 +19,6 @@
 [submodule "src/external/cterm"]
 	path = src/external/cterm
 	url = https://github.com/SergeyMC9730/cterm.git
+[submodule "src/external/raylib-video"]
+	path = src/external/raylib-video
+	url = https://github.com/jtainer/raylib-video.git

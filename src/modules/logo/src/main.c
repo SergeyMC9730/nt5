@@ -46,7 +46,7 @@ bool logo_command(void *data) {
     _state.transition_color = WHITE;
     _state.transition_color.a = 0;
 
-    _ntInstallTimer(logo_reset, 5.f);
+    _ntInstallTimer(logo_reset, 5.f, NULL);
 
     return true;
 }

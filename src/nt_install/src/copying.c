@@ -66,6 +66,9 @@ void _boot_install_thread8() {
 
     mkdir("nt/fonts", 0777);
 
+    mkdir("nt/videos", 0777);
+    mkdir("nt/videos/user", 0777);
+
     while (i < l) {
         // get cabinet by index
         struct cabfile c = RSBGetAtIndexcabfile(__state.cabfile_list, i);
@@ -110,7 +113,7 @@ void _boot_install_update_step8() {
     __state.cabfile_current_file = "";
     __state.status_bar_label = __state.buffers[5];
 
-    _ntInstallTimer(_boot_install_thread8, 0.1f);
+    _ntInstallTimer(_boot_install_thread8, 0.1f, NULL);
 
     _renderer_state.layers[1].update = _boot_install_update_step8_1;
 }

@@ -85,7 +85,7 @@ void _ntInstallTimer10() {
     }
 
     // loop
-    _ntInstallTimer(_ntInstallTimer10, 1.f);
+    _ntInstallTimer(_ntInstallTimer10, 1.f, NULL);
 }
 
 // expose NT renderer

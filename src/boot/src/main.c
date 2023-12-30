@@ -37,7 +37,7 @@
 
 #include <nt5emul/nt_config.h>
 
-#define SKIP_LOGO 0
+#define SKIP_LOGO 1
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);
@@ -70,6 +70,22 @@ bool _boot_run_logo() {
 		#if SKIP_LOGO == 0
 		ref.callback(NULL);
 		#endif
+
+		return true;
+	}
+
+	return false;
+}
+bool _boot_run_msoobe() {
+	printf("running msoobe\n");
+
+	// load bootscreen
+	cterm_command_reference_t ref = find_command("msoobe");
+
+	// check if bootscreen module exist
+	if (ref.callback) {
+		// run it
+		ref.callback(NULL);
 
 		return true;
 	}
@@ -116,6 +132,8 @@ void _boot_begin() {
 	st->layers[1].update = _boot_begin_debug;
 
 	_cterm_init();
+
+	bool logo_runned_before = false;
 	
 	#if SKIP_LOGO == 0
 	usleep(1000000);
@@ -132,6 +150,8 @@ void _boot_begin() {
 	#if SKIP_LOGO == 0
 	// wait 5.5 seconds
 	usleep(5500000);
+
+	logo_runned_before = true;
 	#endif
 
 	// set background opacity to be fully transparent
@@ -155,9 +175,16 @@ void _boot_begin() {
 
 		// wait 16.5 seconds
 		usleep(16500000);
+	}
 
-		if (_boot_run_logo()) {
-			// WIP
+	if (!config.oobe_completed) {
+		if (!logo_runned_before && !SKIP_LOGO) {
+			if (!_boot_run_logo()) return;
+
+			// wait 5.5 seconds
+			usleep(5500000);
 		}
+
+		_boot_run_msoobe();
 	}
 }

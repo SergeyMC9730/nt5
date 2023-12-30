@@ -311,5 +311,9 @@ const char *_bi_cabinet_listing[] = {
     // boot assets
 
     /*PROFESSIONAL*/ "win32pro.bm_", "*nt/images/system/win32.bmp", "win32pro.bmp",
-    /*HOME EDITION*/ "win32per.bm_", "*nt/images/system/win32.bmp", "win32per.bmp"
+    /*HOME EDITION*/ "win32per.bm_", "*nt/images/system/win32.bmp", "win32per.bmp",
+
+    // videos
+
+    "intro.wm_", "*nt/videos/user/intro.wmv", "intro.wmv"
 };

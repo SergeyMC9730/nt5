@@ -33,6 +33,7 @@ typedef struct renderer_layer_t {
 typedef struct renderer_queue_object_t {
     void (*callback)(void *user);
     void *user;
+    int fps;
 } renderer_queue_object_t;
 
 #include <nt5emul/arrays/rsb_array_gen.h>

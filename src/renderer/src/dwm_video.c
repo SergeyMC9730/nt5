@@ -18,43 +18,40 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
-
-#include <cterm/applications/api.h>
-#include <raylib.h>
-
-#include <nt5emul/dwm/context.h>
 #include <nt5emul/dwm/video.h>
 
-struct module_state {
-    cterm_t *runtime;
+struct dwm_video _ntDwmLoadVideo(const char *path) {
+    // create object
+    struct dwm_video vid = {
+        .stream = NULL,
+        .path = path
+    };
+    
+    // check if file exists
+    if (!FileExists(path)) return vid;
 
-    Texture2D logo_texture;
-    Texture2D main_bg_texture;
+    vid.stream = OpenVideoStream(path);
+    vid.texture = LoadTextureFromVideoStream(vid.stream);
 
-    Texture2D line_bottom_texture;
-    Texture2D line_top_texture;
+    return vid;
+}
 
-    Texture2D radio_off_texture;
-    Texture2D radio_on_texture;
+void _ntDwmUnloadVideo(struct dwm_video obj) {
+    // check if videostream has been created.
+    // if not - don't do anything
+    if (!obj.stream) return;
 
-    struct dwm_context *dwm_ctx;
+    // unload video stream
+    UnloadVideoStream(obj.stream);
 
-    bool init_complete;
+    return;
+}
 
-    void (*old_draw)(void *user);
-    void (*old_update)(void *user);
-    void *old_ctx;
+void _ntDwmUpdateVideo(struct dwm_video vid) {
+    // check if videostream has been created.
+    // if not - don't do anything
+    if (!vid.stream) return;
 
-    int minutes_left;
-
-    bool execution_lock;
-
-    struct dwm_video xp_vid;
-    int frame_1;
-    int frame_2;
-
-    int old_fps;
-};
-
-extern struct module_state _state;
+    // update texture of the videostream
+    UpdateTextureFromVideoStream(&vid.texture, vid.stream);
+}
