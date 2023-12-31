@@ -37,7 +37,7 @@
 
 #include <nt5emul/nt_config.h>
 
-#define SKIP_LOGO 1
+#define SKIP_LOGO 0
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);
@@ -60,37 +60,40 @@ void _boot_begin_debug(void *user) {
 
 #include <unistd.h>
 
-bool _boot_run_logo() {
+bool _boot_run_command(const char *command, void *userdata) {
+	printf("running command %s\n", command);
 	// load bootscreen
-	cterm_command_reference_t ref = find_command("logo");
+	cterm_command_reference_t ref = find_command((char *)command);
 
 	// check if bootscreen module exist
 	if (ref.callback) {
 		// run it
-		#if SKIP_LOGO == 0
-		ref.callback(NULL);
-		#endif
+		ref.callback(userdata);
 
 		return true;
 	}
 
 	return false;
 }
+
+bool _boot_run_logo() {
+	bool result = true;
+	
+	#if SKIP_LOGO == 0
+	result = _boot_run_command("logo", NULL);
+	#endif
+
+	return result;
+}
 bool _boot_run_msoobe(struct dwm_context *ctx) {
-	printf("running msoobe\n");
+	bool result = _boot_run_command("msoobe", ctx);
 
-	// load bootscreen
-	cterm_command_reference_t ref = find_command("msoobe");
-
-	// check if bootscreen module exist
-	if (ref.callback) {
-		// run it
-		ref.callback(ctx);
-
-		return true;
-	}
-
-	return false;
+	return result;
+}
+bool _boot_run_setup(struct dwm_context *ctx) {
+	bool result = _boot_run_command("setup", ctx);
+	
+	return result;
 }
 
 void _boot_begin() {
@@ -164,17 +167,11 @@ void _boot_begin() {
 	st->layers[0].draw = NULL;
 
 	if (!config.graphical_setup_completed) {
-		// load setup
-		cterm_command_reference_t ref = find_command("setup");
-		if (ref.callback) {
-			// run setup with the dwm context
-			ref.callback(ctx);
-		} else {
-			return;
-		}
+		// run setup with the dwm context
+		_boot_run_setup(ctx);
 
-		// wait 16.5 seconds
-		usleep(16500000);
+		// wait 12.5 seconds
+		usleep(12500000);
 	}
 
 	if (!config.oobe_completed) {

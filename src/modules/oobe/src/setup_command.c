@@ -96,7 +96,7 @@ bool setup_command(void *data) {
     _state.dwm_ctx = data;
 
     // period count
-    int times = 4;
+    int times = 2;
     // how long each period would be
     int mul = 3;
 

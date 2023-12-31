@@ -32,6 +32,57 @@ struct oobe_install_step oobe_steps[] = {
     {"Collecting\ninformation", true}, {"Dynamic\nUpdate", true}, {"Preparing\ninstallation", true}, {"Installing\nWindows", false, true}, {"Finalizing\ninstallation"}
 };
 
+#include <nt5emul/modules/oobe/auto_progress_bar.h>
+
+struct auto_progress_bar bars[] = {
+    {
+        .speed = 1.f,
+        .title = "Installing Devices"
+    },
+    {
+        .speed = 1.f,
+        .title = "Installing Network"
+    },
+    {
+        .speed = 0.5f,
+        .title = "Copying files..."
+    },
+    {
+        .speed = 1.f,
+        .title = "Completing installation..."
+    },
+    {
+        .speed = 2.f,
+        .title = "Installing Start menu items"
+    },
+    {
+        .speed = 0.5f,
+        .title = "Registering components"
+    },
+    {
+        .speed = 4.f,
+        .title = "Saving settings"
+    }
+};
+
+int current_bar = 0;
+
+void setup_process_bars() {
+    int bars_length = sizeof(bars) / sizeof(struct auto_progress_bar);
+
+    struct auto_progress_bar *bar = bars + current_bar;
+
+    _ntModOobeUpdateAPB(bar);
+    _ntModOobeDrawAPB(*bar);
+
+    if (
+        bar->progress >= 1.f && 
+        ((current_bar + 1) < bars_length)
+    ) {
+        current_bar++;
+    }
+}
+
 void draw_background(void *ctx) {
     if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
 
@@ -127,4 +178,6 @@ void draw_background(void *ctx) {
 		// dump core information
         _ntDumpCores();
 	}
+
+    setup_process_bars();
 }
