@@ -20,43 +20,31 @@
 
 #pragma once
 
-#include <cterm/applications/api.h>
 #include <raylib.h>
+#include <nt5emul/dwm/bool.h>
 
-#include <nt5emul/dwm/context.h>
-#include <nt5emul/dwm/video.h>
+struct dwm_sound {
+    const char *path;
 
-struct module_state {
-    cterm_t *runtime;
+    Music sound;
 
-    Texture2D logo_texture;
-    Texture2D main_bg_texture;
+    float vol;
+    float pitch;
+    float pan;
 
-    Texture2D line_bottom_texture;
-    Texture2D line_top_texture;
-
-    Texture2D radio_off_texture;
-    Texture2D radio_on_texture;
-
-    struct dwm_context *dwm_ctx;
-
-    bool init_complete;
-
-    void (*old_draw)(void *user);
-    void (*old_update)(void *user);
-    void *old_ctx;
-
-    int minutes_left;
-
-    bool execution_lock;
-
-    struct dwm_video xp_vid;
-    int frame_1;
-    int frame_2;
-
-    int old_fps;
+    float length;
+    float played;
     
-    Sound music_title;
+    struct dwm_bool paused;
+    struct dwm_bool playing;
 };
 
-extern struct module_state _state;
+struct dwm_sound _ntDwmLoadSound(const char *path);
+void _ntDwmUnloadSound(struct dwm_sound snd);
+
+void _ntDwmPlaySound(struct dwm_sound snd);
+void _ntDwmStopSound(struct dwm_sound snd);
+void _ntDwmPauseSound(struct dwm_sound *snd);
+void _ntDwmRestartSound(struct dwm_sound *snd);
+
+void _ntDwmUpdateSound(struct dwm_sound *snd);

@@ -48,6 +48,16 @@ struct dwm_context_fonts {
     struct dwm_context_font arial9_std;
 };
 
+struct dwm_context_sounds {
+    Sound chimes;
+    Sound chord;
+    Sound ding;
+    Sound xplogon;
+    Sound xplogoff;
+    Sound xpstartu;
+    Sound xpshutdn;
+};
+
 struct dwm_context {
     struct dwm_theme theme;
 
@@ -55,6 +65,7 @@ struct dwm_context {
     struct dwm_window *selected_window;
 
     struct dwm_context_fonts fonts;
+    struct dwm_context_sounds sounds;
 
     bool loading_finished;
 
@@ -69,11 +80,14 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path);
 // executed in main thread
 void _ntCreateDwmContextMain(struct dwm_context *ctx);
 
+// load sounds from the dwm context
+void _ntDwmLoadSounds(struct dwm_context *ctx);
+
 // destroy dwm context
 void _ntDestroyDwmContext(struct dwm_context *ctx);
 
 // push window to the dwm context
-void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd);
+void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd); 
 
 // get dwm process ids
 rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx);

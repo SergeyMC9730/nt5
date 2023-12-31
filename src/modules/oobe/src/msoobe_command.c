@@ -80,5 +80,13 @@ bool msoobe_command(void *data) {
     // load all textures before rendering oobe layer
     _ntRendererPushQueue(msoobe_preload, NULL);
 
+    InitAudioDevice();
+
+    _state.music_title = LoadSound("nt/sounds/title.mp3");
+
+    PlaySound(_state.music_title);
+
+    _ntDwmLoadSounds(_state.dwm_ctx);
+
     return true;
 }

@@ -313,7 +313,8 @@ const char *_bi_cabinet_listing[] = {
     /*PROFESSIONAL*/ "win32pro.bm_", "*nt/images/system/win32.bmp", "win32pro.bmp",
     /*HOME EDITION*/ "win32per.bm_", "*nt/images/system/win32.bmp", "win32per.bmp",
 
-    // videos
+    // oobe assets
 
-    "intro.wm_", "*nt/videos/user/intro.wmv", "intro.wmv"
+    "intro.wm_", "*nt/videos/user/intro.wmv", "intro.wmv",
+    "title.wm_", "*nt/sounds/title.wma", "title.wma"
 };

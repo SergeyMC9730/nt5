@@ -76,7 +76,7 @@ bool _boot_run_logo() {
 
 	return false;
 }
-bool _boot_run_msoobe() {
+bool _boot_run_msoobe(struct dwm_context *ctx) {
 	printf("running msoobe\n");
 
 	// load bootscreen
@@ -85,7 +85,7 @@ bool _boot_run_msoobe() {
 	// check if bootscreen module exist
 	if (ref.callback) {
 		// run it
-		ref.callback(NULL);
+		ref.callback(ctx);
 
 		return true;
 	}
@@ -185,6 +185,6 @@ void _boot_begin() {
 			usleep(5500000);
 		}
 
-		_boot_run_msoobe();
+		_boot_run_msoobe(ctx);
 	}
 }
