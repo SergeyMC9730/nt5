@@ -50,7 +50,7 @@ void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, c
 
     data->font = LoadFontEx(font, data->real_size, NULL, 0);
 
-    SetTextureFilter(data->font.texture, TEXTURE_FILTER_POINT);
+    SetTextureFilter(data->font.texture, TEXTURE_FILTER_BILINEAR);
 }
 
 void _ntCreateDwmContextMain(struct dwm_context *ctx) {
@@ -68,12 +68,10 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
     font_mul = 3;
 
-    _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 9, 1.f, 9 * font_mul, "nt/fonts/framd.ttf");
+    _ntLoadDwmFont(&ctx->fonts.franklin24_std, 24, 1.f, 24 / 0.75f, "nt/fonts/framd.ttf");
+    _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 24, 1.f, 24 / 0.75f, "nt/fonts/framd.ttf");
     
     _ntLoadDwmFont(&ctx->fonts.arial9_std, 9, 1.f, 9 * font_mul, "nt/fonts/arial.ttf");
-    
-    SetTextureFilter(ctx->fonts.tahoma8_std.font.texture, TEXTURE_FILTER_POINT);
-    SetTextureFilter(ctx->fonts.tahoma8_bld.font.texture, TEXTURE_FILTER_POINT);
 
     renderer_state_t *st = _ntRendererGetState();
 

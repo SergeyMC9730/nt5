@@ -27,10 +27,61 @@
 
 #include <nt5emul/timer.h>
 
+void msoobe_new() {
+    SetTargetFPS(_state.old_fps);
+
+    _ntDwmUnloadVideo(_state.xp_vid);
+    UnloadTexture(_state.xp_vid.texture);
+
+    _state.xp_vid.texture.width = 0;
+    _state.xp_vid.stream = NULL;
+
+    setup_preload(NULL);
+}
+
 void msoobe_draw(void *ctx) {
-    _ntModOobeDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
+    _ntModOobeDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){});
+
+    Vector2 sz = {
+        .x = GetRenderWidth(),
+        .y = GetRenderHeight()
+    };
+
+    Vector2 line_btm = {
+        .x = 0,
+        .y = sz.y - (_state.line_bottom_texture.height)
+    };
+    Vector2 line_top = {
+        .x = 0,
+        .y = 0
+    };
+
+    // draw lines
+    _ntModOobeDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
+    _ntModOobeDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
+
+    // draw logo    
+    DrawTextureEx(_state.logo_texture, (Vector2){15, 6}, 0.f, 1.f, WHITE);
+    
+    struct dwm_context_font big_font = _state.dwm_ctx->fonts.franklin24_bld;
+    struct dwm_context_font small_font = _state.dwm_ctx->fonts.tahoma9_std;
+
+    Color shadow = {
+        // 003399
+        .r = 0x00,
+        .g = 0x33,
+        .b = 0x99
+    };
+    shadow.a = 256 * 0.75;
+
+    // Draw text
+    DrawTextEx(big_font.font, "Welcome to NT5 simulator", (Vector2){63 + 3, 75 + 3},  big_font.real_size, big_font.spacing, shadow);
+    DrawTextEx(big_font.font, "Welcome to NT5 simulator", (Vector2){63, 75},  big_font.real_size, big_font.spacing, WHITE);
+
+    if (_state.xp_vid.texture.width != 0) _ntModOobeDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
 }
 void msoobe_update(void *ctx) {
+
     _ntDwmUpdateVideo(_state.xp_vid);
 
     if (_state.frame_1 != -1) {
@@ -39,7 +90,7 @@ void msoobe_update(void *ctx) {
     }
 
     if (_state.frame_1 == _state.frame_2) {
-        SetTargetFPS(_state.old_fps);
+        msoobe_new();
         _state.frame_1 = -1;
     }
 }

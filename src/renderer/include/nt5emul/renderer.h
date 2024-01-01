@@ -43,7 +43,7 @@ RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
 #include <stdbool.h>
 
 typedef struct renderer_state_t {
-#define RENDERER_LAYERS 4
+#define RENDERER_LAYERS 6
 	renderer_layer_t *layers;
 	pthread_t thread;
     rsb_array_RendererQueue *queue;
