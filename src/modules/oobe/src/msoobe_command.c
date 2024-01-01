@@ -27,6 +27,8 @@
 
 #include <nt5emul/timer.h>
 
+#include <nt5emul/nt_config.h>
+
 void msoobe_new() {
     SetTargetFPS(_state.old_fps);
 
@@ -75,8 +77,10 @@ void msoobe_draw(void *ctx) {
     shadow.a = 256 * 0.75;
 
     // Draw text
-    DrawTextEx(big_font.font, "Welcome to NT5 simulator", (Vector2){63 + 3, 75 + 3},  big_font.real_size, big_font.spacing, shadow);
-    DrawTextEx(big_font.font, "Welcome to NT5 simulator", (Vector2){63, 75},  big_font.real_size, big_font.spacing, WHITE);
+    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, (Vector2){63 + 3, 75 + 3},  big_font.real_size, big_font.spacing, shadow);
+    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, (Vector2){63, 75},  big_font.real_size, big_font.spacing, WHITE);
+
+    DrawTextEx(small_font.font, _state.cterm_msoobe_incomplete, (Vector2){63, 131}, small_font.real_size, small_font.spacing, WHITE);
 
     if (_state.xp_vid.texture.width != 0) _ntModOobeDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
 }
@@ -138,6 +142,13 @@ bool msoobe_command(void *data) {
     PlaySound(_state.music_title);
 
     _ntDwmLoadSounds(_state.dwm_ctx);
+
+    struct nt_config cfg = _ntGetConfig("nt/config.json");
+
+    const char *lang = cfg.selected_lang;
+
+    _state.cterm_msoobe_welcome = get_string("cterm_msoobe_welcome", lang);
+    _state.cterm_msoobe_incomplete = get_string("cterm_msoobe_incomplete", lang);
 
     return true;
 }

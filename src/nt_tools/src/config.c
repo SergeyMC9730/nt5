@@ -26,10 +26,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct nt_config _ntGetConfig(const char *path) {
-    struct nt_config config = {};
-
+    struct nt_config config = {
+        .selected_lang = "en"
+    };
+    
     if (!_ntFileExists(path)) {
         printf("config doesn't exist\n");
         return config;
@@ -49,6 +52,7 @@ struct nt_config _ntGetConfig(const char *path) {
     cJSON *setup_completed = cJSON_GetObjectItem(config_object, "setup_completed");
     cJSON *oobe_completed = cJSON_GetObjectItem(config_object, "oobe_completed");
     cJSON *graphical_setup_completed = cJSON_GetObjectItem(config_object, "graphical_setup_completed");
+    cJSON *selected_lang = cJSON_GetObjectItem(config_object, "selected_lang");
     
     if (setup_completed && cJSON_IsBool(setup_completed)) {
         config.setup_completed = setup_completed->valueint;
@@ -60,6 +64,12 @@ struct nt_config _ntGetConfig(const char *path) {
 
     if (graphical_setup_completed && cJSON_IsBool(graphical_setup_completed)) {
         config.graphical_setup_completed = graphical_setup_completed->valueint;
+    }
+
+    if (selected_lang && cJSON_IsString(selected_lang)) {
+        if (!strcmp(selected_lang->valuestring, "ru")) {
+            config.selected_lang = "ru";
+        }
     }
 
     cJSON_Delete(config_object);
@@ -74,6 +84,8 @@ void _ntSaveConfig(struct nt_config cfg, const char *path) {
     cJSON_AddBoolToObject(config_object, "setup_completed", cfg.setup_completed);
     cJSON_AddBoolToObject(config_object, "oobe_completed", cfg.oobe_completed);
     cJSON_AddBoolToObject(config_object, "graphical_setup_completed", cfg.graphical_setup_completed);
+
+    cJSON_AddStringToObject(config_object, "selected_lang", cfg.selected_lang);
 
     char *cfgstr = cJSON_Print(config_object); 
 

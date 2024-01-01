@@ -32,7 +32,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
         size_t i = 0;
 
         while (i < m->listing->len) {
-            const char *str = RSBGetAtIndexString(m->listing, i);
+            const char *str = RSBGetAtIndexStringArray(m->listing, i);
             free((char *)str);
 
             i++;
@@ -41,7 +41,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
         i = 0;
 
         while (m->listing->len != 0) {
-            RSBPopElementString(m->listing);
+            RSBPopElementStringArray(m->listing);
         }
         while (m->colors->len != 0) {
             RSBPopElementColor(m->colors);
@@ -60,7 +60,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
             strncpy(prev_page, prev_page_str, l - 1);
 
-            RSBAddElementString(m->listing, prev_page);
+            RSBAddElementStringArray(m->listing, prev_page);
 
             Color c = YELLOW;
             RSBAddElementColor(m->colors, c);
@@ -100,7 +100,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
                 if (m->requirement == FSFile) {
                     for (size_t j = 0; j < m->wanted_fileformats->len; j++) {
-                        const char *req = RSBGetAtIndexString(m->wanted_fileformats, j);
+                        const char *req = RSBGetAtIndexStringArray(m->wanted_fileformats, j);
 
                         if (IsFileExtension(bf, req)) {
                             c = GREEN;
@@ -113,7 +113,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
             snprintf(str_a, l, "%s%s", str_r, folder_open);
 
-            RSBAddElementString(m->listing, (const char *)str_a);
+            RSBAddElementStringArray(m->listing, (const char *)str_a);
             RSBAddElementColor(m->colors, c);
 
             i++;
@@ -132,7 +132,7 @@ void _ntFileSelectorSetListing(struct nt_file_selector_menu *m) {
 
             Color c = YELLOW;
 
-            RSBAddElementString(m->listing, next_page);
+            RSBAddElementStringArray(m->listing, next_page);
             RSBAddElementColor(m->colors, c);
         }
 

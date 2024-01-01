@@ -34,7 +34,7 @@ struct nt_file_selector_menu {
 
     const char *path;
 
-    rsb_array_String *listing;
+    rsb_array_StringArray *listing;
     
     // only allows entries with specified type (file or folder)
     enum nt_file_selector_requirement requirement;
@@ -43,7 +43,7 @@ struct nt_file_selector_menu {
     int page;
 
     // only allows files with specified file formarts
-    rsb_array_String *wanted_fileformats;
+    rsb_array_StringArray *wanted_fileformats;
     // formatting for each file entry
     rsb_array_Color *colors;
 

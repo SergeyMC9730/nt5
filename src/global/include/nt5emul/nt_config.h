@@ -26,6 +26,8 @@ struct nt_config {
     bool setup_completed;
     bool graphical_setup_completed;
     bool oobe_completed;
+
+    const char *selected_lang;
 };
 
 struct nt_config _ntGetConfig(const char *path);

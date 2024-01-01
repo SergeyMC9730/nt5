@@ -24,33 +24,31 @@
 #include <string.h>
 #include <unistd.h>
 
-// Font _ntLoadPixelatedFont(const char *fileName, int fontSize, int *codepoints, int codepointCount) {
-//    Font font = { 0 };
-
-//     // Loading file to memory
-//     int dataSize = 0;
-//     unsigned char *fileData = LoadFileData(fileName, &dataSize);
-
-//     if (fileData != NULL)
-//     {
-//         // Loading font from memory data
-//         font = LoadFontFromMemory(GetFileExtension(fileName), fileData, dataSize, fontSize, codepoints, codepointCount);
-
-//         UnloadFileData(fileData);
-//     }
-//     else font = GetFontDefault();
-
-//     return font;
-// }
-
 void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {
     data->xp_size = xsz;
     data->spacing = sp;
     data->real_size = rsz;
 
-    data->font = LoadFontEx(font, data->real_size, NULL, 0);
+    const char *_ntTuiCodepoints =  "QWERTYUIOPASDFGHJKLZXCVBNM" // english alphabet with all upper case characters
+                                "qwertyuiopasdfghjklzxcvbnmzxcvbnm" // english alphabet with all lower case characters
+                                "[]{}()" // brackets
+                                "ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ" // cyrillic alphabet with all upper case characters
+                                "ёйцукенгшщзхъфывапролджэячсмитьбю" // cyrillic alphabet with all lower case chararcters
+                                ",.;!?:" // punctuation      
+                                "/\\|" // slashes
+                                "1234567890" // numbers
+                                "<>-=+~*^%№" // math signs
+                                "\"'`" // quotation marks
+                                "@#$&_"; // random characters
+
+    int codepointCount = 0;
+    int *codepoints = LoadCodepoints(_ntTuiCodepoints, &codepointCount);
+
+    data->font = LoadFontEx(font, data->real_size, codepoints, codepointCount);
 
     SetTextureFilter(data->font.texture, TEXTURE_FILTER_BILINEAR);
+
+    free(codepoints);
 }
 
 void _ntCreateDwmContextMain(struct dwm_context *ctx) {
@@ -107,6 +105,8 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
 
     st->layers[0].user = ctx;
     st->layers[0].update = _ntCreateDwmContextMain;
+
+    ctx->lpack = _ntGenerateLanguagePack();
 
     while (ctx->loading_finished != true) {
         // wait 0.10 seconds before checking again

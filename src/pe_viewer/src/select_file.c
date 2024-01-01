@@ -89,9 +89,9 @@ void _ntPVSelectFileMain() {
 
     __state.file_selector = _ntLoadFileSelector("./", c);
 
-    RSBAddElementString(__state.file_selector->wanted_fileformats, ".exe");
-    RSBAddElementString(__state.file_selector->wanted_fileformats, ".dll");
-    RSBAddElementString(__state.file_selector->wanted_fileformats, ".sys");
+    RSBAddElementStringArray(__state.file_selector->wanted_fileformats, ".exe");
+    RSBAddElementStringArray(__state.file_selector->wanted_fileformats, ".dll");
+    RSBAddElementStringArray(__state.file_selector->wanted_fileformats, ".sys");
 
     _ntFileSelectorSetListing(__state.file_selector);
 

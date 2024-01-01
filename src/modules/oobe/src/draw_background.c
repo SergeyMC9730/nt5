@@ -29,7 +29,11 @@
 #endif
 
 struct oobe_install_step oobe_steps[] = {
-    {"Collecting\ninformation", true}, {"Dynamic\nUpdate", true}, {"Preparing\ninstallation", true}, {"Installing\nWindows", false, true}, {"Finalizing\ninstallation"}
+    {"Collecting\ninformation", true}, 
+    {"Dynamic\nUpdate", true}, 
+    {"Preparing\ninstallation", true},
+    {"Installing\nWindows", false, true}, 
+    {"Finalizing\ninstallation", false, false}
 };
 
 #include <nt5emul/modules/oobe/auto_progress_bar.h>
@@ -72,6 +76,14 @@ void setup_process_bars() {
 
     struct auto_progress_bar *bar = bars + current_bar;
 
+    bars[0].title = _state.cterm_setup_installing_devices;
+    bars[1].title = _state.cterm_setup_installing_network;
+    bars[2].title = _state.cterm_setup_copying_files;
+    bars[3].title = _state.cterm_setup_completing_install;
+    bars[4].title = _state.cterm_setup_installing_start;
+    bars[5].title = _state.cterm_setup_registering_components;
+    bars[6].title = _state.cterm_setup_saving_settings;
+
     _ntModOobeUpdateAPB(bar);
     _ntModOobeDrawAPB(*bar);
 
@@ -85,6 +97,12 @@ void setup_process_bars() {
 
 void draw_background(void *ctx) {
     if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
+
+    oobe_steps[0].name = _state.cterm_setup_colinfo;
+    oobe_steps[1].name = _state.cterm_setup_dynupd;
+    oobe_steps[2].name = _state.cterm_setup_prepinst;
+    oobe_steps[3].name = _state.cterm_setup_instwin;
+    oobe_steps[4].name = _state.cterm_setup_final;
 
     DrawText("AAAAAAA", 50, 50, 32, WHITE);
 
@@ -164,7 +182,7 @@ void draw_background(void *ctx) {
     // draw completion text
     DrawTextEx(
         font.font, // font
-        TextFormat("Setup will complete in\napproximately:\n      %d minutes", _state.minutes_left), // formatted string
+        TextFormat(_state.cterm_setup_time_approx, _state.minutes_left), // formatted string
         text_pos, // pos
         font.real_size, // size in pixels
         font.spacing, // spacing

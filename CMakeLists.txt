@@ -61,6 +61,14 @@ target_include_directories(rvideo PRIVATE
 )
 target_link_libraries(rvideo avformat avcodec swscale avutil)
 
+# nt5language
+file (GLOB NTLANGUAGE_SRC CONFIGURE_DEPENDS "src/language/src/*.c")
+add_library(nt5language SHARED ${NTLANGUAGE_SRC})
+target_include_directories(nt5language PRIVATE
+    "src/arrays/include" 
+    "src/language/include"
+)
+
 # nt5arrays
 file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c", "src/arrays/include/*/*.c")
 add_library(nt5arrays SHARED ${NTARRAYS_SRC})
@@ -75,7 +83,7 @@ add_library (nt5tools SHARED ${NTTOOLS_SRC})
 target_include_directories(nt5tools PRIVATE 
     "src/nt_tools/include"
     "src/global/include"
-    "src/external/cJSON" 
+    "src/external/cJSON"
 )
 target_link_libraries(nt5tools cjson)
 
@@ -87,11 +95,12 @@ target_include_directories(nt5renderer PRIVATE
     "src/renderer/raylib/src"
     "src/nt_tools/include"
     "src/arrays/include"
+    "src/language/include"
 
     "src/external/inih"
     "src/external/raylib-video"
 )
-target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools)
+target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language)
 
 # nt5tui
 file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/include/*/*.h")
@@ -131,6 +140,7 @@ target_include_directories(nt5install PRIVATE
     "src/ntldr_tui/include"
     "src/arrays/include"
     "src/global/include"
+    "src/language/include"
 )
 target_link_libraries(nt5install nt5renderer nt5tui cjson archive nt5tools nt5arrays)
 
@@ -149,6 +159,7 @@ target_include_directories(nt5boot PRIVATE
     "src/external"
     "src/nt_tools/include"
     "src/global/include"
+    "src/language/include"
 )
 target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterm)
 
@@ -174,7 +185,8 @@ target_include_directories(ntmod_logo PRIVATE
     "src/renderer/raylib/src" 
     "src/nt_tools/include"
     "src/global/include"
-    "src/arrays/include" 
+    "src/arrays/include"
+    "src/language/include" 
 )
 target_link_libraries(ntmod_logo nt5renderer raylib)
 
@@ -191,6 +203,7 @@ target_include_directories(ntmod_oobe PRIVATE
     "src/arrays/include"
     "src/nt_tools/include"
     "src/external/raylib-video"
+    "src/language/include"
 )
 target_link_libraries(ntmod_oobe nt5renderer raylib)
 

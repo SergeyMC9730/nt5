@@ -25,6 +25,8 @@
 
 #include <nt5emul/arrays/rsb_array_gen.h>
 
+#include <nt5emul/language_pack.h>
+
 RSB_ARRAY_DEF_GEN(struct dwm_window, DWMWindow);
 
 struct dwm_context_font {
@@ -67,6 +69,8 @@ struct dwm_context {
 
     struct dwm_context_fonts fonts;
     struct dwm_context_sounds sounds;
+
+    rsb_array_LanguagePackCell *lpack;
 
     bool loading_finished;
 

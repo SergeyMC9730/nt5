@@ -57,6 +57,25 @@ struct module_state {
     int old_fps;
     
     Sound music_title;
+
+    const char *cterm_setup_installing_devices;
+    const char *cterm_setup_installing_network;
+    const char *cterm_setup_copying_files;
+    const char *cterm_setup_completing_install;
+    const char *cterm_setup_installing_start;
+    const char *cterm_setup_registering_components;
+    const char *cterm_setup_saving_settings;
+    const char *cterm_setup_time_approx;
+    const char *cterm_setup_colinfo;
+    const char *cterm_setup_dynupd;
+    const char *cterm_setup_prepinst;
+    const char *cterm_setup_instwin;
+    const char *cterm_setup_final;
+
+    const char *cterm_msoobe_welcome;
+    const char *cterm_msoobe_incomplete;
 };
 
 extern struct module_state _state;
+
+const char *get_string(const char *i, const char *l);

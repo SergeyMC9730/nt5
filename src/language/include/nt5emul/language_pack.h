@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,9 +15,24 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/arrays/rsb_array_string.h>
+#pragma once
 
-RSB_ARRAY_IMPL_GEN(const char *, StringArray)
+#include <nt5emul/arrays/rsb_array_gen.h>
+
+#pragma pack(push, 1)
+
+struct language_pack_cell {
+    const char *internal_name;
+    
+    const char *str_en;
+    const char *str_ru;
+};
+#pragma pack(pop)
+
+RSB_ARRAY_DEF_GEN(struct language_pack_cell, LanguagePackCell);
+
+rsb_array_LanguagePackCell *_ntGenerateLanguagePack();
+struct language_pack_cell _ntFindInLanguagePack(const char *internal_name, rsb_array_LanguagePackCell *pack);

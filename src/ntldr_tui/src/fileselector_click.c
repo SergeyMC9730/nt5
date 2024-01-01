@@ -30,7 +30,7 @@ void _ntFileSelectorClick(int idx, struct nt_tui_menu *menu) {
     struct nt_file_selector_menu *m = (struct nt_file_selector_menu *)menu->ptr;
     
     // get selected string
-    const char *obj = RSBGetAtIndexString(m->listing, idx);
+    const char *obj = RSBGetAtIndexStringArray(m->listing, idx);
 
     // check if string is "[ NEXT PAGE ]"
     if (!strcmp(obj, "[ NEXT PAGE ]")) {

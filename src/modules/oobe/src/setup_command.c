@@ -31,6 +31,7 @@ void setup_decrement_time(void *ctx) {
 }
 
 #include <unistd.h>
+
 #include <nt5emul/nt_config.h>
 
 void setup_exit(void *ctx) {
@@ -88,6 +89,26 @@ void setup_exit_queue(void *ctx) {
     _ntRendererPushQueue(setup_exit, NULL);
 }
 
+const char *get_string(const char *i, const char *l) {
+    int lang_offset = 1;
+
+    printf("lang: %s (comp=%d) ; string=", l, strcmp(l, "ru"));
+
+    if (!strcmp(l, "ru")) {
+        lang_offset = 2;
+    }
+
+    struct language_pack_cell cell = _ntFindInLanguagePack(i, _state.dwm_ctx->lpack);
+    
+    const char **ptr = &cell;
+
+    const char *string = ptr[lang_offset];
+
+    printf("0x%08X (%s)\n", string, string);
+
+    return string;
+}
+
 bool setup_command(void *data) {
     // get renderer state
     renderer_state_t *st = _ntRendererGetState();
@@ -117,6 +138,24 @@ bool setup_command(void *data) {
 
     // load all textures before rendering oobe layer
     _ntRendererPushQueue(setup_preload, NULL);
+
+    struct nt_config cfg = _ntGetConfig("nt/config.json");
+
+    const char *lang = cfg.selected_lang;
+
+    _state.cterm_setup_installing_devices = get_string("cterm_setup_installing_devices", lang);
+    _state.cterm_setup_installing_network = get_string("cterm_setup_installing_network", lang);
+    _state.cterm_setup_copying_files = get_string("cterm_setup_copying_files", lang);
+    _state.cterm_setup_completing_install = get_string("cterm_setup_completing_install", lang);
+    _state.cterm_setup_installing_start = get_string("cterm_setup_installing_start", lang);
+    _state.cterm_setup_saving_settings = get_string("cterm_setup_saving_settings", lang);
+    _state.cterm_setup_time_approx = get_string("cterm_setup_time_approx", lang);
+    _state.cterm_setup_colinfo = get_string("cterm_setup_colinfo", lang);
+    _state.cterm_setup_dynupd = get_string("cterm_setup_dynupd", lang);
+    _state.cterm_setup_instwin = get_string("cterm_setup_instwin", lang);
+    _state.cterm_setup_final = get_string("cterm_setup_final", lang);
+    _state.cterm_setup_prepinst = get_string("cterm_setup_prepinst", lang);
+    _state.cterm_setup_registering_components = get_string("cterm_setup_registering_components", lang);
 
     for (int i = 0; i < times; i++) {
         // install timer for time decrementing
