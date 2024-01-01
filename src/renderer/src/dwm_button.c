@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/dwm/button.h>
@@ -40,7 +40,7 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
 
     Rectangle sz = btn->button;
 
-    float font_sz = ctx->fonts.tahoma8_bld.real_size * 0.5f;
+    float font_sz = ctx->fonts.tahoma8_bld.real_size;
     float spacing = ctx->fonts.tahoma8_bld.spacing;
 
     Vector2 szText = MeasureTextEx(ctx->fonts.tahoma8_bld.font, btn->text, font_sz, spacing);

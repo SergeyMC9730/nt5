@@ -35,10 +35,10 @@ void _ntModOobeUpdateAPB(struct auto_progress_bar *bar) {
 
 void _ntModOobeDrawAPB(struct auto_progress_bar bar) {
     Vector2 base_pos = {
-        26, GetRenderHeight() - 128
+        26, GetRenderHeight() - 110
     };
     Vector2 base_size = {
-        192, 16
+        127, 16
     };
 
     Vector2 size = base_size;
@@ -55,7 +55,15 @@ void _ntModOobeDrawAPB(struct auto_progress_bar bar) {
     size.x = base_size.x * bar.progress - 4;
     size.y -= 2;
 
-    DrawRectangleV(pos, size, DARKGREEN);
+    Color green = (Color){
+        // 06c100
+        .r = 0x06,
+        .g = 0xc1,
+        .b = 0x00,
+        .a = 0xFF
+    };
+
+    DrawRectangleV(pos, size, green);
 
     pos = base_pos;
 

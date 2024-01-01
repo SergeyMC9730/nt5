@@ -39,6 +39,8 @@ void msoobe_new() {
     _state.xp_vid.stream = NULL;
 
     setup_preload(NULL);
+
+    SetWindowSize(800, 600);
 }
 
 void msoobe_draw(void *ctx) {
@@ -63,10 +65,11 @@ void msoobe_draw(void *ctx) {
     _ntModOobeDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
 
     // draw logo    
-    DrawTextureEx(_state.logo_texture, (Vector2){15, 6}, 0.f, 1.f, WHITE);
+    DrawTextureEx(_state.logo_texture, (Vector2){20, 5}, 0.f, 1.f, WHITE);
     
     struct dwm_context_font big_font = _state.dwm_ctx->fonts.franklin24_bld;
     struct dwm_context_font small_font = _state.dwm_ctx->fonts.tahoma9_std;
+    struct dwm_context_font small_fontar = _state.dwm_ctx->fonts.arial9_std;
 
     Color shadow = {
         // 003399
@@ -74,13 +77,19 @@ void msoobe_draw(void *ctx) {
         .g = 0x33,
         .b = 0x99
     };
-    shadow.a = 256 * 0.75;
+    shadow.a = 256 * 0.75f;
+
+    Vector2 big_text_base_pos = {
+        63, 66
+    };
 
     // Draw text
-    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, (Vector2){63 + 3, 75 + 3},  big_font.real_size, big_font.spacing, shadow);
-    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, (Vector2){63, 75},  big_font.real_size, big_font.spacing, WHITE);
+    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, (Vector2){big_text_base_pos.x + 3, big_text_base_pos.y + 3},  big_font.real_size, big_font.spacing, shadow);
+    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, big_text_base_pos,  big_font.real_size, big_font.spacing, WHITE);
 
-    DrawTextEx(small_font.font, _state.cterm_msoobe_incomplete, (Vector2){63, 131}, small_font.real_size, small_font.spacing, WHITE);
+    DrawTextEx(small_font.font, _state.cterm_msoobe_incomplete, (Vector2){big_text_base_pos.x, 131}, small_font.real_size, small_font.spacing, WHITE);
+
+    DrawTextEx(small_fontar.font, _state.cterm_msoobe_enter_continue, (Vector2){17, sz.y - _state.line_top_texture.height - 60 - 15}, small_fontar.real_size, small_fontar.spacing, WHITE);
 
     if (_state.xp_vid.texture.width != 0) _ntModOobeDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
 }
@@ -110,6 +119,8 @@ void msoobe_preload(void *ctx) {
     SetTextureFilter(_state.xp_vid.texture, TEXTURE_FILTER_BILINEAR);
 
     SetTargetFPS(15);
+
+    SetWindowSize(800, 600);
 }
 
 bool msoobe_command(void *data) {
@@ -149,6 +160,7 @@ bool msoobe_command(void *data) {
 
     _state.cterm_msoobe_welcome = get_string("cterm_msoobe_welcome", lang);
     _state.cterm_msoobe_incomplete = get_string("cterm_msoobe_incomplete", lang);
+    _state.cterm_msoobe_enter_continue = get_string("cterm_msoobe_enter_continue", lang);
 
     return true;
 }

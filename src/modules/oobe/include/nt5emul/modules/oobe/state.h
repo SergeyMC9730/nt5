@@ -38,6 +38,9 @@ struct module_state {
     Texture2D radio_off_texture;
     Texture2D radio_on_texture;
 
+    Texture2D square_next_texture_off;
+    Texture2D square_next_texture_on;
+
     struct dwm_context *dwm_ctx;
 
     bool init_complete;
@@ -74,6 +77,7 @@ struct module_state {
 
     const char *cterm_msoobe_welcome;
     const char *cterm_msoobe_incomplete;
+    const char *cterm_msoobe_enter_continue;
 };
 
 extern struct module_state _state;

@@ -54,22 +54,19 @@ void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, c
 void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     // load fonts
 
-    int font_mul = 3;
-
-    _ntLoadDwmFont(&ctx->fonts.tahoma8_std, 8, 1.f, 8 * font_mul, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma8_bld, 8, 1.f, 8 * font_mul, "nt/fonts/tahomabd.ttf");
-
-    font_mul = 2;
-
-    _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 1.f, 9 * font_mul, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9 * font_mul, "nt/fonts/tahomabd.ttf");
-
-    font_mul = 3;
-
-    _ntLoadDwmFont(&ctx->fonts.franklin24_std, 24, 1.f, 24 / 0.75f, "nt/fonts/framd.ttf");
-    _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 24, 1.f, 24 / 0.75f, "nt/fonts/framd.ttf");
+    float font_div = 0.6f;
     
-    _ntLoadDwmFont(&ctx->fonts.arial9_std, 9, 1.f, 9 * font_mul, "nt/fonts/arial.ttf");
+    _ntLoadDwmFont(&ctx->fonts.tahoma8_std, 8, 0.5f, 8.f / font_div, "nt/fonts/tahoma.ttf");
+    _ntLoadDwmFont(&ctx->fonts.tahoma8_bld, 8, 0.5f, 8.f / font_div, "nt/fonts/tahomabd.ttf");
+
+    _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/tahoma.ttf");
+    _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9.f / font_div, "nt/fonts/tahomabd.ttf");
+
+
+    _ntLoadDwmFont(&ctx->fonts.franklin24_std, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
+    _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
+    
+    _ntLoadDwmFont(&ctx->fonts.arial9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/arial.ttf");
 
     renderer_state_t *st = _ntRendererGetState();
 

@@ -176,7 +176,7 @@ void draw_background(void *ctx) {
     // calculate text position based on the steps length
     Vector2 text_pos = {
         26,
-        sl + 20
+        sl
     };
 
     // draw completion text

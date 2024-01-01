@@ -31,6 +31,9 @@ void setup_preload(void *ctx) {
     _state.radio_off_texture = LoadTexture("nt/images/user/ui/nextdown.jpg");
     _state.radio_on_texture = LoadTexture("nt/images/user/ui/nextover.jpg");
 
+    _state.square_next_texture_off = LoadTexture("nt/images/user/ui/nextdown.jpg");
+    _state.radio_on_texture = LoadTexture("nt/images/user/ui/nextover.jpg");
+
     // texture wraps
 
     SetTextureWrap(_state.main_bg_texture, TEXTURE_WRAP_CLAMP);
@@ -38,9 +41,9 @@ void setup_preload(void *ctx) {
 
     // window settings
 
-    SetWindowSize(800, 600);
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
-    SetWindowMinSize(640, 480);
+    SetWindowSize(640, 480);
+    // SetWindowState(FLAG_WINDOW_RESIZABLE);
+    // SetWindowMinSize(640, 480);
 
     // texture filters
 
