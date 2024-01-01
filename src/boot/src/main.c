@@ -37,7 +37,7 @@
 
 #include <nt5emul/nt_config.h>
 
-#define SKIP_LOGO 0
+#define SKIP_LOGO 1
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);
@@ -141,7 +141,7 @@ void _boot_begin() {
 	#if SKIP_LOGO == 0
 	usleep(1000000);
 	#else
-	usleep(10000);
+	usleep(20000);
 	#endif
 
 	_boot_run_logo();

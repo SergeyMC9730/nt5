@@ -71,6 +71,16 @@ void setup_exit(void *ctx) {
 
     // save config
     _ntSaveConfig(config, config_path);
+
+    // send notification
+
+    // find api command
+    cterm_command_reference_t ref = _state.runtime->find("CTERM_line_execute");
+
+    // run topnotify command if CTERM_line_execute command has been found
+    if (ref.callback) {
+        ref.callback("topnotify Restarting...");
+    }
 }
 
 void setup_exit_queue(void *ctx) {

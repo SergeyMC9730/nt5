@@ -194,6 +194,22 @@ target_include_directories(ntmod_oobe PRIVATE
 )
 target_link_libraries(ntmod_oobe nt5renderer raylib)
 
+# notify
+file (GLOB NTMOD_NOTIFY_SRC CONFIGURE_DEPENDS "src/modules/notify/src/*.c")
+add_library(ntmod_notify ${NTMOD_NOTIFY_SRC})
+target_include_directories(ntmod_notify PRIVATE 
+    "src/renderer/include" 
+    "src/modules/notify/include" 
+    "src/external" 
+    "src/renderer/raylib/src" 
+    "src/nt_tools/include"
+    "src/global/include"
+    "src/arrays/include"
+    "src/nt_tools/include"
+    "src/external/raylib-video"
+)
+target_link_libraries(ntmod_notify nt5renderer raylib)
+
 # copy nt resources
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/ntresources
@@ -210,4 +226,7 @@ add_custom_command(TARGET ntmod_logo POST_BUILD
 )
 add_custom_command(TARGET ntmod_oobe POST_BUILD 
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_oobe.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_oobe.so
+)
+add_custom_command(TARGET ntmod_notify POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_notify.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_notify.so
 )
