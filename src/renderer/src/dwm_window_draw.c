@@ -76,7 +76,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
 
 
-    struct dwm_button btn_test;
+    struct dwm_button btn_test = {};
 
     btn_test.text = "X";
 

@@ -116,13 +116,23 @@ rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
     });
     RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
         .internal_name = "cterm_msoobe_incomplete",
-        .str_en = "Thank you for downloading Windows XP simulator.\n\nThis project is very incomplete (including this OOBE).\nBy pressing Enter OOBE would be skipped and you will get into the logonui. User profile would be\ncreated automatically.",
-        .str_ru = "Благодарим за скачивание симулятора Windows XP.\n\nДанный проект очень сырой (включая данный установщик).\nПо нажатию на Enter, установщик будет пропущен и вы перейдёте в logonui. Пользовательский профиль будет\nсоздан автоматически."
+        .str_en = "Thank you for downloading Windows XP simulator.\n\nThis project is very incomplete (including this OOBE).\n* By clicking Skip OOBE would be skipped and you will get into the logonui.\nUser profile would be created automatically.\n* By clicking Next msoobe would load incomplete installation process.",
+        .str_ru = "Благодарим за скачивание симулятора Windows XP.\n\nДанный проект очень сырой (включая данный установщик).\n* По нажатию на \"Пропустить\", первоначальная настройка будет пропущена и вы перейдёте в logonui.\nПользовательский профиль будет создан автоматически\n* По нажатию на \"Далее\", первоначальная настройка загрузит незаконченный установщик."
     });
     RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
         .internal_name = "cterm_msoobe_enter_continue",
         .str_en = "To continue, click Next.",
         .str_ru = "Для продолжение щёлкните \"Далее\"."
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_msoobe_next",
+        .str_en = "Next",
+        .str_ru = "Далее"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_msoobe_skip",
+        .str_en = "Skip",
+        .str_ru = "Пропустить"
     });
     
     return array;

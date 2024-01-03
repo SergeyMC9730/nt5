@@ -173,20 +173,21 @@ void draw_background(void *ctx) {
     // get bold tahoma font from the DWM
     struct dwm_context_font font = _state.dwm_ctx->fonts.tahoma9_bld;
 
-    // calculate text position based on the steps length
+    // text position based on the steps length
     Vector2 text_pos = {
-        26,
-        sl
+        26, // x
+        sl  // y
     };
 
     // draw completion text
     DrawTextEx(
-        font.font, // font
-        TextFormat(_state.cterm_setup_time_approx, _state.minutes_left), // formatted string
-        text_pos, // pos
+        font.font,      // font
+                        // formatted string
+        TextFormat(_state.cterm_setup_time_approx, _state.minutes_left),
+        text_pos,       // pos
         font.real_size, // size in pixels
-        font.spacing, // spacing
-        WHITE // color
+        font.spacing,   // spacing
+        WHITE           // color
     );
 
     // draw description

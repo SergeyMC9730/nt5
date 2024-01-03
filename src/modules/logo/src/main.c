@@ -48,5 +48,10 @@ bool logo_command(void *data) {
 
     _ntInstallTimer(logo_reset, 5.f, NULL);
 
+    _state.old_window_size = (Vector2){
+        GetScreenWidth(),
+        GetScreenHeight()
+    };
+
     return true;
 }

@@ -26,8 +26,11 @@
 #include <nt5emul/renderer.h>
 
 #include <nt5emul/timer.h>
+#include <nt5emul/middle.h>
 
 #include <nt5emul/nt_config.h>
+
+#include <nt5emul/dwm/button.h>
 
 void msoobe_new() {
     SetTargetFPS(_state.old_fps);
@@ -41,6 +44,29 @@ void msoobe_new() {
     setup_preload(NULL);
 
     SetWindowSize(800, 600);
+
+    // get renderer state
+    renderer_state_t *st = _ntRendererGetState();
+
+    st->draw_fps = true;
+}
+
+void msoobe_exit() {
+    setup_exit();
+
+    const char *config_path = "nt/config.json";
+
+    struct nt_config config = _ntGetConfig(config_path);
+    config.oobe_completed = true;
+
+    // save config
+    _ntSaveConfig(config, config_path);
+}
+
+#include <sys/stat.h>
+
+void msoobe_setup_user_profile() {
+    mkdir("nt/profile", 0777);
 }
 
 void msoobe_draw(void *ctx) {
@@ -91,6 +117,52 @@ void msoobe_draw(void *ctx) {
 
     DrawTextEx(small_fontar.font, _state.cterm_msoobe_enter_continue, (Vector2){17, sz.y - _state.line_top_texture.height - 60 - 15}, small_fontar.real_size, small_fontar.spacing, WHITE);
 
+    struct dwm_button btn_next = {
+        .activated.ability = true,
+        .howered.ability = true,
+        .off = _state.square_next_texture_off,
+        .on = _state.square_next_texture_on,
+        .button.width = _state.square_next_texture_off.width,
+        .button.height = _state.square_next_texture_off.height,
+        .button.x = GetRenderWidth() - 24 - _state.square_next_texture_off.width,
+        .button.y = GetRenderHeight() - 14 - _state.square_next_texture_off.height
+    };
+
+    Vector2 btn_next_text_sz = MeasureTextEx(small_fontar.font, _state.cterm_msoobe_next, small_fontar.real_size, small_fontar.spacing);
+    int btn_next_text_yal = _ntGetMiddleValue(btn_next_text_sz.y, btn_next.button.height);
+
+    Vector2 btn_next_text = {
+        btn_next.button.x - 4 - btn_next_text_sz.x,
+        btn_next.button.y + btn_next_text_yal
+    };
+
+    DrawTextEx(small_fontar.font, _state.cterm_msoobe_next, btn_next_text, small_fontar.real_size, small_fontar.spacing, WHITE);
+    _ntDrawDWMButton(_state.dwm_ctx, &btn_next);
+
+    struct dwm_button btn_skip = {
+        .activated.ability = true,
+        .howered.ability = true,
+        .off = _state.square_skip_texture_off,
+        .on = _state.square_skip_texture_on,
+        .button.width = _state.square_skip_texture_off.width,
+        .button.height = _state.square_skip_texture_off.height,
+        .button.x = btn_next_text.x - _state.square_skip_texture_off.width - 24,
+        .button.y = btn_next.button.y
+    };
+
+    Vector2 btn_skip_text_sz = MeasureTextEx(small_fontar.font, _state.cterm_msoobe_skip, small_fontar.real_size, small_fontar.spacing);
+    int btn_skip_text_yal = _ntGetMiddleValue(btn_skip_text_sz.y, btn_skip.button.height);
+
+    Vector2 btn_skip_text = {
+        btn_skip.button.x - 4 - btn_skip_text_sz.x,
+        btn_skip.button.y + btn_skip_text_yal
+    };
+
+    DrawTextEx(small_fontar.font, _state.cterm_msoobe_skip, btn_skip_text, small_fontar.real_size, small_fontar.spacing, WHITE);
+    if (_ntDrawDWMButton(_state.dwm_ctx, &btn_skip) && _state.xp_vid.texture.width == 0) {
+        msoobe_exit();
+    }
+
     if (_state.xp_vid.texture.width != 0) _ntModOobeDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
 }
 void msoobe_update(void *ctx) {
@@ -124,6 +196,14 @@ void msoobe_preload(void *ctx) {
 }
 
 bool msoobe_command(void *data) {
+    if (_state.execution_lock) {
+        printf("error: only a single msoobe process can be run at the same time\n");
+
+        return false;
+    }
+
+    _state.execution_lock = true;
+
     // get renderer state
     renderer_state_t *st = _ntRendererGetState();
 
@@ -137,8 +217,9 @@ bool msoobe_command(void *data) {
     _state.old_update = layer->update;
     _state.old_ctx = layer->user;
 
-    // get dwm context from the user input
-    _state.dwm_ctx = data;
+    // get global dwm context
+    _state.dwm_ctx = _ntDwmGetGlobal();
+    
 
     layer->draw = msoobe_draw;
     layer->update = msoobe_update;
@@ -161,6 +242,8 @@ bool msoobe_command(void *data) {
     _state.cterm_msoobe_welcome = get_string("cterm_msoobe_welcome", lang);
     _state.cterm_msoobe_incomplete = get_string("cterm_msoobe_incomplete", lang);
     _state.cterm_msoobe_enter_continue = get_string("cterm_msoobe_enter_continue", lang);
+    _state.cterm_msoobe_next = get_string("cterm_msoobe_next", lang);
+    _state.cterm_msoobe_skip = get_string("cterm_msoobe_skip", lang);
 
     return true;
 }

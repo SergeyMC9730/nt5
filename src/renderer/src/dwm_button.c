@@ -79,20 +79,6 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
         border4 = borders[3];
     }
 
-    DrawLine(sz.x, sz.y, sz.x + sz.width - 1, sz.y, border1);
-    DrawLine(sz.x, sz.y, sz.x, sz.y + sz.height, border1);
-
-    DrawLine(sz.x - 1, sz.y + sz.height, sz.x + sz.width, sz.y + sz.height, border3);
-    DrawLine(sz.x + sz.width, sz.y + sz.height, sz.x + sz.width, sz.y, border3);
-
-    DrawLine(sz.x + 1, sz.y + 1, sz.x + sz.width - 2, sz.y + 1, border2);
-    DrawLine(sz.x + 1, sz.y + 1, sz.x + 1, sz.y + sz.height - 1, border2);
-
-    DrawLine(sz.x - 1 + 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + sz.height - 1, border4);
-    DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
-
-    DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
-
     if (used_texture.width != 0 && used_texture.height != 0) {
         int alignTY = (sz.height - used_texture.width) / 2;
         int alignTX = (sz.width - used_texture.height) / 2;
@@ -103,6 +89,20 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
         };
 
         DrawTexture(used_texture, texture_pos.x, texture_pos.y, WHITE);
+    } else {
+        DrawLine(sz.x, sz.y, sz.x + sz.width - 1, sz.y, border1);
+        DrawLine(sz.x, sz.y, sz.x, sz.y + sz.height, border1);
+
+        DrawLine(sz.x - 1, sz.y + sz.height, sz.x + sz.width, sz.y + sz.height, border3);
+        DrawLine(sz.x + sz.width, sz.y + sz.height, sz.x + sz.width, sz.y, border3);
+
+        DrawLine(sz.x + 1, sz.y + 1, sz.x + sz.width - 2, sz.y + 1, border2);
+        DrawLine(sz.x + 1, sz.y + 1, sz.x + 1, sz.y + sz.height - 1, border2);
+
+        DrawLine(sz.x - 1 + 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + sz.height - 1, border4);
+        DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
+
+        DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
     }
 
     if (btn->text) {

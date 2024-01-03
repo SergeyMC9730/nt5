@@ -41,6 +41,8 @@ struct module_state {
     void (*old_draw)(void *user);
     void (*old_update)(void *user);
     void *old_ctx;
+
+    Vector2 old_window_size;
 };
 
 extern struct module_state _state;

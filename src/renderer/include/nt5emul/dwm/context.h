@@ -99,3 +99,7 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx);
 
 // get process by process id
 struct dwm_window *_ntGetDWMProcess(struct dwm_context *ctx, int pid);
+
+// global dwm
+void _ntDwmSetGlobal(struct dwm_context *ctx);
+struct dwm_context *_ntDwmGetGlobal();

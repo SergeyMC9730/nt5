@@ -136,6 +136,8 @@ void _boot_begin() {
 
 	_cterm_init();
 
+	_ntDwmSetGlobal(ctx);
+
 	bool logo_runned_before = false;
 	
 	#if SKIP_LOGO == 0

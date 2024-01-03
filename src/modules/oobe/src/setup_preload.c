@@ -27,25 +27,34 @@ void setup_preload(void *ctx) {
     _state.line_top_texture = LoadTexture("nt/images/user/ui/newtop1.jpg");
 
     // TEMP
-
     _state.radio_off_texture = LoadTexture("nt/images/user/ui/nextdown.jpg");
     _state.radio_on_texture = LoadTexture("nt/images/user/ui/nextover.jpg");
 
-    _state.square_next_texture_off = LoadTexture("nt/images/user/ui/nextdown.jpg");
-    _state.radio_on_texture = LoadTexture("nt/images/user/ui/nextover.jpg");
+    _state.square_next_texture_off = LoadTexture("nt/images/user/ui/nextup.jpg");
+    _state.square_next_texture_on = LoadTexture("nt/images/user/ui/nextdown.jpg");
+
+    _state.square_skip_texture_off = LoadTexture("nt/images/user/ui/skipup.jpg");
+    _state.square_skip_texture_on = LoadTexture("nt/images/user/ui/skipdown.jpg");
 
     // texture wraps
-
     SetTextureWrap(_state.main_bg_texture, TEXTURE_WRAP_CLAMP);
-    // SetTextureWrap(_state.logo_texture, TEXTURE_WRAP_);
 
     // window settings
-
     SetWindowSize(640, 480);
-    // SetWindowState(FLAG_WINDOW_RESIZABLE);
-    // SetWindowMinSize(640, 480);
 
     // texture filters
+    Texture2D *texture_list[] = {
+        &_state.logo_texture, &_state.main_bg_texture, &_state.line_bottom_texture,
+        &_state.line_top_texture, &_state.radio_off_texture, &_state.radio_on_texture,
+        &_state.square_next_texture_off, &_state.square_next_texture_on, &_state.square_skip_texture_off,
+        &_state.square_skip_texture_on
+    };
 
-    SetTextureFilter(_state.logo_texture, TEXTURE_FILTER_BILINEAR);
+    size_t list_sz = sizeof(texture_list) / sizeof(Texture2D *);
+
+    for (size_t i = 0; i < list_sz; i++) {
+        Texture2D *txt = texture_list[i];
+
+        SetTextureFilter(*txt, TEXTURE_FILTER_BILINEAR);
+    }
 }

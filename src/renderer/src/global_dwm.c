@@ -18,23 +18,15 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/logo/state.h>
-#include <nt5emul/renderer.h>
+#include <nt5emul/dwm/context.h>
 
-void logo_unload_textures(void *ctx) {
-    UnloadTexture(_state.logo_texture);
+struct dwm_context *__global_dwm_context = NULL;
+
+void _ntDwmSetGlobal(struct dwm_context *ctx) {
+    if (!__global_dwm_context) {
+        __global_dwm_context = ctx;
+    }
 }
-
-void logo_reset() {
-    renderer_state_t *st = _ntRendererGetState();
-
-    st->layers[RENDERER_LAYERS - 1].draw = _state.old_draw;
-    st->layers[RENDERER_LAYERS - 1].update = _state.old_update;
-
-    _ntRendererPushQueue(logo_unload_textures, NULL);
-
-    _state.init_complete = false;
-    _state.execution_lock = false;
-
-    SetWindowSize(_state.old_window_size.x, _state.old_window_size.y);
+struct dwm_context *_ntDwmGetGlobal() {
+    return __global_dwm_context;
 }

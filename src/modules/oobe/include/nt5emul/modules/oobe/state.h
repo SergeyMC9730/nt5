@@ -41,6 +41,9 @@ struct module_state {
     Texture2D square_next_texture_off;
     Texture2D square_next_texture_on;
 
+    Texture2D square_skip_texture_off;
+    Texture2D square_skip_texture_on;
+
     struct dwm_context *dwm_ctx;
 
     bool init_complete;
@@ -78,6 +81,8 @@ struct module_state {
     const char *cterm_msoobe_welcome;
     const char *cterm_msoobe_incomplete;
     const char *cterm_msoobe_enter_continue;
+    const char *cterm_msoobe_next;
+    const char *cterm_msoobe_skip;
 };
 
 extern struct module_state _state;

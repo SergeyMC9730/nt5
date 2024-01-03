@@ -46,7 +46,7 @@ void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, c
 
     data->font = LoadFontEx(font, data->real_size, codepoints, codepointCount);
 
-    SetTextureFilter(data->font.texture, TEXTURE_FILTER_BILINEAR);
+    // SetTextureFilter(data->font.texture, TEXTURE_FILTER_BILINEAR);
 
     free(codepoints);
 }

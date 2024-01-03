@@ -49,9 +49,10 @@ void setup_exit(void *ctx) {
 
     // creating texture list as pointers to save stack space
     Texture2D *textures[] = {
-        &_state.line_bottom_texture, &_state.line_top_texture,
-        &_state.logo_texture, &_state.main_bg_texture,
-        &_state.radio_off_texture, &_state.radio_on_texture
+        &_state.logo_texture, &_state.main_bg_texture, &_state.line_bottom_texture,
+        &_state.line_top_texture, &_state.radio_off_texture, &_state.radio_on_texture,
+        &_state.square_next_texture_off, &_state.square_next_texture_on, &_state.square_skip_texture_off,
+        &_state.square_skip_texture_on
     };
 
     // get array size
@@ -82,6 +83,8 @@ void setup_exit(void *ctx) {
     if (ref.callback) {
         ref.callback("topnotify Restarting...");
     }
+
+    _state.execution_lock = false;
 }
 
 void setup_exit_queue(void *ctx) {
@@ -110,6 +113,14 @@ const char *get_string(const char *i, const char *l) {
 }
 
 bool setup_command(void *data) {
+    if (_state.execution_lock) {
+        printf("error: only a single setup process can be run at the same time\n");
+
+        return false;
+    }
+
+    _state.execution_lock = true;
+
     // get renderer state
     renderer_state_t *st = _ntRendererGetState();
 
@@ -123,8 +134,8 @@ bool setup_command(void *data) {
     _state.old_update = layer->update;
     _state.old_ctx = layer->user;
 
-    // get dwm context from the user input
-    _state.dwm_ctx = data;
+    // get global dwm context
+    _state.dwm_ctx = _ntDwmGetGlobal();
 
     // period count
     int times = 2;
