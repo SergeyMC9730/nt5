@@ -18,6 +18,8 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <stdbool.h>
+#pragma once
 
-bool topnotify_command(void *data);
+#include <nt5emul/arrays/rsb_array_gen.h>
+
+RSB_ARRAY_DEF_GEN(char, String);

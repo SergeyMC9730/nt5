@@ -62,7 +62,6 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/tahoma.ttf");
     _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9.f / font_div, "nt/fonts/tahomabd.ttf");
 
-
     _ntLoadDwmFont(&ctx->fonts.franklin24_std, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
     _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
     
@@ -72,6 +71,12 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
     st->layers[0].user = NULL;
     st->layers[0].update = NULL;
+
+    if (!ctx->sounds.audio_device_initialized)  {
+        InitAudioDevice();
+
+        ctx->sounds.audio_device_initialized = true;
+    }
 
     ctx->loading_finished = true;
 }

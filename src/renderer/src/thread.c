@@ -24,10 +24,13 @@
 
 #include <string.h>
 
+#include <sys/types.h>
+
 void *_ntRendererThread(void *ptr) {
 	// init raylib window
 	InitWindow(640, 480, "NT5");
 
+	// get renderer state
 	renderer_state_t *st = _ntRendererGetState();
 
 	// check if layers already exists and free if they
@@ -69,4 +72,16 @@ void *_ntRendererThread(void *ptr) {
 	CloseWindow();
 
 	return NULL;
+}
+
+bool _ntRendererInThread() {
+	// get thread id
+	pthread_t p = pthread_self();
+
+	// get renderer state
+	renderer_state_t *st = _ntRendererGetState();
+
+	if (p == st->thread) return true;
+
+	return false;
 }

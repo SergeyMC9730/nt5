@@ -226,8 +226,6 @@ bool msoobe_command(void *data) {
 
     // load all textures before rendering oobe layer
     _ntRendererPushQueue(msoobe_preload, NULL);
-    
-    InitAudioDevice();
 
     _state.music_title = LoadSound("nt/sounds/title.mp3");
 
@@ -238,6 +236,9 @@ bool msoobe_command(void *data) {
     struct nt_config cfg = _ntGetConfig("nt/config.json");
 
     const char *lang = cfg.selected_lang;
+
+    _state.frame_1 = 0;
+    _state.frame_2 = _state.frame_1;
 
     _state.cterm_msoobe_welcome = get_string("cterm_msoobe_welcome", lang);
     _state.cterm_msoobe_incomplete = get_string("cterm_msoobe_incomplete", lang);

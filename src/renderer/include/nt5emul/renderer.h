@@ -79,6 +79,8 @@ void _ntRendererDraw();
 void _ntRendererJoin();
 // run thread
 void *_ntRendererThread(void *ptr);
+// check if function has been runned inside the renderer thread
+bool _ntRendererInThread();
 
 // state functions
 

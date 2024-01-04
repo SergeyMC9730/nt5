@@ -42,15 +42,17 @@ extern "C" {
 #define RSB_ARRAY_FUNC_POPELEMENT_DEF(funname) void RSBPopElement##funname(RSB_ARRAY_NAME(funname) *array)
 #define RSB_ARRAY_FUNC_DESTROY_DEF(funname) void RSBDestroy##funname(RSB_ARRAY_NAME(funname) *array)
 #define RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname) type RSBGetAtIndex##funname(RSB_ARRAY_NAME(funname) *array, unsigned int index)
+#define RSB_ARRAY_FUNC_MERGE_DEF(type, funname) void RSBMergeElements##funname(RSB_ARRAY_NAME(funname) *source, RSB_ARRAY_NAME(funname) *destination)
 
 #define RSB_ARRAY_DEF_GEN(type, funname) RSB_ARRAY_STRUCT(type, funname); \
 RSB_ARRAY_FUNC_CREATE_DEF(funname);             \
-RSB_ARRAY_FUNC_DESTROY_DEF(funname);      \
+RSB_ARRAY_FUNC_DESTROY_DEF(funname);            \
                                                 \
 RSB_ARRAY_FUNC_ADDELEMENT_DEF(type, funname);   \
 RSB_ARRAY_FUNC_POPELEMENT_DEF(funname);         \
+RSB_ARRAY_FUNC_MERGE_DEF(type, funname);        \
                                                 \
-RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname);
+RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname);   
 
 #include <stdlib.h>
 
@@ -126,13 +128,26 @@ RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname);
     return array->objects[index];                                                                     \
 }
 
+#define RSB_ARRAY_FUNC_MERGE_IMPL(type, funname) RSB_ARRAY_FUNC_MERGE_DEF(type, funname) { \
+    if (!source || !destination || !source->objects || !destination->objects) return;      \
+                                                                                           \
+    for (size_t i = 0; i < source->len; i++) {                                             \
+        type obj = RSBGetAtIndex##funname(source, i);                                      \
+                                                                                           \
+        RSBAddElement##funname(destination, obj);                                          \
+    }                                                                                      \
+                                                                                           \
+    return;                                                                                \
+}
+
 #define RSB_ARRAY_IMPL_GEN(type, funname)        \
-RSB_ARRAY_FUNC_CREATE_IMPL(funname);       \
-RSB_ARRAY_FUNC_DESTROY_IMPL(funname);      \
-                                        \
+RSB_ARRAY_FUNC_CREATE_IMPL(funname);             \
+RSB_ARRAY_FUNC_DESTROY_IMPL(funname);            \
+                                                 \
 RSB_ARRAY_FUNC_ADDELEMENT_IMPL(type, funname);   \
 RSB_ARRAY_FUNC_POPELEMENT_IMPL(type, funname);   \
-                                        \
+RSB_ARRAY_FUNC_MERGE_IMPL(type, funname);        \
+                                                 \
 RSB_ARRAY_FUNC_GETATINDEX_IMPL(type, funname);
 
 #pragma pack(pop)

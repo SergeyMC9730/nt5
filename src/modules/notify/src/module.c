@@ -20,12 +20,12 @@
 
 #include <nt5emul/modules/notify/state.h>
 
-#include <nt5emul/modules/notify/topnotify_command.h>
+#include <nt5emul/modules/notify/notify_command.h>
 
 void init(cterm_t *info) {
     _state.runtime = info;
     
-    info->register_command("topnotify", "Notify NT5 renderer", false, topnotify_command);
+    info->register_command("notify", "Notify NT5 renderer", false, notify_command);
 
     return;
 }

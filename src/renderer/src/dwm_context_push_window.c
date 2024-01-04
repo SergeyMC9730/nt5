@@ -22,6 +22,8 @@
 
 #include <string.h>
 
+#include <stdio.h>
+
 // push window to the dwm context
 void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
     struct dwm_window wnd2 = wnd;

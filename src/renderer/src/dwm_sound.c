@@ -51,6 +51,8 @@ struct dwm_sound _ntDwmLoadSound(const char *path) {
     SetMusicPitch(snd.sound, snd.pitch);
 
     _ntDwmStopSound(snd);
+
+    return snd;
 }
 
 void _ntDwmUnloadSound(struct dwm_sound snd) {
@@ -114,6 +116,8 @@ void _ntDwmUpdateSound(struct dwm_sound *snd) {
 
 // load sounds from the dwm context
 void _ntDwmLoadSounds(struct dwm_context *ctx) {
+    if (ctx->sounds.sfx_loaded) return;
+
     ctx->sounds.chimes = LoadSound("nt/sounds/chimes.wav");
     ctx->sounds.chord = LoadSound("nt/sounds/chord.wav");
     ctx->sounds.ding = LoadSound("nt/sounds/ding.wav");
@@ -121,4 +125,6 @@ void _ntDwmLoadSounds(struct dwm_context *ctx) {
     ctx->sounds.xplogon = LoadSound("nt/sounds/xplogon.wav");
     ctx->sounds.xpshutdn = LoadSound("nt/sounds/xpshutdn.wav");
     ctx->sounds.xpstartu = LoadSound("nt/sounds/xpstartu.wav");
+
+    ctx->sounds.sfx_loaded = true;
 }

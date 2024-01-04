@@ -79,12 +79,15 @@ void setup_exit(void *ctx) {
     // find api command
     cterm_command_reference_t ref = _state.runtime->find("CTERM_line_execute");
 
-    // run topnotify command if CTERM_line_execute command has been found
+    // run notify command if CTERM_line_execute command has been found
     if (ref.callback) {
-        ref.callback("topnotify Restarting...");
+        ref.callback("notify Restarting...");
     }
 
     _state.execution_lock = false;
+
+    // stop title.wma (title.mp3)
+    StopSound(_state.music_title);
 }
 
 void setup_exit_queue(void *ctx) {
@@ -107,7 +110,7 @@ const char *get_string(const char *i, const char *l) {
 
     const char *string = ptr[lang_offset];
 
-    printf("0x%08X (%s)\n", string, string);
+    printf("0x%08llX (%s)\n", (unsigned long long)string, string);
 
     return string;
 }

@@ -18,25 +18,6 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
+#include <nt5emul/arrays/rsb_array_char.h>
 
-#pragma once
-
-#include <cterm/applications/api.h>
-#include <raylib.h>
-
-struct module_state {
-    cterm_t *runtime;
-
-    bool running;
-
-    float opacity;
-    const char *message;
-
-    void (*old_draw)(void *user);
-    void (*old_update)(void *user);
-    void *old_ctx;
-
-    Font font;
-};
-
-extern struct module_state _state;
+RSB_ARRAY_IMPL_GEN(char, String);

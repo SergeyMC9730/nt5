@@ -25,7 +25,7 @@
 void _ntRendererUpdate() {
 	renderer_state_t *st = _ntRendererGetState();
 
-    // process queue
+    // process 
 
     for (size_t i = 0; i < st->queue->len; i++) {
         // get object inside the queue
@@ -36,7 +36,9 @@ void _ntRendererUpdate() {
     }
 
     // cleanup queue
-    while (st->queue->len != 0) RSBPopElementRendererQueue(st->queue);
+    while (st->queue->len != 0) {
+        RSBPopElementRendererQueue(st->queue);
+    }
 
     // process layers
 

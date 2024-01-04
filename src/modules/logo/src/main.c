@@ -36,12 +36,14 @@ bool logo_command(void *data) {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    _state.old_draw = st->layers[RENDERER_LAYERS - 1].draw;
-    _state.old_update = st->layers[RENDERER_LAYERS - 1].update;
-    _state.old_ctx = st->layers[RENDERER_LAYERS - 1].user;
+    int index = RENDERER_LAYERS - 2;
 
-    st->layers[RENDERER_LAYERS - 1].draw = logo_draw;
-    st->layers[RENDERER_LAYERS - 1].update = logo_update;
+    _state.old_draw = st->layers[index].draw;
+    _state.old_update = st->layers[index].update;
+    _state.old_ctx = st->layers[index].user;
+
+    st->layers[index].draw = logo_draw;
+    st->layers[index].update = logo_update;
 
     _state.transition_color = WHITE;
     _state.transition_color.a = 0;

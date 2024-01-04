@@ -37,10 +37,31 @@
 
 #include <nt5emul/nt_config.h>
 
+#include <nt5emul/arrays/rsb_array_char.h>
+
 #define SKIP_LOGO 1
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);
+
+rsb_array_String *str_test;
+char *str_test2;
+
+bool _boot_run_command(const char *command, void *userdata) {
+	// printf("running command %s\n", command);
+	// load bootscreen
+	cterm_command_reference_t ref = find_command((char *)command);
+
+	// check if bootscreen module exist
+	if (ref.callback) {
+		// run it
+		ref.callback(userdata);
+
+		return true;
+	}
+
+	return false;
+}
 
 void _boot_begin_debug(void *user) {
 	struct dwm_context *ctx = (struct dwm_context *)user;
@@ -56,25 +77,30 @@ void _boot_begin_debug(void *user) {
 		// push window
 		_ntPushWindow(ctx, wnd);
 	}
+
+	int c = GetCharPressed();
+
+	while (c != 0) {
+		RSBPopElementString(str_test);
+
+		RSBAddElementString(str_test, c);
+		RSBAddElementString(str_test, 0);
+
+		c = GetCharPressed();
+		// _boot_run_command("CTERM_line_execute", TextFormat("notify %s", str_test->objects));
+		snprintf(str_test2, 2048, "notify %s", (const char *)str_test->objects);
+
+		_boot_run_command("CTERM_line_execute", (void *)str_test2);
+	}
+
+	if (IsKeyPressed(KEY_BACKSPACE)) {
+		RSBPopElementString(str_test);
+
+		_boot_run_command("CTERM_line_execute", (void *)str_test2);
+	}
 }
 
 #include <unistd.h>
-
-bool _boot_run_command(const char *command, void *userdata) {
-	printf("running command %s\n", command);
-	// load bootscreen
-	cterm_command_reference_t ref = find_command((char *)command);
-
-	// check if bootscreen module exist
-	if (ref.callback) {
-		// run it
-		ref.callback(userdata);
-
-		return true;
-	}
-
-	return false;
-}
 
 bool _boot_run_logo() {
 	bool result = true;
@@ -128,6 +154,9 @@ void _boot_begin() {
 
 	// 	_ntPushWindow(ctx, wnd);
 	// }
+
+	str_test = RSBCreateArrayString();
+	str_test2 = (char *)calloc(1, 2048);
 
 	renderer_state_t * st = _ntRendererGetState();
 
@@ -186,4 +215,6 @@ void _boot_begin() {
 
 		_boot_run_msoobe(ctx);
 	}
+
+
 }

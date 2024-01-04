@@ -28,8 +28,11 @@ void logo_unload_textures(void *ctx) {
 void logo_reset() {
     renderer_state_t *st = _ntRendererGetState();
 
-    st->layers[RENDERER_LAYERS - 1].draw = _state.old_draw;
-    st->layers[RENDERER_LAYERS - 1].update = _state.old_update;
+    int index = RENDERER_LAYERS - 2;
+
+    st->layers[index].draw = _state.old_draw;
+    st->layers[index].update = _state.old_update;
+    st->layers[index].user = _state.old_ctx;
 
     _ntRendererPushQueue(logo_unload_textures, NULL);
 

@@ -59,6 +59,9 @@ struct dwm_context_sounds {
     Sound xplogoff;
     Sound xpstartu;
     Sound xpshutdn;
+
+    bool audio_device_initialized;
+    bool sfx_loaded;
 };
 
 struct dwm_context {
