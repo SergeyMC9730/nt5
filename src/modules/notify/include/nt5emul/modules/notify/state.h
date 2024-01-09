@@ -36,6 +36,8 @@ struct module_state {
     void (*old_update)(void *user);
     void *old_ctx;
 
+    bool old_show_fps;
+
     Font font;
 };
 

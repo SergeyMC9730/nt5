@@ -46,8 +46,10 @@ void notify_draw(void *data) {
         _state.opacity = 1.f;
         _state.running = false;
 
-        UnloadFont(_state.font);
-        _state.font.recs = NULL;
+        // UnloadFont(_state.font);
+        // _state.font.recs = NULL;
+
+        st->draw_fps = _state.old_show_fps;
 
         return;
     }
@@ -155,6 +157,9 @@ bool notify_command(void *data) {
         _state.old_ctx = layer->user;
 
         layer->draw = notify_draw;
+
+        _state.old_show_fps = st->draw_fps;
+        st->draw_fps = false;
     }
 
     return true;
