@@ -46,9 +46,6 @@ void notify_draw(void *data) {
         _state.opacity = 1.f;
         _state.running = false;
 
-        // UnloadFont(_state.font);
-        // _state.font.recs = NULL;
-
         st->draw_fps = _state.old_show_fps;
 
         return;

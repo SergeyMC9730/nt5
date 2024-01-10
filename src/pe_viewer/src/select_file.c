@@ -27,9 +27,16 @@
 #include <nt5emul/tui/frame.h>
 #include <nt5emul/tui/environment.h>
 #include <nt5emul/pv/file_check.h>
+#include <nt5emul/pv/peinfo.h>
 #include <string.h>
 
 void _ntPVSelectFileUpdate() {
+    if (__state.file_path != NULL) {
+        _ntPVUpdatePe();
+
+        return;
+    }
+
     int c = GetRenderHeight() / 16 - 7;
 
     if (__state.file_selector->items_per_page != c) {
@@ -61,7 +68,6 @@ void _ntPVSelectFileDraw() {
     r.height = GetRenderHeight() / 16 + 1;
 
     _ntTuiDrawRectangleGr(r, BLACK, gray);
-    _ntTuiDrawTextCentered("SELECT PE FILE", 0xFF, 1, WHITE);
 
     r.x = 2;
     r.y = 2;
@@ -69,6 +75,14 @@ void _ntPVSelectFileDraw() {
     r.height = GetRenderHeight() / 16 - 4;
 
     _ntTuiDrawFrame(r, WHITE, NULL);
+
+    if (__state.file_path != NULL) {
+        _ntPVDrawPe();
+
+        return;
+    }
+
+    _ntTuiDrawTextCentered("SELECT PE FILE", 0xFF, 1, WHITE);
 
     _ntTuiDrawMenu(__state.file_selector->base);
 

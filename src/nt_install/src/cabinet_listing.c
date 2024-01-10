@@ -297,6 +297,7 @@ const char *_bi_cabinet_listing[] = {
 
     // binaries
     "explorer.ex_", "*nt/binary/explorer.exe", "explorer.exe",
+    "shell32.dl_", "*nt/binary/shell32.dll", "shell32.dll",
 
     // fonts
     "tahoma.tt_", "*nt/fonts/tahoma.ttf", "tahoma.ttf",

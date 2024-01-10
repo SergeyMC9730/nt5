@@ -18,6 +18,7 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/pv/state.h>
+#pragma once
 
-struct pe_viewer_state __state = {};
+void _ntPVDrawPe();
+void _ntPVUpdatePe();

@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #pragma once
@@ -24,5 +24,7 @@
 
 // is file pe
 bool _ntPVFileCheck(const char *file_path);
+
+void _ntPVLoadPe(const char *file_path);
 
 void _ntPVOnFileClick(struct nt_file_selector_menu *menu, const char *file_path);
