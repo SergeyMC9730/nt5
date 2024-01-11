@@ -74,6 +74,9 @@ void setup_exit(void *ctx) {
     // save config
     _ntSaveConfig(config, config_path);
 
+    // free config
+    _ntUnloadConfig(config);
+
     // send notification
 
     // find api command
@@ -156,6 +159,9 @@ bool setup_command(void *data) {
     struct nt_config cfg = _ntGetConfig("nt/config.json");
 
     const char *lang = cfg.selected_lang;
+
+    // free config
+    _ntUnloadConfig(cfg);
 
     _state.cterm_setup_installing_devices = get_string("cterm_setup_installing_devices", lang);
     _state.cterm_setup_installing_network = get_string("cterm_setup_installing_network", lang);

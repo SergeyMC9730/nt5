@@ -59,8 +59,24 @@ void msoobe_exit() {
     struct nt_config config = _ntGetConfig(config_path);
     config.oobe_completed = true;
 
+    // check if no users were been created
+    bool user_created = false;
+    for (int i = 0; i < NT_MAX_USERS; i++) {
+        if (user_created) break;
+
+        user_created = config.user[i].created;
+    }
+
+    if (!user_created) {
+        // create user
+        _ntAddUserToConfig(&config, "Administrator");
+    }
+
     // save config
     _ntSaveConfig(config, config_path);
+
+    // free config
+    _ntUnloadConfig(config);
 }
 
 #include <sys/stat.h>
@@ -236,6 +252,9 @@ bool msoobe_command(void *data) {
     struct nt_config cfg = _ntGetConfig("nt/config.json");
 
     const char *lang = cfg.selected_lang;
+
+    // free config
+    _ntUnloadConfig(cfg);
 
     _state.frame_1 = 0;
     _state.frame_2 = _state.frame_1;

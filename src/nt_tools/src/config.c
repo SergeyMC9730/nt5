@@ -21,6 +21,7 @@
 #include <nt5emul/nt_config.h>
 #include <nt5emul/file_exists.h>
 #include <nt5emul/read_text.h>
+#include <nt5emul/copy_string.h>
 
 #include <cJSON.h>
 
@@ -72,6 +73,40 @@ struct nt_config _ntGetConfig(const char *path) {
         }
     }
 
+    cJSON *user_array = cJSON_GetObjectItem(config_object, "users");
+
+    if (user_array && cJSON_IsArray(user_array)) {
+        cJSON *user_object = NULL;
+        int user_index = 0;
+
+        // go through each created user
+        cJSON_ArrayForEach(user_object, user_array) {
+            if (user_index == NT_MAX_USERS) break;
+
+            if (cJSON_IsObject(user_object)) {
+                cJSON *name_object = cJSON_GetObjectItem(user_object, "name");
+                cJSON *picture_object = cJSON_GetObjectItem(user_object, "picture_path");
+                cJSON *created_object = cJSON_GetObjectItem(user_object, "created");
+
+                if (name_object && cJSON_IsString(name_object)) {
+                    config.user[user_index].name = (const char *)_ntCopyString(name_object->valuestring);
+                }
+                if (picture_object && cJSON_IsString(picture_object)) {
+                    config.user[user_index].picture_path = (const char *)_ntCopyString(picture_object->valuestring);
+                }
+                
+                if (created_object && cJSON_IsBool(created_object)) {
+                    config.user[user_index].created = created_object->valueint;
+                }
+            }
+            
+            user_index++;
+        }
+    } else {
+        // without users you would not be able to go further than logonui
+        config.oobe_completed = false;
+    }
+
     cJSON_Delete(config_object);
     free(data);
 
@@ -87,6 +122,21 @@ void _ntSaveConfig(struct nt_config cfg, const char *path) {
 
     cJSON_AddStringToObject(config_object, "selected_lang", cfg.selected_lang);
 
+    cJSON *user_array = cJSON_AddArrayToObject(config_object, "users");
+
+    for (int i = 0; i < NT_MAX_USERS; i++) {
+        if (cfg.user[i].created) {
+            cJSON *user_object = cJSON_CreateObject();
+
+            cJSON_AddBoolToObject(user_object, "created", cfg.user[i].created);
+
+            cJSON_AddStringToObject(user_object, "name", cfg.user[i].name);
+            cJSON_AddStringToObject(user_object, "picture_path", cfg.user[i].picture_path);
+
+            cJSON_AddItemToArray(user_array, user_object);
+        }
+    }
+
     char *cfgstr = cJSON_Print(config_object); 
 
     FILE *cfgfile = fopen(path, "w");
@@ -99,4 +149,25 @@ end:
     cJSON_Delete(config_object);
 
     if (cfgfile != NULL) fclose(cfgfile); 
+}
+
+void _ntUnloadConfig(struct nt_config cfg) {
+    for (int i = 0; i < NT_MAX_USERS; i++) {
+        if (cfg.user[i].name) {
+            free((char *)cfg.user[i].name);
+            free((char *)cfg.user[i].picture_path);
+        }
+    }
+}
+
+void _ntAddUserToConfig(struct nt_config *cfg, const char *user) {
+    for (int i = 0; i < NT_MAX_USERS; i++) {
+        if (!cfg->user[i].created) {
+            cfg->user[i].name = _ntCopyString(user);
+            cfg->user[i].picture_path = _ntCopyString("nt/images/user/avatars/airplane.bmp");
+            cfg->user[i].created = true;
+
+            return;
+        }
+    }
 }

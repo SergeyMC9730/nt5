@@ -20,24 +20,5 @@
 
 #pragma once
 
-#include <stdbool.h>
-
-struct nt_config {
-    bool setup_completed;
-    bool graphical_setup_completed;
-    bool oobe_completed;
-
-    const char *selected_lang;
-    
-    struct nt_user_config {
-        const char *name;
-        const char *picture_path;
-        bool created;
-#define NT_MAX_USERS 8
-    } user[NT_MAX_USERS];
-};
-
-struct nt_config _ntGetConfig(const char *path);
-void _ntSaveConfig(struct nt_config cfg, const char *path);
-void _ntUnloadConfig(struct nt_config cfg);
-void _ntAddUserToConfig(struct nt_config *cfg, const char *user);
+// should be freed after string's usage
+char *_ntCopyString(const char *str);

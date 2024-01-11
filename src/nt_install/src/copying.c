@@ -86,7 +86,7 @@ void _boot_install_thread8() {
 
     // convert title.wma to title.mp3
 
-    system("ffmpeg -i nt/sounds/title.wma -b:a 256K nt/sounds/title.mp3");
+    system("ffmpeg -y -i nt/sounds/title.wma -b:a 256K nt/sounds/title.mp3");
 
     _boot_install_beginstep9();
 }

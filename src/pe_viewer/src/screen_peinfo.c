@@ -51,7 +51,7 @@ void _ntPVDrawResourceTree(pe_resource_node_t *node) {
     if (node->type == LIBPE_RDT_DATA_ENTRY) {
         IMAGE_RESOURCE_DATA_ENTRY *entry = node->raw.dataEntry;
 
-        type = TextFormat("%s (%d)", type, entry->OffsetToData);
+        type = TextFormat("%s (%d)", type, entry->CodePage);
     }
 
     _ntTuiDrawText(TextFormat("dirLevel: %d (depth=%d)\ntype: %s",
@@ -189,8 +189,6 @@ void _ntPVUpdatePe() {
                 __state.tree_pos = v;
 
                 __state.page2_init = true;
-
-                __state.current_page_name = "RESOURCES";
             }
 
             if (IsKeyPressed(KEY_W) || IsKeyPressedRepeat(KEY_W)) {
@@ -199,6 +197,8 @@ void _ntPVUpdatePe() {
             if (IsKeyPressed(KEY_S) || IsKeyPressedRepeat(KEY_S)) {
                 __state.tree_pos.y++;
             }
+
+            __state.current_page_name = "RESOURCES";
 
             __state.tree_current_pos = __state.tree_pos;
 
