@@ -21,6 +21,7 @@
 #include <nt5emul/modules/oobe/state.h>
 #include <nt5emul/modules/oobe/render.h>
 #include <nt5emul/middle.h>
+#include <nt5emul/renderer.h>
 
 #include <nt5emul/ntcore.h>
 
@@ -113,7 +114,7 @@ void draw_background(void *ctx) {
 
     // main background
 
-    _ntModOobeDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){}); 
+    _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){}); 
 
     // status background
 
@@ -143,8 +144,8 @@ void draw_background(void *ctx) {
        bg1_pos.x, c2
     };
 
-    _ntModOobeDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f, 1.f}, bg1_pos, (Vector2){});
-    _ntModOobeDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f, -1.f}, bg1_pos2, (Vector2){});
+    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f, 1.f}, bg1_pos, (Vector2){});
+    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f, -1.f}, bg1_pos2, (Vector2){});
 
     _state.main_bg_texture.width = bg_old_sz.x;
     _state.main_bg_texture.height = bg_old_sz.y;
@@ -159,8 +160,8 @@ void draw_background(void *ctx) {
     };
 
     // draw lines
-    _ntModOobeDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
-    _ntModOobeDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
+    _ntRendererDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
+    _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
 
     // draw logo    
     DrawTextureEx(_state.logo_texture, (Vector2){10, 2}, 0.f, 0.7f, WHITE);

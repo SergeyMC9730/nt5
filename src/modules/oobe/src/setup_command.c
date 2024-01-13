@@ -98,26 +98,6 @@ void setup_exit_queue(void *ctx) {
     _ntRendererPushQueue(setup_exit, NULL);
 }
 
-const char *get_string(const char *i, const char *l) {
-    int lang_offset = 1;
-
-    printf("lang: %s (comp=%d) ; string=", l, strcmp(l, "ru"));
-
-    if (!strcmp(l, "ru")) {
-        lang_offset = 2;
-    }
-
-    struct language_pack_cell cell = _ntFindInLanguagePack(i, _state.dwm_ctx->lpack);
-    
-    const char **ptr = &cell;
-
-    const char *string = ptr[lang_offset];
-
-    printf("0x%08llX (%s)\n", (unsigned long long)string, string);
-
-    return string;
-}
-
 bool setup_command(void *data) {
     if (_state.execution_lock) {
         printf("error: only a single setup process can be run at the same time\n");

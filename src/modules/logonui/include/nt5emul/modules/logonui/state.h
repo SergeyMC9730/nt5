@@ -18,22 +18,32 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/oobe/render.h>
+#pragma once
 
-void _ntModOobeDrawCroppedTexture(Texture2D texture, Vector2 crop, Vector2 pos) {
-    Rectangle source = {
-        .x = 0,
-        .y = 0,
-        .width = texture.width,
-        .height = texture.height
-    };
+#include <cterm/applications/api.h>
+#include <raylib.h>
+#include <nt5emul/dwm/context.h>
 
-    Rectangle dest = {
-        .x = pos.x,
-        .y = pos.y,
-        .width = source.width,
-        .height = source.height
-    };
+struct module_state {
+    cterm_t *runtime;
 
-    DrawTexturePro(texture, source, dest, (Vector2){}, 0.f, WHITE);
-}
+    const char *cterm_logonui_welcome;
+
+    Texture2D line_bottom_texture;
+    Texture2D line_top_texture;
+    Texture2D main_bg_texture;
+
+    void (*old_draw)(void *user);
+    void (*old_update)(void *user);
+    void *old_ctx;
+
+    struct dwm_context *dwm_ctx;
+    
+    Sound xp_start_sound;
+
+    bool execution_lock;
+};
+
+extern struct module_state _state;
+
+const char *get_string(const char *i, const char *l);

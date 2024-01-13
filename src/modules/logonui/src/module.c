@@ -18,19 +18,16 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/oobe/render.h>
-#include <nt5emul/middle.h>
+#include <nt5emul/modules/logonui/state.h>
 
-Vector2 _ntModOobeCenterTexture(Texture2D texture, bool x, bool y) {
-    Vector2 sz = {
-        GetRenderWidth(),
-        GetRenderHeight()
-    };
+#include <nt5emul/modules/logonui/logonui_command.h>
 
-    Vector2 pos = {
-        _ntGetMiddleValue(texture.width, sz.x),
-        _ntGetMiddleValue(texture.height, sz.y)
-    };
+void init(cterm_t *info) {
+    _state.runtime = info;
+    
+    info->register_command("logonui", "Logon UI", false, logonui_command);
 
-    return pos;
+    return;
 }
+
+SET_INFORMATION("logonui", "Logon UI", "1.00")

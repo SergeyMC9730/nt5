@@ -50,6 +50,10 @@ void *_ntRendererThread(void *ptr) {
 	// set window fps to main monitor's refresh rate
 	SetTargetFPS(GetMonitorRefreshRate(0));
 
+	// set window to be top most.
+	// useful durring the command testing.
+	SetWindowState(FLAG_WINDOW_TOPMOST);
+
 	// set status to READY
 	st->status = RENDERER_READY;
 	

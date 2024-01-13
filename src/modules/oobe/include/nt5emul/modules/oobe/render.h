@@ -26,12 +26,6 @@ void setup_preload(void *ctx);
 #include <raylib.h>
 #include <nt5emul/modules/oobe/oobe_install_step.h>
 
-void _ntModOobeDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin);
-void _ntModOobeDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin);
-
-// returns centered texture position (not relative!)
-Vector2 _ntModOobeCenterTexture(Texture2D texture, bool x, bool y);
-
 #include <nt5emul/dwm/context.h>
 
 // returns steps length by Y

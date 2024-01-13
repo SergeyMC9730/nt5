@@ -134,6 +134,11 @@ rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
         .str_en = "Skip",
         .str_ru = "Пропустить"
     });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_logonui_welcome",
+        .str_en = "welcome",
+        .str_ru = "приветствие"
+    });
     
     return array;
 }

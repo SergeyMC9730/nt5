@@ -21,3 +21,28 @@
 #include <nt5emul/modules/oobe/state.h>
 
 struct module_state _state = {0};
+
+#include <stdio.h>
+#include <string.h>
+
+#include <nt5emul/language_pack.h>
+
+const char *get_string(const char *i, const char *l) {
+    int lang_offset = 1;
+
+    printf("lang: %s (comp=%d) ; string=", l, strcmp(l, "ru"));
+
+    if (!strcmp(l, "ru")) {
+        lang_offset = 2;
+    }
+
+    struct language_pack_cell cell = _ntFindInLanguagePack(i, _state.dwm_ctx->lpack);
+    
+    const char **ptr = &cell;
+
+    const char *string = ptr[lang_offset];
+
+    printf("0x%08llX (%s)\n", (unsigned long long)string, string);
+
+    return string;
+}

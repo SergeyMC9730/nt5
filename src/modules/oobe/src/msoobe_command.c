@@ -86,7 +86,7 @@ void msoobe_setup_user_profile() {
 }
 
 void msoobe_draw(void *ctx) {
-    _ntModOobeDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){});
+    _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){});
 
     Vector2 sz = {
         .x = GetRenderWidth(),
@@ -103,8 +103,8 @@ void msoobe_draw(void *ctx) {
     };
 
     // draw lines
-    _ntModOobeDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
-    _ntModOobeDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
+    _ntRendererDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
+    _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
 
     // draw logo    
     DrawTextureEx(_state.logo_texture, (Vector2){20, 5}, 0.f, 1.f, WHITE);
@@ -179,7 +179,7 @@ void msoobe_draw(void *ctx) {
         msoobe_exit();
     }
 
-    if (_state.xp_vid.texture.width != 0) _ntModOobeDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
+    if (_state.xp_vid.texture.width != 0) _ntRendererDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
 }
 void msoobe_update(void *ctx) {
 

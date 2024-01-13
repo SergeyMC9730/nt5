@@ -18,22 +18,6 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/oobe/render.h>
+#include <stdbool.h>
 
-void _ntModOobeDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin) {
-    Rectangle source = {
-        .x = 0,
-        .y = 0,
-        .width = texture.width * (1.f / size.x),
-        .height = texture.height * (1.f / size.y)
-    };
-
-    Rectangle dest = {
-        .x = pos.x,
-        .y = pos.y,
-        .width = texture.width,
-        .height = texture.height
-    };
-
-    DrawTexturePro(texture, source, dest, origin, 0.f, WHITE);
-}
+bool logonui_command(void *data);

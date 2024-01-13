@@ -18,34 +18,32 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/oobe/render.h>
+#include <nt5emul/modules/logonui/state.h>
 
-void _ntModOobeDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin) {
-    Vector2 sz = {
-        .x = GetRenderWidth(),
-        .y = GetRenderHeight()
-    };
+struct module_state _state = {0};
 
-    Rectangle source = {
-        .x = 0,
-        .y = 0,
-        .width = texture.width,
-        .height = texture.height
-    };
 
-    Rectangle dest = {
-        .x = pos.x,
-        .y = pos.y,
-        .width = source.width,
-        .height = source.height
-    };
+#include <stdio.h>
+#include <string.h>
 
-    if (x_stretched) {
-        dest.width = sz.x * xstretchmul;
-    }
-    if (y_stretched) {
-        dest.height = sz.y * ysctretchmul;
+#include <nt5emul/language_pack.h>
+
+const char *get_string(const char *i, const char *l) {
+    int lang_offset = 1;
+
+    printf("lang: %s (comp=%d) ; string=", l, strcmp(l, "ru"));
+
+    if (!strcmp(l, "ru")) {
+        lang_offset = 2;
     }
 
-    DrawTexturePro(texture, source, dest, origin, 0.f, WHITE);
+    struct language_pack_cell cell = _ntFindInLanguagePack(i, _state.dwm_ctx->lpack);
+    
+    const char **ptr = &cell;
+
+    const char *string = ptr[lang_offset];
+
+    printf("0x%08llX (%s)\n", (unsigned long long)string, string);
+
+    return string;
 }

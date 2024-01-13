@@ -93,3 +93,13 @@ renderer_state_t *_ntRendererGetState();
 // requested function is gonna be called on a next frame.
 // you can provide userdata for this function as an main argument.
 void _ntRendererPushQueue(void (*callback)(void *ctx), void *userdata);
+
+// drawing functions
+
+#include <raylib.h>
+
+void _ntRendererDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin);
+void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin);
+
+// returns centered texture position (not relative!)
+Vector2 _ntRendererCenterTexture(Texture2D texture, bool x, bool y);
