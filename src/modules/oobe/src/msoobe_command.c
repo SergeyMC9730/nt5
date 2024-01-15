@@ -43,10 +43,10 @@ void msoobe_new() {
 
     setup_preload(NULL);
 
-    SetWindowSize(800, 600);
-
     // get renderer state
     renderer_state_t *st = _ntRendererGetState();
+
+    SetWindowSize(800 * st->scaling, 600 * st->scaling);
 
     st->draw_fps = true;
 }
@@ -93,9 +93,12 @@ void msoobe_draw(void *ctx) {
         .y = GetRenderHeight()
     };
 
+     // get renderer state
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 line_btm = {
         .x = 0,
-        .y = sz.y - (_state.line_bottom_texture.height)
+        .y = sz.y - (_state.line_bottom_texture.height * st->scaling)
     };
     Vector2 line_top = {
         .x = 0,
@@ -107,7 +110,7 @@ void msoobe_draw(void *ctx) {
     _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
 
     // draw logo    
-    DrawTextureEx(_state.logo_texture, (Vector2){20, 5}, 0.f, 1.f, WHITE);
+    DrawTextureEx(_state.logo_texture, (Vector2){20 * st->scaling, 5 * st->scaling}, 0.f, 1.f, WHITE);
     
     struct dwm_context_font big_font = _state.dwm_ctx->fonts.franklin24_bld;
     struct dwm_context_font small_font = _state.dwm_ctx->fonts.tahoma9_std;
@@ -122,16 +125,16 @@ void msoobe_draw(void *ctx) {
     shadow.a = 256 * 0.75f;
 
     Vector2 big_text_base_pos = {
-        63, 66
+        63 * st->scaling, 66 * st->scaling
     };
 
     // Draw text
-    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, (Vector2){big_text_base_pos.x + 3, big_text_base_pos.y + 3},  big_font.real_size, big_font.spacing, shadow);
+    DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, (Vector2){big_text_base_pos.x + (3 * st->scaling), big_text_base_pos.y + (3 * st->scaling)},  big_font.real_size, big_font.spacing, shadow);
     DrawTextEx(big_font.font, _state.cterm_msoobe_welcome, big_text_base_pos,  big_font.real_size, big_font.spacing, WHITE);
 
-    DrawTextEx(small_font.font, _state.cterm_msoobe_incomplete, (Vector2){big_text_base_pos.x, 131}, small_font.real_size, small_font.spacing, WHITE);
+    DrawTextEx(small_font.font, _state.cterm_msoobe_incomplete, (Vector2){big_text_base_pos.x, (131 * st->scaling)}, small_font.real_size, small_font.spacing, WHITE);
 
-    DrawTextEx(small_fontar.font, _state.cterm_msoobe_enter_continue, (Vector2){17, sz.y - _state.line_top_texture.height - 60 - 15}, small_fontar.real_size, small_fontar.spacing, WHITE);
+    DrawTextEx(small_fontar.font, _state.cterm_msoobe_enter_continue, (Vector2){(17 * st->scaling), sz.y - _state.line_top_texture.height - (75 * st->scaling)}, small_fontar.real_size, small_fontar.spacing, WHITE);
 
     struct dwm_button btn_next = {
         .activated.ability = true,
@@ -140,15 +143,15 @@ void msoobe_draw(void *ctx) {
         .on = _state.square_next_texture_on,
         .button.width = _state.square_next_texture_off.width,
         .button.height = _state.square_next_texture_off.height,
-        .button.x = GetRenderWidth() - 24 - _state.square_next_texture_off.width,
-        .button.y = GetRenderHeight() - 14 - _state.square_next_texture_off.height
+        .button.x = GetRenderWidth() - ((24 + _state.square_next_texture_off.width) * st->scaling),
+        .button.y = GetRenderHeight() - ((14 + _state.square_next_texture_off.height) * st->scaling)
     };
 
     Vector2 btn_next_text_sz = MeasureTextEx(small_fontar.font, _state.cterm_msoobe_next, small_fontar.real_size, small_fontar.spacing);
     int btn_next_text_yal = _ntGetMiddleValue(btn_next_text_sz.y, btn_next.button.height);
 
     Vector2 btn_next_text = {
-        btn_next.button.x - 4 - btn_next_text_sz.x,
+        btn_next.button.x - (4 * st->scaling) - btn_next_text_sz.x,
         btn_next.button.y + btn_next_text_yal
     };
 
@@ -162,7 +165,7 @@ void msoobe_draw(void *ctx) {
         .on = _state.square_skip_texture_on,
         .button.width = _state.square_skip_texture_off.width,
         .button.height = _state.square_skip_texture_off.height,
-        .button.x = btn_next_text.x - _state.square_skip_texture_off.width - 24,
+        .button.x = btn_next_text.x - _state.square_skip_texture_off.width - (24 * st->scaling),
         .button.y = btn_next.button.y
     };
 
@@ -170,7 +173,7 @@ void msoobe_draw(void *ctx) {
     int btn_skip_text_yal = _ntGetMiddleValue(btn_skip_text_sz.y, btn_skip.button.height);
 
     Vector2 btn_skip_text = {
-        btn_skip.button.x - 4 - btn_skip_text_sz.x,
+        btn_skip.button.x - (4 * st->scaling) - btn_skip_text_sz.x,
         btn_skip.button.y + btn_skip_text_yal
     };
 
@@ -208,7 +211,9 @@ void msoobe_preload(void *ctx) {
 
     SetTargetFPS(15);
 
-    SetWindowSize(800, 600);
+    renderer_state_t *st  = _ntRendererGetState();
+
+    SetWindowSize(800 * st->scaling, 600 * st->scaling);
 }
 
 bool msoobe_command(void *data) {

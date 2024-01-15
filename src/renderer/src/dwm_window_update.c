@@ -20,6 +20,7 @@
 
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>
+#include <nt5emul/renderer.h>
 
 #include <stdio.h>
 
@@ -30,16 +31,18 @@ void _ntUpdateWindow(struct dwm_window *wnd, void *context) {
 
     struct dwm_context *ctx = (struct dwm_context *)context;
 
-    size_t title_bar_size = ctx->theme.basic.title_bar_size;
+    renderer_state_t *st = _ntRendererGetState();
+
+    float title_bar_size = ctx->theme.basic.title_bar_size;
 
     Rectangle sz = {
         wnd->position.x, wnd->position.y,
-        wnd->size.x, wnd->size.y
+        wnd->size.x * st->scaling, wnd->size.y * st->scaling
     };
 
     Rectangle title_bar_rect = {
-        sz.x + 2, sz.y + 3,
-        sz.width - 5, title_bar_size
+        sz.x + (2 * st->scaling), sz.y + (3 * st->scaling),
+        sz.width - (5 * st->scaling), title_bar_size
     };
 
     wnd->titlebar_rect = title_bar_rect;

@@ -19,9 +19,12 @@
 */
 
 #include <nt5emul/dwm/button.h>
+#include <nt5emul/renderer.h>
 
 // if user clicks to button function returns true
 bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 mouse = GetMousePosition();
 
     Texture2D used_texture = btn->off;
@@ -69,8 +72,8 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
         border3 = borders[3];
         border4 = borders[1];
 
-        text_pos.x++;
-        text_pos.y++;
+        text_pos.x += (1 * st->scaling);
+        text_pos.y += (1 * st->scaling);
     } else {
         border1 = borders[0];
         border2 = borders[1];

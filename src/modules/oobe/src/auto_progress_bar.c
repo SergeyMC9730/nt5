@@ -22,6 +22,8 @@
 #include <nt5emul/modules/oobe/state.h>
 #include <raylib.h>
 
+#include <nt5emul/renderer.h>
+
 void _ntModOobeUpdateAPB(struct auto_progress_bar *bar) {
     if (bar->progress >= 1.f) {
         bar->progress = 1.f;
@@ -34,11 +36,13 @@ void _ntModOobeUpdateAPB(struct auto_progress_bar *bar) {
 }
 
 void _ntModOobeDrawAPB(struct auto_progress_bar bar) {
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 base_pos = {
-        26, GetRenderHeight() - 110
+        26 * st->scaling, GetRenderHeight() - (110 * st->scaling)
     };
     Vector2 base_size = {
-        127, 16
+        127 * st->scaling, 16 * st->scaling
     };
 
     Vector2 size = base_size;
@@ -46,14 +50,14 @@ void _ntModOobeDrawAPB(struct auto_progress_bar bar) {
 
     DrawRectangleV(pos, size, DARKBLUE);
     
-    pos.x++; pos.y++;
-    size.x -= 2; size.y -= 2;
+    pos.x += 1 * st->scaling; pos.y += 1 * st->scaling;
+    size.x -= 2 * st->scaling; size.y -= 2 * st->scaling;
 
     DrawRectangleV(pos, size, WHITE);
 
-    pos.x++; pos.y++;
-    size.x = base_size.x * bar.progress - 4;
-    size.y -= 2;
+    pos.x += 1 * st->scaling; pos.y += 1 * st->scaling;
+    size.x = base_size.x * bar.progress - (4 * st->scaling);
+    size.y -= 2 * st->scaling;
 
     Color green = (Color){
         // 06c100

@@ -69,6 +69,8 @@ void logonui_exit(void *ctx) {
 void draw_background(void *ctx) {
     if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
 
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 sz = {
         .x = GetRenderWidth(),
         .y = GetRenderHeight()
@@ -88,8 +90,8 @@ void draw_background(void *ctx) {
     _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){}); 
 
     // draw lines
-    _ntRendererDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
-    _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
+    _ntRendererDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f * st->scaling, line_btm, (Vector2){}); 
+    _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f * st->scaling, line_top, (Vector2){});
 
     // get franklin font from the DWM
     struct dwm_context_font font = _state.dwm_ctx->fonts.franklin24_bld;
@@ -123,8 +125,8 @@ void draw_background(void *ctx) {
         shadow          // color
     );
 
-    text_pos.x -= 3;
-    text_pos.y -= 3;
+    text_pos.x -= (3 * st->scaling);
+    text_pos.y -= (3 * st->scaling);
 
     // draw the text itself
     DrawTextEx(

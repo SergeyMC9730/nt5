@@ -31,13 +31,14 @@
 void notify_draw(void *data) {
     float step = GetFrameTime() / 2.f;
 
+    renderer_state_t *st = _ntRendererGetState();
+
     if (_state.old_draw) _state.old_draw(_state.old_ctx);
     
     if (_state.opacity >= 0.f) _state.opacity -= step;
     else {
         free((void *)_state.message);
 
-        renderer_state_t *st = _ntRendererGetState();
         renderer_layer_t *layer = st->layers + RENDERER_LAYERS - 1;
 
         layer->draw = _state.old_draw;
@@ -57,14 +58,16 @@ void notify_draw(void *data) {
     c.a *= _state.opacity;
     c2.a *= _state.opacity;
 
-    DrawTextEx(_state.font, _state.message, (Vector2){4,4}, 20, 0.5f, c2);
-    DrawTextEx(_state.font, _state.message, (Vector2){3,3}, 20, 0.5f, c);
+    DrawTextEx(_state.font, _state.message, (Vector2){4 * st->scaling, 4 * st->scaling}, 20 * st->scaling, 0.5f * st->scaling, c2);
+    DrawTextEx(_state.font, _state.message, (Vector2){3 * st->scaling, 3 * st->scaling}, 20 * st->scaling, 0.5f * st->scaling, c);
 }
 
 void notify_scheduled(void *ctx) {
     if (_state.font.recs != NULL) return;
+
+    renderer_state_t *st = _ntRendererGetState();
     
-    _state.font = LoadFontEx("ntresources/SpaceMono-Regular.ttf", 20.f, NULL, 0);
+    _state.font = LoadFontEx("ntresources/SpaceMono-Regular.ttf", 20.f * st->scaling, NULL, 0);
 }
 
 bool notify_command(void *data) {
@@ -122,16 +125,22 @@ bool notify_command(void *data) {
         char c = _state.message[i];
         const char cs[] = {c, 0};
 
-        Vector2 csize = MeasureTextEx(_state.font, cs, 20, 0.5f);
+        renderer_state_t *st = _ntRendererGetState();
+
+        Vector2 csize = MeasureTextEx(_state.font, cs, 20 * st->scaling, 0.5f * st->scaling);
         
-        current_text_pos.x += csize.x + 1.f;
+        current_text_pos.x += csize.x + (1.f * st->scaling);
 
         // printf("i=%d; c=%c; x=%f\n", i, c, current_text_pos.x);
 
         if (current_text_pos.x > rsz.x) {
             current_text_pos.x = base_text_pos.x;
 
-            RSBAddElementString(str_array, '\n');
+            int newlines = 1 * st->scaling;
+
+            for (int j = 0; j < newlines; j++) {
+                RSBAddElementString(str_array, '\n');
+            }
 
             // printf("newline has been placed on %c (%d)\n", c, i);
         }

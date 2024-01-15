@@ -27,8 +27,12 @@
 #include <sys/types.h>
 
 void *_ntRendererThread(void *ptr) {
+	Vector2 wsz = {
+		640, 480
+	};
+
 	// init raylib window
-	InitWindow(640, 480, "NT5");
+	InitWindow(wsz.x, wsz.y, "NT5");
 
 	// get renderer state
 	renderer_state_t *st = _ntRendererGetState();
@@ -50,9 +54,19 @@ void *_ntRendererThread(void *ptr) {
 	// set window fps to main monitor's refresh rate
 	SetTargetFPS(GetMonitorRefreshRate(0));
 
+	st->scaling = GetWindowScaleDPI().x;
+
+	wsz.x *= st->scaling;
+	wsz.y *= st->scaling;
+
+	SetWindowSize(wsz.x, wsz.y);
+
 	// set window to be top most.
 	// useful durring the command testing.
 	SetWindowState(FLAG_WINDOW_TOPMOST);
+
+	// set highdpi
+	SetWindowState(FLAG_WINDOW_HIGHDPI);
 
 	// set status to READY
 	st->status = RENDERER_READY;

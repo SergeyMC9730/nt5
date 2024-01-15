@@ -25,9 +25,11 @@
 #include <unistd.h>
 
 void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {
+    renderer_state_t *st = _ntRendererGetState();
+    
     data->xp_size = xsz;
-    data->spacing = sp;
-    data->real_size = rsz;
+    data->spacing = sp *= st->scaling;
+    data->real_size = rsz *= st->scaling;
 
     const char *_ntTuiCodepoints =  "QWERTYUIOPASDFGHJKLZXCVBNM" // english alphabet with all upper case characters
                                 "qwertyuiopasdfghjklzxcvbnmzxcvbnm" // english alphabet with all lower case characters
@@ -101,9 +103,9 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
         ini_parse(theme_path, _ntParseDwmTheme, ctx);
     }
 
-    ctx->theme.basic.title_bar_size = 18;
-
     renderer_state_t *st = _ntRendererGetState();
+
+    ctx->theme.basic.title_bar_size = 18 * st->scaling;
 
     st->layers[0].user = ctx;
     st->layers[0].update = _ntCreateDwmContextMain;

@@ -19,6 +19,7 @@
 */
 
 #include <nt5emul/dwm/context.h>
+#include <nt5emul/renderer.h>
 
 #include <string.h>
 
@@ -27,6 +28,8 @@ void _ntDrawDwmContext(struct dwm_context *ctx) {
     if (ctx->theme.basic.background_color.a != 0x00) ClearBackground(ctx->theme.basic.background_color);
 
     rsb_array_Int *pids = _ntGetDWMProcesses(ctx);
+
+    renderer_state_t *st = _ntRendererGetState();
 
     for (size_t i = 0; i < pids->len; i++) {
         // struct dwm_window *ptr = ctx->windows->objects + i;
@@ -47,7 +50,7 @@ void _ntDrawDwmContext(struct dwm_context *ctx) {
     Vector2 mouse = GetMousePosition();
 
     if (ctx->selected_window != NULL) {
-        ctx->selected_window->titlebar_rect.x -= 24;
+        ctx->selected_window->titlebar_rect.x -= (24 * st->scaling);
 
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             if ( CheckCollisionPointRec(mouse, ctx->selected_window->titlebar_rect)) {
@@ -71,6 +74,6 @@ void _ntDrawDwmContext(struct dwm_context *ctx) {
             ctx->selected_window->moving.state = false;
         }
 
-        ctx->selected_window->titlebar_rect.x += 24;
+        ctx->selected_window->titlebar_rect.x += (24 * st->scaling);
     }
 }

@@ -19,6 +19,7 @@
 */
 
 #include <nt5emul/modules/oobe/state.h>
+#include <nt5emul/renderer.h>
 
 void setup_preload(void *ctx) {
     _state.logo_texture = LoadTexture("nt/images/user/ui/mslogo.jpg");
@@ -39,8 +40,10 @@ void setup_preload(void *ctx) {
     // texture wraps
     SetTextureWrap(_state.main_bg_texture, TEXTURE_WRAP_CLAMP);
 
+    renderer_state_t *st = _ntRendererGetState();
+
     // window settings
-    SetWindowSize(640, 480);
+    SetWindowSize(640 * st->scaling, 480 * st->scaling);
 
     // texture filters
     Texture2D *texture_list[] = {

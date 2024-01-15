@@ -21,6 +21,8 @@
 #include <nt5emul/modules/logo/state.h>
 #include <nt5emul/version.h>
 
+#include <nt5emul/renderer.h>
+
 #ifndef NULL
 #define NULL (void *)0
 #endif
@@ -28,26 +30,31 @@
 void logo_draw(void *user) {
     if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
 
+    renderer_state_t *st = _ntRendererGetState();
+
     int w = GetRenderWidth();
     int h = GetRenderHeight();
 
     DrawRectangle(0, 0, w, h, BLACK);
 
-    float alignX = (w - _state.logo_texture.width) / 2;
-    float alignY = (h - _state.logo_texture.height) / 2;
+    float alignX = (w - (_state.logo_texture.width * st->scaling)) / 2;
+    float alignY = (h - (_state.logo_texture.height * st->scaling)) / 2;
 
-    DrawTexture(_state.logo_texture, alignX * 1.1f, (int)(alignY) * 0.9f, _state.transition_color);
+    // DrawTexture(_state.logo_texture, alignX * 1.1f, (int)(alignY) * 0.9f, _state.transition_color);
+    DrawTextureEx(_state.logo_texture, (Vector2){
+        alignX * 1.1f, (int)(alignY) * 0.9f
+    }, 0.f, 1.f * st->scaling, _state.transition_color);
 
     const char *str = "Powered by raylib";
-    int sz = 20;
+    int sz = 20 * st->scaling;
 
-    Vector2 textsz = MeasureTextEx(GetFontDefault(), str, sz, 1.f);
+    Vector2 textsz = MeasureTextEx(GetFontDefault(), str, sz, 1.f * st->scaling);
 
-    DrawText(str, 10, h - textsz.y - 10, sz, _state.transition_color);
+    DrawText(str, (10 * st->scaling), h - textsz.y - (10 * st->scaling), sz, _state.transition_color);
 
     const char *str2 = NT5_VERSION;
 
-    Vector2 textsz2 = MeasureTextEx(GetFontDefault(), str2, sz, 1.f);
+    Vector2 textsz2 = MeasureTextEx(GetFontDefault(), str2, sz, 1.f * st->scaling);
 
-    DrawText(str2, w - textsz2.x - 20, h - textsz2.y - 10, sz, _state.transition_color);
+    DrawText(str2, w - textsz2.x - (20 * st->scaling), h - textsz2.y - (10 * st->scaling), sz, _state.transition_color);
 }

@@ -54,6 +54,9 @@ typedef struct renderer_state_t {
 
     // allows renderer to draw fps
     bool draw_fps;
+
+    // scales everything
+    float scaling;
 } renderer_state_t;
 
 #pragma pack(pop)

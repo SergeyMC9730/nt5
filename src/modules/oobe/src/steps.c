@@ -21,9 +21,13 @@
 #include <nt5emul/modules/oobe/state.h>
 #include <nt5emul/modules/oobe/render.h>
 
-int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) {    
+#include <nt5emul/renderer.h>
+
+int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) { 
+    renderer_state_t *st = _ntRendererGetState();
+       
     Vector2 base_pos = {
-        27, 63
+        27 * st->scaling, 63 * st->scaling
     };
 
     int length = 0;
@@ -63,15 +67,15 @@ int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) {
 
         // calculate text position based on the base position
         Vector2 text_pos = {
-            base_pos.x + txt.width + 12,
-            base_pos.y + 1
+            base_pos.x + (txt.width * st->scaling) + (12 * st->scaling),
+            base_pos.y + (1 * st->scaling)
         };
 
         // draw step text
         DrawTextEx(font.font, step.name, text_pos, font.real_size, font.spacing, text_color);
 
         // increment base pos y by texture height plus 20 pixels
-        base_pos.y += txt.height + 20;
+        base_pos.y += (txt.height + 20) * st->scaling;
 
         length = base_pos.y;
     }

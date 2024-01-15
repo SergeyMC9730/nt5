@@ -105,7 +105,9 @@ void draw_background(void *ctx) {
     oobe_steps[3].name = _state.cterm_setup_instwin;
     oobe_steps[4].name = _state.cterm_setup_final;
 
-    DrawText("AAAAAAA", 50, 50, 32, WHITE);
+    renderer_state_t *st = _ntRendererGetState();
+
+    DrawText("AAAAAAA", 50 * st->scaling, 50 * st->scaling, 32 * st->scaling, WHITE);
 
     Vector2 sz = {
         .x = GetRenderWidth(),
@@ -121,12 +123,12 @@ void draw_background(void *ctx) {
     float bg_y_mul = sz.y / (float)_state.main_bg_texture.height;
 
     Vector2 bg_sz = {
-        (float)_state.main_bg_texture.width,
-        (float)_state.main_bg_texture.height * bg_y_mul
+        (float)_state.main_bg_texture.width * st->scaling,
+        (float)_state.main_bg_texture.height * bg_y_mul * st->scaling
     };
     Vector2 bg_old_sz = {
-        _state.main_bg_texture.width,
-        _state.main_bg_texture.height
+        _state.main_bg_texture.width * st->scaling,
+        _state.main_bg_texture.height * st->scaling
     };
 
     _state.main_bg_texture.width = bg_sz.x;
@@ -135,7 +137,7 @@ void draw_background(void *ctx) {
     float c1 = _ntGetMiddleValue(bg_sz.y * 2.f, sz.y);
     float c2 = _ntGetMiddleValue(bg_sz.y, sz.y * 2.f);
 
-    float c3 = _ntGetMiddleValue(bg_sz.x * 2.f, sz.x) - 140;
+    float c3 = _ntGetMiddleValue(bg_sz.x * 2.f, sz.x) - (140 * st->scaling);
 
     Vector2 bg1_pos = {
        c3, c1
@@ -144,19 +146,19 @@ void draw_background(void *ctx) {
        bg1_pos.x, c2
     };
 
-    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f, 1.f}, bg1_pos, (Vector2){});
-    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f, -1.f}, bg1_pos2, (Vector2){});
+    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f * st->scaling, 1.f * st->scaling}, bg1_pos, (Vector2){});
+    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f * st->scaling, -1.f * st->scaling}, bg1_pos2, (Vector2){});
 
     _state.main_bg_texture.width = bg_old_sz.x;
     _state.main_bg_texture.height = bg_old_sz.y;
 
     Vector2 line_btm = {
         .x = 0,
-        .y = sz.y - (_state.line_bottom_texture.height * 0.7f) + 4
+        .y = sz.y - (_state.line_bottom_texture.height * 0.7f * st->scaling) + (4 * st->scaling)
     };
     Vector2 line_top = {
         .x = 0,
-        .y = -(_state.line_top_texture.height * 0.33f) 
+        .y = -(_state.line_top_texture.height * st->scaling * 0.33f) 
     };
 
     // draw lines
@@ -164,7 +166,7 @@ void draw_background(void *ctx) {
     _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
 
     // draw logo    
-    DrawTextureEx(_state.logo_texture, (Vector2){10, 2}, 0.f, 0.7f, WHITE);
+    DrawTextureEx(_state.logo_texture, (Vector2){10 * st->scaling, 2 * st->scaling}, 0.f, 0.7f * st->scaling, WHITE);
 
     // draw steps
     int sl = _ntModOobeDrawSteps(oobe_steps, sizeof(oobe_steps) / sizeof(struct oobe_install_step)); 
@@ -176,7 +178,7 @@ void draw_background(void *ctx) {
 
     // text position based on the steps length
     Vector2 text_pos = {
-        26, // x
+        26 * st->scaling, // x
         sl  // y
     };
 

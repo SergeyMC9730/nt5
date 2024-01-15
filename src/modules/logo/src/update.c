@@ -19,6 +19,7 @@
 */
 
 #include <nt5emul/modules/logo/state.h>
+#include <nt5emul/renderer.h>
 
 #ifndef NULL
 #define NULL (void *)0
@@ -31,7 +32,9 @@ void logo_update(void *user) {
         _state.logo_texture = LoadTexture("nt/images/system/win32.bmp");
         _state.init_complete = true;
 
-        SetWindowSize(640, 480);
+        renderer_state_t *st = _ntRendererGetState();
+
+        SetWindowSize(640 * st->scaling, 480 * st->scaling);
     }
 
     int frames_per_step = GetFPS() / 60;

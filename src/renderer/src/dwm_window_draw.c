@@ -26,12 +26,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <nt5emul/renderer.h>
+
 void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     struct dwm_context *ctx = (struct dwm_context *)ctx_ptr;
 
+    renderer_state_t *st = _ntRendererGetState();
+
     Rectangle sz = {
         wnd->position.x, wnd->position.y,
-        wnd->size.x, wnd->size.y
+        wnd->size.x * st->scaling, wnd->size.y * st->scaling
     };
 
     Color border1 = ctx->theme.basic.active_border_color;
@@ -42,7 +46,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     Color *gr = ctx->theme.basic.window_inactive_title_gradient;
 
-    size_t title_bar_size = ctx->theme.basic.title_bar_size;
+    float title_bar_size = ctx->theme.basic.title_bar_size;
 
     if (ctx->selected_window == wnd) {
         gr = ctx->theme.basic.window_active_title_gradient;
@@ -60,7 +64,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     DrawLine(sz.x - 1 + 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + sz.height - 1, border4);
     DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
 
-    DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
+    DrawRectangle(sz.x + (1 * st->scaling), sz.y + (2 * st->scaling), sz.width - (3 * st->scaling), sz.height - (3 * st->scaling), border1);
 
     DrawRectangleGradientH(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height, gr[0], gr[1]);
 
@@ -72,7 +76,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     int y_align = (title_bar_size - text_sz.y) / 2;
 
     DrawTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, (Vector2){
-        wnd->titlebar_rect.x + 2, wnd->titlebar_rect.y + y_align
+        wnd->titlebar_rect.x + (2 + st->scaling), wnd->titlebar_rect.y + y_align
     }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
 
 
@@ -80,16 +84,16 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     btn_test.text = "X";
 
-    btn_test.button.width = 16;
-    btn_test.button.height = 14;
+    btn_test.button.width = 16 * st->scaling;
+    btn_test.button.height = 14 * st->scaling;
 
     btn_test.activated.ability = true;
     btn_test.howered.ability = true;
 
     int y_align2 = (title_bar_size - btn_test.button.height) / 2;
 
-    btn_test.button.x = sz.x + sz.width - btn_test.button.width - 6;
-    btn_test.button.y = sz.y + y_align2 + 2;
+    btn_test.button.x = sz.x + sz.width - btn_test.button.width - (6 * st->scaling);
+    btn_test.button.y = sz.y + y_align2 + (2 * st->scaling);
 
     // printf("button result: %d\n", _ntDrawDWMButton(ctx, btn_test));
     if (_ntDrawDWMButton(ctx, &btn_test) && wnd == ctx->selected_window) {
