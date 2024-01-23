@@ -252,8 +252,9 @@ target_include_directories(ntmod_explorer PRIVATE
     "src/arrays/include"
     "src/nt_tools/include"
     "src/language/include"
+    "src/ntldr_tui/include"
 )
-target_link_libraries(ntmod_explorer nt5renderer raylib)
+target_link_libraries(ntmod_explorer nt5renderer raylib nt5tui)
 
 # copy nt resources
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 

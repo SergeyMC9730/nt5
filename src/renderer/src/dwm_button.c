@@ -111,9 +111,13 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
     if (btn->text) {
         // printf("drawing %s at %f:%f\n", btn->text, text_pos.x, text_pos.y);
 
+        BeginScissorMode(btn->button.x, btn->button.y, btn->button.width, btn->button.height);
+
         DrawTextEx(ctx->fonts.tahoma8_bld.font, btn->text, (Vector2){
             text_pos.x, text_pos.y
         }, font_sz, spacing, BLACK);
+
+        EndScissorMode();
     }
 
     return btn->activated.state;

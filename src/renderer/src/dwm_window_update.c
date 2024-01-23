@@ -27,6 +27,8 @@
 void _ntUpdateWindow(struct dwm_window *wnd, void *context) {
     Vector2 mouse = GetMousePosition();
 
+    if (wnd->upadte) wnd->upadte(wnd, wnd->ctx);
+
     // printf("%f %f\n", mouse.x, mouse.y);
 
     struct dwm_context *ctx = (struct dwm_context *)context;

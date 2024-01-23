@@ -34,7 +34,7 @@ struct dwm_window _ntCreateWindow(const char *title, Vector2 size) {
 
     wnd.closed.state = false;
     wnd.hidden.state = false;
-    wnd.filled.state = false;
+    wnd.filled.state = true;
     wnd.moving.state = true;
 
     // set size

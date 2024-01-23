@@ -39,6 +39,8 @@
 
 #include <nt5emul/arrays/rsb_array_char.h>
 
+#include <nt5emul/tui/environment.h>
+
 #define SKIP_LOGO 1
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
@@ -155,6 +157,9 @@ void _boot_begin() {
 		return;
 	}
 
+	// init Text UI environment
+	_ntRendererPushQueue(_ntTuiLoadEnvironmentDefault, NULL);
+
 	// _boot_try_parse_explorer();
 	
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
@@ -230,5 +235,6 @@ void _boot_begin() {
 		_boot_run_msoobe(ctx);
 	}
 
-
+	_boot_run_command("explorer", NULL);
+	_boot_run_command("explorer", NULL);
 }

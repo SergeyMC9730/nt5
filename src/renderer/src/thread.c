@@ -31,6 +31,9 @@ void *_ntRendererThread(void *ptr) {
 		640, 480
 	};
 
+	// set highdpi
+	SetWindowState(FLAG_WINDOW_HIGHDPI);
+
 	// init raylib window
 	InitWindow(wsz.x, wsz.y, "NT5");
 
@@ -62,11 +65,8 @@ void *_ntRendererThread(void *ptr) {
 	SetWindowSize(wsz.x, wsz.y);
 
 	// set window to be top most.
-	// useful durring the command testing.
+	// useful during debugging;
 	SetWindowState(FLAG_WINDOW_TOPMOST);
-
-	// set highdpi
-	SetWindowState(FLAG_WINDOW_HIGHDPI);
 
 	// set status to READY
 	st->status = RENDERER_READY;

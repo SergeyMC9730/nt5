@@ -55,7 +55,7 @@ Vector2 _ntRendererCenterTexture(Texture2D texture, bool x, bool y) {
     return pos;
 }
 
-void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin) {
+void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin, bool inside_scale) {
     Rectangle source = {
         .x = 0,
         .y = 0,
@@ -69,6 +69,22 @@ void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, V
         .width = texture.width,
         .height = texture.height
     };
+
+    if (!inside_scale) {
+        source = (Rectangle){
+            .x = 0,
+            .y = 0,
+            .width = texture.width,
+            .height = texture.height
+        };
+
+        dest = (Rectangle){
+            .x = pos.x,
+            .y = pos.y,
+            .width = texture.width * size.x,
+            .height = texture.height * size.y
+        };
+    }
 
     DrawTexturePro(texture, source, dest, origin, 0.f, WHITE);
 }

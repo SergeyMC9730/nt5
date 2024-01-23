@@ -21,11 +21,19 @@
 #include <nt5emul/modules/explorer/state.h>
 #include <nt5emul/renderer.h>
 #include <nt5emul/dwm/window.h>
+#include <nt5emul/dwm/context.h>
 
 #ifndef NULL
 #define NULL (void *)0
 #endif
 
-void explorer_update(struct dwm_window *ctx, void *user) {
-    
+#include <stdio.h>
+
+void explorer_update(struct dwm_window *wnd, void *user) {
+    struct dwm_context *ctx = _ntDwmGetGlobal();
+    struct local_module_state *lst = (struct local_module_state *)user;
+
+    if (ctx->selected_window == wnd) {
+        _ntUpdateFileSelector(lst->fs);
+    }
 }

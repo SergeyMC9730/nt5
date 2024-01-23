@@ -21,11 +21,28 @@
 #include <nt5emul/modules/explorer/state.h>
 #include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
+#include <nt5emul/dwm/window.h>
+#include <nt5emul/tui/text.h>
 
 #ifndef NULL
 #define NULL (void *)0
 #endif
 
-void explorer_draw(struct dwm_window *ctx, void *user) {
-    
+#include <stdio.h>
+
+void explorer_draw(struct dwm_window *wnd, void *user) {
+    struct dwm_context *ctx = _ntDwmGetGlobal();
+    struct local_module_state *lst = (struct local_module_state *)user;
+
+    // printf("Explorer draw! (%d)\n", lst->fs->base.items_total);
+
+    Color cl = BLACK;
+
+    cl.a = 128;
+
+    ClearBackground(cl);
+
+    // if (ctx->selected_window == wnd) {
+        _ntTuiDrawMenu(lst->fs->base);
+    // }
 }

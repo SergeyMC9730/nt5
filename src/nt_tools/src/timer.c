@@ -81,5 +81,5 @@ void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata) 
     _ntRequestCoreJob(_nt_timer_thread, timer);
     
     // debug
-    printf("timer %f has been created successfully\n", seconds);
+    // printf("timer %f has been created successfully\n", seconds);
 }

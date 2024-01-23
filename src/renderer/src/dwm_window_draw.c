@@ -54,11 +54,13 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
         EndTextureMode();
     }
 
-    DrawRectangle(sz.x + (1 * st->scaling), sz.y + (2 * st->scaling), sz.width - (3 * st->scaling), sz.height - (3 * st->scaling), border1);
+    if (wnd->filled.ability && wnd->filled.state) {
+        DrawRectangle(sz.x + (1 * st->scaling), sz.y + (2 * st->scaling), sz.width - (3 * st->scaling), sz.height - (3 * st->scaling), border1);
+    }
 
     _ntRendererDrawSizedTexture(wnd->framebuffer.texture, (Vector2){1.f, -1.f}, (Vector2){
         wnd->titlebar_rect.x - (3 * st->scaling), wnd->titlebar_rect.y + wnd->titlebar_rect.height
-    }, (Vector2){});
+    }, (Vector2){}, true);
 
     if (ctx->selected_window == wnd) {
         gr = ctx->theme.basic.window_active_title_gradient;

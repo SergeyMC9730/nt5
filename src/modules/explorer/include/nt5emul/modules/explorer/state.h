@@ -32,10 +32,18 @@ struct module_state {
     void (*old_draw)(void *user);
     void (*old_update)(void *user);
     void *old_ctx;
+
+    Texture2D background;
+
+    int id;
 };
 
+#include <nt5emul/tui/file_selector.h>
+
 struct local_module_state {
-    int id;    
+    int id;
+
+    struct nt_file_selector_menu *fs;
 };
 
 extern struct module_state _state;

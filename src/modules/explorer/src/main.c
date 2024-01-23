@@ -26,27 +26,60 @@
 
 #include <stdio.h>
 
+void _ntPVOnFileClick(struct nt_file_selector_menu *menu, const char *file_path) {
+    printf("file_path=%s\n", file_path);
+}
+
 bool explorer_command(void *data) {
-    if (_state.execution_lock) {
-        printf("error: only a single explorer process can be executed at the same time!\n");
+    // if (_state.execution_lock) {
+    //     printf("error: only a single explorer process can be executed at the same time!\n");
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    _state.execution_lock = true;
+    // _state.execution_lock = true;
 
     renderer_state_t *st = _ntRendererGetState();
 
+    if (_state.id == 0) {
+        int index = 0;
+
+        _state.old_draw = st->layers[index].draw;
+        _state.old_update = st->layers[index].update;
+        _state.old_ctx = st->layers[index].user;
+
+        st->layers[index].draw = explorer_shell_draw;
+        st->layers[index].update = explorer_shell_update;
+
+        _state.id++;
+
+        return true;
+    }
+
     struct local_module_state *lst = (struct local_module_state *)calloc(1, sizeof(struct local_module_state));
+
+    lst->fs = _ntLoadFileSelector("./", 10);
+
+    _ntFileSelectorSetListing(lst->fs);
+    _ntUpdateMenu(&lst->fs->base);
+    
+    lst->fs->base.x = 1;
+    lst->fs->base.y = 1;
+    lst->fs->callback = _ntPVOnFileClick;
 
     struct dwm_window wnd = _ntCreateWindow("Explorer", (Vector2){200, 300});
     wnd.draw = explorer_draw;
     wnd.upadte = explorer_update;
     wnd.ctx = lst;
 
+    wnd.filled.state = false;
+    wnd.filled.ability = false;
+
     wnd.position = (Vector2){50, 50};
 
     _ntPushWindow(_ntDwmGetGlobal(), wnd);
+
+    _state.id++;
 
     return true;
 }

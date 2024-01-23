@@ -146,8 +146,8 @@ void draw_background(void *ctx) {
        bg1_pos.x, c2
     };
 
-    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f * st->scaling, 1.f * st->scaling}, bg1_pos, (Vector2){});
-    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f * st->scaling, -1.f * st->scaling}, bg1_pos2, (Vector2){});
+    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f * st->scaling, 1.f * st->scaling}, bg1_pos, (Vector2){}, true);
+    _ntRendererDrawSizedTexture(_state.main_bg_texture, (Vector2){1.f * st->scaling, -1.f * st->scaling}, bg1_pos2, (Vector2){}, true);
 
     _state.main_bg_texture.width = bg_old_sz.x;
     _state.main_bg_texture.height = bg_old_sz.y;

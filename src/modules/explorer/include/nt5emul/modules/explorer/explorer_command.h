@@ -29,3 +29,6 @@ bool explorer_command(void *data);
 
 void explorer_draw(struct dwm_window *ctx, void *data);
 void explorer_update(struct dwm_window *ctx, void *data);
+
+void explorer_shell_draw(void *ctx);
+void explorer_shell_update(void *ctx);

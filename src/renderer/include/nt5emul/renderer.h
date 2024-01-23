@@ -102,7 +102,7 @@ void _ntRendererPushQueue(void (*callback)(void *ctx), void *userdata);
 #include <raylib.h>
 
 void _ntRendererDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin);
-void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin);
+void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin, bool inside_scale);
 
 // returns centered texture position (not relative!)
 Vector2 _ntRendererCenterTexture(Texture2D texture, bool x, bool y);
