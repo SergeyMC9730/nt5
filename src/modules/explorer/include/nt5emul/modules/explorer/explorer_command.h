@@ -23,7 +23,9 @@
 
 #include <stdbool.h>
 
+#include <nt5emul/dwm/context.h>
+
 bool explorer_command(void *data);
 
-void explorer_draw(void *data);
-void explorer_update(void *data);
+void explorer_draw(struct dwm_window *ctx, void *data);
+void explorer_update(struct dwm_window *ctx, void *data);

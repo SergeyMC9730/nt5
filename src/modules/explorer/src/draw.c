@@ -19,13 +19,13 @@
 */
 
 #include <nt5emul/modules/explorer/state.h>
-
+#include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
 
 #ifndef NULL
 #define NULL (void *)0
 #endif
 
-void explorer_draw(void *user) {
-    if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
+void explorer_draw(struct dwm_window *ctx, void *user) {
+    
 }

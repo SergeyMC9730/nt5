@@ -22,6 +22,7 @@
 #include <nt5emul/modules/explorer/explorer_command.h>
 #include <nt5emul/renderer.h>
 #include <nt5emul/timer.h>
+#include <nt5emul/dwm/context.h>
 
 #include <stdio.h>
 
@@ -36,14 +37,16 @@ bool explorer_command(void *data) {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    int index = RENDERER_LAYERS - 2;
+    struct local_module_state *lst = (struct local_module_state *)calloc(1, sizeof(struct local_module_state));
 
-    _state.old_draw = st->layers[index].draw;
-    _state.old_update = st->layers[index].update;
-    _state.old_ctx = st->layers[index].user;
+    struct dwm_window wnd = _ntCreateWindow("Explorer", (Vector2){200, 300});
+    wnd.draw = explorer_draw;
+    wnd.upadte = explorer_update;
+    wnd.ctx = lst;
 
-    st->layers[index].draw = explorer_draw;
-    st->layers[index].update = explorer_update;
+    wnd.position = (Vector2){50, 50};
+
+    _ntPushWindow(_ntDwmGetGlobal(), wnd);
 
     return true;
 }
