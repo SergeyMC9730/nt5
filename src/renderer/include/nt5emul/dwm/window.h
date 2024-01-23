@@ -45,8 +45,12 @@ struct dwm_window {
     struct dwm_bool filled;
     struct dwm_bool moving;
 
+    RenderTexture2D framebuffer;
+
     void (*draw)(struct dwm_window *wnd, void *ctx);
     void (*upadte)(struct dwm_window *wnd, void *ctx);
+
+    void *ctx;
 };
 
 struct dwm_window _ntCreateWindow(const char *title, Vector2 size);

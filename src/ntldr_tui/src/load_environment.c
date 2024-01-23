@@ -26,7 +26,7 @@ extern struct nt_tui_environment _ntTuiEnvironment;
 // required for codepoints to load
 // this giant string is going to be concatenated on compile time
 
-const char *_ntTuiCodepoints =  "QWERTYUIOPASDFGHJKLZXCVBNM" // english alphabet with all upper case characters
+const char *_ntTuiCodepoints =  "QWERTYUIOPASDFGHJKLZXCVBNMZXCVBNM" // english alphabet with all upper case characters
                                 "qwertyuiopasdfghjklzxcvbnmzxcvbnm" // english alphabet with all lower case characters
                                 "[]{}()" // brackets
                                 "ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ" // cyrillic alphabet with all upper case characters

@@ -18,6 +18,12 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
+
+#pragma once
+
 #include <stdbool.h>
 
-bool logo_command(void *data);
+bool explorer_command(void *data);
+
+void explorer_draw(void *data);
+void explorer_update(void *data);

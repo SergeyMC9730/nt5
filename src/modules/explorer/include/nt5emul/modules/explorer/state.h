@@ -18,6 +18,24 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <stdbool.h>
 
-bool logo_command(void *data);
+#pragma once
+
+#include <cterm/applications/api.h>
+#include <raylib.h>
+
+struct module_state {
+    cterm_t *runtime;
+
+    bool execution_lock;
+
+    void (*old_draw)(void *user);
+    void (*old_update)(void *user);
+    void *old_ctx;
+};
+
+struct local_module_state {
+    int id;    
+};
+
+extern struct module_state _state;

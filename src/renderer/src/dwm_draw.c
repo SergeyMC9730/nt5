@@ -37,9 +37,12 @@ void _ntDrawDwmContext(struct dwm_context *ctx) {
 
         struct dwm_window *ptr = _ntGetDWMProcess(ctx, pid);
 
-        if (ptr != NULL && !ptr->hidden.state) {
+        if (ptr != NULL) {
             _ntUpdateWindow(ptr, ctx);
-            _ntDrawWindow(ptr, ctx);
+
+            if (!ptr->hidden.state) {
+                _ntDrawWindow(ptr, ctx);
+            }
         }
     }
     

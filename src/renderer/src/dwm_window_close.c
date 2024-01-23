@@ -27,6 +27,8 @@ void _ntCloseWindow(struct dwm_window *wnd, void *ctx_ptr) {
     struct dwm_context *ctx = (struct dwm_context *)ctx_ptr;
 
     wnd->closed.state = true;
+
+    UnloadRenderTexture(wnd->framebuffer);
     
     if (ctx->selected_window == wnd) {
         ctx->selected_window = NULL;

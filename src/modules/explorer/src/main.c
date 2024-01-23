@@ -18,6 +18,32 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <stdbool.h>
+#include <nt5emul/modules/explorer/state.h>
+#include <nt5emul/modules/explorer/explorer_command.h>
+#include <nt5emul/renderer.h>
+#include <nt5emul/timer.h>
 
-bool logo_command(void *data);
+#include <stdio.h>
+
+bool explorer_command(void *data) {
+    if (_state.execution_lock) {
+        printf("error: only a single explorer process can be executed at the same time!\n");
+
+        return false;
+    }
+
+    _state.execution_lock = true;
+
+    renderer_state_t *st = _ntRendererGetState();
+
+    int index = RENDERER_LAYERS - 2;
+
+    _state.old_draw = st->layers[index].draw;
+    _state.old_update = st->layers[index].update;
+    _state.old_ctx = st->layers[index].user;
+
+    st->layers[index].draw = explorer_draw;
+    st->layers[index].update = explorer_update;
+
+    return true;
+}

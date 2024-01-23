@@ -19,6 +19,7 @@
 */
 
 #include <nt5emul/dwm/context.h>
+#include <nt5emul/renderer.h>
 
 #include <string.h>
 
@@ -31,6 +32,11 @@ void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
     // set process id
     wnd2.process.pid = ++ctx->global_process_increment;
     wnd2.moving.ability = true;
+
+    _ntUpdateWindow(&wnd2, ctx);
+
+    renderer_state_t *st = _ntRendererGetState();
+    wnd2.framebuffer = LoadRenderTexture((wnd2.size.x * st->scaling) - (2 * st->scaling), (wnd2.size.y * st->scaling) - wnd2.titlebar_rect.height - (4 * st->scaling ));
 
     // add window to the window array
     RSBAddElementDWMWindow(ctx->windows, wnd2);

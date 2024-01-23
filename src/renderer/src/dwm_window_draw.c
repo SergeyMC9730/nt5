@@ -48,6 +48,18 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     float title_bar_size = ctx->theme.basic.title_bar_size;
 
+    if (wnd->draw) {
+        BeginTextureMode(wnd->framebuffer);
+            wnd->draw(wnd, wnd->ctx);
+        EndTextureMode();
+    }
+
+    DrawRectangle(sz.x + (1 * st->scaling), sz.y + (2 * st->scaling), sz.width - (3 * st->scaling), sz.height - (3 * st->scaling), border1);
+
+    _ntRendererDrawSizedTexture(wnd->framebuffer.texture, (Vector2){1.f, -1.f}, (Vector2){
+        wnd->titlebar_rect.x - (3 * st->scaling), wnd->titlebar_rect.y + wnd->titlebar_rect.height
+    }, (Vector2){});
+
     if (ctx->selected_window == wnd) {
         gr = ctx->theme.basic.window_active_title_gradient;
     }
@@ -64,7 +76,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     DrawLine(sz.x - 1 + 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + sz.height - 1, border4);
     DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
 
-    DrawRectangle(sz.x + (1 * st->scaling), sz.y + (2 * st->scaling), sz.width - (3 * st->scaling), sz.height - (3 * st->scaling), border1);
+
 
     DrawRectangleGradientH(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height, gr[0], gr[1]);
 
@@ -76,7 +88,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     int y_align = (title_bar_size - text_sz.y) / 2;
 
     DrawTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, (Vector2){
-        wnd->titlebar_rect.x + (2 + st->scaling), wnd->titlebar_rect.y + y_align
+        wnd->titlebar_rect.x + (2 * st->scaling), wnd->titlebar_rect.y + y_align
     }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
 
 
@@ -97,10 +109,9 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     // printf("button result: %d\n", _ntDrawDWMButton(ctx, btn_test));
     if (_ntDrawDWMButton(ctx, &btn_test) && wnd == ctx->selected_window) {
+        printf("closing window\n");
         _ntCloseWindow(wnd, ctx);
     }
 
     wnd->moving.ability = !(btn_test.howered.state);
-
-    if (wnd->draw != NULL) wnd->draw(wnd, ctx);
 }

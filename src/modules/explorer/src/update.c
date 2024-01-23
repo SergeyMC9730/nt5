@@ -18,6 +18,13 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <stdbool.h>
+#include <nt5emul/modules/explorer/state.h>
+#include <nt5emul/renderer.h>
 
-bool logo_command(void *data);
+#ifndef NULL
+#define NULL (void *)0
+#endif
+
+void explorer_update(void *user) {
+    if (_state.old_update != NULL) _state.old_update(_state.old_ctx);
+}

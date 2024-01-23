@@ -63,6 +63,18 @@ bool _boot_run_command(const char *command, void *userdata) {
 	return false;
 }
 
+void _boot_window_test_draw(struct dwm_window *wnd, void *ctx) {
+	ClearBackground(RAYWHITE);
+
+	renderer_state_t *st = _ntRendererGetState();
+
+	DrawText("test", 20 * st->scaling, 20 * st->scaling, 20 * st->scaling, BLACK);
+
+	DrawFPS(st->scaling, st->scaling);
+
+	struct dwm_context *dwmctx = (struct dwm_context *)ctx;
+}
+
 void _boot_begin_debug(void *user) {
 	struct dwm_context *ctx = (struct dwm_context *)user;
 
@@ -73,6 +85,8 @@ void _boot_begin_debug(void *user) {
 
 		// set position
 		wnd.position = (Vector2){50, 50};
+
+		wnd.draw = _boot_window_test_draw;
 
 		// push window
 		_ntPushWindow(ctx, wnd);
