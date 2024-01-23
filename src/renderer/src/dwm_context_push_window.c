@@ -25,6 +25,27 @@
 
 #include <stdio.h>
 
+struct nt_push_window_args {
+    struct dwm_context *ctx;
+    struct dwm_window wnd;
+};
+
+// create window framebuffer  in main 
+// thread in case if we are trying to 
+// create window outside the renderer 
+// thread
+void _ntPushWindowFb(void *ctx) {
+    struct nt_push_window_args *args = (struct nt_push_window_args *)ctx;
+
+    renderer_state_t *st = _ntRendererGetState();
+
+    args->wnd.framebuffer = LoadRenderTexture(
+        (args->wnd.size.x * st->scaling) - (2 * st->scaling), 
+        (args->wnd.size.y * st->scaling) - 
+            args->wnd.titlebar_rect.height - (4 * st->scaling)
+    );
+}
+
 // push window to the dwm context
 void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
     struct dwm_window wnd2 = wnd;
@@ -35,8 +56,28 @@ void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
 
     _ntUpdateWindow(&wnd2, ctx);
 
-    renderer_state_t *st = _ntRendererGetState();
-    wnd2.framebuffer = LoadRenderTexture((wnd2.size.x * st->scaling) - (2 * st->scaling), (wnd2.size.y * st->scaling) - wnd2.titlebar_rect.height - (4 * st->scaling ));
+    if (!_ntRendererInThread()) {
+        wnd2.framebuffer.texture.width = 0;
+
+        // create argument list
+        struct nt_push_window_args *args = (struct nt_push_window_args *)malloc(sizeof(struct nt_push_window_args));
+        args->ctx = ctx;
+        args->wnd = wnd2;
+        
+        // all gl fuctions should be runned inside the renderer thread
+        _ntRendererPushQueue(_ntPushWindowFb, args);
+
+        while (args->wnd.framebuffer.texture.width == 0) {
+            WaitTime(0.1);
+        }
+
+        wnd2 = args->wnd;
+
+        free(args);
+    } else {
+        renderer_state_t *st = _ntRendererGetState();
+        wnd2.framebuffer = LoadRenderTexture((wnd2.size.x * st->scaling) - (2 * st->scaling), (wnd2.size.y * st->scaling) - wnd2.titlebar_rect.height - (4 * st->scaling ));
+    }
 
     // add window to the window array
     RSBAddElementDWMWindow(ctx->windows, wnd2);
