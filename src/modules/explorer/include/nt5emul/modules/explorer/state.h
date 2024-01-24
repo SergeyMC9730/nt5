@@ -35,7 +35,16 @@ struct module_state {
 
     Texture2D background;
 
+    Texture2D icons[8];
+
+    const char *cterm_explorer_title;
+    const char *cterm_shell_start_classic;
+    const char *cterm_shell_intro_text;
+
     int id;
+
+    int icon_pressed_times;
+    int icon_pressed_id;
 };
 
 #include <nt5emul/tui/file_selector.h>
@@ -47,3 +56,5 @@ struct local_module_state {
 };
 
 extern struct module_state _state;
+
+const char *get_string(const char *i, const char *l);

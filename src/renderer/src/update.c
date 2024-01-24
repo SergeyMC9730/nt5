@@ -25,6 +25,8 @@
 void _ntRendererUpdate() {
 	renderer_state_t *st = _ntRendererGetState();
 
+    st->time += GetFrameTime();
+
     // process 
 
     for (size_t i = 0; i < st->queue->len; i++) {

@@ -21,8 +21,11 @@
 #include <nt5emul/dwm/button.h>
 #include <nt5emul/renderer.h>
 
+#include <math.h>
+
 // if user clicks to button function returns true
-bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
+bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn)
+{
     renderer_state_t *st = _ntRendererGetState();
 
     Vector2 mouse = GetMousePosition();
@@ -32,8 +35,10 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
     // check if button can be activated
     btn->activated.state = IsMouseButtonReleased(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mouse, btn->button) && btn->activated.ability;
 
-    // check if user presses the button but not releases yes
-    btn->howered.state = IsMouseButtonDown(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mouse, btn->button) && btn->howered.ability;
+    if (btn->howered.ability) {
+        // check if user presses the button but not releases yet
+        btn->howered.state = IsMouseButtonDown(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mouse, btn->button);
+    }
 
     if (btn->howered.state) {
         used_texture = btn->on;
@@ -55,8 +60,7 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
         ctx->theme.basic.active_border_color,
         ctx->theme.basic.window_base_color,
         ctx->theme.basic.button_dk_shadow,
-        ctx->theme.basic.button_shadow_color
-    };
+        ctx->theme.basic.button_shadow_color};
 
     Color border1, border2, border3, border4;
 
@@ -65,7 +69,14 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
         btn->button.y + alignY
     };
 
-    if (btn->howered.state) {
+    if (szText.x > btn->button.width) {
+        float ratio = szText.x / btn->button.width * 1.25f;
+
+        text_pos.x += sin(st->time / 3.f) * GetFrameTime() * 1000.f * ratio * 2.7f * st->scaling;
+    }
+
+    if (btn->howered.state)
+    {
         border1 = borders[0];
         border2 = borders[2];
 
@@ -74,7 +85,9 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
 
         text_pos.x += (1 * st->scaling);
         text_pos.y += (1 * st->scaling);
-    } else {
+    }
+    else
+    {
         border1 = borders[0];
         border2 = borders[1];
 
@@ -82,17 +95,26 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
         border4 = borders[3];
     }
 
-    if (used_texture.width != 0 && used_texture.height != 0) {
+    if (btn->dark.state)
+    {
+        border1.r -= 40;
+        border1.g -= 40;
+        border1.b -= 40;
+    }
+
+    if (used_texture.width != 0 && used_texture.height != 0)
+    {
         int alignTY = (sz.height - used_texture.width) / 2;
         int alignTX = (sz.width - used_texture.height) / 2;
 
         Vector2 texture_pos = {
             btn->button.x + alignTX,
-            btn->button.y + alignTY
-        };
+            btn->button.y + alignTY};
 
         DrawTexture(used_texture, texture_pos.x, texture_pos.y, WHITE);
-    } else {
+    }
+    else
+    {
         DrawLine(sz.x, sz.y, sz.x + sz.width - 1, sz.y, border1);
         DrawLine(sz.x, sz.y, sz.x, sz.y + sz.height, border1);
 
@@ -108,14 +130,13 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn) {
         DrawRectangle(sz.x + 1, sz.y + 2, sz.width - 3, sz.height - 3, border1);
     }
 
-    if (btn->text) {
+    if (btn->text)
+    {
         // printf("drawing %s at %f:%f\n", btn->text, text_pos.x, text_pos.y);
 
         BeginScissorMode(btn->button.x, btn->button.y, btn->button.width, btn->button.height);
 
-        DrawTextEx(ctx->fonts.tahoma8_bld.font, btn->text, (Vector2){
-            text_pos.x, text_pos.y
-        }, font_sz, spacing, BLACK);
+        DrawTextEx(ctx->fonts.tahoma8_bld.font, btn->text, (Vector2){text_pos.x, text_pos.y}, font_sz, spacing, BLACK);
 
         EndScissorMode();
     }

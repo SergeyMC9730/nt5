@@ -78,8 +78,6 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     DrawLine(sz.x - 1 + 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + sz.height - 1, border4);
     DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
 
-
-
     DrawRectangleGradientH(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height, gr[0], gr[1]);
 
     float font_sz = ctx->fonts.tahoma8_bld.real_size;
@@ -89,31 +87,50 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     int y_align = (title_bar_size - text_sz.y) / 2;
 
+    BeginScissorMode(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height);
+
     DrawTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, (Vector2){
         wnd->titlebar_rect.x + (2 * st->scaling), wnd->titlebar_rect.y + y_align
     }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
 
+    EndScissorMode();
 
-    struct dwm_button btn_test = {};
 
-    btn_test.text = "X";
+    struct dwm_button btn_close = {};
+    struct dwm_button btn_hide = {};
 
-    btn_test.button.width = 16 * st->scaling;
-    btn_test.button.height = 14 * st->scaling;
+    btn_close.text = "X";
 
-    btn_test.activated.ability = true;
-    btn_test.howered.ability = true;
+    btn_close.button.width = 16 * st->scaling;
+    btn_close.button.height = 14 * st->scaling;
 
-    int y_align2 = (title_bar_size - btn_test.button.height) / 2;
+    btn_close.activated.ability = true;
+    btn_close.howered.ability = true;
 
-    btn_test.button.x = sz.x + sz.width - btn_test.button.width - (6 * st->scaling);
-    btn_test.button.y = sz.y + y_align2 + (2 * st->scaling);
+    int y_align2 = (title_bar_size - btn_close.button.height) / 2;
 
-    // printf("button result: %d\n", _ntDrawDWMButton(ctx, btn_test));
-    if (_ntDrawDWMButton(ctx, &btn_test) && wnd == ctx->selected_window) {
+    btn_close.button.x = sz.x + sz.width - btn_close.button.width - (6 * st->scaling);
+    btn_close.button.y = sz.y + y_align2 + (2 * st->scaling);
+
+    btn_hide.text = "-";
+
+    btn_hide.button.width = btn_close.button.width;
+    btn_hide.button.height = btn_close.button.height;
+
+    btn_hide.activated = btn_close.activated;
+    btn_hide.howered = btn_close.howered;
+
+    btn_hide.button.x = btn_close.button.x - (2 * st->scaling) - btn_hide.button.width;
+    btn_hide.button.y = btn_close.button.y;
+
+    if (_ntDrawDWMButton(ctx, &btn_close) && wnd == ctx->selected_window) {
         printf("closing window\n");
         _ntCloseWindow(wnd, ctx);
     }
+    if (_ntDrawDWMButton(ctx, &btn_hide) && wnd == ctx->selected_window) {
+        printf("hiding window\n");
+        if (wnd->hidden.ability) wnd->hidden.state = true;
+    }
 
-    wnd->moving.ability = !(btn_test.howered.state);
+    wnd->moving.ability = !(btn_close.howered.state);
 }

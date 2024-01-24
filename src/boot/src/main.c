@@ -235,6 +235,7 @@ void _boot_begin() {
 		_boot_run_msoobe(ctx);
 	}
 
-	_boot_run_command("explorer", NULL);
-	_boot_run_command("explorer", NULL);
+	for (int i = 0; i < 2; i++) {
+		_boot_run_command("explorer", NULL);
+	}
 }

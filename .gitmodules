@@ -22,3 +22,6 @@
 [submodule "src/external/raylib-video"]
 	path = src/external/raylib-video
 	url = https://github.com/jtainer/raylib-video.git
+[submodule "src/external/reasings"]
+	path = src/external/reasings
+	url = https://github.com/raylib-extras/reasings.git

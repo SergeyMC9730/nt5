@@ -20,4 +20,4 @@
 
 #pragma once
 
-#define NT5_VERSION "nt5 prototype"
+#define NT5_VERSION "nt5 prototype beta 1 "

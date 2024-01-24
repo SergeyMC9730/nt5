@@ -185,6 +185,10 @@ void msoobe_draw(void *ctx) {
     if (_state.xp_vid.texture.width != 0) _ntRendererDrawStretchedTexture(_state.xp_vid.texture, true, true, 1.f, 1.f, (Vector2){0, 0}, (Vector2){0, 0});
 }
 void msoobe_update(void *ctx) {
+    if (_state.frame_1 == 0) {
+        // TEMP
+        _state.old_fps = GetMonitorRefreshRate(0);
+    }
 
     _ntDwmUpdateVideo(_state.xp_vid);
 
@@ -205,7 +209,6 @@ void msoobe_recover_fps(void *ctx) {
 
 void msoobe_preload(void *ctx) {
     _state.xp_vid = _ntDwmLoadVideo("nt/videos/user/intro.wmv");
-    _state.old_fps = (1.f / GetFrameTime()) + 1;
 
     SetTextureFilter(_state.xp_vid.texture, TEXTURE_FILTER_BILINEAR);
 

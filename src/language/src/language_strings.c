@@ -139,6 +139,26 @@ rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
         .str_en = "welcome",
         .str_ru = "приветствие"
     });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_title",
+        .str_en = "Explorer",
+        .str_ru = "Проводник"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_settings_title",
+        .str_en = "Settings",
+        .str_ru = "Параметры"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_shell_start_classic",
+        .str_en = "Start",
+        .str_ru = "Пуск"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_shell_intro_text",
+        .str_en = "Thank you for downloading Windows XP simulator.\n\nThis project is very incomplete.\nBut there are few things that should \nbe done for the first Prototype!\n     And Prototype release is close.",
+        .str_ru = "Благодарим за скачивание симулятора Windows XP.\n\nДанный проект очень сырой.\nНо перед первым прототипом осталось сделать не так уж \nи много вещей!\n     И релиз первого прототипа близок."
+    });
     
     return array;
 }

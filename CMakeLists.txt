@@ -96,7 +96,7 @@ target_include_directories(nt5renderer PRIVATE
     "src/nt_tools/include"
     "src/arrays/include"
     "src/language/include"
-
+    "src/external/reasings/src"
     "src/external/inih"
     "src/external/raylib-video"
 )

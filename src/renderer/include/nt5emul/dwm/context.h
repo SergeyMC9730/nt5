@@ -45,6 +45,9 @@ struct dwm_context_fonts {
     struct dwm_context_font tahoma9_bld;
     struct dwm_context_font tahoma9_std;
 
+    struct dwm_context_font tahoma12_bld;
+    struct dwm_context_font tahoma12_std;
+
     struct dwm_context_font franklin24_std;
     struct dwm_context_font franklin24_bld;
 

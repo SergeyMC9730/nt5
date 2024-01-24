@@ -57,6 +57,9 @@ typedef struct renderer_state_t {
 
     // scales everything
     float scaling;
+
+    // time since renderer initialization
+    double time;
 } renderer_state_t;
 
 #pragma pack(pop)

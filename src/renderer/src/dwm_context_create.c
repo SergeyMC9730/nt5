@@ -48,7 +48,7 @@ void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, c
 
     data->font = LoadFontEx(font, data->real_size, codepoints, codepointCount);
 
-    // SetTextureFilter(data->font.texture, TEXTURE_FILTER_BILINEAR);
+    SetTextureFilter(data->font.texture, TEXTURE_FILTER_BILINEAR);
 
     free(codepoints);
 }
@@ -63,6 +63,9 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
     _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/tahoma.ttf");
     _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9.f / font_div, "nt/fonts/tahomabd.ttf");
+
+    _ntLoadDwmFont(&ctx->fonts.tahoma12_std, 12, 0.5f, 12.f / font_div, "nt/fonts/tahoma.ttf");
+    _ntLoadDwmFont(&ctx->fonts.tahoma12_bld, 12, 0.5f, 12.f / font_div, "nt/fonts/tahomabd.ttf");
 
     _ntLoadDwmFont(&ctx->fonts.franklin24_std, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
     _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
