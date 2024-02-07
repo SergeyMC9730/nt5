@@ -18,35 +18,15 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/explorer/state.h>
 #include <nt5emul/dwm/context.h>
-#include <nt5emul/renderer.h>
-#include <nt5emul/dwm/window.h>
-#include <nt5emul/tui/text.h>
 
-#ifndef NULL
-#define NULL (void *)0
-#endif
+// get local mouse position inside the dwm context
+Vector2 _ntDwmGetLocalMousePosition(struct dwm_context *ctx) {
+    if (ctx->rendered_window == NULL) return GetMousePosition();
 
-#include <stdio.h>
+    Vector2 m = GetMousePosition();
+    m.x -= ctx->rendered_window->position.x;
+    m.y -= ctx->rendered_window->position.y + ctx->rendered_window->titlebar_rect.height + 4;
 
-void explorer_draw(struct dwm_window *wnd, void *user) {
-    struct dwm_context *ctx = _ntDwmGetGlobal();
-    struct local_module_state *lst = (struct local_module_state *)user;
-
-    // printf("Explorer draw! (%d)\n", lst->fs->base.items_total);
-
-    Color cl = BLACK;
-
-    cl.a = 128;
-
-    ClearBackground(cl);
-
-    Vector2 m = _ntDwmGetLocalMousePosition(ctx);
-
-    DrawRectangle(m.x, m.y, 8, 8, RED);
-
-    // if (ctx->selected_window == wnd) {
-        _ntTuiDrawMenu(lst->fs->base);
-    // }
+    return m;
 }

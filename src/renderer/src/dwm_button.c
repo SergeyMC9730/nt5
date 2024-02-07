@@ -28,7 +28,7 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn)
 {
     renderer_state_t *st = _ntRendererGetState();
 
-    Vector2 mouse = GetMousePosition();
+    Vector2 mouse = _ntDwmGetLocalMousePosition(ctx);
 
     Texture2D used_texture = btn->off;
 

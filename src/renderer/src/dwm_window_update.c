@@ -27,11 +27,13 @@
 void _ntUpdateWindow(struct dwm_window *wnd, void *context) {
     Vector2 mouse = GetMousePosition();
 
+    struct dwm_context *ctx = (struct dwm_context *)context;
+    
+    ctx->rendered_window = wnd;
     if (wnd->upadte) wnd->upadte(wnd, wnd->ctx);
+    ctx->rendered_window = NULL;
 
     // printf("%f %f\n", mouse.x, mouse.y);
-
-    struct dwm_context *ctx = (struct dwm_context *)context;
 
     renderer_state_t *st = _ntRendererGetState();
 
@@ -52,10 +54,6 @@ void _ntUpdateWindow(struct dwm_window *wnd, void *context) {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         if (CheckCollisionPointRec(mouse, sz)) {
             ctx->selected_window = wnd;
-
-            // rsb_array_Int *pids = _ntGetDWMProcesses(ctx);
-
-	        // RSBDestroyInt(pids);
         }
     }    
 }

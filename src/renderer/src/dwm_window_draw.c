@@ -49,9 +49,11 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     float title_bar_size = ctx->theme.basic.title_bar_size;
 
     if (wnd->draw) {
+        ctx->rendered_window = wnd;
         BeginTextureMode(wnd->framebuffer);
             wnd->draw(wnd, wnd->ctx);
         EndTextureMode();
+        ctx->rendered_window = NULL;
     }
 
     if (wnd->filled.ability && wnd->filled.state) {

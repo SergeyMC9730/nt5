@@ -72,6 +72,7 @@ struct dwm_context {
 
     rsb_array_DWMWindow *windows;
     struct dwm_window *selected_window;
+    struct dwm_window *rendered_window;
 
     struct dwm_context_fonts fonts;
     struct dwm_context_sounds sounds;
@@ -109,3 +110,6 @@ struct dwm_window *_ntGetDWMProcess(struct dwm_context *ctx, int pid);
 // global dwm
 void _ntDwmSetGlobal(struct dwm_context *ctx);
 struct dwm_context *_ntDwmGetGlobal();
+
+// get local mouse position inside the dwm context
+Vector2 _ntDwmGetLocalMousePosition(struct dwm_context *ctx);
