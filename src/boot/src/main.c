@@ -189,9 +189,9 @@ void _boot_begin() {
 	bool logo_runned_before = false;
 	
 	#if SKIP_LOGO == 0
-	usleep(1000000);
+	WaitTime(1);
 	#else
-	usleep(20000);
+	WaitTime(0.02);
 	#endif
 
 	_boot_run_logo();
@@ -202,7 +202,7 @@ void _boot_begin() {
 
 	#if SKIP_LOGO == 0
 	// wait 5.5 seconds
-	usleep(5500000);
+	WaitTime(5.5);
 
 	logo_runned_before = true;
 	#endif
@@ -221,7 +221,7 @@ void _boot_begin() {
 		_boot_run_setup(ctx);
 
 		// wait 12.5 seconds
-		usleep(12500000);
+		WaitTime(12.5);
 	}
 
 	if (!config.oobe_completed) {
@@ -229,11 +229,25 @@ void _boot_begin() {
 			if (!_boot_run_logo()) return;
 
 			// wait 5.5 seconds
-			usleep(5500000);
+			WaitTime(5.5);
 		}
 
 		_boot_run_msoobe(ctx);
 	}
+
+	for (;;) {
+		_ntUnloadConfig(config);
+
+		config = _ntGetConfig(config_path);
+
+		if (config.oobe_completed) break;
+
+		WaitTime(0.1);
+	}
+
+	_boot_run_command("logonui", NULL);
+
+	WaitTime(0.1);
 
 	for (int i = 0; i < 2; i++) {
 		_boot_run_command("explorer", NULL);

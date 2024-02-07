@@ -45,6 +45,9 @@ struct module_state {
 
     int icon_pressed_times;
     int icon_pressed_id;
+
+    Texture ico100;
+    Texture ico252;
 };
 
 #include <nt5emul/tui/file_selector.h>

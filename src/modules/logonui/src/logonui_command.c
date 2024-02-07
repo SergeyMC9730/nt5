@@ -58,10 +58,10 @@ void logonui_exit(void *ctx) {
         UnloadTexture(textures[i][0]);
     }
 
-    const char *config_path = "nt/config.json";
+    // const char *config_path = "nt/config.json";
 
-    // read config
-    struct nt_config config = _ntGetConfig(config_path);
+    // // read config
+    // struct nt_config config = _ntGetConfig(config_path);
 
     _state.execution_lock = false;
 }
@@ -196,6 +196,10 @@ bool logonui_command(void *data) {
     _state.dwm_ctx = _ntDwmGetGlobal();
 
     _state.cterm_logonui_welcome = get_string("cterm_logonui_welcome", lang);
+
+    WaitTime(1.5);
+
+    logonui_exit_queue(NULL);
 
     return true;
 }

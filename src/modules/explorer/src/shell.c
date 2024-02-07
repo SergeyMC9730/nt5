@@ -19,6 +19,7 @@
 */
 
 #include <nt5emul/modules/explorer/state.h>
+#include <nt5emul/modules/explorer/explorer_command.h>
 #include <nt5emul/renderer.h>
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>
@@ -129,44 +130,15 @@ void explorer_shell_draw_icons() {
         if (_state.icon_pressed_times == 2) {
             _state.icon_pressed_times = 1;
 
-            cterm_command_reference_t ref = _state.runtime->find("CTERM_line_execute");
-            if (ref.callback) {
-                ref.callback("notify Not implemented yet!\nRunning some programs");
-            }
+            cterm_command_reference_t ref_line = _state.runtime->find("CTERM_line_execute");
 
-            switch(_state.icon_pressed_id) {
-                case 0:
-                case 1:
-                case 2:
-                case 3: 
-                case 4: {
-                    ref = _state.runtime->find("explorer");
-                    if (ref.callback) {
-                        ref.callback(NULL);
-                    }
-                    break;
-                }
-                case 5: {
-                    ref = _state.runtime->find("msoobe");
-                    if (ref.callback) {
-                        ref.callback(NULL);
-                    }
-                    break;
-                }
-                case 6: {
-                    ref = _state.runtime->find("logo");
-                    if (ref.callback) {
-                        ref.callback(NULL);
-                    }
-                    break;
-                }
-                case 7: {
-                    ref = _state.runtime->find("setup");
-                    if (ref.callback) {
-                        ref.callback(NULL);
-                    }
-                    break;
-                }
+            const char *cmd_name = explorer_map_icon(_state.icon_pressed_id);
+
+            cterm_command_reference_t ref = _state.runtime->find(cmd_name);
+            if (ref.callback) {
+                ref.callback(NULL);
+            } else {
+                ref_line.callback("notify Selected command doesn't exist");
             }
         }
     }
@@ -311,6 +283,9 @@ void explorer_shell_draw(void *ctx) {
 
     if (_state.old_draw) _state.old_draw(_state.old_ctx);
 }
+
+#include <string.h>
+
 void explorer_shell_update(void *ctx) {
     if (_state.background.width == 0) {
         _state.background = LoadTexture("nt/images/user/wallpapers/bliss.jpg");
@@ -320,7 +295,20 @@ void explorer_shell_update(void *ctx) {
         Sound snd = LoadSound("nt/sounds/xpstartu.wav");
         PlaySound(snd);
 
+        int count = 0;
+        rsb_array_Image *img100 = _ntRendererLoadIco("ntresources/ext/reactos/explorer/100.ico", &count);
+
+        printf("-----_ COUNT: %d\n", count);
+
+        _ntRendererUnloadImages(img100);
+
         for (int i = 0; i < 8; i++) {
+            const char *cmd_name = explorer_map_icon(i);
+
+            // if (strcmp(cmd_name, "explorer")) {
+
+            // }
+
             Image img = GenImageChecked(26, 26, 4, 4, BLACK, WHITE);
 
             _state.icons[i] = LoadTextureFromImage(img);
@@ -365,4 +353,26 @@ void explorer_shell_update(void *ctx) {
     }
 
     if (_state.old_update) _state.old_update(_state.old_ctx);
+}
+
+const char *explorer_map_icon(int idx) {
+    switch(idx) {
+        default:
+        case 0:
+        case 1:
+        case 2:
+        case 3: 
+        case 4: {
+            return "explorer";
+        }
+        case 5: {
+            return "msoobe";
+        }
+        case 6: {
+            return "logo";
+        }
+        case 7: {
+            return "setup";
+        }
+    }
 }

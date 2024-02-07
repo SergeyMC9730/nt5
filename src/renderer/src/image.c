@@ -1,4 +1,4 @@
-﻿/*
+/*
     nt5 -- Windows XP simulator.
     Copyright (C) 2023  Sergei Baigerov
 
@@ -18,10 +18,15 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <nt5emul/renderer.h>
 
-// begin boot process
-void _boot_begin();
+RSB_ARRAY_IMPL_GEN(Image, Image);
 
-// try to parse explorer.exe data
-void _boot_try_parse_explorer();
+// unload images and unload the array itself
+void _ntRendererUnloadImages(rsb_array_Image *images) {
+    for (size_t i = 0; i < images->len; i++) {
+        UnloadImage(RSBGetAtIndexImage(images, i));
+    }
+
+    RSBDestroyImage(images);
+}

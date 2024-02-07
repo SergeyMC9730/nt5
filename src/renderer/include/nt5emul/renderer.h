@@ -24,11 +24,15 @@
 
 #pragma pack(push, 1)
 
+// renderer layer
+
 typedef struct renderer_layer_t {
 	void (*draw)(void *user);
 	void (*update)(void *user);
 	void *user;
 } renderer_layer_t;
+
+// queue object
 
 typedef struct renderer_queue_object_t {
     void (*callback)(void *user);
@@ -36,11 +40,19 @@ typedef struct renderer_queue_object_t {
     int fps;
 } renderer_queue_object_t;
 
+// arrays
+
 #include <nt5emul/arrays/rsb_array_gen.h>
 
 RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
 
+#include <raylib.h>
+
+RSB_ARRAY_DEF_GEN(Image, Image);
+
 #include <stdbool.h>
+
+// renderer state
 
 typedef struct renderer_state_t {
 #define RENDERER_LAYERS 6
@@ -102,10 +114,18 @@ void _ntRendererPushQueue(void (*callback)(void *ctx), void *userdata);
 
 // drawing functions
 
-#include <raylib.h>
-
 void _ntRendererDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin);
 void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin, bool inside_scale);
 
 // returns centered texture position (not relative!)
 Vector2 _ntRendererCenterTexture(Texture2D texture, bool x, bool y);
+
+// load images from .ico file
+// original code made by raysan5
+// additions:
+// - dynamic array impl is used instead of raw Image * pointer
+// - added support for BMP data
+rsb_array_Image *_ntRendererLoadIco(const char *filename, int *count);
+
+// unload images and unload the array itself
+void _ntRendererUnloadImages(rsb_array_Image *images);
