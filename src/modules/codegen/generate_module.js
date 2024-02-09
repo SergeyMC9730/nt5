@@ -80,6 +80,15 @@ for (;;) {
 
 var cmd_features = {};
 
+process.stdout.write("? Do you want to add license notice into each file? (N/y): ")
+
+const do_license = ask_user_with_bool();
+let license_notice_str = "";
+
+if (do_license) {
+    license_notice_str = fs.readFileSync(`${__dirname}/license_notice.txt`).toString("utf-8");
+}
+
 commands.forEach(cmd => {
     console.log(`! Configuring "${cmd}" command`);
     process.stdout.write("? Do you want this command to be a fullscreen application (y/N): ")
@@ -112,6 +121,8 @@ commands.forEach(cmd => {
 
 
 const module_c_src = `
+${license_notice_str}
+
 #include <nt5emul/modules/${project_name}/state.h>
 ${command_includes}
 
@@ -129,6 +140,8 @@ SET_INFORMATION("${project_name}", "Codegenned project", "1.00")
 console.log("  @ state.c");
 
 const state_c_src = `
+${license_notice_str}
+
 #include <nt5emul/modules/${project_name}/state.h>
 
 struct module_state _state = {0};
@@ -137,6 +150,8 @@ struct module_state _state = {0};
 console.log("  @ state.h");
 
 const state_h_src = `
+${license_notice_str}
+
 #pragma once
 
 #include <cterm/applications/api.h>
@@ -167,11 +182,15 @@ commands.forEach(cmd => {
     let cmd_includes = "";
     let cmd_fullscreen = "";
     let cmd_windowed = "";
+    
+    let cmd_callback = "";
 
     let cmd_draw_header = "";
     let cmd_update_header = "";
 
     if (cmd_features[cmd].fullscreen) {
+        cmd_callback = "void *ctx";
+
         cmd_includes += `#include <nt5emul/renderer.h>\n`
 
         cmd_draw_header = "if (_state.old_draw) _state.old_draw(_state.old_ctx);"
@@ -191,6 +210,8 @@ renderer_state_t *st = _ntRendererGetState();
 `
     }
     if (cmd_features[cmd].windowed) {
+        cmd_callback = "struct dwm_window *wnd, void *ctx"
+
         cmd_includes += `#include <nt5emul/dwm/context.h>\n`
         cmd_includes += `#include <nt5emul/dwm/window.h>\n`
 
@@ -212,6 +233,8 @@ struct dwm_window wnd = _ntCreateWindow("${cmd}", (Vector2){500, 150});
 
     let cmd_c_src = 
 `
+${license_notice_str}
+
 #include <nt5emul/modules/${project_name}/state.h>
 #include <nt5emul/modules/${project_name}/${cmd}_command.h>
 ${cmd_includes}
@@ -227,13 +250,13 @@ bool ${cmd}_command(void *data) {
     if (cmd_features[cmd].fullscreen || cmd_features[cmd].windowed) {
         const cmd_draw = 
 `
-void ${cmd}_draw(void *ctx) {
+void ${cmd}_draw(${cmd_callback}) {
     ${cmd_draw_header}
 }
 `
         const cmd_update = 
 `
-void ${cmd}_update(void *ctx) {
+void ${cmd}_update(${cmd_callback}) {
     ${cmd_update_header}
 }
 `
@@ -246,11 +269,15 @@ void ${cmd}_update(void *ctx) {
 
     const cmd_h_src = 
 `
+${license_notice_str}
+
 #pragma once
+
+#include <nt5emul/dwm/window.h>
     
 bool ${cmd}_command(void *data);
-void ${cmd}_update(void *ctx);
-void ${cmd}_draw(void *ctx);
+void ${cmd}_update(${cmd_callback});
+void ${cmd}_draw(${cmd_callback});
 `
 
     console.log(`! Saving files: ${cmd}_command.c ; ${cmd}_command.h`)
@@ -262,3 +289,30 @@ void ${cmd}_draw(void *ctx);
 })
 
 console.log(`! Module has been codegenned successfully`)
+
+console.log(`-----------------------------------------
+
+Generated CMake code:`)
+
+console.log(`
+# ${project_name}
+file (GLOB NTMOD_${project_name.toUpperCase()}_SRC CONFIGURE_DEPENDS "src/modules/${project_name}/src/*.c")
+add_library(ntmod_${project_name} \${NTMOD_${project_name.toUpperCase()}_SRC})
+target_include_directories(ntmod_${project_name} PRIVATE 
+    "src/renderer/include" 
+    "src/modules/${project_name}/include" 
+    "src/external" 
+    "src/renderer/raylib/src" 
+    "src/nt_tools/include"
+    "src/global/include"
+    "src/arrays/include"
+    "src/nt_tools/include"
+    "src/language/include"
+)
+
+target_link_libraries(ntmod_${project_name} nt5renderer raylib)
+
+add_custom_command(TARGET ntmod_${project_name} POST_BUILD 
+    COMMAND \${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:\${PROJECT_NAME}>/libntmod_${project_name}.so $<TARGET_FILE_DIR:\${PROJECT_NAME}>/applications/libntmod_${project_name}.so
+)
+`)
