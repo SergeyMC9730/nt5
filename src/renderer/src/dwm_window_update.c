@@ -30,7 +30,7 @@ void _ntUpdateWindow(struct dwm_window *wnd, void *context) {
     struct dwm_context *ctx = (struct dwm_context *)context;
     
     ctx->rendered_window = wnd;
-    if (wnd->upadte) wnd->upadte(wnd, wnd->ctx);
+    if (wnd->update) wnd->update(wnd, wnd->ctx);
     ctx->rendered_window = NULL;
 
     // printf("%f %f\n", mouse.x, mouse.y);

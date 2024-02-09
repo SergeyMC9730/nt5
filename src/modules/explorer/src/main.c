@@ -92,7 +92,7 @@ bool explorer_command(void *data) {
 
     struct dwm_window wnd = _ntCreateWindow(_state.cterm_explorer_title, (Vector2){500, 300});
     wnd.draw = explorer_draw;
-    wnd.upadte = explorer_update;
+    wnd.update = explorer_update;
     wnd.ctx = lst;
 
     wnd.filled.state = false;

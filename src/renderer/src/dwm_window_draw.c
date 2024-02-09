@@ -68,16 +68,24 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
         gr = ctx->theme.basic.window_active_title_gradient;
     }
 
+    // left
     DrawLine(sz.x, sz.y, sz.x + sz.width - 1, sz.y, border1);
     DrawLine(sz.x, sz.y, sz.x, sz.y + sz.height, border1);
 
+    // down
     DrawLine(sz.x - 1, sz.y + sz.height, sz.x + sz.width, sz.y + sz.height, border3);
     DrawLine(sz.x + sz.width, sz.y + sz.height, sz.x + sz.width, sz.y, border3);
 
+    // up left -> down left
     DrawLine(sz.x + 1, sz.y + 1, sz.x + sz.width - 2, sz.y + 1, border2);
+    
+    // up left <- up right
     DrawLine(sz.x + 1, sz.y + 1, sz.x + 1, sz.y + sz.height - 1, border2);
 
+    // down left <- down right
     DrawLine(sz.x - 1 + 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + sz.height - 1, border4);
+    
+    // up right -> down right
     DrawLine(sz.x + sz.width - 1, sz.y + sz.height - 1, sz.x + sz.width - 1, sz.y + 1, border4);
 
     DrawRectangleGradientH(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height, gr[0], gr[1]);

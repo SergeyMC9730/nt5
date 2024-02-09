@@ -48,7 +48,7 @@ struct dwm_window {
     RenderTexture2D framebuffer;
 
     void (*draw)(struct dwm_window *wnd, void *ctx);
-    void (*upadte)(struct dwm_window *wnd, void *ctx);
+    void (*update)(struct dwm_window *wnd, void *ctx);
 
     void *ctx;
 };

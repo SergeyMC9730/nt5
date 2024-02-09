@@ -256,6 +256,22 @@ target_include_directories(ntmod_explorer PRIVATE
 )
 target_link_libraries(ntmod_explorer nt5renderer raylib nt5tui)
 
+# notepad
+file (GLOB NTMOD_NOTEPAD_SRC CONFIGURE_DEPENDS "src/modules/notepad/src/*.c")
+add_library(ntmod_notepad ${NTMOD_NOTEPAD_SRC})
+target_include_directories(ntmod_notepad PRIVATE 
+    "src/renderer/include" 
+    "src/modules/notepad/include" 
+    "src/external" 
+    "src/renderer/raylib/src" 
+    "src/nt_tools/include"
+    "src/global/include"
+    "src/arrays/include"
+    "src/nt_tools/include"
+    "src/language/include"
+)
+target_link_libraries(ntmod_notepad nt5renderer raylib)
+
 # copy nt resources
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/ntresources
@@ -281,4 +297,7 @@ add_custom_command(TARGET ntmod_logonui POST_BUILD
 )
 add_custom_command(TARGET ntmod_explorer POST_BUILD 
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_explorer.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_explorer.so
+)
+add_custom_command(TARGET ntmod_notepad POST_BUILD 
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_notepad.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_notepad.so
 )
