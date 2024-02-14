@@ -25,10 +25,8 @@
 #include <nt5emul/dwm/window.h>
 
 
-bool notepad_command(void *data) {
-    
-    
-struct dwm_window wnd = _ntCreateWindow("notepad", (Vector2){500, 150});
+bool notepad_command(void *data) {  
+    struct dwm_window wnd = _ntCreateWindow("notepad", (Vector2){500, 150});
 
     wnd.draw = notepad_draw;
     wnd.update = notepad_update;
