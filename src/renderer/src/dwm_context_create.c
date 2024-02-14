@@ -72,6 +72,8 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     
     _ntLoadDwmFont(&ctx->fonts.arial9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/arial.ttf");
 
+    _ntLoadDwmFont(&ctx->fonts.lucidacon10_std, 10, 0.5f, 10.f / font_div, "nt/fonts/lucon.ttf");
+
     renderer_state_t *st = _ntRendererGetState();
 
     st->layers[0].user = NULL;
@@ -116,8 +118,8 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
     ctx->lpack = _ntGenerateLanguagePack();
 
     while (ctx->loading_finished != true) {
-        // wait 0.10 seconds before checking again
-		usleep(1000000 / 10);
+        // wait 0.1 seconds before checking again
+		WaitTime(0.1);
     }
 
     // return context
