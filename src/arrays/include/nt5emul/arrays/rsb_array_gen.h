@@ -43,16 +43,21 @@ extern "C" {
 #define RSB_ARRAY_FUNC_DESTROY_DEF(funname) void RSBDestroy##funname(RSB_ARRAY_NAME(funname) *array)
 #define RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname) type RSBGetAtIndex##funname(RSB_ARRAY_NAME(funname) *array, unsigned int index)
 #define RSB_ARRAY_FUNC_MERGE_DEF(type, funname) void RSBMergeElements##funname(RSB_ARRAY_NAME(funname) *source, RSB_ARRAY_NAME(funname) *destination)
+#define RSB_ARRAY_FUNC_ADDELEMENTATINDEX_DEF(type, funname) void RSBAddElementAtIndex##funname(RSB_ARRAY_NAME(funname) *array, type object, unsigned int index)
+#define RSB_ARRAY_FUNC_POPELEMENTATINDEX_DEF(type, funname) void RSBPopElementAtIndex##funname(RSB_ARRAY_NAME(funname) *array, unsigned int index)
 
 #define RSB_ARRAY_DEF_GEN(type, funname) RSB_ARRAY_STRUCT(type, funname); \
-RSB_ARRAY_FUNC_CREATE_DEF(funname);             \
-RSB_ARRAY_FUNC_DESTROY_DEF(funname);            \
-                                                \
-RSB_ARRAY_FUNC_ADDELEMENT_DEF(type, funname);   \
-RSB_ARRAY_FUNC_POPELEMENT_DEF(funname);         \
-RSB_ARRAY_FUNC_MERGE_DEF(type, funname);        \
-                                                \
-RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname);   
+RSB_ARRAY_FUNC_CREATE_DEF(funname);                 \
+RSB_ARRAY_FUNC_DESTROY_DEF(funname);                \
+                                                    \
+RSB_ARRAY_FUNC_ADDELEMENT_DEF(type, funname);       \
+RSB_ARRAY_FUNC_POPELEMENT_DEF(funname);             \
+RSB_ARRAY_FUNC_MERGE_DEF(type, funname);            \
+                                                    \
+RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname);       \
+                                                    \
+RSB_ARRAY_FUNC_ADDELEMENTATINDEX_DEF(type, funname);\
+RSB_ARRAY_FUNC_POPELEMENTATINDEX_DEF(type, funname);
 
 #include <stdlib.h>
 
@@ -140,15 +145,64 @@ RSB_ARRAY_FUNC_GETATINDEX_DEF(type, funname);
     return;                                                                                \
 }
 
-#define RSB_ARRAY_IMPL_GEN(type, funname)        \
-RSB_ARRAY_FUNC_CREATE_IMPL(funname);             \
-RSB_ARRAY_FUNC_DESTROY_IMPL(funname);            \
-                                                 \
-RSB_ARRAY_FUNC_ADDELEMENT_IMPL(type, funname);   \
-RSB_ARRAY_FUNC_POPELEMENT_IMPL(type, funname);   \
-RSB_ARRAY_FUNC_MERGE_IMPL(type, funname);        \
-                                                 \
-RSB_ARRAY_FUNC_GETATINDEX_IMPL(type, funname);
+#define RSB_ARRAY_FUNC_ADDELEMENTATINDEX_IMPL(type, funname) RSB_ARRAY_FUNC_ADDELEMENTATINDEX_DEF(type, funname) {  \
+    if (index > array->len || !array) return;                                                                       \
+                                                                                                                    \
+    rsb_array_##funname *new_arr = RSBCreateArray##funname();                                                       \
+                                                                                                                    \
+    for (size_t i = 0; i < array->len; i++) {                                                                       \
+        if (i == index) {                                                                                           \
+            RSBAddElement##funname(new_arr, object);                                                                \
+        }                                                                                                           \
+                                                                                                                    \
+        RSBAddElement##funname(new_arr, RSBGetAtIndex##funname(array, i));                                          \
+    }                                                                                                               \
+                                                                                                                    \
+    while (array->len != 0) {                                                                                       \
+        RSBPopElement##funname(array);                                                                              \
+    }                                                                                                               \
+                                                                                                                    \
+    for (size_t i = 0; i < new_arr->len; i++) {                                                                     \
+        RSBAddElement##funname(array, RSBGetAtIndex##funname(new_arr, i));                                          \
+    }                                                                                                               \
+                                                                                                                    \
+    RSBDestroy##funname(new_arr);                                                                                   \
+}
+
+#define RSB_ARRAY_FUNC_POPELEMENTATINDEX_IMPL(type, funname) RSB_ARRAY_FUNC_POPELEMENTATINDEX_DEF(type, funname) {  \
+    if (index > array->len || !array) return;                                                                       \
+                                                                                                                    \
+    rsb_array_##funname *new_arr = RSBCreateArray##funname();                                                       \
+                                                                                                                    \
+    for (size_t i = 0; i < array->len; i++) {                                                                       \
+        if (i != index) {                                                                                           \
+            RSBAddElement##funname(new_arr, RSBGetAtIndex##funname(array, i));                                      \
+        }                                                                                                           \
+    }                                                                                                               \
+                                                                                                                    \
+    while (array->len != 0) {                                                                                       \
+        RSBPopElement##funname(array);                                                                              \
+    }                                                                                                               \
+                                                                                                                    \
+    for (size_t i = 0; i < new_arr->len; i++) {                                                                     \
+        RSBAddElement##funname(array, RSBGetAtIndex##funname(new_arr, i));                                          \
+    }                                                                                                               \
+                                                                                                                    \
+    RSBDestroy##funname(new_arr);                                                                                   \
+}
+
+#define RSB_ARRAY_IMPL_GEN(type, funname)            \
+RSB_ARRAY_FUNC_CREATE_IMPL(funname);                 \
+RSB_ARRAY_FUNC_DESTROY_IMPL(funname);                \
+                                                     \
+RSB_ARRAY_FUNC_ADDELEMENT_IMPL(type, funname);       \
+RSB_ARRAY_FUNC_POPELEMENT_IMPL(type, funname);       \
+RSB_ARRAY_FUNC_MERGE_IMPL(type, funname);            \
+                                                     \
+RSB_ARRAY_FUNC_GETATINDEX_IMPL(type, funname);       \
+                                                     \
+RSB_ARRAY_FUNC_ADDELEMENTATINDEX_IMPL(type, funname);\
+RSB_ARRAY_FUNC_POPELEMENTATINDEX_IMPL(type, funname);
 
 #pragma pack(pop)
 
