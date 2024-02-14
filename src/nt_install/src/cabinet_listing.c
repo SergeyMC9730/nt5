@@ -308,6 +308,7 @@ const char *_bi_cabinet_listing[] = {
     "arialbd.tt_", "*nt/fonts/arialbd.ttf", "arialbd.ttf",
     "arialbi.tt_", "*nt/fonts/arialbi.ttf", "arialbi.ttf",
     "ariali.tt_", "*nt/fonts/ariali.ttf", "ariali.ttf",
+    "lucon.tt_", "*nt/fonts/lucon.ttf", "lucon.ttf",
 
     // boot assets
 

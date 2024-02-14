@@ -38,10 +38,13 @@ extern ntinstall_t __state; // installation state
 extern renderer_state_t _renderer_state;
 
 void _boot_install_create_config() {
-    struct nt_config config = {};
+    struct nt_config config = _ntGetConfig("nt/config.json");
+
     config.setup_completed = true;
 
     _ntSaveConfig(config, "nt/config.json");
+
+    _ntUnloadConfig(config);
 }
 
 void _boot_install_step9_config() {
