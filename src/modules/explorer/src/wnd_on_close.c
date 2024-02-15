@@ -30,5 +30,7 @@ void explorer_wnd_on_close(struct dwm_window *wnd, void *ctx) {
 
     struct local_module_state *lst = (struct local_module_state *)ctx;
 
-    _ntUnloadFileSelector(lst->fs);    
+    _ntUnloadFileSelector(lst->fs);
+    
+    free(lst);
 }

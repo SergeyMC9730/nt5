@@ -25,14 +25,21 @@
 #include <nt5emul/dwm/window.h>
 
 
-bool notepad_command(void *data) {  
-    struct dwm_window wnd = _ntCreateWindow("notepad", (Vector2){500, 150});
+bool notepad_command(void *data) {
+    
+    
+struct dwm_window wnd = _ntCreateWindow("notepad", (Vector2){500, 150});
 
     wnd.draw = notepad_draw;
     wnd.update = notepad_update;
+    wnd.on_close = notepad_on_close;
 
     wnd.filled.state = true;
     wnd.filled.ability = true;
+
+    struct local_notepad_module_state *mod = (struct local_notepad_module_state *)calloc(1, sizeof(struct local_notepad_module_state));
+
+    wnd.ctx = mod;
 
     wnd.position = (Vector2){50, 50};
     
@@ -48,4 +55,10 @@ void notepad_draw(struct dwm_window *wnd, void *ctx) {
 
 void notepad_update(struct dwm_window *wnd, void *ctx) {
     
+}
+
+void notepad_on_close(struct dwm_window *wnd, void *ctx) {
+    struct local_notepad_module_state *mod = (struct local_notepad_module_state *)ctx;
+
+    free(mod);
 }

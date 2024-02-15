@@ -149,7 +149,7 @@ struct module_state _state = {0};
 
 console.log("  @ state.h");
 
-const state_h_src = `
+let state_h_src = `
 ${license_notice_str}
 
 #pragma once
@@ -168,6 +168,16 @@ struct module_state {
 
 extern struct module_state _state;
 `
+
+commands.forEach(cmd => {
+    if (cmd_features[cmd].windowed) {
+        state_h_src += `
+struct local_${cmd}_module_state {
+    int id;
+};`
+    }
+})
+
 console.log("! Saving files: module.c ; state.c ; state.h");
 
 if (!SAFE_MODE) {
@@ -221,9 +231,14 @@ struct dwm_window wnd = _ntCreateWindow("${cmd}", (Vector2){500, 150});
 
     wnd.draw = ${cmd}_draw;
     wnd.update = ${cmd}_update;
+    wnd.on_close = ${cmd}_on_close;
 
     wnd.filled.state = true;
     wnd.filled.ability = true;
+
+    struct local_${cmd}_module_state *mod = (struct local_${cmd}_module_state *)calloc(1, sizeof(struct local_${cmd}_module_state));
+
+    wnd.ctx = mod;
 
     wnd.position = (Vector2){50, 50};
     
@@ -261,8 +276,18 @@ void ${cmd}_update(${cmd_callback}) {
 }
 `
 
+        const cmd_on_close = 
+`
+void ${cmd}_on_close(${cmd_callback}) {
+    struct local_${cmd}_module_state *mod = (struct local_${cmd}_module_state *)ctx;
+
+    free(mod);
+}
+`
+
         cmd_c_src += cmd_draw;
         cmd_c_src += cmd_update;
+        cmd_c_src += cmd_on_close;
     }
 
     console.log(`  @ ${cmd}_command.h`);
@@ -278,6 +303,7 @@ ${license_notice_str}
 bool ${cmd}_command(void *data);
 void ${cmd}_update(${cmd_callback});
 void ${cmd}_draw(${cmd_callback});
+void ${cmd}_on_close(${cmd_callback});
 `
 
     console.log(`! Saving files: ${cmd}_command.c ; ${cmd}_command.h`)

@@ -34,3 +34,7 @@ struct module_state {
 };
 
 extern struct module_state _state;
+
+struct local_notepad_module_state {
+    int id;
+};
