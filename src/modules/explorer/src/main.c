@@ -91,8 +91,11 @@ bool explorer_command(void *data) {
     lst->fs->callback = _ntPVOnFileClick;
 
     struct dwm_window wnd = _ntCreateWindow(_state.cterm_explorer_title, (Vector2){500, 300});
+    
     wnd.draw = explorer_draw;
     wnd.update = explorer_update;
+    wnd.on_close = explorer_wnd_on_close;
+
     wnd.ctx = lst;
 
     wnd.filled.state = false;

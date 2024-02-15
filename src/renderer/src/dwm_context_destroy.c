@@ -31,9 +31,20 @@ void _ntDestroyDwmContext(struct dwm_context *ctx) {
     RSBDestroyDWMWindow(ctx->windows);
 
     // unload fonts
+    struct dwm_context_font *fonts[] = {
+        &ctx->fonts.tahoma12_bld, &ctx->fonts.tahoma12_std,
+        &ctx->fonts.tahoma9_bld, &ctx->fonts.tahoma9_std,
+        &ctx->fonts.tahoma8_bld, &ctx->fonts.tahoma8_std,
+        &ctx->fonts.arial9_std, &ctx->fonts.franklin24_bld,
+        &ctx->fonts.franklin24_std, &ctx->fonts.lucidacon10_std,
+        &ctx->fonts.lucidacon10_std
+    };
 
-    UnloadFont(ctx->fonts.tahoma8_std.font);
-    UnloadFont(ctx->fonts.tahoma8_bld.font);
+    for (int i = 0; i < sizeof(fonts) / sizeof(struct dwm_context_font *); i++) {
+        struct dwm_context_font *font = fonts[i];
+
+        UnloadFont(font->font);
+    }
 
     // free context
     free(ctx);

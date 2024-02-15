@@ -49,6 +49,8 @@ struct dwm_window {
 
     void (*draw)(struct dwm_window *wnd, void *ctx);
     void (*update)(struct dwm_window *wnd, void *ctx);
+    
+    void (*on_close)(struct dwm_window *wnd, void *ctx);
 
     void *ctx;
 };

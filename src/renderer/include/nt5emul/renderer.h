@@ -122,9 +122,13 @@ Vector2 _ntRendererCenterTexture(Texture2D texture, bool x, bool y);
 
 // load images from .ico file
 // original code made by raysan5
+//
 // additions:
 // - dynamic array impl is used instead of raw Image * pointer
 // - added support for BMP data
+//
+// disadvantages:
+// - it doesnt work but maybe i will fix this function later
 rsb_array_Image *_ntRendererLoadIco(const char *filename, int *count);
 
 // unload images and unload the array itself

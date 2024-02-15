@@ -295,12 +295,12 @@ void explorer_shell_update(void *ctx) {
         Sound snd = LoadSound("nt/sounds/xpstartu.wav");
         PlaySound(snd);
 
-        int count = 0;
-        rsb_array_Image *img100 = _ntRendererLoadIco("ntresources/ext/reactos/explorer/100.ico", &count);
+        // int count = 0;
+        // rsb_array_Image *img100 = _ntRendererLoadIco("ntresources/ext/reactos/explorer/100.ico", &count);
 
-        printf("-----_ COUNT: %d\n", count);
+        // printf("-----_ COUNT: %d\n", count);
 
-        _ntRendererUnloadImages(img100);
+        // _ntRendererUnloadImages(img100);
 
         for (int i = 0; i < 8; i++) {
             const char *cmd_name = explorer_map_icon(i);

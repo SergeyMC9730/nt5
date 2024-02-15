@@ -18,21 +18,17 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-
-#pragma once
-
-#include <stdbool.h>
-
+#include <nt5emul/modules/explorer/state.h>
+#include <nt5emul/renderer.h>
+#include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>
 
-bool explorer_command(void *data);
+#include <stdio.h>
 
-void explorer_draw(struct dwm_window *ctx, void *data);
-void explorer_update(struct dwm_window *ctx, void *data);
+void explorer_wnd_on_close(struct dwm_window *wnd, void *ctx) {
+    printf("bye!\n");
 
-void explorer_shell_draw(void *ctx);
-void explorer_shell_update(void *ctx);
+    struct local_module_state *lst = (struct local_module_state *)ctx;
 
-void explorer_wnd_on_close(struct dwm_window *wnd, void *ctx);
-
-const char *explorer_map_icon(int idx);
+    _ntUnloadFileSelector(lst->fs);    
+}
