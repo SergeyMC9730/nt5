@@ -35,6 +35,11 @@ struct module_state {
 
 extern struct module_state _state;
 
+#include <nt5emul/arrays/rsb_array_char.h>
+
 struct local_notepad_module_state {
     int id;
+
+    rsb_array_String *file_contents;
+    rsb_array_String *rendered_file_contents;
 };
