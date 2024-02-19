@@ -22,7 +22,7 @@
 
 #include <nt5emul/renderer_ease.h>
 
-void _ntRendererProcessTweakFloat(renderer_float_tweak_object_t *tweak) {
+void _ntRendererProcessTweakDouble(renderer_double_tweak_object_t *tweak) {
     double (*easings[TOEnd])(double) = {
         _rendererLinear, _rendererInSine, _rendererOutSine,
         _rendererInOutSine, _rendererInQuad, _rendererOutQuad,
@@ -43,10 +43,10 @@ void _ntRendererProcessTweakFloat(renderer_float_tweak_object_t *tweak) {
     double (*ease)(double) = easings[tweak->obj.type];
     if (!ease) return;
 
-    float delta = GetFrameTime() / (float)tweak->obj.time;
+    double delta = (double)GetFrameTime() / tweak->obj.time;
     tweak->obj.passed += delta;
 
-    float val = (float)ease(tweak->obj.passed);
+    double val = ease(tweak->obj.passed);
     *tweak->val += val * tweak->obj.power;
 
     return; 

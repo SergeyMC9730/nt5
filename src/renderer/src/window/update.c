@@ -44,8 +44,14 @@ void _ntRendererUpdate() {
         renderer_max_tweak_object_t *tobj = st->tweaks->len + i;
 
         switch(tobj->type) {
+            default:
             case TOTFloat: {
-                
+                _ntRendererProcessTweakFloat(&tobj->_float);
+                break;
+            }
+            case TOTDouble: {
+                _ntRendererProcessTweakDouble(&tobj->_double);
+                break;
             }
         }
     }

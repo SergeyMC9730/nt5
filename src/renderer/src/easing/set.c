@@ -28,13 +28,13 @@ double _rendererLinear(double x) {
 #define PI 3.14159265358979323846
 #endif
 
-double _rendererInsinle(double x) {
+double _rendererInSine(double x) {
     return 1 - cosl((x * PI) / 2);
 }
-double _rendererOutsinle(double x) {
+double _rendererOutSine(double x) {
     return sinl((x * PI) / 2);
 }
-double _rendererInOutsinle(double x) {
+double _rendererInOutSine(double x) {
     return -(cosl(PI * x) - 1) / 2;
 }
 

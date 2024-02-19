@@ -17,3 +17,7 @@
 
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
+
+#include <nt5emul/renderer.h>
+
+RSB_ARRAY_IMPL_GEN(renderer_max_tweak_object_t, MaxTweak);

@@ -45,7 +45,7 @@ typedef struct renderer_queue_object_t {
 #define GEN_TWEAK(tweak) TOIn##tweak, TOOut##tweak, TOInOut##tweak 
 
 typedef enum renderer_tweak_type {
-    Linear = 0,
+    TOLinear = 0,
 
     GEN_TWEAK(Sine),
     GEN_TWEAK(Quad),
@@ -56,11 +56,15 @@ typedef enum renderer_tweak_type {
     GEN_TWEAK(Circ),
     GEN_TWEAK(Back),
     GEN_TWEAK(Elastic),
-    GEN_TWEAK(Bounce)
+    GEN_TWEAK(Bounce),
+
+    TOEnd
 } renderer_tweak_type;
 
 typedef struct renderer_value_tweak_object_t {
-    float time;
+    double time;
+    double power;
+    double passed;
 
     renderer_tweak_type type;
 } renderer_value_tweak_object_t;
