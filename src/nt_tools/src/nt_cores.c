@@ -56,11 +56,13 @@ void _ntInitCores() {
 
     // allocate array for cores
     nt_cores = (struct ntcore *)malloc(size); // 4 nt cores
+    memset(nt_cores, 0, size);
 
     // cleanup array
     memset(nt_cores, 0, size);
 
     for (size_t i = 0; i < cores; i++) {
+
         // create condition and mutex
         pthread_cond_init(&nt_cores[i].cond, NULL);
         pthread_mutex_init(&nt_cores[i].mutex, NULL);

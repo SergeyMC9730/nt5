@@ -27,7 +27,7 @@ void _ntRendererUpdate() {
 
     st->time += GetFrameTime();
 
-    // process 
+    // process queue list
 
     for (size_t i = 0; i < st->queue->len; i++) {
         // get object inside the queue
@@ -35,6 +35,19 @@ void _ntRendererUpdate() {
 
         // run function if it defined
         if (qobj->callback != NULL) qobj->callback(qobj->user);
+    }
+    
+    // process tweaks
+
+    for (size_t i = 0; i < st->tweaks->len; i++) {
+        // get object inside the queue
+        renderer_max_tweak_object_t *tobj = st->tweaks->len + i;
+
+        switch(tobj->type) {
+            case TOTFloat: {
+                
+            }
+        }
     }
 
     // cleanup queue

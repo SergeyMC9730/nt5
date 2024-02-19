@@ -41,7 +41,7 @@
 
 #include <nt5emul/tui/environment.h>
 
-#define SKIP_LOGO 1
+#define SKIP_LOGO 0
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);

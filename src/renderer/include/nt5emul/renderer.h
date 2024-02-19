@@ -40,6 +40,59 @@ typedef struct renderer_queue_object_t {
     int fps;
 } renderer_queue_object_t;
 
+// value tweak object
+
+#define GEN_TWEAK(tweak) TOIn##tweak, TOOut##tweak, TOInOut##tweak 
+
+typedef enum renderer_tweak_type {
+    Linear = 0,
+
+    GEN_TWEAK(Sine),
+    GEN_TWEAK(Quad),
+    GEN_TWEAK(Cubic),
+    GEN_TWEAK(Quart),
+    GEN_TWEAK(Quint),
+    GEN_TWEAK(Expo),
+    GEN_TWEAK(Circ),
+    GEN_TWEAK(Back),
+    GEN_TWEAK(Elastic),
+    GEN_TWEAK(Bounce)
+} renderer_tweak_type;
+
+typedef struct renderer_value_tweak_object_t {
+    float time;
+
+    renderer_tweak_type type;
+} renderer_value_tweak_object_t;
+typedef struct renderer_float_tweak_object_t {
+    renderer_value_tweak_object_t obj;
+
+    float *val;
+
+    float min;
+    float max;
+} renderer_float_tweak_object_t;
+typedef struct renderer_double_tweak_object_t {
+    renderer_value_tweak_object_t obj;
+
+    double *val;
+
+    double min;
+    double max;
+} renderer_double_tweak_object_t;
+
+typedef enum renderer_tweak_object_type {
+    TOTUnknown = 0,
+    TOTFloat,
+    TOTDouble
+} renderer_tweak_object_type;
+
+typedef struct renderer_max_tweak_object_t {
+    renderer_float_tweak_object_t _float;
+    renderer_double_tweak_object_t _double;
+    renderer_tweak_object_type type;
+} renderer_max_tweak_object_t;
+
 // arrays
 
 #include <nt5emul/arrays/rsb_array_gen.h>
@@ -47,6 +100,10 @@ typedef struct renderer_queue_object_t {
 RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
 
 #include <raylib.h>
+
+RSB_ARRAY_DEF_GEN(renderer_max_tweak_object_t, MaxTweak);
+
+#include <stdbool.h>
 
 RSB_ARRAY_DEF_GEN(Image, Image);
 
@@ -59,6 +116,7 @@ typedef struct renderer_state_t {
 	renderer_layer_t *layers;
 	pthread_t thread;
     rsb_array_RendererQueue *queue;
+    rsb_array_MaxTweak *tweaks;
 
 #define RENDERER_REQUESTED_STOP 1
 #define RENDERER_READY 			2
@@ -133,3 +191,6 @@ rsb_array_Image *_ntRendererLoadIco(const char *filename, int *count);
 
 // unload images and unload the array itself
 void _ntRendererUnloadImages(rsb_array_Image *images);
+
+void _ntRendererProcessTweakFloat(renderer_float_tweak_object_t *tweak);
+void _ntRendererProcessTweakDouble(renderer_double_tweak_object_t *tweak);

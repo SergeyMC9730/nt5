@@ -88,7 +88,9 @@ target_include_directories(nt5tools PRIVATE
 target_link_libraries(nt5tools cjson)
 
 # nt5renderer
-file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS "src/renderer/src/*.c" "src/renderer/include/*/*.h")
+file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS 
+    "src/renderer/src/*/*.c" "src/renderer/include/*/*.h"
+)
 add_library(nt5renderer SHARED ${NTRENDERER_SRC})
 target_include_directories(nt5renderer PRIVATE 
     "src/renderer/include"
