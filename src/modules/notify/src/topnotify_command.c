@@ -135,13 +135,8 @@ bool notify_command(void *data) {
 
         if (current_text_pos.x > rsz.x) {
             current_text_pos.x = base_text_pos.x;
-
-            int newlines = 1 * st->scaling;
-
-            for (int j = 0; j < newlines; j++) {
-                RSBAddElementString(str_array, '\n');
-            }
-
+                
+            RSBAddElementString(str_array, '\n');
             // printf("newline has been placed on %c (%d)\n", c, i);
         }
 

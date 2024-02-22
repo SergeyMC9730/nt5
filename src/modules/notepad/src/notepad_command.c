@@ -102,11 +102,7 @@ bool notepad_command(void *data) {
                 if (current_text_pos.x > rsz.x) {
                     current_text_pos.x = base_text_pos.x;
 
-                    int newlines = 1 * st->scaling;
-
-                    for (int j = 0; j < newlines; j++) {
-                        RSBAddElementString(mod->rendered_file_contents, '\n');
-                    }
+                    RSBAddElementString(mod->rendered_file_contents, '\n');
 
                     // printf("newline has been placed on %c (%d)\n", c, i);
                 }
