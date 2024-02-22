@@ -47,7 +47,7 @@ void _ntRendererProcessTweakDouble(renderer_double_tweak_object_t *tweak) {
     tweak->obj.passed += delta;
 
     double val = ease(tweak->obj.passed);
-    *tweak->val += val * tweak->obj.power;
+    *tweak->val += val * tweak->obj.power * delta;
 
     return; 
 }

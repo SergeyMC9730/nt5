@@ -101,7 +101,8 @@ void _ntDwmLoadSounds(struct dwm_context *ctx);
 void _ntDestroyDwmContext(struct dwm_context *ctx);
 
 // push window to the dwm context
-void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd); 
+// returns process id
+int _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd); 
 
 // get dwm process ids
 rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx);

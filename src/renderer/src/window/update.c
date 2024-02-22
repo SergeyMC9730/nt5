@@ -41,7 +41,7 @@ void _ntRendererUpdate() {
 
     for (size_t i = 0; i < st->tweaks->len; i++) {
         // get object inside the queue
-        renderer_max_tweak_object_t *tobj = st->tweaks->len + i;
+        renderer_max_tweak_object_t *tobj = st->tweaks->objects + i;
 
         switch(tobj->type) {
             default:

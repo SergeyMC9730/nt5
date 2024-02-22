@@ -46,8 +46,8 @@ void _ntRendererProcessTweakFloat(renderer_float_tweak_object_t *tweak) {
     float delta = GetFrameTime() / (float)tweak->obj.time;
     tweak->obj.passed += delta;
 
-    float val = (float)ease(tweak->obj.passed);
-    *tweak->val += val * tweak->obj.power;
+    float val = 1.f - (float)ease(tweak->obj.passed);
+    *tweak->val += tweak->orig * val * tweak->obj.power * delta;
 
     return; 
 }

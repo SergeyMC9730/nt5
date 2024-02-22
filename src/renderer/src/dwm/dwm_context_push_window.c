@@ -47,7 +47,7 @@ void _ntPushWindowFb(void *ctx) {
 }
 
 // push window to the dwm context
-void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
+int _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
     struct dwm_window wnd2 = wnd;
 
     // set process id
@@ -87,4 +87,6 @@ void _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
     ctx->selected_window = wnd_ptr;
 
     printf("window %d with pos %f:%f; size %f:%f\n",wnd2.process.pid, wnd2.position.x, wnd2.position.y, wnd2.size.x, wnd2.size.y);
+
+    return wnd_ptr->process.pid;
 }

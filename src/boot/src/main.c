@@ -81,7 +81,7 @@ void _boot_begin_debug(void *user) {
 	struct dwm_context *ctx = (struct dwm_context *)user;
 
 	// check if F1 key is pressed
-	if (IsKeyPressed(KEY_F1)) {
+	if (IsKeyPressed(KEY_F1) || IsKeyPressedRepeat(KEY_F1)) {
 		// create window "Settings !"
 		struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200, 300});
 
@@ -91,7 +91,18 @@ void _boot_begin_debug(void *user) {
 		wnd.draw = _boot_window_test_draw;
 
 		// push window
-		_ntPushWindow(ctx, wnd);
+		int pid = _ntPushWindow(ctx, wnd);
+
+		// get window ptr
+
+		struct dwm_window *wnd_ptr = _ntGetDWMProcess(ctx, pid);
+
+		_ntRendererCreateTweakFloat(&wnd_ptr->position.y, 3, 10, TOInSine);
+	}
+
+	// check if F2 key is pressed
+	if (IsKeyPressed(KEY_F2)) {
+		SetTargetFPS(60);
 	}
 
 	int c = GetCharPressed();
@@ -183,6 +194,8 @@ void _boot_begin() {
 	st->layers[1].update = _boot_begin_debug;
 
 	_cterm_init();
+
+	WaitTime(1);
 
 	_ntDwmSetGlobal(ctx);
 

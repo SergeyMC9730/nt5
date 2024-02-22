@@ -72,17 +72,13 @@ typedef struct renderer_float_tweak_object_t {
     renderer_value_tweak_object_t obj;
 
     float *val;
-
-    float min;
-    float max;
+    float orig;
 } renderer_float_tweak_object_t;
 typedef struct renderer_double_tweak_object_t {
     renderer_value_tweak_object_t obj;
 
     double *val;
-
-    double min;
-    double max;
+    double orig;
 } renderer_double_tweak_object_t;
 
 typedef enum renderer_tweak_object_type {
@@ -196,5 +192,25 @@ rsb_array_Image *_ntRendererLoadIco(const char *filename, int *count);
 // unload images and unload the array itself
 void _ntRendererUnloadImages(rsb_array_Image *images);
 
+// process float value
 void _ntRendererProcessTweakFloat(renderer_float_tweak_object_t *tweak);
+// process double value
 void _ntRendererProcessTweakDouble(renderer_double_tweak_object_t *tweak);
+
+// create float value tweak
+//
+// arguments;
+// - `val` - value to be modified
+// - `time` - how long it would take for value to fully modify
+// - `power` - how much it would modify
+// - `type` - easing
+void _ntRendererCreateTweakFloat(float *val, double time, double power, renderer_tweak_type type);
+
+// create double value tweak
+//
+// arguments;
+// - `val` - value to be modified
+// - `time` - how long it would take for value to fully modify
+// - `power` - how much it would modify
+// - `type` - easing
+void _ntRendererCreateTweakDouble(double *val, double time, double power, renderer_tweak_type type);
