@@ -195,7 +195,7 @@ bool logonui_command(void *data) {
     // get global dwm context
     _state.dwm_ctx = _ntDwmGetGlobal();
 
-    _state.cterm_logonui_welcome = get_string("cterm_logonui_welcome", lang);
+    _state.cterm_logonui_welcome = _ntGetStringInLanguagePack( _state.dwm_ctx->lpack, "cterm_logonui_welcome", lang);
 
     WaitTime(1.5);
 

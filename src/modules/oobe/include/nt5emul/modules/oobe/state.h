@@ -86,5 +86,3 @@ struct module_state {
 };
 
 extern struct module_state _state;
-
-const char *get_string(const char *i, const char *l);

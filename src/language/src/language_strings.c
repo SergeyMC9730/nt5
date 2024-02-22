@@ -22,22 +22,6 @@
 
 RSB_ARRAY_IMPL_GEN(struct language_pack_cell, LanguagePackCell);
 
-#include <string.h>
-
-struct language_pack_cell _ntFindInLanguagePack(const char *internal_name, rsb_array_LanguagePackCell *pack) {
-    if (!pack) return (struct language_pack_cell){};
-    
-    for (int i = 0; i < pack->len; i++) {
-        struct language_pack_cell cell = RSBGetAtIndexLanguagePackCell(pack, i);
-
-        if (!strcmp(cell.internal_name, internal_name)) {
-            return cell;
-        }
-    }
-
-    return (struct language_pack_cell){};
-}
-
 rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
     rsb_array_LanguagePackCell *array = RSBCreateArrayLanguagePackCell();
 
@@ -158,6 +142,11 @@ rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
         .internal_name = "cterm_shell_intro_text",
         .str_en = "Thank you for downloading Windows XP simulator.\n\nThis project is very incomplete.\nBut there are few things that should \nbe done for the first Prototype!\n     And Prototype release is close.",
         .str_ru = "Благодарим за скачивание симулятора Windows XP.\n\nДанный проект очень сырой.\nНо перед первым прототипом осталось сделать не так уж \nи много вещей!\n     И релиз первого прототипа близок."
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_notepad_title",
+        .str_en = "Notepad",
+        .str_ru = "Блокнот"
     });
     
     return array;

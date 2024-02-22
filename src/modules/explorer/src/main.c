@@ -41,11 +41,13 @@ bool explorer_command(void *data) {
     // free config
     _ntUnloadConfig(cfg);
 
+    struct dwm_context *ctx = _ntDwmGetGlobal();
+
     // get global dwm context
 
-    _state.cterm_explorer_title = get_string("cterm_explorer_title", lang);
-    _state.cterm_shell_start_classic = get_string("cterm_shell_start_classic", lang);
-    _state.cterm_shell_intro_text = get_string("cterm_shell_intro_text", lang);
+    _state.cterm_explorer_title = _ntGetStringInLanguagePack(ctx->lpack, "cterm_explorer_title", lang);
+    _state.cterm_shell_start_classic = _ntGetStringInLanguagePack(ctx->lpack, "cterm_shell_start_classic", lang);
+    _state.cterm_shell_intro_text = _ntGetStringInLanguagePack(ctx->lpack, "cterm_shell_intro_text", lang);
 
     renderer_state_t *st = _ntRendererGetState();
 

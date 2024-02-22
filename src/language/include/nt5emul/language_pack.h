@@ -35,4 +35,7 @@ struct language_pack_cell {
 RSB_ARRAY_DEF_GEN(struct language_pack_cell, LanguagePackCell);
 
 rsb_array_LanguagePackCell *_ntGenerateLanguagePack();
-struct language_pack_cell _ntFindInLanguagePack(const char *internal_name, rsb_array_LanguagePackCell *pack);
+
+struct language_pack_cell _ntFindInLanguagePack(rsb_array_LanguagePackCell *pack, const char *internal_name);
+
+const char *_ntGetStringInLanguagePack(rsb_array_LanguagePackCell *pack, const char *internal_name, const char *language);

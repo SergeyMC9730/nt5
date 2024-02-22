@@ -1,4 +1,4 @@
-﻿/*
+/*
     nt5 -- Windows XP simulator.
     Copyright (C) 2023  Sergei Baigerov
 
@@ -18,7 +18,20 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <nt5emul/language_pack.h>
 
-// begin boot process
-void _boot_begin();
+#include <string.h>
+
+struct language_pack_cell _ntFindInLanguagePack(rsb_array_LanguagePackCell *pack, const char *internal_name) {
+    if (!pack) return (struct language_pack_cell){};
+    
+    for (int i = 0; i < pack->len; i++) {
+        struct language_pack_cell cell = RSBGetAtIndexLanguagePackCell(pack, i);
+
+        if (!strcmp(cell.internal_name, internal_name)) {
+            return cell;
+        }
+    }
+
+    return (struct language_pack_cell){};
+}

@@ -143,19 +143,19 @@ bool setup_command(void *data) {
     // free config
     _ntUnloadConfig(cfg);
 
-    _state.cterm_setup_installing_devices = get_string("cterm_setup_installing_devices", lang);
-    _state.cterm_setup_installing_network = get_string("cterm_setup_installing_network", lang);
-    _state.cterm_setup_copying_files = get_string("cterm_setup_copying_files", lang);
-    _state.cterm_setup_completing_install = get_string("cterm_setup_completing_install", lang);
-    _state.cterm_setup_installing_start = get_string("cterm_setup_installing_start", lang);
-    _state.cterm_setup_saving_settings = get_string("cterm_setup_saving_settings", lang);
-    _state.cterm_setup_time_approx = get_string("cterm_setup_time_approx", lang);
-    _state.cterm_setup_colinfo = get_string("cterm_setup_colinfo", lang);
-    _state.cterm_setup_dynupd = get_string("cterm_setup_dynupd", lang);
-    _state.cterm_setup_instwin = get_string("cterm_setup_instwin", lang);
-    _state.cterm_setup_final = get_string("cterm_setup_final", lang);
-    _state.cterm_setup_prepinst = get_string("cterm_setup_prepinst", lang);
-    _state.cterm_setup_registering_components = get_string("cterm_setup_registering_components", lang);
+    _state.cterm_setup_installing_devices = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_installing_devices", lang);
+    _state.cterm_setup_installing_network = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_installing_network", lang);
+    _state.cterm_setup_copying_files = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_copying_files", lang);
+    _state.cterm_setup_completing_install = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_completing_install", lang);
+    _state.cterm_setup_installing_start = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_installing_start", lang);
+    _state.cterm_setup_saving_settings = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_saving_settings", lang);
+    _state.cterm_setup_time_approx = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_time_approx", lang);
+    _state.cterm_setup_colinfo = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_colinfo", lang);
+    _state.cterm_setup_dynupd = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_dynupd", lang);
+    _state.cterm_setup_instwin = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_instwin", lang);
+    _state.cterm_setup_final = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_final", lang);
+    _state.cterm_setup_prepinst = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_prepinst", lang);
+    _state.cterm_setup_registering_components = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_setup_registering_components", lang);
 
     for (int i = 0; i < times; i++) {
         // install timer for time decrementing

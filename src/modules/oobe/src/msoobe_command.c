@@ -267,11 +267,11 @@ bool msoobe_command(void *data) {
     _state.frame_1 = 0;
     _state.frame_2 = _state.frame_1;
 
-    _state.cterm_msoobe_welcome = get_string("cterm_msoobe_welcome", lang);
-    _state.cterm_msoobe_incomplete = get_string("cterm_msoobe_incomplete", lang);
-    _state.cterm_msoobe_enter_continue = get_string("cterm_msoobe_enter_continue", lang);
-    _state.cterm_msoobe_next = get_string("cterm_msoobe_next", lang);
-    _state.cterm_msoobe_skip = get_string("cterm_msoobe_skip", lang);
+    _state.cterm_msoobe_welcome = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_msoobe_welcome", lang);
+    _state.cterm_msoobe_incomplete = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_msoobe_incomplete", lang);
+    _state.cterm_msoobe_enter_continue = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_msoobe_enter_continue", lang);
+    _state.cterm_msoobe_next = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_msoobe_next", lang);
+    _state.cterm_msoobe_skip = _ntGetStringInLanguagePack(_state.dwm_ctx->lpack, "cterm_msoobe_skip", lang);
 
     return true;
 }

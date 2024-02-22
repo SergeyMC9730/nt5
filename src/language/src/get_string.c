@@ -1,4 +1,4 @@
-﻿/*
+/*
     nt5 -- Windows XP simulator.
     Copyright (C) 2023  Sergei Baigerov
 
@@ -18,7 +18,24 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <nt5emul/language_pack.h>
 
-// begin boot process
-void _boot_begin();
+const char *_ntGetStringInLanguagePack(rsb_array_LanguagePackCell *pack, const char *i_name, const char *language) {
+    int lang_offset = 1;
+
+    printf("lang: %s (comp=%d) ; string=", language, strcmp(language, "ru"));
+
+    if (!strcmp(language, "ru")) {
+        lang_offset = 2;
+    }
+
+    struct language_pack_cell cell = _ntFindInLanguagePack(pack, i_name);
+    
+    const char **ptr = &cell;
+
+    const char *string = ptr[lang_offset];
+
+    printf("0x%08llX (%s)\n", (unsigned long long)string, string);
+
+    return string;
+}

@@ -170,8 +170,6 @@ void _boot_begin() {
 
 	// init Text UI environment
 	_ntRendererPushQueue(_ntTuiLoadEnvironmentDefault, NULL);
-
-	// _boot_try_parse_explorer();
 	
 	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
 

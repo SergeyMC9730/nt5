@@ -134,7 +134,7 @@ void explorer_shell_draw_icons() {
 
             const char *cmd_name = explorer_map_icon(_state.icon_pressed_id);
 
-            cterm_command_reference_t ref = _state.runtime->find(cmd_name);
+            cterm_command_reference_t ref = _state.runtime->find((char *)cmd_name);
             if (ref.callback) {
                 ref.callback(NULL);
             } else {
