@@ -76,8 +76,7 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    st->layers[0].user = NULL;
-    st->layers[0].update = NULL;
+    st->layers[0] = (renderer_layer_t){};
 
     if (!ctx->sounds.audio_device_initialized)  {
         InitAudioDevice();
@@ -112,8 +111,8 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
 
     ctx->theme.basic.title_bar_size = 18 * st->scaling;
 
-    st->layers[0].user = ctx;
-    st->layers[0].update = _ntCreateDwmContextMain;
+    st->layers[0].on_update.user = ctx;
+    st->layers[0].on_update.callback = _ntCreateDwmContextMain;
 
     ctx->lpack = _ntGenerateLanguagePack();
 

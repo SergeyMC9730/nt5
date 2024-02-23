@@ -46,7 +46,5 @@ void explorer_draw(struct dwm_window *wnd, void *user) {
 
     DrawRectangle(m.x, m.y, 8, 8, RED);
 
-    // if (ctx->selected_window == wnd) {
-        _ntTuiDrawMenu(lst->fs->base);
-    // }
+    _ntTuiDrawMenu(lst->fs->base);
 }

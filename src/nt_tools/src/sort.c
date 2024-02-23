@@ -18,7 +18,7 @@
     Contact SergeyMC9730 -- @dogotrigger in Discord
 */
 
-int _ntSortComparison(const int *a, const int *b) {
+int _ntSortComparisonInt(const int *a, const int *b) {
     int i_a = *a;
     int i_b = *b;
 

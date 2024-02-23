@@ -107,6 +107,12 @@ int _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd);
 // get dwm process ids
 rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx);
 
+// get dwm process ids (not for drawing)
+rsb_array_Int *_ntGetDWMProcesses1(struct dwm_context *ctx);
+
+// get raw list of dwm process ids
+rsb_array_Int *_ntGetDWMProcessesRaw(struct dwm_context *ctx);
+
 // get process by process id
 struct dwm_window *_ntGetDWMProcess(struct dwm_context *ctx, int pid);
 

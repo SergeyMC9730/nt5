@@ -24,19 +24,25 @@
 
 #pragma pack(push, 1)
 
+// event
+
+typedef struct renderer_event_t {
+	void (*callback)(void *user);
+	void *user;
+} renderer_event_t;
+
 // renderer layer
 
 typedef struct renderer_layer_t {
-	void (*draw)(void *user);
-	void (*update)(void *user);
+	renderer_event_t on_draw;
+	renderer_event_t on_update;
 	void *user;
 } renderer_layer_t;
 
 // queue object
 
 typedef struct renderer_queue_object_t {
-    void (*callback)(void *user);
-    void *user;
+    renderer_event_t event;
     int fps;
 } renderer_queue_object_t;
 
@@ -99,6 +105,8 @@ typedef struct renderer_max_tweak_object_t {
 
 RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
 
+RSB_ARRAY_DEF_GEN(renderer_event_t, Event);
+
 #include <raylib.h>
 
 RSB_ARRAY_DEF_GEN(renderer_max_tweak_object_t, MaxTweak);
@@ -117,6 +125,7 @@ typedef struct renderer_state_t {
 	pthread_t thread;
     rsb_array_RendererQueue *queue;
     rsb_array_MaxTweak *tweaks;
+    rsb_array_Event *close_events;
 
 #define RENDERER_REQUESTED_STOP 1
 #define RENDERER_READY 			2

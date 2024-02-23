@@ -23,6 +23,52 @@
 
 #include <stdio.h>
 
+rsb_array_Int *_ntGetDWMProcesses1(struct dwm_context *ctx) {
+    rsb_array_Int *a = RSBCreateArrayInt();
+    
+    int i = 0;
+    int l = ctx->windows->len;
+
+    // loop through all processes
+    while (i < l) {
+        struct dwm_window wnd = RSBGetAtIndexDWMWindow(ctx->windows, i);
+        if (wnd.closed.state) {
+            i++;
+
+            continue;
+        }
+
+        // add pid to the array
+        RSBAddElementInt(a, wnd.process.pid);
+        
+        i++;
+    }
+
+    // sort array from the lowest pid to the highest one
+    qsort(a->objects, a->len, sizeof(int), _ntSortComparisonInt);
+
+    return a;
+}
+
+rsb_array_Int *_ntGetDWMProcessesRaw(struct dwm_context *ctx) {
+    rsb_array_Int *a = RSBCreateArrayInt();
+
+    int i = 0;
+    int l = ctx->windows->len;
+
+    // loop through all processes
+    while (i < l) {
+        struct dwm_window wnd = RSBGetAtIndexDWMWindow(ctx->windows, i);
+
+        // add pid to the array
+        RSBAddElementInt(a, wnd.process.pid);
+        
+        i++;
+    }
+
+    return a;
+}
+
 rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
     rsb_array_Int *a = RSBCreateArrayInt();
     
@@ -68,7 +114,7 @@ rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
     }
 
     // sort array from the lowest pid to the highest one
-    qsort(a->objects, a->len, sizeof(int), _ntSortComparison);
+    qsort(a->objects, a->len, sizeof(int), _ntSortComparisonInt);
 
     if (current_pid != -1) RSBAddElementInt(a, current_pid);
     

@@ -24,6 +24,8 @@
 #include <cterm/applications/api.h>
 #include <raylib.h>
 
+#include <nt5emul/renderer.h>
+
 struct module_state {
     cterm_t *runtime;
 
@@ -38,9 +40,7 @@ struct module_state {
 
     float progress_bar;
 
-    void (*old_draw)(void *user);
-    void (*old_update)(void *user);
-    void *old_ctx;
+    renderer_layer_t old_layer;
 
     Vector2 old_window_size;
 };

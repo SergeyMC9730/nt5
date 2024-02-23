@@ -43,9 +43,7 @@ void setup_exit(void *ctx) {
     renderer_layer_t *layer = st->layers + layer_index;
 
     // recover old layer
-    layer->update = _state.old_update;
-    layer->draw = _state.old_draw;
-    layer->user = _state.old_ctx;
+    *layer = _state.old_layer;
 
     // creating texture list as pointers to save stack space
     Texture2D *textures[] = {
@@ -116,9 +114,7 @@ bool setup_command(void *data) {
     renderer_layer_t *layer = st->layers + layer_index;
 
     // save old layer
-    _state.old_draw = layer->draw;
-    _state.old_update = layer->update;
-    _state.old_ctx = layer->user;
+    _state.old_layer = *layer;
 
     // get global dwm context
     _state.dwm_ctx = _ntDwmGetGlobal();
@@ -131,7 +127,7 @@ bool setup_command(void *data) {
     // set minutes left value
     _state.minutes_left = times * 10;
 
-    layer->draw = draw_background;
+    layer->on_draw.callback = draw_background;
 
     // load all textures before rendering oobe layer
     _ntRendererPushQueue(setup_preload, NULL);

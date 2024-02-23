@@ -26,7 +26,7 @@
 #endif
 
 void logo_update(void *user) {
-    if (_state.old_update != NULL) _state.old_update(_state.old_ctx);
+    if (_state.old_layer.on_update.callback) _state.old_layer.on_update.callback(_state.old_layer.on_update.user);
 
     if (!_state.init_complete) {
         _state.logo_texture = LoadTexture("nt/images/system/win32.bmp");
@@ -37,11 +37,12 @@ void logo_update(void *user) {
         SetWindowSize(640 * st->scaling, 480 * st->scaling);
     }
 
-    int frames_per_step = GetFPS() / 60;
+    float speed = 1.15f;
+    int frames_per_step = GetFPS() / (60.f * speed);
     int col_step = 1;
     if (frames_per_step == 0) {
         frames_per_step = 1;
-        col_step = 60 / GetFPS();
+        col_step = (60.f * speed) / GetFPS();
     }
 
     int max_val = 0xFF + 1 - col_step;

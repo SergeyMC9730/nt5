@@ -148,6 +148,11 @@ rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
         .str_en = "Notepad",
         .str_ru = "Блокнот"
     });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_notepad_untitled",
+        .str_en = "Unnamed",
+        .str_ru = "Безымянный"
+    });
     
     return array;
 }

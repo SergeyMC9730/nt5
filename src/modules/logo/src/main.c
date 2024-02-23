@@ -38,12 +38,10 @@ bool logo_command(void *data) {
 
     int index = RENDERER_LAYERS - 2;
 
-    _state.old_draw = st->layers[index].draw;
-    _state.old_update = st->layers[index].update;
-    _state.old_ctx = st->layers[index].user;
+    _state.old_layer = st->layers[index];
 
-    st->layers[index].draw = logo_draw;
-    st->layers[index].update = logo_update;
+    st->layers[index].on_draw.callback = logo_draw;
+    st->layers[index].on_update.callback = logo_update;
 
     _state.transition_color = WHITE;
     _state.transition_color.a = 0;

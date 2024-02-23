@@ -46,8 +46,8 @@ void _boot_install_beginstep10() {
     // ENTER=Restart Computer
     __state.status_bar_label = __boot_install_strings[54];
 
-    _renderer_state.layers[1].update = _boot_install_update_step10;
-    _renderer_state.layers[1].draw = _boot_install_draw_step10;
+    _renderer_state.layers[1].on_update.callback = _boot_install_update_step10;
+    _renderer_state.layers[1].on_draw.callback = _boot_install_draw_step10;
 
     _ntInstallTimer(_ntInstallTimer10, 1.f, NULL);
 }

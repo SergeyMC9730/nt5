@@ -28,6 +28,15 @@ void _ntDestroyDwmContext(struct dwm_context *ctx) {
     free((char *)ctx->theme.basic.theme_path);
 
     // destroy windows
+    rsb_array_Int *windows = _ntGetDWMProcessesRaw(ctx);
+    
+    for (int i = 0; i < windows->len; i++) {
+        struct dwm_window *wnd = _ntGetDWMProcess(ctx, RSBGetAtIndexInt(windows, i));
+
+        _ntCloseWindow(wnd, ctx);
+    }
+
+    RSBDestroyInt(windows);
     RSBDestroyDWMWindow(ctx->windows);
 
     // unload fonts

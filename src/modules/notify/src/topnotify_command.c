@@ -33,7 +33,7 @@ void notify_draw(void *data) {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    if (_state.old_draw) _state.old_draw(_state.old_ctx);
+    if (_state.old_layer.on_draw.callback) _state.old_layer.on_draw.callback(_state.old_layer.on_draw.user);
     
     if (_state.opacity >= 0.f) _state.opacity -= step;
     else {
@@ -41,8 +41,7 @@ void notify_draw(void *data) {
 
         renderer_layer_t *layer = st->layers + RENDERER_LAYERS - 1;
 
-        layer->draw = _state.old_draw;
-        layer->user = _state.old_ctx;
+        layer->on_draw = _state.old_layer.on_draw;
 
         _state.opacity = 1.f;
         _state.running = false;
@@ -154,10 +153,9 @@ bool notify_command(void *data) {
         renderer_state_t *st = _ntRendererGetState();
         renderer_layer_t *layer = st->layers + RENDERER_LAYERS - 1;
 
-        _state.old_draw = layer->draw;
-        _state.old_ctx = layer->user;
+        _state.old_layer.on_draw = layer->on_draw;
 
-        layer->draw = notify_draw;
+        layer->on_draw.callback = notify_draw;
 
         _state.old_show_fps = st->draw_fps;
         st->draw_fps = false;

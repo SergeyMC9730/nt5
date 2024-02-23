@@ -28,7 +28,7 @@
 #endif
 
 void logo_draw(void *user) {
-    if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
+    if (_state.old_layer.on_draw.callback) _state.old_layer.on_draw.callback(_state.old_layer.on_draw.user);
 
     renderer_state_t *st = _ntRendererGetState();
 

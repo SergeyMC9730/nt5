@@ -18,29 +18,6 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
-
-#include <cterm/applications/api.h>
-#include <raylib.h>
-#include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
 
-struct module_state {
-    cterm_t *runtime;
-
-    const char *cterm_logonui_welcome;
-
-    Texture2D line_bottom_texture;
-    Texture2D line_top_texture;
-    Texture2D main_bg_texture;
-
-    renderer_layer_t old_layer;
-
-    struct dwm_context *dwm_ctx;
-    
-    Sound xp_start_sound;
-
-    bool execution_lock;
-};
-
-extern struct module_state _state;
+RSB_ARRAY_IMPL_GEN(renderer_event_t, Event);

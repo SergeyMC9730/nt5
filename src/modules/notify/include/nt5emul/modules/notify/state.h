@@ -23,6 +23,7 @@
 
 #include <cterm/applications/api.h>
 #include <raylib.h>
+#include <nt5emul/renderer.h>
 
 struct module_state {
     cterm_t *runtime;
@@ -32,9 +33,7 @@ struct module_state {
     float opacity;
     const char *message;
 
-    void (*old_draw)(void *user);
-    void (*old_update)(void *user);
-    void *old_ctx;
+    renderer_layer_t old_layer;
 
     bool old_show_fps;
 

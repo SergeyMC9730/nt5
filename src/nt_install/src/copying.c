@@ -119,7 +119,7 @@ void _boot_install_update_step8() {
 
     _ntInstallTimer(_boot_install_thread8, 0.1f, NULL);
 
-    _renderer_state.layers[1].update = _boot_install_update_step8_1;
+    _renderer_state.layers[1].on_update.callback = _boot_install_update_step8_1;
 }
 
 void _boot_install_draw_step8() {

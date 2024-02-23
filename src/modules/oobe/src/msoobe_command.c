@@ -237,16 +237,13 @@ bool msoobe_command(void *data) {
     renderer_layer_t *layer = st->layers + layer_index;
 
     // save old layer
-    _state.old_draw = layer->draw;
-    _state.old_update = layer->update;
-    _state.old_ctx = layer->user;
+    _state.old_layer = *layer;
 
     // get global dwm context
     _state.dwm_ctx = _ntDwmGetGlobal();
-    
 
-    layer->draw = msoobe_draw;
-    layer->update = msoobe_update;
+    layer->on_draw.callback = msoobe_draw;
+    layer->on_update.callback = msoobe_update;
 
     // load all textures before rendering oobe layer
     _ntRendererPushQueue(msoobe_preload, NULL);

@@ -25,6 +25,7 @@
 
 #include <nt5emul/dwm/context.h>
 #include <nt5emul/dwm/video.h>
+#include <nt5emul/renderer.h>
 
 struct module_state {
     cterm_t *runtime;
@@ -48,9 +49,7 @@ struct module_state {
 
     bool init_complete;
 
-    void (*old_draw)(void *user);
-    void (*old_update)(void *user);
-    void *old_ctx;
+    renderer_layer_t old_layer;
 
     int minutes_left;
 

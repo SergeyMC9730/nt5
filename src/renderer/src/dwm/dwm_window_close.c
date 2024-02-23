@@ -26,15 +26,34 @@ void _ntCloseWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     struct dwm_context *ctx = (struct dwm_context *)ctx_ptr;
 
+    rsb_array_Int *list = _ntGetDWMProcessesRaw(ctx);
+
+    int idx = -1;
+    for (int i = 0; i < list->len; i++) {
+        int pid = RSBGetAtIndexInt(list, i);
+        if (pid == wnd->process.pid) {
+            idx = i;
+            break;
+        }
+    }
+
+    RSBDestroyInt(list);
+
     if (wnd->on_close) {
         wnd->on_close(wnd, wnd->ctx);
     }
 
-    wnd->closed.state = true;
+    // wnd->closed.state = true;
 
     UnloadRenderTexture(wnd->framebuffer);
     
     if (ctx->selected_window == wnd) {
         ctx->selected_window = NULL;
+    }
+
+    printf("idx=%d\n", idx);
+
+    if (idx != -1) {
+        RSBPopElementAtIndexDWMWindow(ctx->windows, idx);
     }
 }

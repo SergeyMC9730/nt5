@@ -22,8 +22,9 @@
 
 void _ntRendererPushQueue(void (*callback)(void *ctx), void *userdata) {
     renderer_queue_object_t obj = {
-        .callback = callback,
-        .user = userdata
+        .event.callback = callback,
+        .event.user = userdata,
+        .fps = 0
     };
 
     renderer_state_t *st = _ntRendererGetState();

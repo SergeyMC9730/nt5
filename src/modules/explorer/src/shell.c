@@ -194,26 +194,11 @@ void explorer_shell_draw_watermark(Vector2 offset) {
     DrawText(str2, wsz.x - textsz2.x - (20 * st->scaling) + offset.x, wsz.y - textsz2.y - (10 * st->scaling) + offset.y, sz, col);
 }
 
-void explorer_shell_draw(void *ctx) {
+Rectangle explorer_shell_draw_taskbar(void *ctx) {
     Vector2 sz = {
         GetRenderWidth(),
         GetRenderHeight()
     };
-
-    float ratio = 1.f;
-
-    if (_state.background.height > sz.y) {
-        ratio = sz.y / (float)_state.background.height;
-    }
-
-    if (((float)_state.background.width * ratio) < sz.x) {
-        ratio = sz.x / (float)_state.background.width;
-    }
-
-    int posX = (sz.x - ((float)_state.background.width * ratio)) / 2;
-    int posY = (sz.y - ((float)_state.background.height * ratio)) / 2;
-
-    _ntRendererDrawSizedTexture(_state.background, (Vector2){ratio, ratio}, (Vector2){posX, posY}, (Vector2){}, false);
 
     struct dwm_context *dctx = _ntDwmGetGlobal();
     renderer_state_t *st = _ntRendererGetState();
@@ -240,7 +225,7 @@ void explorer_shell_draw(void *ctx) {
     int btn_x = taskbar.x + offset;
     int btn_xsz = 50 * st->scaling;
 
-    rsb_array_Int *pids = _ntGetDWMProcesses(dctx);
+    rsb_array_Int *pids = _ntGetDWMProcesses1(dctx);
 
     for (int i = 0; i < pids->len; i++) {
         struct dwm_window *_wnd = _ntGetDWMProcess(dctx, RSBGetAtIndexInt(pids, i));
@@ -277,11 +262,38 @@ void explorer_shell_draw(void *ctx) {
 
     RSBDestroyInt(pids);
 
-    explorer_shell_draw_icons();
+    return taskbar;
+}
 
+void explorer_shell_draw_background(void *ctx) {
+    Vector2 sz = {
+        GetRenderWidth(),
+        GetRenderHeight()
+    };
+
+    float ratio = 1.f;
+
+    if (_state.background.height > sz.y) {
+        ratio = sz.y / (float)_state.background.height;
+    }
+
+    if (((float)_state.background.width * ratio) < sz.x) {
+        ratio = sz.x / (float)_state.background.width;
+    }
+
+    int posX = (sz.x - ((float)_state.background.width * ratio)) / 2;
+    int posY = (sz.y - ((float)_state.background.height * ratio)) / 2;
+
+    _ntRendererDrawSizedTexture(_state.background, (Vector2){ratio, ratio}, (Vector2){posX, posY}, (Vector2){}, false);
+}
+
+void explorer_shell_draw(void *ctx) {
+    explorer_shell_draw_background(ctx);
+    Rectangle taskbar = explorer_shell_draw_taskbar(ctx);
+    explorer_shell_draw_icons();
     explorer_shell_draw_watermark((Vector2){0, -taskbar.height});
 
-    if (_state.old_draw) _state.old_draw(_state.old_ctx);
+    if (_state.old_layer.on_draw.callback) _state.old_layer.on_draw.callback(_state.old_layer.on_draw.user);
 }
 
 #include <string.h>
@@ -352,7 +364,7 @@ void explorer_shell_update(void *ctx) {
         }
     }
 
-    if (_state.old_update) _state.old_update(_state.old_ctx);
+    if (_state.old_layer.on_update.callback) _state.old_layer.on_update.callback(_state.old_layer.on_update.user);
 }
 
 const char *explorer_map_icon(int idx) {

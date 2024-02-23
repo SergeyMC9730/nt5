@@ -54,7 +54,7 @@ void _ntPVSelectFileUpdate1() {
     // init text ui environment
     _ntTuiLoadEnvironmentDefault();
 
-    st->layers[0].update = _ntPVSelectFileUpdate;
+    st->layers[0].on_update.callback = _ntPVSelectFileUpdate;
 }
 
 void _ntPVSelectFileDraw() {
@@ -116,6 +116,6 @@ void _ntPVSelectFileMain() {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    st->layers[0].draw = _ntPVSelectFileDraw;
-    st->layers[0].update = _ntPVSelectFileUpdate1;
+    st->layers[0].on_draw.callback = _ntPVSelectFileDraw;
+    st->layers[0].on_update.callback = _ntPVSelectFileUpdate1;
 }

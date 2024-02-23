@@ -56,7 +56,7 @@ void _boot_install_step9_config() {
 void _boot_install_update_step9() {
     _ntInstallTimer(_boot_install_step9_config, 0.3f, NULL);
 
-    _renderer_state.layers[1].update = NULL;
+    _renderer_state.layers[1].on_update.callback = NULL;
 }
 
 void _boot_install_draw_step9() {

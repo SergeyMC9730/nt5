@@ -31,6 +31,12 @@
 
 void _ntPVOnFileClick(struct nt_file_selector_menu *menu, const char *file_path) {
     printf("file_path=%s\n", file_path);
+
+    cterm_command_reference_t ref_line = _state.runtime->find("CTERM_line_execute");
+    
+    if (ref_line.callback) {
+        ref_line.callback(TextFormat("notepad %s", file_path));
+    }
 }
 
 bool explorer_command(void *data) {
@@ -54,12 +60,14 @@ bool explorer_command(void *data) {
     if (_state.id == 0) {
         int index = 0;
 
-        _state.old_draw = st->layers[index].draw;
-        _state.old_update = st->layers[index].update;
-        _state.old_ctx = st->layers[index].user;
+        // _state.old_draw = st->layers[index].draw;
+        // _state.old_update = st->layers[index].update;
+        // _state.old_ctx = st->layers[index].user;
 
-        st->layers[index].draw = explorer_shell_draw;
-        st->layers[index].update = explorer_shell_update;
+        _state.old_layer = st->layers[index];
+
+        st->layers[index].on_draw.callback = explorer_shell_draw;
+        st->layers[index].on_update.callback = explorer_shell_update;
 
         _state.icon_pressed_id = -1;
 

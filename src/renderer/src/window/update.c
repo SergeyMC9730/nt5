@@ -34,7 +34,7 @@ void _ntRendererUpdate() {
         renderer_queue_object_t *qobj = st->queue->objects + i;
 
         // run function if it defined
-        if (qobj->callback != NULL) qobj->callback(qobj->user);
+        if (qobj->event.callback != NULL) qobj->event.callback(qobj->event.user);
     }
     
     // process tweaks
@@ -66,9 +66,9 @@ void _ntRendererUpdate() {
 	for (unsigned short i = 0; i < RENDERER_LAYERS; i++) {
 		// update each layer
 
-		if (st->layers[i].update != NULL) {
+		if (st->layers[i].on_update.callback != NULL) {
             // update layer if it possible
-            st->layers[i].update(st->layers[i].user);
+            st->layers[i].on_update.callback(st->layers[i].on_update.user);
         }
 	}
 }

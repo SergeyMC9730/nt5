@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/boot_install.h>
@@ -97,7 +97,7 @@ void _boot_install_update_step1() {
     __state.product_name_label = __boot_install_strings[1];
     __state.status_bar_label = __state.buffers[1];
     
-    _renderer_state.layers[1].update = _boot_install_update1_step1;
+    _renderer_state.layers[1].on_update.callback = _boot_install_update1_step1;
 
     #if BOOT_INSTALL_SKIP_STEP1 == 1
     _boot_install_beginstep2();

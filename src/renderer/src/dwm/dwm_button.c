@@ -72,7 +72,7 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn)
     if (szText.x > btn->button.width) {
         float ratio = szText.x / btn->button.width * 1.25f;
 
-        text_pos.x += sin(st->time / 3.f) * GetFrameTime() * 1000.f * ratio * 2.7f * st->scaling;
+        text_pos.x += (int)(sin(st->time / 3.f) * GetFrameTime() * 1000.f * ratio * 2.7f * st->scaling);
     }
 
     if (btn->howered.state)

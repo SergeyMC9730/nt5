@@ -30,9 +30,7 @@ void logo_reset() {
 
     int index = RENDERER_LAYERS - 2;
 
-    st->layers[index].draw = _state.old_draw;
-    st->layers[index].update = _state.old_update;
-    st->layers[index].user = _state.old_ctx;
+    st->layers[index] = _state.old_layer;
 
     _ntRendererPushQueue(logo_unload_textures, NULL);
 

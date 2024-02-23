@@ -41,9 +41,7 @@ void logonui_exit(void *ctx) {
     renderer_layer_t *layer = st->layers + layer_index;
 
     // recover old layer
-    layer->update = _state.old_update;
-    layer->draw = _state.old_draw;
-    layer->user = _state.old_ctx;
+    *layer = _state.old_layer;
 
     // creating texture list as pointers to save stack space
     Texture2D *textures[] = {
@@ -67,7 +65,7 @@ void logonui_exit(void *ctx) {
 }
 
 void draw_background(void *ctx) {
-    if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
+    if (_state.old_layer.on_draw.callback != NULL) _state.old_layer.on_draw.callback(_state.old_layer.on_draw.user);
 
     renderer_state_t *st = _ntRendererGetState();
 
@@ -171,16 +169,14 @@ bool logonui_command(void *data) {
     renderer_layer_t *layer = st->layers + layer_index;
 
     // save old layer
-    _state.old_draw = layer->draw;
-    _state.old_update = layer->update;
-    _state.old_ctx = layer->user;
+    _state.old_layer = *layer;
 
     // period count
     int times = 2;
     // how long each period would be
     int mul = 3;
 
-    layer->draw = draw_background;
+    layer->on_draw.callback = draw_background;
 
     // load all textures before rendering oobe layer
     _ntRendererPushQueue(logonui_preload, NULL);

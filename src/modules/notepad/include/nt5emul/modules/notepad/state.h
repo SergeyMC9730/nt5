@@ -42,4 +42,12 @@ struct local_notepad_module_state {
 
     rsb_array_String *file_contents;
     rsb_array_String *rendered_file_contents;
+
+    char *file_path;
+    char *file_name;
+
+    char *title;
+
+    const char *cterm_notepad_title;
+    const char *cterm_notepad_untitled;
 };

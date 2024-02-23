@@ -97,7 +97,7 @@ void setup_process_bars() {
 }
 
 void draw_background(void *ctx) {
-    if (_state.old_draw != NULL) _state.old_draw(_state.old_ctx);
+    if (_state.old_layer.on_draw.callback) _state.old_layer.on_draw.callback(_state.old_layer.on_draw.user);
 
     oobe_steps[0].name = _state.cterm_setup_colinfo;
     oobe_steps[1].name = _state.cterm_setup_dynupd;

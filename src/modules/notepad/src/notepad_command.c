@@ -24,14 +24,18 @@
 #include <nt5emul/dwm/context.h>
 #include <nt5emul/dwm/window.h>
 
+#include <nt5emul/nt_config.h>
+
 #include <nt5emul/renderer.h>
+
+#include <nt5emul/copy_string.h>
 
 #include <stdio.h>
 #include <string.h>
 
 bool notepad_command(void *data) {
     const char **strs;
-    char *msg;
+    char *msg = NULL;
 
     bool create_new_file = false;
 
@@ -45,13 +49,38 @@ bool notepad_command(void *data) {
             create_new_file = true;
         } else {
             if (strlen(msg) < 1) create_new_file = true;
-            else {
+            else if (msg[strlen(msg) - 1] == '\n') {
                 msg[strlen(msg) - 1] = 0;
             }
         }
     }
 
-    struct dwm_window wnd = _ntCreateWindow("notepad", (Vector2){500, 150});
+    struct local_notepad_module_state *mod = (struct local_notepad_module_state *)calloc(1, sizeof(struct local_notepad_module_state));
+
+    struct dwm_context *dwmctx = _ntDwmGetGlobal();
+
+    struct nt_config cfg = _ntGetConfig("nt/config.json");
+
+    const char *lang = cfg.selected_lang;
+
+    // free config
+    _ntUnloadConfig(cfg);
+
+    mod->cterm_notepad_untitled = _ntGetStringInLanguagePack(dwmctx->lpack, "cterm_notepad_untitled", lang);
+    mod->cterm_notepad_title = _ntGetStringInLanguagePack(dwmctx->lpack, "cterm_notepad_title", lang);
+
+    if (msg != NULL) {
+        mod->file_path = _ntCopyString(msg);
+        mod->file_name = _ntCopyString(GetFileNameWithoutExt(mod->file_path));
+    } else {
+        mod->file_path = _ntCopyString(" ");
+        mod->file_name = _ntCopyString(mod->cterm_notepad_untitled);
+    }
+    mod->title = (char *)calloc(1, 1024);
+
+    snprintf(mod->title, 1024, "%s - %s", mod->file_name, mod->cterm_notepad_title);
+
+    struct dwm_window wnd = _ntCreateWindow(mod->title, (Vector2){500, 150});
 
     wnd.draw = notepad_draw;
     wnd.update = notepad_update;
@@ -60,15 +89,12 @@ bool notepad_command(void *data) {
     wnd.filled.state = true;
     wnd.filled.ability = true;
 
-    struct local_notepad_module_state *mod = (struct local_notepad_module_state *)calloc(1, sizeof(struct local_notepad_module_state));
-
     mod->file_contents = RSBCreateArrayString();
     mod->rendered_file_contents = RSBCreateArrayString();
 
-    struct dwm_context *dwmctx = _ntDwmGetGlobal();
     renderer_state_t *st = _ntRendererGetState();
 
-    struct dwm_context_font fnt = dwmctx->fonts.arial9_std;
+    struct dwm_context_font fnt = dwmctx->fonts.lucidacon10_std;
 
     Vector2 base_text_pos = {3, 3};
     Vector2 current_text_pos = base_text_pos;
@@ -131,11 +157,11 @@ void notepad_draw(struct dwm_window *wnd, void *ctx) {
     renderer_state_t *st = _ntRendererGetState();
     struct local_notepad_module_state *mod = (struct local_notepad_module_state *)ctx;
 
-    struct dwm_context_font fnt = dwmctx->fonts.arial9_std;
+    struct dwm_context_font fnt = dwmctx->fonts.lucidacon10_std;
 
     Vector2 base_text_pos = {3, 3};
 
-    DrawTextEx(fnt.font, mod->rendered_file_contents->objects, base_text_pos, fnt.real_size, fnt.spacing, BLACK);
+    DrawTextEx(fnt.font, mod->rendered_file_contents->objects, base_text_pos, fnt.real_size / 1.5f, fnt.spacing, BLACK);
 }
 
 void notepad_update(struct dwm_window *wnd, void *ctx) {
@@ -147,6 +173,10 @@ void notepad_on_close(struct dwm_window *wnd, void *ctx) {
 
     RSBDestroyString(mod->rendered_file_contents);
     RSBDestroyString(mod->file_contents);
+
+    free(mod->file_name);
+    free(mod->file_path);
+    free(mod->title);
 
     free(mod);
 }

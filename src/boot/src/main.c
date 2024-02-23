@@ -188,8 +188,8 @@ void _boot_begin() {
 
 	renderer_state_t * st = _ntRendererGetState();
 
-	st->layers[1].user = ctx;
-	st->layers[1].update = _boot_begin_debug;
+	st->layers[1].on_update.user = ctx;
+	st->layers[1].on_update.callback = _boot_begin_debug;
 
 	_cterm_init();
 
@@ -208,8 +208,8 @@ void _boot_begin() {
 	_boot_run_logo();
 	
 	// setup dwm layer
-	st->layers[0].user = ctx;
-	st->layers[0].draw = _ntDrawDwmContext;
+	st->layers[0].on_draw.user = ctx;
+	st->layers[0].on_draw.callback = _ntDrawDwmContext;
 
 	#if SKIP_LOGO == 0
 	// wait 5.5 seconds
@@ -222,10 +222,10 @@ void _boot_begin() {
 	ctx->theme.basic.background_color.a = 0x00;
 
 	// move dwm layer to 2 so we will be able to create and manipulate windows inside oobe
-	st->layers[2].user = ctx;
-	st->layers[2].draw = st->layers[0].draw;
+	st->layers[2].on_draw.user = ctx;
+	st->layers[2].on_draw.callback = st->layers[0].on_draw.callback;
 
-	st->layers[0].draw = NULL;
+	st->layers[0].on_draw.callback = NULL;
 
 	if (!config.graphical_setup_completed) {
 		// run setup with the dwm context

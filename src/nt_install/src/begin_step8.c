@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #include <nt5emul/renderer.h>
@@ -51,8 +51,8 @@ int _boot_install_compare8(const void *a, const void *b) {
 }
 
 void _boot_install_beginstep8() {
-    _renderer_state.layers[1].update = _boot_install_update_step8;
-    _renderer_state.layers[1].draw = _boot_install_draw_step8;
+    _renderer_state.layers[1].on_update.callback = _boot_install_update_step8;
+    _renderer_state.layers[1].on_draw.callback = _boot_install_draw_step8;
 
     size_t cl =  __state.cabfile_list->len;
     size_t fl = 0;
