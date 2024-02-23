@@ -21,6 +21,12 @@
 #include <nt5emul/renderer.h>
 
 void _ntRendererPushQueue(void (*callback)(void *ctx), void *userdata) {
+    if (_ntRendererInThread()) {
+        if (callback) callback(userdata);
+
+        return;
+    }
+
     renderer_queue_object_t obj = {
         .event.callback = callback,
         .event.user = userdata,

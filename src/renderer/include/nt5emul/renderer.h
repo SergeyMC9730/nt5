@@ -26,9 +26,12 @@
 
 // event
 
+#include <stdbool.h>
+
 typedef struct renderer_event_t {
 	void (*callback)(void *user);
 	void *user;
+    bool user2;
 } renderer_event_t;
 
 // renderer layer
@@ -102,17 +105,11 @@ typedef struct renderer_max_tweak_object_t {
 // arrays
 
 #include <nt5emul/arrays/rsb_array_gen.h>
-
-RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
-
-RSB_ARRAY_DEF_GEN(renderer_event_t, Event);
-
 #include <raylib.h>
 
+RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
+RSB_ARRAY_DEF_GEN(renderer_event_t, Event);
 RSB_ARRAY_DEF_GEN(renderer_max_tweak_object_t, MaxTweak);
-
-#include <stdbool.h>
-
 RSB_ARRAY_DEF_GEN(Image, Image);
 
 #include <stdbool.h>
@@ -129,6 +126,7 @@ typedef struct renderer_state_t {
 
 #define RENDERER_REQUESTED_STOP 1
 #define RENDERER_READY 			2
+#define RENDERER_STOPPING 		4
 	unsigned char status;
 
     // allows renderer to draw fps
@@ -219,7 +217,10 @@ void _ntRendererCreateTweakFloat(float *val, double time, double power, renderer
 //
 // arguments;
 // - `val` - value to be modified
-// - `time` - how long it would take for value to fully modify
+// - `time` - how long it would modify
 // - `power` - how much it would modify
 // - `type` - easing
 void _ntRendererCreateTweakDouble(double *val, double time, double power, renderer_tweak_type type);
+
+// add event that fires on window close
+void _ntRendererAddCloseEvent(void (*callback)(void *ctx), void *userdata, bool after_cleanup);

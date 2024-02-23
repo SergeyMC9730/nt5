@@ -19,3 +19,16 @@
 */
 
 #include <nt5emul/renderer.h>
+
+// add event that fires on window close
+void _ntRendererAddCloseEvent(void (*callback)(void *ctx), void *userdata, bool after_cleanup) {
+    renderer_event_t event = {
+        .callback = callback,
+        .user = userdata,
+        .user2 = after_cleanup
+    };
+
+    renderer_state_t *st = _ntRendererGetState();
+
+    RSBAddElementEvent(st->close_events, event);
+}

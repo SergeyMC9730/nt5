@@ -25,6 +25,8 @@ void logo_unload_textures(void *ctx) {
     UnloadTexture(_state.logo_texture);
 }
 
+#include <stdio.h>
+
 void logo_reset() {
     renderer_state_t *st = _ntRendererGetState();
 

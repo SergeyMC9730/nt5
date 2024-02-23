@@ -22,14 +22,41 @@
 
 #include <raylib.h>
 
+#include <stdio.h>
+
 void _ntRendererCloseEnvironment() {
 	renderer_state_t *st = _ntRendererGetState();
 
+    if (_ntRendererInThread() && st->status & RENDERER_STOPPING) return;
+
+    st->status |= RENDERER_STOPPING;
+
+    for (int i = 0; i < st->close_events->len; i++) {
+        renderer_event_t event = RSBGetAtIndexEvent(st->close_events, i);
+        
+        if (event.callback && !event.user2) event.callback(event.user);
+    }
+
 	st->status |= RENDERER_REQUESTED_STOP;
 
-	_ntRendererJoin();
+	if (!_ntRendererInThread()) {
+        _ntRendererJoin(); // hangs up
+    } else {
+        CloseWindow();
+    }
+        
+    printf("close the window! 3!!\n");
 
     RSBDestroyRendererQueue(st->queue);
+    RSBDestroyMaxTweak(st->tweaks);
+
+    for (int i = 0; i < st->close_events->len; i++) {
+        renderer_event_t event = RSBGetAtIndexEvent(st->close_events, i);
+        
+        if (event.callback && event.user2) event.callback(event.user);
+    }
+
+    RSBDestroyEvent(st->close_events);
 
 	st->status = 0;
 }

@@ -121,6 +121,8 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
 		WaitTime(0.1);
     }
 
+    _ntRendererAddCloseEvent(_ntDestroyDwmContext, ctx, false);
+
     // return context
     return ctx;
 }

@@ -29,6 +29,7 @@ void _ntRendererCreateEnvironment() {
 
     st->queue = RSBCreateArrayRendererQueue();
     st->tweaks = RSBCreateArrayMaxTweak();
+    st->close_events = RSBCreateArrayEvent();
 
 	if (st->thread != 0) {
 		_ntRendererCloseEnvironment();
@@ -39,6 +40,6 @@ void _ntRendererCreateEnvironment() {
 		// wait for renderer to be ready
 	while (!(st->status & RENDERER_READY)) {
 		// wait 0.33 seconds before checking again
-		usleep(1000000 / 3);
+        WaitTime(0.33);
 	}
 }

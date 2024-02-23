@@ -51,6 +51,8 @@ void _ntUpdateWindow(struct dwm_window *wnd, void *context) {
 
     wnd->titlebar_rect = title_bar_rect;
 
+    if (wnd->hidden.state) return;
+
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         if (CheckCollisionPointRec(mouse, sz)) {
             ctx->selected_window = wnd;

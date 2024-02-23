@@ -34,6 +34,8 @@ void *_ntCoreJob(void *arg) {
 
         // wait for a job
         pthread_cond_wait(&core->cond, &core->mutex);
+
+        if (nt_cores == NULL && !core->close) break;
         
         // execute it
         core->executes_job = true;
@@ -43,7 +45,7 @@ void *_ntCoreJob(void *arg) {
 
         // unlock mutex
         pthread_mutex_unlock(&core->mutex);
-    } while (true);
+    } while (nt_cores != NULL && core->close != true);
 
     return NULL;
 }
@@ -55,24 +57,28 @@ void _ntInitCores() {
     size_t size = sizeof(struct ntcore) * cores;
 
     // allocate array for cores
-    nt_cores = (struct ntcore *)malloc(size); // 4 nt cores
+    nt_cores = (struct ntcore *)malloc(size); // 16 nt cores
     memset(nt_cores, 0, size);
 
     // cleanup array
     memset(nt_cores, 0, size);
 
     for (size_t i = 0; i < cores; i++) {
-
         // create condition and mutex
         pthread_cond_init(&nt_cores[i].cond, NULL);
         pthread_mutex_init(&nt_cores[i].mutex, NULL);
 
         // create thread
         pthread_create(&nt_cores[i].thread, NULL, &_ntCoreJob, &nt_cores[i].executes_job);
+
+        pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+        pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
     }
 }
 
 void _ntRequestCoreJob(void (*job)(struct ntcore core, void *argument), void *arg) {
+    if (nt_cores == NULL) return;
+
     bool request_acomplished = false;
     
     size_t cores = NT_CORES_MAXIMUM;
@@ -94,12 +100,16 @@ void _ntRequestCoreJob(void (*job)(struct ntcore core, void *argument), void *ar
 }
 
 bool _ntCoreBusy(size_t id) {
+    if (nt_cores == NULL) return false;
+    
     return nt_cores[id % NT_CORES_MAXIMUM].executes_job;
 }
 
 #include <stdio.h>
 
 void _ntDumpCores() {
+    if (nt_cores == NULL) return;
+
     size_t cores = NT_CORES_MAXIMUM;
 
     for (size_t i = 0; i < cores; i++) {
@@ -107,4 +117,32 @@ void _ntDumpCores() {
 
         printf("core(%zu): job:%d\n", i, core->executes_job);
     }
+}
+
+void _ntCloseCores() {
+    if (nt_cores == NULL) return;
+
+    printf("closing nt cores\n");
+
+    size_t cores = NT_CORES_MAXIMUM;
+
+    for (size_t i = 0; i < cores; i++) {
+        struct ntcore *core = nt_cores + i;
+
+        core->close = true;
+
+        pthread_mutex_unlock(&core->mutex);
+
+        pthread_cancel(core->thread);
+
+        pthread_cond_signal(&nt_cores[i].cond);
+
+        pthread_join(core->thread, NULL); 
+
+        pthread_mutex_destroy(&core->mutex);
+        pthread_cond_destroy(&core->cond);
+    }
+
+    free(nt_cores);
+    nt_cores = NULL;
 }

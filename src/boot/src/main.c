@@ -41,6 +41,8 @@
 
 #include <nt5emul/tui/environment.h>
 
+#include <nt5emul/ntcore.h>
+
 #define SKIP_LOGO 0
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
@@ -153,8 +155,12 @@ void _boot_begin() {
 	// create "nt" folder
 	mkdir("nt", 0777);
 
+	_ntInitCores();
+
 	// init NT renderer
 	_ntRendererCreateEnvironment();
+
+	_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
 	
 	const char *config_path = "nt/config.json";
 
@@ -202,7 +208,7 @@ void _boot_begin() {
 	#if SKIP_LOGO == 0
 	WaitTime(1);
 	#else
-	WaitTime(0.02);
+	WaitTime(0.1);
 	#endif
 
 	_boot_run_logo();

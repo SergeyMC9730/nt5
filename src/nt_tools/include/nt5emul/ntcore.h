@@ -31,6 +31,8 @@ struct ntcore {
     pthread_cond_t cond;
     pthread_mutex_t mutex;
 
+    bool close;
+
     void (*job)(struct ntcore core, void *argument);
 };
 
@@ -39,6 +41,8 @@ struct ntcore {
 void _ntInitCores();
 void _ntRequestCoreJob(void (*job)(struct ntcore core, void *argument), void *arg);
 bool _ntCoreBusy(size_t id);
+
+void _ntCloseCores();
 
 // prints state of all cores
 void _ntDumpCores();

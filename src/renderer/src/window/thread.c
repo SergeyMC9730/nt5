@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include <sys/types.h>
+#include <stdio.h>
 
 void *_ntRendererThread(void *ptr) {
 	Vector2 wsz = {
@@ -70,12 +71,16 @@ void *_ntRendererThread(void *ptr) {
 
 	// set status to READY
 	st->status = RENDERER_READY;
+
+	bool raylib_close = false;
 	
-	while (!WindowShouldClose()) {
-		if (st->status & RENDERER_REQUESTED_STOP) break;
+	while (true) {
+		raylib_close = WindowShouldClose();
 
 		// update renderer
 		_ntRendererUpdate();
+
+		if (st->status & RENDERER_REQUESTED_STOP || raylib_close) break;
 
 		// begin drawing
 		BeginDrawing();
@@ -87,7 +92,14 @@ void *_ntRendererThread(void *ptr) {
 		EndDrawing();
 	}
 
-	CloseWindow();
+	if (raylib_close) {
+		_ntRendererCloseEnvironment();
+	} else {
+		printf("close the window!!!\n");
+		CloseWindow();
+	}
+
+	printf("close the window! 2!!\n");
 
 	return NULL;
 }
