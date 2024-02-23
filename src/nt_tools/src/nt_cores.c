@@ -122,8 +122,6 @@ void _ntDumpCores() {
 void _ntCloseCores() {
     if (nt_cores == NULL) return;
 
-    printf("closing nt cores\n");
-
     size_t cores = NT_CORES_MAXIMUM;
 
     for (size_t i = 0; i < cores; i++) {

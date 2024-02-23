@@ -151,6 +151,18 @@ bool _boot_run_setup(struct dwm_context *ctx) {
 	return result;
 }
 
+bool __boot_ended = false;
+
+void _system_end(void *ctx) {
+	if (__boot_ended) return;
+
+	renderer_state_t * st = _ntRendererGetState();
+
+	RSBDestroyEvent(st->close_events);
+	
+	exit(0);
+}
+
 void _boot_begin() {
 	// create "nt" folder
 	mkdir("nt", 0777);
@@ -161,6 +173,7 @@ void _boot_begin() {
 	_ntRendererCreateEnvironment();
 
 	_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
+	_ntRendererAddCloseEvent(_system_end, NULL, true);
 	
 	const char *config_path = "nt/config.json";
 
@@ -269,4 +282,6 @@ void _boot_begin() {
 	for (int i = 0; i < 2; i++) {
 		_boot_run_command("explorer", NULL);
 	}
+
+	__boot_ended = true;
 }
