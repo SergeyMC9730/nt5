@@ -24,15 +24,7 @@
 
 #pragma pack(push, 1)
 
-// event
-
-#include <stdbool.h>
-
-typedef struct renderer_event_t {
-	void (*callback)(void *user);
-	void *user;
-    bool user2;
-} renderer_event_t;
+#include <nt5emul/renderer_event.h>
 
 // renderer layer
 

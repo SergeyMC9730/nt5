@@ -47,6 +47,8 @@ struct dwm_window {
 
     RenderTexture2D framebuffer;
 
+    // struct dwm_context_menu context_menu;
+
     void (*draw)(struct dwm_window *wnd, void *ctx);
     void (*update)(struct dwm_window *wnd, void *ctx);
     

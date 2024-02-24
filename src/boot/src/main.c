@@ -1,4 +1,4 @@
-﻿/*
+/*
     nt5 -- Windows XP simulator.
     Copyright (C) 2023  Sergei Baigerov
 

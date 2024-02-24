@@ -163,7 +163,7 @@ target_include_directories(nt5boot PRIVATE
     "src/global/include"
     "src/language/include"
 )
-target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterm)
+target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterm nt5tools)
 
 # nt5
 file(GLOB NT_SRC CONFIGURE_DEPENDS "src/launcher/*.c")
