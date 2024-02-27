@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,29 +15,24 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <nt5emul/dwm/builder.h>
 
-#include <nt5emul/dwm/context.h>
+#include <cJSON.h>
 
-struct dwm_button {
-    Rectangle button;
+// returns cjson handle
+void * _ntDwmBuilderCreateImage(struct dwm_gui_image image) {
+    cJSON *img = cJSON_CreateObject();
 
-    const char *text;
+    cJSON *pos = cJSON_AddObjectToObject(img, "position");
+    cJSON_AddNumberToObject(pos, "x", image.position.x);
+    cJSON_AddNumberToObject(pos, "y", image.position.y);
 
-    Texture2D off;
-    Texture2D on;
+    cJSON_AddStringToObject(img, "path", image.path);
+    
+    cJSON_AddNumberToObject(img, "scale", image.scale);
 
-    struct dwm_bool activated;
-    struct dwm_bool howered;
-    struct dwm_bool dark;
-
-    float time;
-
-    int id;
-};
-
-// if user clicks to button function returns true
-bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn);
+    return img;
+}

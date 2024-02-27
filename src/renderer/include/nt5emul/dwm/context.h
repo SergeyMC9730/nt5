@@ -29,14 +29,7 @@
 
 RSB_ARRAY_DEF_GEN(struct dwm_window, DWMWindow);
 
-struct dwm_context_font {
-    Font font;
-
-    int xp_size;
-    float real_size;
-
-    float spacing;
-};
+#include <nt5emul/dwm/font.h>
 
 struct dwm_context_fonts {
     struct dwm_context_font tahoma8_std;

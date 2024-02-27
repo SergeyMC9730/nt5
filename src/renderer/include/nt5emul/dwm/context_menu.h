@@ -31,9 +31,11 @@ struct dwm_context_menu_selector {
     bool used;
     const char *content;
     int key_shortcut[2];
+    int id;
 };
 
 struct dwm_context_menu_selector_section {
+    bool used;
     struct dwm_context_menu_selector fields[8];
 };
 
@@ -44,7 +46,7 @@ struct dwm_context_menu_button {
 };
 
 struct dwm_context_menu {
-    struct dwm_button dwm_context_menu_button[8];
+    struct dwm_context_menu_button buttons[8];
 };
 
 

@@ -90,6 +90,7 @@ target_link_libraries(nt5tools cjson)
 # nt5renderer
 file(GLOB NTRENDERER_SRC CONFIGURE_DEPENDS 
     "src/renderer/src/*/*.c" "src/renderer/include/*/*.h"
+    "src/renderer/src/dwm/*/*.c"
 )
 add_library(nt5renderer SHARED ${NTRENDERER_SRC})
 target_include_directories(nt5renderer PRIVATE 
@@ -101,8 +102,9 @@ target_include_directories(nt5renderer PRIVATE
     "src/external/reasings/src"
     "src/external/inih"
     "src/external/raylib-video"
+    "src/external/cJSON" 
 )
-target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language)
+target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language cjson)
 
 # nt5tui
 file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/include/*/*.h")

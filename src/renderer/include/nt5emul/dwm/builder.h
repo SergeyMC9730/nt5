@@ -19,3 +19,65 @@
 */
 
 #pragma once
+
+#include <nt5emul/dwm/button.h>
+#include <nt5emul/dwm/context_menu.h>
+#include <nt5emul/dwm/font.h>
+
+struct dwm_gui_text {
+    struct dwm_context_font font;
+    const char *text;
+
+    Vector2 position;
+    float scale;
+};
+
+struct dwm_gui_image {
+    Texture2D texture;
+    
+    const char *path;
+
+    Vector2 position;
+    float scale;
+};
+
+struct dwm_gui_objects {
+    struct dwm_button *buttons;
+    int buttons_count;
+
+    struct dwm_context_menu menu;
+    bool menu_created;
+
+    struct dwm_gui_text *text_objects;
+    int text_objects_count;
+
+    struct dwm_gui_image *images;
+    int images_count;
+
+    void *cJSON_instance;
+};
+
+// builds from json file
+struct dwm_gui_objects *_ntDwmBuildGui(const char *ui_path);
+
+void _ntDwmUpdateGui(struct dwm_gui_objects *ui);
+void _ntDwmDrawGui(struct dwm_gui_objects *ui);
+
+void _ntDwmDestroyGui(struct dwm_gui_objects *ui);
+
+// returns cjson handle
+void * _ntDwmBuilderCreateButton(struct dwm_button btn);
+
+// returns cjson handle
+void * _ntDwmBuilderCreateImage(struct dwm_gui_image image);
+
+// returns cjson handle
+void *_ntDwmCreateTemplateGui();
+
+// returns cjson handle
+void *_ntDwmCreateGui(struct dwm_gui_objects *ui);
+
+// returns cjson handle
+void *_ntDwmCreateContextMenu(struct dwm_context_menu *menu);
+
+const char *_ntDwmTranslateKeyToStr(int key);

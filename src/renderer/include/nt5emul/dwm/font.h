@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2023  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,29 +15,18 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
 #pragma once
 
-#include <nt5emul/dwm/context.h>
+#include <raylib.h>
 
-struct dwm_button {
-    Rectangle button;
+struct dwm_context_font {
+    Font font;
 
-    const char *text;
+    int xp_size;
+    float real_size;
 
-    Texture2D off;
-    Texture2D on;
-
-    struct dwm_bool activated;
-    struct dwm_bool howered;
-    struct dwm_bool dark;
-
-    float time;
-
-    int id;
+    float spacing;
 };
-
-// if user clicks to button function returns true
-bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn);
