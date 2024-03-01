@@ -23,16 +23,19 @@
 #include <cJSON.h>
 
 // returns cjson handle
-void * _ntDwmBuilderCreateImage(struct dwm_gui_image image) {
-    cJSON *img = cJSON_CreateObject();
+void *_ntDwmBuilderCreateText(struct dwm_gui_text *text) {
+    cJSON *instance = cJSON_CreateObject();
 
-    cJSON *pos = cJSON_AddObjectToObject(img, "position");
-    cJSON_AddNumberToObject(pos, "x", image.position.x);
-    cJSON_AddNumberToObject(pos, "y", image.position.y);
+    cJSON *font = cJSON_AddObjectToObject(instance, "font");
 
-    cJSON_AddStringToObject(img, "path", image.path);
-    
-    cJSON_AddNumberToObject(img, "scale", image.scale);
+    cJSON_AddNumberToObject(font, "xp_size", text->font.xp_size);
+    cJSON_AddNumberToObject(font, "real_size", text->font.real_size);
+    cJSON_AddNumberToObject(font, "spacing", text->font.spacing);
+    cJSON_AddStringToObject(font, "path", text->font.path);
 
-    return img;
+    cJSON *position = cJSON_AddArrayToObject(instance, "position");
+    cJSON_AddItemToArray(position, cJSON_CreateNumber(text->position.x));
+    cJSON_AddItemToArray(position, cJSON_CreateNumber(text->position.y));
+
+    cJSON_AddNumberToObject(instance, "scale", text->scale);
 }

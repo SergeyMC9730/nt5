@@ -22,7 +22,7 @@
 
 #include <cJSON.h>
 
-void *_ntDwmCreateContextMenu(struct dwm_context_menu *menu) {
+void *_ntDwmBuilderCreateContextMenu(struct dwm_context_menu *menu) {
     cJSON *m = cJSON_CreateObject();
 
     cJSON *m1 = cJSON_AddArrayToObject(m, "buttons");
@@ -67,7 +67,7 @@ void *_ntDwmCreateContextMenu(struct dwm_context_menu *menu) {
                 cJSON_AddItemToArray(key_shortcuts, _k1);
                 cJSON_AddItemToArray(key_shortcuts, _k2);
 
-                
+                cJSON_AddItemToArray(field_array, field);
             }
 
             cJSON_AddItemToArray(section_array, section);

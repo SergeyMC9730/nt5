@@ -25,12 +25,13 @@
 void * _ntDwmBuilderCreateButton(struct dwm_button btn) {
     cJSON *button = cJSON_CreateObject();
 
-    cJSON *rect = cJSON_AddObjectToObject(button, "rect");
-    cJSON_AddNumberToObject(rect, "x", btn.button.x);
-    cJSON_AddNumberToObject(rect, "y", btn.button.y);
-    cJSON_AddNumberToObject(rect, "width", btn.button.width);
-    cJSON_AddNumberToObject(rect, "height", btn.button.height);
+    cJSON *rect = cJSON_AddArrayToObject(button, "rect");
 
+    cJSON_AddItemToArray(rect, cJSON_CreateNumber(btn.button.x));
+    cJSON_AddItemToArray(rect, cJSON_CreateNumber(btn.button.y));
+    cJSON_AddItemToArray(rect, cJSON_CreateNumber(btn.button.width));
+    cJSON_AddItemToArray(rect, cJSON_CreateNumber(btn.button.height));
+    
     cJSON_AddStringToObject(button, "text", btn.text);
 
     cJSON *texture = cJSON_AddObjectToObject(button, "texture");

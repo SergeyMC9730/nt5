@@ -60,6 +60,9 @@ struct dwm_gui_objects {
 // builds from json file
 struct dwm_gui_objects *_ntDwmBuildGui(const char *ui_path);
 
+// builds from raygui project
+struct dwm_gui_objects *_ntDwmBuildGuiFromRaygui(const char *layout_path);
+
 void _ntDwmUpdateGui(struct dwm_gui_objects *ui);
 void _ntDwmDrawGui(struct dwm_gui_objects *ui);
 
@@ -72,12 +75,15 @@ void * _ntDwmBuilderCreateButton(struct dwm_button btn);
 void * _ntDwmBuilderCreateImage(struct dwm_gui_image image);
 
 // returns cjson handle
-void *_ntDwmCreateTemplateGui();
+void *_ntDwmBuilderCreateTemplateGui();
 
 // returns cjson handle
-void *_ntDwmCreateGui(struct dwm_gui_objects *ui);
+void *_ntDwmBuilderCreateGui(struct dwm_gui_objects *ui);
 
 // returns cjson handle
-void *_ntDwmCreateContextMenu(struct dwm_context_menu *menu);
+void *_ntDwmBuilderCreateContextMenu(struct dwm_context_menu *menu);
+
+// returns cjson handle
+void *_ntDwmBuilderCreateText(struct dwm_gui_text *text);
 
 const char *_ntDwmTranslateKeyToStr(int key);

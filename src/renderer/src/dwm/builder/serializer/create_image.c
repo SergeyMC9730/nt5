@@ -18,17 +18,21 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <nt5emul/dwm/builder.h>
 
-#include <raylib.h>
+#include <cJSON.h>
 
-struct dwm_context_font {
-    Font font;
+// returns cjson handle
+void * _ntDwmBuilderCreateImage(struct dwm_gui_image image) {
+    cJSON *img = cJSON_CreateObject();
 
-    int xp_size;
-    float real_size;
+    cJSON *pos = cJSON_AddArrayToObject(img, "position");
+    cJSON_AddItemToArray(pos, cJSON_CreateNumber(image.position.x));
+    cJSON_AddItemToArray(pos, cJSON_CreateNumber(image.position.y));
 
-    float spacing;
+    cJSON_AddStringToObject(img, "path", image.path);
+    
+    cJSON_AddNumberToObject(img, "scale", image.scale);
 
-    const char *path;
-};
+    return img;
+}

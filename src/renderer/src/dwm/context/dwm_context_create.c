@@ -30,6 +30,7 @@ void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, c
     data->xp_size = xsz;
     data->spacing = sp *= st->scaling;
     data->real_size = rsz *= st->scaling;
+    data->path = font;
 
     const char *_ntTuiCodepoints =  "QWERTYUIOPASDFGHJKLZXCVBNM" // english alphabet with all upper case characters
                                 "qwertyuiopasdfghjklzxcvbnmzxcvbnm" // english alphabet with all lower case characters

@@ -49,6 +49,4 @@ struct dwm_context_menu {
     struct dwm_context_menu_button buttons[8];
 };
 
-
-
 #pragma pack(pop)

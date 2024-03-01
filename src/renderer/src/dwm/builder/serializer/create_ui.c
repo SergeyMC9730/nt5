@@ -22,7 +22,7 @@
 
 #include <cJSON.h>
 
-void *_ntDwmCreateTemplateGui() {
+void *_ntDwmBuilderCreateTemplateGui() {
     cJSON *instance = cJSON_CreateObject();
 
     cJSON *buttons = cJSON_AddArrayToObject(instance, "buttons");
@@ -44,6 +44,6 @@ void *_ntDwmCreateTemplateGui() {
     return instance;
 }
 
-void *_ntDwmCreateGui(struct dwm_gui_objects *ui) {
+void *_ntDwmBuilderCreateGui(struct dwm_gui_objects *ui) {
     return NULL;
 }
