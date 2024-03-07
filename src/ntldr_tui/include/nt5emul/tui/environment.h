@@ -23,7 +23,7 @@
 #include <raylib.h>
 
 struct nt_tui_environment {
-    Font font;
+    RLFont font;
 
     // size in characters
     Vector2 base_font_size;

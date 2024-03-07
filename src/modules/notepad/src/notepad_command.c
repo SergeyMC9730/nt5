@@ -152,7 +152,15 @@ bool notepad_command(void *data) {
     return true;
 }
 
+renderer_x11_window_stream_t _x11stream = {};
+
 void notepad_draw(struct dwm_window *wnd, void *ctx) {
+    if (_x11stream.window_framebuffer == NULL) {
+        printf("loading x11 stream\n");
+        _x11stream = _ntLoadXWindowStream("System Settings");
+        printf("x11 stream loaded succesfully\n");
+    }
+
     struct dwm_context *dwmctx = _ntDwmGetGlobal();
     renderer_state_t *st = _ntRendererGetState();
     struct local_notepad_module_state *mod = (struct local_notepad_module_state *)ctx;

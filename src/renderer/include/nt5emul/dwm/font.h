@@ -23,7 +23,7 @@
 #include <raylib.h>
 
 struct dwm_context_font {
-    Font font;
+    RLFont font;
 
     int xp_size;
     float real_size;

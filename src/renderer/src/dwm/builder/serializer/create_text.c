@@ -38,4 +38,6 @@ void *_ntDwmBuilderCreateText(struct dwm_gui_text *text) {
     cJSON_AddItemToArray(position, cJSON_CreateNumber(text->position.y));
 
     cJSON_AddNumberToObject(instance, "scale", text->scale);
+    
+    return instance;
 }

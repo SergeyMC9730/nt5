@@ -25,6 +25,7 @@
 #pragma pack(push, 1)
 
 #include <nt5emul/renderer_event.h>
+#include <nt5emul/renderer_params.h>
 
 // renderer layer
 
@@ -94,10 +95,32 @@ typedef struct renderer_max_tweak_object_t {
     renderer_tweak_object_type type;
 } renderer_max_tweak_object_t;
 
+// x11 capture struct
+
+#include <raylib.h>
+
+#if RENDERER_ENABLE_X11_CAPTURE == 1
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+
+typedef struct renderer_x11_window_stream_t {
+    const char *window_name;
+    Texture2D texture;
+
+    struct _XDisplay *display;
+    Window root_window;
+    Window requested_window;
+    XWindowAttributes window_attributes;
+
+    Color *window_framebuffer;
+} renderer_x11_window_stream_t;
+
+#endif
+
 // arrays
 
 #include <nt5emul/arrays/rsb_array_gen.h>
-#include <raylib.h>
 
 RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
 RSB_ARRAY_DEF_GEN(renderer_event_t, Event);
@@ -216,3 +239,12 @@ void _ntRendererCreateTweakDouble(double *val, double time, double power, render
 
 // add event that fires on window close
 void _ntRendererAddCloseEvent(void (*callback)(void *ctx), void *userdata, bool after_cleanup);
+
+// create x11 window listener
+
+#if RENDERER_ENABLE_X11_CAPTURE == 1
+
+renderer_x11_window_stream_t _ntLoadXWindowStream(const char *window_name);
+void _ntUpdateXWindowStream(renderer_x11_window_stream_t stream);
+
+#endif

@@ -34,7 +34,7 @@ void *_ntDwmBuilderCreateContextMenu(struct dwm_context_menu *menu) {
         
         cJSON *btn = cJSON_CreateObject();
         
-        cJSON_AddItemToObject(btn, _ntDwmBuilderCreateButton(_btn->base), "base");
+        cJSON_AddItemToObject(btn, "base", _ntDwmBuilderCreateButton(_btn->base));
 
         cJSON *section_array = cJSON_AddArrayToObject(btn, "sections");
 

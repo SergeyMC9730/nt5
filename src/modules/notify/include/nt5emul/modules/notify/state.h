@@ -37,7 +37,7 @@ struct module_state {
 
     bool old_show_fps;
 
-    Font font;
+    RLFont font;
 };
 
 extern struct module_state _state;

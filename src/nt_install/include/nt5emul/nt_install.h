@@ -29,7 +29,7 @@
 #include <stddef.h>
 
 typedef struct ntinstall_t {
-    Font font;
+    RLFont font;
     Vector2 base_size;
 
     char *buffers[16];
