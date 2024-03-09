@@ -80,7 +80,7 @@ bool notepad_command(void *data) {
 
     snprintf(mod->title, 1024, "%s - %s", mod->file_name, mod->cterm_notepad_title);
 
-    struct dwm_window wnd = _ntCreateWindow(mod->title, (Vector2){500, 150});
+    struct dwm_window wnd = _ntCreateWindow(mod->title, (Vector2){800, 600});
 
     wnd.draw = notepad_draw;
     wnd.update = notepad_update;
@@ -153,12 +153,16 @@ bool notepad_command(void *data) {
 }
 
 renderer_x11_window_stream_t _x11stream = {};
+bool _x11init = false;
 
 void notepad_draw(struct dwm_window *wnd, void *ctx) {
-    if (_x11stream.window_framebuffer == NULL) {
+    if (!_x11init) {
         printf("loading x11 stream\n");
         _x11stream = _ntLoadXWindowStream("System Settings");
-        printf("x11 stream loaded succesfully\n");
+        printf("x11 stream loaded succesfully (framebuffer=%p)\n", _x11stream.window_framebuffer);
+        _x11init = true;
+    } else {
+        _ntUpdateXWindowStream(&_x11stream);
     }
 
     struct dwm_context *dwmctx = _ntDwmGetGlobal();
@@ -168,6 +172,8 @@ void notepad_draw(struct dwm_window *wnd, void *ctx) {
     struct dwm_context_font fnt = dwmctx->fonts.lucidacon10_std;
 
     Vector2 base_text_pos = {3, 3};
+
+    DrawTexture(_x11stream.texture, 0, 0, WHITE);
 
     DrawTextEx(fnt.font, mod->rendered_file_contents->objects, base_text_pos, fnt.real_size / 1.5f, fnt.spacing, BLACK);
 }
@@ -185,6 +191,10 @@ void notepad_on_close(struct dwm_window *wnd, void *ctx) {
     free(mod->file_name);
     free(mod->file_path);
     free(mod->title);
+
+    if (_x11stream.window_framebuffer) free(_x11stream.window_framebuffer);
+    UnloadTexture(_x11stream.texture);
+    _x11init = false;
 
     free(mod);
 }

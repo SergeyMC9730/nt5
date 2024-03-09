@@ -43,7 +43,7 @@
 
 #include <nt5emul/ntcore.h>
 
-#define SKIP_LOGO 0
+#define SKIP_LOGO 1
 
 // extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
 extern cterm_command_reference_t find_command(char *command);

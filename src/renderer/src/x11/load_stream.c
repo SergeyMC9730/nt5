@@ -35,7 +35,7 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
     // get root window
     stream.root_window = XRootWindow(stream.display, DefaultScreen(stream.display));
 
-    printf("stream.display = %p\nstream.window_name = %s\nstream.root_window = %d\ndefault screen=%d", stream.display, _window_name, stream.root_window, DefaultScreen(stream.display));
+    printf("stream.display = %p\nstream.window_name = %s\nstream.root_window = %d\ndefault screen=%d\n", stream.display, _window_name, stream.root_window, DefaultScreen(stream.display));
 
     bool window_exists = false;
 
@@ -47,12 +47,14 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
 
     int format = 0;
 
-    u_int32_t items = 0;
-    u_int32_t sz = 0;
+    unsigned long items = 0;
+    unsigned long sz = 0;
 
     // init window data buffer
     u_int8_t *data = NULL;
     char *window_name = NULL;
+
+    printf("requested window id=%d\n", stream.requested_window);
 
     // get root window properties
     int prop_status = XGetWindowProperty(
@@ -64,7 +66,9 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
 
     Window *list = (Window *)data;
 
-    printf("list=%p; items=%d; sz=%d\n", list, items, sz);
+    printf("list=%p; items=%ld; sz=%ld\n", list, items, sz);
+
+    printf("prop status = %d\n", prop_status);
 
     if (prop_status < Success || items == 0 || list == NULL) {
         // free memory on fail
@@ -100,7 +104,11 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
 
     // check if window has been not found:
     // return invalid stream
-    if (!window_exists) return stream;
+    if (!window_exists) {
+        printf("x11 window doesnt exist.\n");
+
+        return stream;
+    }
     
     // get window attribute
     XGetWindowAttributes(stream.display, stream.requested_window, &stream.window_attributes);

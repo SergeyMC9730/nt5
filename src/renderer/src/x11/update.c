@@ -22,36 +22,76 @@
 
 #if RENDERER_ENABLE_X11_CAPTURE == 1
 
-void _ntUpdateXWindowStream(renderer_x11_window_stream_t stream) {
-    if (stream.texture.width == 0 || stream.texture.height == 0 || stream.window_framebuffer == NULL) return;
+#include <stdio.h>
+
+void _ntUpdateXWindowStream(renderer_x11_window_stream_t *stream) {
+    if (stream->texture.width == 0 || stream->texture.height == 0 || stream->window_framebuffer == NULL) return;
    
-    int w = stream.texture.width;
-    int h = stream.texture.height;
+    XWindowAttributes window_attributes;
+
+    // get window attribute
+    XGetWindowAttributes(stream->display, stream->requested_window, &window_attributes);
+
+    // get window sizes
+    int _width = window_attributes.width;
+    int _height = window_attributes.height;
+
+    stream->window_attributes = window_attributes;
+
+    // printf("_width=%d; _height=%d\n", _width, _height);
+
+    int w = stream->texture.width;
+    int h = stream->texture.height;
 
     XColor colors;
     XImage *img = XGetImage(
-        stream.display, stream.requested_window,
+        stream->display, stream->requested_window,
         0, 0, 
-        w, h,
+        _width, _height,
         AllPlanes, ZPixmap
     );
 
-    u_int32_t red_mask = img->red_mask;
-    u_int32_t green_mask = img->green_mask;
-    u_int32_t blue_mask = img->blue_mask;
+    // check if image can be created
+    if (!img) return;
 
-    for (int y = 0; y < h; ++y) {
-        for (int x = 0; y < w; ++x) {
-            unsigned long data = XGetPixel(img, x, y);
-            
-            stream.window_framebuffer[w * x + y].r = (data & red_mask) >> 16; 
-            stream.window_framebuffer[w * x + y].g = (data & green_mask) >> 8;
-            stream.window_framebuffer[w * x + y].b = (data & blue_mask);  
-            stream.window_framebuffer[w * x + y].a = 0xFF;
+    if (_width != w || _height != h) {
+        printf("----------- resizing texture\n");
+
+        // unload old texture
+        UnloadTexture(stream->texture);
+
+        // update width and height variables
+        w = _width;
+        h = _height;
+
+        // create new texture with updated width and/or height
+        stream->texture.id = rlLoadTexture(NULL, w, h, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8, 1);
+        stream->texture.width = w;
+        stream->texture.height = h;
+        stream->texture.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
+        stream->texture.mipmaps = 1;
+
+        // reallocate framebuffer to have updated width and/or height
+        stream->window_framebuffer = (Color *)MemRealloc(stream->window_framebuffer, _width * _height * sizeof(Color));
+    }
+
+    Color *color_data = (Color *)img->data;
+
+    for (int y = 0; y < h; y++) {
+        for (int x = 0; x < w; x++) {
+            int pos = h * y + x;
+
+            stream->window_framebuffer[pos].r = color_data[pos].b;
+            stream->window_framebuffer[pos].g = color_data[pos].g;
+            stream->window_framebuffer[pos].b = color_data[pos].r;
+
+            stream->window_framebuffer[pos].a = 0xFF;
         }
     }
 
-    UpdateTexture(stream.texture, stream.window_framebuffer);
+    UpdateTexture(stream->texture, stream->window_framebuffer);
+
+    free(img->data);
 }
 
 #endif

@@ -328,6 +328,8 @@ void explorer_shell_update(void *ctx) {
     struct dwm_context *dctx = _ntDwmGetGlobal();
     renderer_state_t *st = _ntRendererGetState();
 
+    st->draw_fps = true;
+
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         rsb_array_Int *pids = _ntGetDWMProcesses(dctx);
 

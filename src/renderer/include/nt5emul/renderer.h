@@ -245,6 +245,6 @@ void _ntRendererAddCloseEvent(void (*callback)(void *ctx), void *userdata, bool 
 #if RENDERER_ENABLE_X11_CAPTURE == 1
 
 renderer_x11_window_stream_t _ntLoadXWindowStream(const char *window_name);
-void _ntUpdateXWindowStream(renderer_x11_window_stream_t stream);
+void _ntUpdateXWindowStream(renderer_x11_window_stream_t *stream);
 
 #endif
