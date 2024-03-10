@@ -156,14 +156,14 @@ renderer_x11_window_stream_t _x11stream = {};
 bool _x11init = false;
 
 void notepad_draw(struct dwm_window *wnd, void *ctx) {
-    if (!_x11init) {
-        printf("loading x11 stream\n");
-        _x11stream = _ntLoadXWindowStream("System Settings");
-        printf("x11 stream loaded succesfully (framebuffer=%p)\n", _x11stream.window_framebuffer);
-        _x11init = true;
-    } else {
-        _ntUpdateXWindowStream(&_x11stream);
-    }
+    // if (!_x11init) {
+    //     printf("loading x11 stream\n");
+    //     _x11stream = _ntLoadXWindowStream("System Settings");
+    //     printf("x11 stream loaded succesfully (framebuffer=%p)\n", _x11stream.window_framebuffer);
+    //     _x11init = true;
+    // } else {
+    //     _ntUpdateXWindowStream(&_x11stream);
+    // }
 
     struct dwm_context *dwmctx = _ntDwmGetGlobal();
     renderer_state_t *st = _ntRendererGetState();
@@ -173,7 +173,7 @@ void notepad_draw(struct dwm_window *wnd, void *ctx) {
 
     Vector2 base_text_pos = {3, 3};
 
-    DrawTexture(_x11stream.texture, 0, 0, WHITE);
+    // DrawTexture(_x11stream.texture, 0, 0, WHITE);
 
     DrawTextEx(fnt.font, mod->rendered_file_contents->objects, base_text_pos, fnt.real_size / 1.5f, fnt.spacing, BLACK);
 }

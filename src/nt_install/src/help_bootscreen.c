@@ -73,6 +73,12 @@ void _boot_install_update1_step1() {
     }
 }
 
+
+void _boot_install_draw_step1() {  
+
+}
+
+
 void _boot_install_update_step1() {
     // // load codepoints
     // int codepointCount = 0;
@@ -98,13 +104,12 @@ void _boot_install_update_step1() {
     __state.status_bar_label = __state.buffers[1];
     
     _renderer_state.layers[1].on_update.callback = _boot_install_update1_step1;
+    _renderer_state.layers[1].on_draw.callback = _boot_install_draw_step1;
 
     #if BOOT_INSTALL_SKIP_STEP1 == 1
     _boot_install_beginstep2();
     _bi1stop = true;
+    #else
+    _boot_install_update_step1_text();
     #endif
-}
-
-void _boot_install_draw_step1() {  
-
 }
