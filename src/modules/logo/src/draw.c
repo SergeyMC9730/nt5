@@ -52,9 +52,5 @@ void logo_draw(void *user) {
 
     DrawText(str, (10 * st->scaling), h - textsz.y - (10 * st->scaling), sz, _state.transition_color);
 
-    const char *str2 = NT5_VERSION;
-
-    Vector2 textsz2 = MeasureTextEx(GetFontDefault(), str2, sz, 1.f * st->scaling);
-
-    DrawText(str2, w - textsz2.x - (20 * st->scaling), h - textsz2.y - (10 * st->scaling), sz, _state.transition_color);
+    _ntRendererDrawWatermarkEx((Vector2){0, 0}, _state.transition_color);
 }

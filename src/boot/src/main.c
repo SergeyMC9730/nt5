@@ -45,8 +45,6 @@
 
 #define SKIP_LOGO 0
 
-// extern void register_command(char *command, char *helpdesc, bool helpHide, bool (*callback)(void *args));
-extern cterm_command_reference_t find_command(char *command);
 
 rsb_array_String *str_test;
 char *str_test2;
@@ -54,7 +52,7 @@ char *str_test2;
 bool _boot_run_command(const char *command, void *userdata) {
 	// printf("running command %s\n", command);
 	// load bootscreen
-	cterm_command_reference_t ref = find_command((char *)command);
+	cterm_command_reference_t ref = cterm_find_command((char *)command);
 
 	// check if bootscreen module exist
 	if (ref.callback) {
@@ -163,7 +161,74 @@ void _system_end(void *ctx) {
 	exit(0);
 }
 
-void _boot_begin() {
+#include <string.h>
+
+void _boot_display_help() {
+	const char *help_table[] = {
+		"--skip-logo", "skip XP logo",
+		"--skip-text-installation", "skip text-based installation process",
+		"--skip-logonui", "skip logonui",
+		"--help", "display help",
+		"-h", "display help"
+	};
+
+	int sz = sizeof(help_table) / sizeof(const char *);
+
+	printf("@ help\n\n");
+
+	if ((sz % 2) == 1) {
+		printf("! help cannot be displayed: table is corrupted !\n");
+
+		return;
+	}
+
+	for (int i = 0; i < sz; i += 2) {
+		printf("? %s : %s\n", help_table[i], help_table[i + 1]);
+	}
+
+	return;
+}
+
+#include <nt5emul/version.h>
+
+void _boot_begin(int argc, char **argv) {
+	printf("! NT5 Project (%s)\n! Made by SergeyMC9730\n! Powered by raylib\n\n", NT5_VERSION);
+
+	bool skip_logo = false;
+	bool skip_text_installation = false;
+	bool skip_logonui = false;
+	bool display_help = false;
+	
+	if (argc >= 2) {
+		int count = argc - 1;
+
+		for (int i = 0; i < count; i++) {
+			const char *value = (const char *)argv[i + 1];
+
+			if (!strcmp(value, "--skip-logo")) {
+				skip_logo = true;
+			}
+			if (!strcmp(value, "--skip-text-installation")) {
+				skip_text_installation = true;
+			}
+			if (!strcmp(value, "--skip-logonui")) {
+				skip_logonui = true;
+			}
+			if (!strcmp(value, "--help")) {
+				display_help = true;
+			}
+			if (!strcmp(value, "-h")) {
+				display_help = true;
+			}
+		}
+	}
+
+	if (display_help) {
+		_boot_display_help();
+
+		exit(0);
+	}
+
 	// create "nt" folder
 	mkdir("nt", 0777);
 
@@ -181,7 +246,7 @@ void _boot_begin() {
 
 	printf("config values: setup: %d; oobe; %d\n", config.setup_completed, config.oobe_completed);
 
-	if (!config.setup_completed) {
+	if (!config.setup_completed && !skip_text_installation) {
 		_boot_install_begin();
 
 		return;
@@ -212,30 +277,33 @@ void _boot_begin() {
 
 	_cterm_init();
 
-	WaitTime(1);
+	while (_cterm_ready != true) {
+		WaitTime(0.01);
+	}
+
+	printf("argc=%d\n", argc);
 
 	_ntDwmSetGlobal(ctx);
 
 	bool logo_runned_before = false;
-	
-	#if SKIP_LOGO == 0
-	WaitTime(1);
-	#else
-	WaitTime(0.1);
-	#endif
 
-	_boot_run_logo();
+	if (!skip_logo) {
+		WaitTime(1);
+		_boot_run_logo();
+	} else {
+		// WaitTime(0.1);
+	}
 	
 	// setup dwm layer
 	st->layers[0].on_draw.user = ctx;
 	st->layers[0].on_draw.callback = _ntDrawDwmContext;
 
-	#if SKIP_LOGO == 0
-	// wait 5.5 seconds
-	WaitTime(5.5);
+	if (!skip_logo){
+		// wait 5.5 seconds
+		WaitTime(5.5);
 
-	logo_runned_before = true;
-	#endif
+		logo_runned_before = true;
+	}
 
 	// set background opacity to be fully transparent
 	ctx->theme.basic.background_color.a = 0x00;
@@ -255,7 +323,7 @@ void _boot_begin() {
 	}
 
 	if (!config.oobe_completed) {
-		if (!logo_runned_before && !SKIP_LOGO) {
+		if (!logo_runned_before && !skip_logo) {
 			if (!_boot_run_logo()) return;
 
 			// wait 5.5 seconds
@@ -275,9 +343,11 @@ void _boot_begin() {
 		WaitTime(0.1);
 	}
 
-	_boot_run_command("logonui", NULL);
+	if (!skip_logonui) {
+		_boot_run_command("logonui", NULL);
 
-	WaitTime(0.1);
+		WaitTime(0.1);
+	}
 
 	for (int i = 0; i < 2; i++) {
 		_boot_run_command("explorer", NULL);

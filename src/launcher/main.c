@@ -23,9 +23,9 @@
 #include <nt5emul/boot.h>
 #include <nt5emul/renderer.h>
 
-int main() {
+int main(int argc, char **argv) {
 	// begin boot process
-	_boot_begin();
+	_boot_begin(argc, argv);
 
 	// wait for the renderer to exit
 	_ntRendererJoin();

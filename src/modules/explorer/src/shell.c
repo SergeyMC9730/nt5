@@ -172,22 +172,10 @@ int explorer_shell_draw_start(Rectangle taskbar) {
 }
 
 void explorer_shell_draw_watermark(Vector2 offset) {
-    const char *str2 = NT5_VERSION;
-
-    Vector2 wsz = {
-        GetRenderWidth(),
-        GetRenderHeight()
-    };
-    int sz = 20;
-
-    renderer_state_t *st = _ntRendererGetState();
-
-    Vector2 textsz2 = MeasureTextEx(GetFontDefault(), str2, sz, 1.f * st->scaling);
-
     Color col = WHITE;
     col.a = 128;
 
-    DrawText(str2, wsz.x - textsz2.x - (20 * st->scaling) + offset.x, wsz.y - textsz2.y - (10 * st->scaling) + offset.y, sz, col);
+    _ntRendererDrawWatermarkEx(offset, col);
 }
 
 Rectangle explorer_shell_draw_taskbar(void *ctx) {

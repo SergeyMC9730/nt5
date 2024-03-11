@@ -103,6 +103,7 @@ target_include_directories(nt5renderer PRIVATE
     "src/external/inih"
     "src/external/raylib-video"
     "src/external/cJSON" 
+    "src/global/include"
 )
 target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language cjson)
 

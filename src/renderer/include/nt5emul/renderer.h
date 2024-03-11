@@ -197,6 +197,12 @@ void _ntRendererPushQueue(void (*callback)(void *ctx), void *userdata);
 void _ntRendererDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin);
 void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, Vector2 origin, bool inside_scale);
 
+// draw watermark specified by `nt5emul/version.h` file
+void _ntRendererDrawWatermark();
+
+// draw watermark specified by `nt5emul/version.h` file with extra params
+void _ntRendererDrawWatermarkEx(Vector2 offset, Color col);
+
 // returns centered texture position (not relative!)
 Vector2 _ntRendererCenterTexture(Texture2D texture, bool x, bool y);
 

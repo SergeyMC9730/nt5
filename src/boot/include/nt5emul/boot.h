@@ -21,4 +21,4 @@
 #pragma once
 
 // begin boot process
-void _boot_begin();
+void _boot_begin(int argc, char **argv);

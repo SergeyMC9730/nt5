@@ -18,6 +18,25 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <nt5emul/renderer.h>
+#include <nt5emul/version.h>
 
-#define NT5_VERSION "nt5 prototype beta 1"
+void _ntRendererDrawWatermark() {
+    Color col = WHITE;
+    col.a = 128;
+
+    return _ntRendererDrawWatermarkEx((Vector2){0, 0}, col);
+}
+
+void _ntRendererDrawWatermarkEx(Vector2 offset, Color col) {
+    const char *str = NT5_VERSION;
+    renderer_state_t *st = _ntRendererGetState();
+    int sz = 20 * st->scaling;
+
+    int w = GetRenderWidth();
+    int h = GetRenderHeight();
+
+    Vector2 textsz2 = MeasureTextEx(GetFontDefault(), str, sz, 1.f * st->scaling);
+
+    DrawText(str, w - textsz2.x - (20 * st->scaling * 1.5f) + offset.x, h - textsz2.y - (10 * st->scaling) + offset.y, sz, col);
+}
