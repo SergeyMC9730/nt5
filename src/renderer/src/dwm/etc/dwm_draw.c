@@ -24,10 +24,10 @@
 #include <string.h>
 
 // draw dwm context
-void _ntDrawDwmContext(struct dwm_context *ctx) {
+void _ntDwmDrawContext(struct dwm_context *ctx) {
     if (ctx->theme.basic.background_color.a != 0x00) ClearBackground(ctx->theme.basic.background_color);
 
-    rsb_array_Int *pids = _ntGetDWMProcesses(ctx);
+    rsb_array_Int *pids = _ntDwmGetProcesses(ctx);
 
     renderer_state_t *st = _ntRendererGetState();
 
@@ -35,7 +35,7 @@ void _ntDrawDwmContext(struct dwm_context *ctx) {
         // struct dwm_window *ptr = ctx->windows->objects + i;
         int pid = RSBGetAtIndexInt(pids, i);
 
-        struct dwm_window *ptr = _ntGetDWMProcess(ctx, pid);
+        struct dwm_window *ptr = _ntDwmGetProcess(ctx, pid);
 
         if (ptr != NULL) {
             _ntUpdateWindow(ptr, ctx);

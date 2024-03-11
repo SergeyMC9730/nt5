@@ -65,68 +65,6 @@ bool _boot_run_command(const char *command, void *userdata) {
 	return false;
 }
 
-void _boot_window_test_draw(struct dwm_window *wnd, void *ctx) {
-	ClearBackground(RAYWHITE);
-
-	renderer_state_t *st = _ntRendererGetState();
-
-	DrawText("test", 20 * st->scaling, 20 * st->scaling, 20 * st->scaling, BLACK);
-
-	DrawFPS(st->scaling, st->scaling);
-
-	struct dwm_context *dwmctx = (struct dwm_context *)ctx;
-}
-
-void _boot_begin_debug(void *user) {
-	struct dwm_context *ctx = (struct dwm_context *)user;
-
-	// check if F1 key is pressed
-	if (IsKeyPressed(KEY_F1) || IsKeyPressedRepeat(KEY_F1)) {
-		// create window "Settings !"
-		struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200, 300});
-
-		// set position
-		wnd.position = (Vector2){50, 50};
-
-		wnd.draw = _boot_window_test_draw;
-
-		// push window
-		int pid = _ntPushWindow(ctx, wnd);
-
-		// get window ptr
-
-		struct dwm_window *wnd_ptr = _ntGetDWMProcess(ctx, pid);
-
-		_ntRendererCreateTweakFloat(&wnd_ptr->position.y, 3, 10, TOInSine);
-	}
-
-	// check if F2 key is pressed
-	if (IsKeyPressed(KEY_F2)) {
-		SetTargetFPS(60);
-	}
-
-	int c = GetCharPressed();
-
-	while (c != 0) {
-		RSBPopElementString(str_test);
-
-		RSBAddElementString(str_test, c);
-		RSBAddElementString(str_test, 0);
-
-		c = GetCharPressed();
-		// _boot_run_command("CTERM_line_execute", TextFormat("notify %s", str_test->objects));
-		snprintf(str_test2, 2048, "notify %s", (const char *)str_test->objects);
-
-		_boot_run_command("CTERM_line_execute", (void *)str_test2);
-	}
-
-	if (IsKeyPressed(KEY_BACKSPACE)) {
-		RSBPopElementString(str_test);
-
-		_boot_run_command("CTERM_line_execute", (void *)str_test2);
-	}
-}
-
 #include <unistd.h>
 
 bool _boot_run_logo() {
@@ -231,14 +169,6 @@ void _boot_begin(int argc, char **argv) {
 
 	// create "nt" folder
 	mkdir("nt", 0777);
-
-	_ntInitCores();
-
-	// init NT renderer
-	_ntRendererCreateEnvironment();
-
-	_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
-	_ntRendererAddCloseEvent(_system_end, NULL, true);
 	
 	const char *config_path = "nt/config.json";
 
@@ -247,43 +177,46 @@ void _boot_begin(int argc, char **argv) {
 	printf("config values: setup: %d; oobe; %d\n", config.setup_completed, config.oobe_completed);
 
 	if (!config.setup_completed && !skip_text_installation) {
+		_ntInitCores();
+
+		// init NT renderer
+		_ntRendererCreateEnvironment();
+
+		_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
+		_ntRendererAddCloseEvent(_system_end, NULL, true);
+		
 		_boot_install_begin();
 
 		return;
 	}
-
-	// init Text UI environment
-	_ntRendererPushQueue(_ntTuiLoadEnvironmentDefault, NULL);
-	
-	struct dwm_context *ctx = _ntCreateDwmContext("ntresources/basic.theme");
-
-	// for (int i = 0; i < 1; i++) {
-	// 	int c = i * 50;
-
-	// 	struct dwm_window wnd = _ntCreateWindow("Settings !", (Vector2){200 + c, 300});
-
-	// 	wnd.position = (Vector2){50 + c, 50 + c};
-
-	// 	_ntPushWindow(ctx, wnd);
-	// }
 
 	str_test = RSBCreateArrayString();
 	str_test2 = (char *)calloc(1, 2048);
 
 	renderer_state_t * st = _ntRendererGetState();
 
-	st->layers[1].on_update.user = ctx;
-	st->layers[1].on_update.callback = _boot_begin_debug;
-
 	_cterm_init();
+
+	_ntInitCores();
+
+	// init NT renderer
+	_ntRendererCreateEnvironment();
+
+	_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
+	_ntRendererAddCloseEvent(_system_end, NULL, true);
+
+	// init Text UI environment
+	_ntRendererPushQueue(_ntTuiLoadEnvironmentDefault, NULL);
+	
+	struct dwm_context *ctx = _ntDwmCreateContext("ntresources/basic.theme");
+
+	_ntDwmSetGlobal(ctx);
 
 	while (_cterm_ready != true) {
 		WaitTime(0.01);
 	}
 
 	printf("argc=%d\n", argc);
-
-	_ntDwmSetGlobal(ctx);
 
 	bool logo_runned_before = false;
 
@@ -296,7 +229,7 @@ void _boot_begin(int argc, char **argv) {
 	
 	// setup dwm layer
 	st->layers[0].on_draw.user = ctx;
-	st->layers[0].on_draw.callback = _ntDrawDwmContext;
+	st->layers[0].on_draw.callback = _ntDwmDrawContext;
 
 	if (!skip_logo){
 		// wait 5.5 seconds

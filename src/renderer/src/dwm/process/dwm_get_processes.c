@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-rsb_array_Int *_ntGetDWMProcesses1(struct dwm_context *ctx) {
+rsb_array_Int *_ntDwmGetProcesses1(struct dwm_context *ctx) {
     rsb_array_Int *a = RSBCreateArrayInt();
     
     int i = 0;
@@ -50,7 +50,7 @@ rsb_array_Int *_ntGetDWMProcesses1(struct dwm_context *ctx) {
     return a;
 }
 
-rsb_array_Int *_ntGetDWMProcessesRaw(struct dwm_context *ctx) {
+rsb_array_Int *_ntDwmGetProcessesRaw(struct dwm_context *ctx) {
     rsb_array_Int *a = RSBCreateArrayInt();
 
     int i = 0;
@@ -69,7 +69,7 @@ rsb_array_Int *_ntGetDWMProcessesRaw(struct dwm_context *ctx) {
     return a;
 }
 
-rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx) {
+rsb_array_Int *_ntDwmGetProcesses(struct dwm_context *ctx) {
     rsb_array_Int *a = RSBCreateArrayInt();
     
     int i = 0;

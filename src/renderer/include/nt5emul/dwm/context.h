@@ -80,10 +80,10 @@ struct dwm_context {
 };
 
 // draw dwm context
-void _ntDrawDwmContext(struct dwm_context *ctx);
+void _ntDwmDrawContext(struct dwm_context *ctx);
 
 // create dwm context
-struct dwm_context *_ntCreateDwmContext(const char *theme_path);
+struct dwm_context *_ntDwmCreateContext(const char *theme_path);
 // executed in main thread
 void _ntCreateDwmContextMain(struct dwm_context *ctx);
 
@@ -91,23 +91,23 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx);
 void _ntDwmLoadSounds(struct dwm_context *ctx);
 
 // destroy dwm context
-void _ntDestroyDwmContext(struct dwm_context *ctx);
+void _ntDwmDestroyContext(struct dwm_context *ctx);
 
 // push window to the dwm context
 // returns process id
-int _ntPushWindow(struct dwm_context *ctx, struct dwm_window wnd); 
+int _ntDwmPushWindow(struct dwm_context *ctx, struct dwm_window wnd); 
 
 // get dwm process ids
-rsb_array_Int *_ntGetDWMProcesses(struct dwm_context *ctx);
+rsb_array_Int *_ntDwmGetProcesses(struct dwm_context *ctx);
 
 // get dwm process ids (not for drawing)
-rsb_array_Int *_ntGetDWMProcesses1(struct dwm_context *ctx);
+rsb_array_Int *_ntDwmGetProcesses1(struct dwm_context *ctx);
 
 // get raw list of dwm process ids
-rsb_array_Int *_ntGetDWMProcessesRaw(struct dwm_context *ctx);
+rsb_array_Int *_ntDwmGetProcessesRaw(struct dwm_context *ctx);
 
 // get process by process id
-struct dwm_window *_ntGetDWMProcess(struct dwm_context *ctx, int pid);
+struct dwm_window *_ntDwmGetProcess(struct dwm_context *ctx, int pid);
 
 // global dwm
 void _ntDwmSetGlobal(struct dwm_context *ctx);

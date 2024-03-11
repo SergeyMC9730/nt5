@@ -21,7 +21,7 @@
 #include <nt5emul/dwm/context.h>
 
 // get process by process id
-struct dwm_window *_ntGetDWMProcess(struct dwm_context *ctx, int pid) {
+struct dwm_window *_ntDwmGetProcess(struct dwm_context *ctx, int pid) {
     int l = ctx->windows->len;
     int i = 0;
 

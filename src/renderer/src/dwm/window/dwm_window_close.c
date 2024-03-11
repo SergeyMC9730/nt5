@@ -26,7 +26,7 @@ void _ntCloseWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     struct dwm_context *ctx = (struct dwm_context *)ctx_ptr;
 
-    rsb_array_Int *list = _ntGetDWMProcessesRaw(ctx);
+    rsb_array_Int *list = _ntDwmGetProcessesRaw(ctx);
 
     int idx = -1;
     for (int i = 0; i < list->len; i++) {
@@ -53,7 +53,19 @@ void _ntCloseWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     printf("idx=%d\n", idx);
 
+    // to prevent heap-use-after-free bug we will get pid of the currently rendering window
+    int rendered_pid = -1;
+    
+    if (ctx->rendered_window != NULL) {
+        rendered_pid = ctx->rendered_window->process.pid;
+    }
+
     if (idx != -1) {
         RSBPopElementAtIndexDWMWindow(ctx->windows, idx);
+    }
+
+    if (rendered_pid != -1) {
+        // now we would get address of the currently rendering window inside the new window array
+        ctx->rendered_window = _ntDwmGetProcess(ctx, rendered_pid);
     }
 }

@@ -23,15 +23,15 @@
 #include <string.h>
 
 // destroy dwm context
-void _ntDestroyDwmContext(struct dwm_context *ctx) {
+void _ntDwmDestroyContext(struct dwm_context *ctx) {
     // free theme path string
     free((char *)ctx->theme.basic.theme_path);
 
     // destroy windows
-    rsb_array_Int *windows = _ntGetDWMProcessesRaw(ctx);
+    rsb_array_Int *windows = _ntDwmGetProcessesRaw(ctx);
     
     for (int i = 0; i < windows->len; i++) {
-        struct dwm_window *wnd = _ntGetDWMProcess(ctx, RSBGetAtIndexInt(windows, i));
+        struct dwm_window *wnd = _ntDwmGetProcess(ctx, RSBGetAtIndexInt(windows, i));
 
         _ntCloseWindow(wnd, ctx);
     }

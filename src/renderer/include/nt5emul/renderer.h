@@ -152,6 +152,11 @@ typedef struct renderer_state_t {
 
     // time since renderer initialization
     double time;
+
+    // rendertexture stack
+    RenderTexture2D r2dstack[32];
+    // pointer to the `r2dstack` end
+    int r2dpointer;
 } renderer_state_t;
 
 #pragma pack(pop)
@@ -250,7 +255,29 @@ void _ntRendererAddCloseEvent(void (*callback)(void *ctx), void *userdata, bool 
 
 #if RENDERER_ENABLE_X11_CAPTURE == 1
 
+// x11 window listener
+
+// load x11 window
 renderer_x11_window_stream_t _ntLoadXWindowStream(const char *window_name);
+
+// push x11 window framebuffer into Texture2D
 void _ntUpdateXWindowStream(renderer_x11_window_stream_t *stream);
 
 #endif
+
+// raylib additions
+
+// switch to the texture mode in stack mode
+//
+// - stack mode means that rendertextures can be pushed and pulled out of the stack
+// - if there are gonna be more than 32 textures inside this stack, this function would behave like a standard `BeginTextureMode` function
+// 
+// made for making some routines easier in implementation
+void BeginTextureModeStacked(RenderTexture2D txt);
+
+// move from the texture mode in stack mode
+//
+// - stack mode means that rendertextures can be pushed and pulled out of the stack
+// 
+// made for making some routines easier in implementation
+void EndTextureModeStacked(RenderTexture2D txt);

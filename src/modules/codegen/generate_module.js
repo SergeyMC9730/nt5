@@ -242,7 +242,7 @@ struct dwm_window wnd = _ntCreateWindow("${cmd}", (Vector2){500, 150});
 
     wnd.position = (Vector2){50, 50};
     
-    _ntPushWindow(_ntDwmGetGlobal(), wnd);
+    _ntDwmPushWindow(_ntDwmGetGlobal(), wnd);
 `
     }
 

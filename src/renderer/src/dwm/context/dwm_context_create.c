@@ -89,7 +89,7 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 }
 
 // create dwm context
-struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
+struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
     // allocate context
     struct dwm_context *ctx = (struct dwm_context *)(calloc(1, sizeof(struct dwm_context)));
 
@@ -122,7 +122,7 @@ struct dwm_context *_ntCreateDwmContext(const char *theme_path) {
 		WaitTime(0.1);
     }
 
-    _ntRendererAddCloseEvent(_ntDestroyDwmContext, ctx, false);
+    _ntRendererAddCloseEvent(_ntDwmDestroyContext, ctx, false);
 
     // return context
     return ctx;

@@ -34,12 +34,12 @@ bool explorer_pressed_on_window() {
     renderer_state_t *st = _ntRendererGetState();
 
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-        rsb_array_Int *pids = _ntGetDWMProcesses(dctx);
+        rsb_array_Int *pids = _ntDwmGetProcesses(dctx);
 
         bool window_selected = false;
 
         for (int i = 0; i < pids->len; i++) {
-            struct dwm_window *_wnd = _ntGetDWMProcess(dctx, RSBGetAtIndexInt(pids, i));
+            struct dwm_window *_wnd = _ntDwmGetProcess(dctx, RSBGetAtIndexInt(pids, i));
 
             if (_wnd->hidden.state) continue;
 
@@ -209,10 +209,10 @@ Rectangle explorer_shell_draw_taskbar(void *ctx) {
     int btn_x = taskbar.x + offset;
     int btn_xsz = 50 * st->scaling;
 
-    rsb_array_Int *pids = _ntGetDWMProcesses1(dctx);
+    rsb_array_Int *pids = _ntDwmGetProcesses1(dctx);
 
     for (int i = 0; i < pids->len; i++) {
-        struct dwm_window *_wnd = _ntGetDWMProcess(dctx, RSBGetAtIndexInt(pids, i));
+        struct dwm_window *_wnd = _ntDwmGetProcess(dctx, RSBGetAtIndexInt(pids, i));
 
         struct dwm_button btn = {};
         btn.text = _wnd->title;
@@ -319,12 +319,12 @@ void explorer_shell_update(void *ctx) {
     st->draw_fps = true;
 
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-        rsb_array_Int *pids = _ntGetDWMProcesses(dctx);
+        rsb_array_Int *pids = _ntDwmGetProcesses(dctx);
 
         bool window_selected = false;
 
         for (int i = 0; i < pids->len; i++) {
-            struct dwm_window *_wnd = _ntGetDWMProcess(dctx, RSBGetAtIndexInt(pids, i));
+            struct dwm_window *_wnd = _ntDwmGetProcess(dctx, RSBGetAtIndexInt(pids, i));
 
             if (_wnd->hidden.state) continue;
 

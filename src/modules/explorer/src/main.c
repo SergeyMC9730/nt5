@@ -84,7 +84,7 @@ bool explorer_command(void *data) {
 
         wnd.position = (Vector2){50, 50};
 
-        _ntPushWindow(_ntDwmGetGlobal(), wnd);
+        _ntDwmPushWindow(_ntDwmGetGlobal(), wnd);
 
         return true;
     }
@@ -113,7 +113,7 @@ bool explorer_command(void *data) {
 
     wnd.position = (Vector2){50, 50};
 
-    _ntPushWindow(_ntDwmGetGlobal(), wnd);
+    _ntDwmPushWindow(_ntDwmGetGlobal(), wnd);
 
     _state.id++;
 
