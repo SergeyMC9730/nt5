@@ -20,6 +20,7 @@
 
 #include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
+#include <nt5emul/timer.h>
 
 #include <string.h>
 
@@ -68,7 +69,7 @@ int _ntDwmPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
         _ntRendererPushQueue(_ntPushWindowFb, args);
 
         while (args->wnd.framebuffer.texture.width == 0) {
-            WaitTime(0.1);
+            _ntSetupTimerSync(0.01);
         }
 
         wnd2 = args->wnd;

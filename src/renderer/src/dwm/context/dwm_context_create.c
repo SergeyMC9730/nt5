@@ -88,6 +88,8 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     ctx->loading_finished = true;
 }
 
+#include <nt5emul/timer.h>
+
 // create dwm context
 struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
     // allocate context
@@ -119,7 +121,7 @@ struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
 
     while (ctx->loading_finished != true) {
         // wait 0.1 seconds before checking again
-		WaitTime(0.1);
+		_ntSetupTimerSync(0.01);
     }
 
     _ntRendererAddCloseEvent(_ntDwmDestroyContext, ctx, false);

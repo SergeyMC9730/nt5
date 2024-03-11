@@ -42,6 +42,7 @@
 #include <nt5emul/tui/environment.h>
 
 #include <nt5emul/ntcore.h>
+#include <nt5emul/timer.h>
 
 #define SKIP_LOGO 0
 
@@ -128,8 +129,11 @@ void _boot_display_help() {
 }
 
 #include <nt5emul/version.h>
+#include <time.h>
 
 void _boot_begin(int argc, char **argv) {
+	clock_t _cl_start = clock();
+
 	printf("! NT5 Project (%s)\n! Made by SergeyMC9730\n! Powered by raylib\n\n", NT5_VERSION);
 
 	bool skip_logo = false;
@@ -146,17 +150,22 @@ void _boot_begin(int argc, char **argv) {
 			if (!strcmp(value, "--skip-logo")) {
 				skip_logo = true;
 			}
-			if (!strcmp(value, "--skip-text-installation")) {
+			else if (!strcmp(value, "--skip-text-installation")) {
 				skip_text_installation = true;
 			}
-			if (!strcmp(value, "--skip-logonui")) {
+			else if (!strcmp(value, "--skip-logonui")) {
 				skip_logonui = true;
 			}
-			if (!strcmp(value, "--help")) {
+			else if (!strcmp(value, "--help")) {
 				display_help = true;
 			}
-			if (!strcmp(value, "-h")) {
+			else if (!strcmp(value, "-h")) {
 				display_help = true;
+			}
+			else {
+				printf("! invalid argument \"%s\". see --help\n", value);
+
+				return;
 			}
 		}
 	}
@@ -213,7 +222,7 @@ void _boot_begin(int argc, char **argv) {
 	_ntDwmSetGlobal(ctx);
 
 	while (_cterm_ready != true) {
-		WaitTime(0.01);
+		_ntSetupTimerSync(0.01);
 	}
 
 	printf("argc=%d\n", argc);
@@ -221,10 +230,10 @@ void _boot_begin(int argc, char **argv) {
 	bool logo_runned_before = false;
 
 	if (!skip_logo) {
-		WaitTime(1);
+		_ntSetupTimerSync(1);
 		_boot_run_logo();
 	} else {
-		// WaitTime(0.1);
+		// _ntSetupTimerSync(0.1);
 	}
 	
 	// setup dwm layer
@@ -233,7 +242,7 @@ void _boot_begin(int argc, char **argv) {
 
 	if (!skip_logo){
 		// wait 5.5 seconds
-		WaitTime(5.5);
+		_ntSetupTimerSync(5.5);
 
 		logo_runned_before = true;
 	}
@@ -252,7 +261,7 @@ void _boot_begin(int argc, char **argv) {
 		_boot_run_setup(ctx);
 
 		// wait 12.5 seconds
-		WaitTime(12.5);
+		_ntSetupTimerSync(12.5);
 	}
 
 	if (!config.oobe_completed) {
@@ -260,31 +269,36 @@ void _boot_begin(int argc, char **argv) {
 			if (!_boot_run_logo()) return;
 
 			// wait 5.5 seconds
-			WaitTime(5.5);
+			_ntSetupTimerSync(5.5);
 		}
 
 		_boot_run_msoobe(ctx);
-	}
 
-	for (;;) {
-		_ntUnloadConfig(config);
+		for (;;) {
+			_ntUnloadConfig(config);
 
-		config = _ntGetConfig(config_path);
+			config = _ntGetConfig(config_path);
 
-		if (config.oobe_completed) break;
+			if (config.oobe_completed) break;
 
-		WaitTime(0.1);
+			_ntSetupTimerSync(0.1);
+		}
 	}
 
 	if (!skip_logonui) {
 		_boot_run_command("logonui", NULL);
 
-		WaitTime(0.1);
+		_ntSetupTimerSync(0.1);
 	}
 
 	for (int i = 0; i < 2; i++) {
 		_boot_run_command("explorer", NULL);
+		// _ntSetupTimerSync(0.2);
 	}
 
 	__boot_ended = true;
+
+	clock_t _cl_end = clock();
+
+	printf("elapsed: %f seconds\n", (double)(_cl_end - _cl_start) / CLOCKS_PER_SEC);
 }

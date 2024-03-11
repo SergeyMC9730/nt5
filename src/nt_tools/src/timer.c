@@ -83,3 +83,10 @@ void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata) 
     // debug
     // printf("timer %f has been created successfully\n", seconds);
 }
+
+void _ntSetupTimerSync(float seconds) {
+    struct bi_timer *timer = (struct bi_timer *)calloc(1, sizeof(struct bi_timer));
+    timer->ms = seconds * 1000;
+
+    _nt_timer_thread((struct ntcore){}, timer);
+}

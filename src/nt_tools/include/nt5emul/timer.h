@@ -22,3 +22,6 @@
 
 // install asynchronous timer
 void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata);
+
+// install synchronous timer
+void _ntSetupTimerSync(float seconds);

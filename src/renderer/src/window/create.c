@@ -24,6 +24,8 @@
 
 #include <pthread.h>
 
+#include <nt5emul/timer.h>
+
 void _ntRendererCreateEnvironment() {
 	renderer_state_t *st = _ntRendererGetState();
 
@@ -39,7 +41,7 @@ void _ntRendererCreateEnvironment() {
 
 		// wait for renderer to be ready
 	while (!(st->status & RENDERER_READY)) {
-		// wait 0.33 seconds before checking again
-        WaitTime(0.33);
+		// wait 100 ms before checking again
+        _ntSetupTimerSync(0.1);
 	}
 }

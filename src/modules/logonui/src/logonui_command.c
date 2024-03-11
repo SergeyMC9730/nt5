@@ -146,6 +146,8 @@ void logonui_preload(void *ctx) {
     SetWindowState(FLAG_WINDOW_RESIZABLE);
 }
 
+#include <nt5emul/timer.h>
+
 void logonui_exit_queue(void *ctx) {
     // unload all textures on the next frame and recover old layer parameters
     _ntRendererPushQueue(logonui_exit, NULL);
@@ -193,7 +195,7 @@ bool logonui_command(void *data) {
 
     _state.cterm_logonui_welcome = _ntGetStringInLanguagePack( _state.dwm_ctx->lpack, "cterm_logonui_welcome", lang);
 
-    WaitTime(1.5);
+    _ntSetupTimerSync(1.5);
 
     logonui_exit_queue(NULL);
 
