@@ -138,9 +138,9 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
         _ntCloseWindow(wnd, ctx);
     }
     if (_ntDrawDWMButton(ctx, &btn_hide) && wnd == ctx->selected_window) {
-        printf("hiding window\n");
-        if (wnd->hidden.ability) wnd->hidden.state = true;
-    }
+        printf("hiding window\n");\
 
-    wnd->moving.ability = !(btn_close.howered.state);
+        if (wnd->hidden.ability) wnd->hidden.state = true;
+        wnd->moving.ability = !(btn_close.howered.state);
+    }
 }
