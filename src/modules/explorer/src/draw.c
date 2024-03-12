@@ -36,11 +36,31 @@ void explorer_draw(struct dwm_window *wnd, void *user) {
 
     // printf("Explorer draw! (%d)\n", lst->fs->base.items_total);
 
-    Color cl = BLACK;
+    Vector2 sz;
+    sz.x = wnd->framebuffer.texture.width;
+    sz.y = wnd->framebuffer.texture.height;
 
-    cl.a = 128;
+    // printf("y: %d\n", wnd->framebuffer.texture.height / 2);
 
-    ClearBackground(cl);
+    float offset = ((float)GetRenderHeight() * 181.f) / 420.f;
+
+    Vector2 scr_pos;
+    scr_pos.x = (int)wnd->content_position.x;
+    scr_pos.y  = GetRenderHeight() - wnd->position.y + offset;
+
+    if (wnd->moving.state || wnd->post_moving.state) {
+        Vector2 delta = GetMouseDelta();
+        
+        scr_pos.x += delta.x;
+        scr_pos.y += delta.y;
+    }
+
+    _ntRendererDrawScreenPortion((Vector2){}, scr_pos, sz);
+
+    Color col = BLACK;
+    col.a = 220;
+
+    DrawRectangle(0, 0, sz.x, sz.y, col);
 
     Vector2 m = _ntDwmGetLocalMousePosition(ctx);
 

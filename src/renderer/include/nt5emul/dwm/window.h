@@ -36,6 +36,8 @@ struct dwm_window {
     Vector2 position;
     Vector2 size;
 
+    Vector2 content_position;
+
     Rectangle titlebar_rect;
     
     const char *title;
@@ -44,6 +46,7 @@ struct dwm_window {
     struct dwm_bool hidden;
     struct dwm_bool filled;
     struct dwm_bool moving;
+    struct dwm_bool post_moving;
 
     RenderTexture2D framebuffer;
 

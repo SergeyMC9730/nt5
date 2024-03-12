@@ -57,5 +57,5 @@ void _ntUpdateWindow(struct dwm_window *wnd, void *context) {
         if (CheckCollisionPointRec(mouse, sz)) {
             ctx->selected_window = wnd;
         }
-    }    
+    }
 }

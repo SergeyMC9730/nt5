@@ -69,6 +69,10 @@ void *_ntRendererThread(void *ptr) {
 	// useful during debugging;
 	SetWindowState(FLAG_WINDOW_TOPMOST);
 
+	// load framebuffer
+	RenderTexture2D rt1 = LoadRenderTexture(wsz.x, wsz.y);
+	st->framebuffer = rt1;
+
 	// set status to READY
 	st->status = RENDERER_READY;
 
@@ -80,7 +84,19 @@ void *_ntRendererThread(void *ptr) {
 		// update renderer
 		_ntRendererUpdate();
 
+		if (GetRenderWidth() != wsz.x || GetRenderHeight() != wsz.y) {
+			wsz.x = GetRenderWidth();
+			wsz.y = GetRenderHeight();
+
+			UnloadRenderTexture(rt1);
+			rt1 = LoadRenderTexture(wsz.x, wsz.y);
+			st->framebuffer = rt1;
+		}
+
 		if (st->status & RENDERER_REQUESTED_STOP || raylib_close) break;
+
+		// draw everything into the internal framebuffer
+		BeginTextureModeStacked(rt1);
 
 		// begin drawing
 		BeginDrawing();
@@ -88,9 +104,18 @@ void *_ntRendererThread(void *ptr) {
 		// draw everything
 		_ntRendererDraw();
 
+		// end
+		EndTextureModeStacked();
+
+		// now draw internal framebuffer to the screen
+		_ntRendererDrawSizedTexture(rt1.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
+
 		// complete drawing
 		EndDrawing();
 	}
+
+	// unload rendertextures
+	UnloadRenderTexture(rt1);
 
 	if (raylib_close) {
 		_ntRendererCloseEnvironment();

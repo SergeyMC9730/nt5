@@ -20,18 +20,20 @@
 
 #include <nt5emul/renderer.h>
 
-void BeginTextureModeStacked(RenderTexture2D txt) {
+void EndTextureModeStacked() {
     renderer_state_t *st = _ntRendererGetState();
+    int current = st->r2dpointer - 1;
 
-    if (st->r2dpointer > R2D_STACK_SIZE - 1 || st->r2dpointer < 0) {
-        return BeginTextureMode(txt);
+    if (current == 0) {
+        st->r2dpointer--;
+        
+        return EndTextureMode();
     }
+    
+    RenderTexture2D target = st->r2dstack[current - 1];
 
-    st->r2dstack[st->r2dpointer] = txt;
+    EndTextureMode();
+    BeginTextureMode(target);
 
-    if (st->r2dpointer >= 1) EndTextureMode();
-
-    st->r2dpointer++;
-
-    BeginTextureMode(txt);
+    st->r2dpointer--;
 }

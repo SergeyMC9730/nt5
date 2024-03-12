@@ -153,10 +153,14 @@ typedef struct renderer_state_t {
     // time since renderer initialization
     double time;
 
+#define R2D_STACK_SIZE 32
     // rendertexture stack
-    RenderTexture2D r2dstack[32];
+    RenderTexture2D r2dstack[R2D_STACK_SIZE];
     // pointer to the `r2dstack` end
     int r2dpointer;
+
+    // main framebuffer to the nt renderer instance
+    RenderTexture2D framebuffer;
 } renderer_state_t;
 
 #pragma pack(pop)
@@ -270,7 +274,7 @@ void _ntUpdateXWindowStream(renderer_x11_window_stream_t *stream);
 // switch to the texture mode in stack mode
 //
 // - stack mode means that rendertextures can be pushed and pulled out of the stack
-// - if there are gonna be more than 32 textures inside this stack, this function would behave like a standard `BeginTextureMode` function
+// - if there are gonna be more than R2D_STACK_SIZE textures inside this stack, this function would behave like a standard `BeginTextureMode` function
 // 
 // made for making some routines easier in implementation
 void BeginTextureModeStacked(RenderTexture2D txt);
@@ -280,4 +284,8 @@ void BeginTextureModeStacked(RenderTexture2D txt);
 // - stack mode means that rendertextures can be pushed and pulled out of the stack
 // 
 // made for making some routines easier in implementation
-void EndTextureModeStacked(RenderTexture2D txt);
+void EndTextureModeStacked();
+
+// draw a portion of screen
+// it uses internal framebuffer as a source
+void _ntRendererDrawScreenPortion(Vector2 pos, Vector2 portion_pos, Vector2 portion_sz);

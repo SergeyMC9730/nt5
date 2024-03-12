@@ -50,9 +50,9 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     if (wnd->draw) {
         ctx->rendered_window = wnd;
-        BeginTextureMode(wnd->framebuffer);
+        BeginTextureModeStacked(wnd->framebuffer);
             wnd->draw(wnd, wnd->ctx);
-        EndTextureMode();
+        EndTextureModeStacked();
         ctx->rendered_window = NULL;
     }
 
@@ -60,9 +60,10 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
         DrawRectangle(sz.x + (1 * st->scaling), sz.y + (2 * st->scaling), sz.width - (3 * st->scaling), sz.height - (3 * st->scaling), border1);
     }
 
-    _ntRendererDrawSizedTexture(wnd->framebuffer.texture, (Vector2){1.f, -1.f}, (Vector2){
-        wnd->titlebar_rect.x - (3 * st->scaling), wnd->titlebar_rect.y + wnd->titlebar_rect.height
-    }, (Vector2){}, true);
+    wnd->content_position.x = (int)(wnd->titlebar_rect.x - (3 * st->scaling));
+    wnd->content_position.y = (int)(wnd->titlebar_rect.y + wnd->titlebar_rect.height);
+
+    _ntRendererDrawSizedTexture(wnd->framebuffer.texture, (Vector2){1.f, -1.f}, wnd->content_position, (Vector2){}, true);
 
     if (ctx->selected_window == wnd) {
         gr = ctx->theme.basic.window_active_title_gradient;

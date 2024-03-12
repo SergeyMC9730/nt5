@@ -152,9 +152,6 @@ bool notepad_command(void *data) {
     return true;
 }
 
-renderer_x11_window_stream_t _x11stream = {};
-bool _x11init = false;
-
 void notepad_draw(struct dwm_window *wnd, void *ctx) {
     // if (!_x11init) {
     //     printf("loading x11 stream\n");
@@ -192,9 +189,9 @@ void notepad_on_close(struct dwm_window *wnd, void *ctx) {
     free(mod->file_path);
     free(mod->title);
 
-    if (_x11stream.window_framebuffer) free(_x11stream.window_framebuffer);
-    UnloadTexture(_x11stream.texture);
-    _x11init = false;
+    // if (_x11stream.window_framebuffer) free(_x11stream.window_framebuffer);
+    // UnloadTexture(_x11stream.texture);
+    // _x11init = false;
 
     free(mod);
 }

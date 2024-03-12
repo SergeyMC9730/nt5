@@ -35,8 +35,6 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
     // get root window
     stream.root_window = XRootWindow(stream.display, DefaultScreen(stream.display));
 
-    printf("stream.display = %p\nstream.window_name = %s\nstream.root_window = %d\ndefault screen=%d\n", stream.display, _window_name, stream.root_window, DefaultScreen(stream.display));
-
     bool window_exists = false;
 
     // get internal x atom by name
@@ -54,8 +52,6 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
     u_int8_t *data = NULL;
     char *window_name = NULL;
 
-    printf("requested window id=%d\n", stream.requested_window);
-
     // get root window properties
     int prop_status = XGetWindowProperty(
         stream.display, stream.root_window, atom, 
@@ -65,10 +61,6 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
     );
 
     Window *list = (Window *)data;
-
-    printf("list=%p; items=%ld; sz=%ld\n", list, items, sz);
-
-    printf("prop status = %d\n", prop_status);
 
     if (prop_status < Success || items == 0 || list == NULL) {
         // free memory on fail
@@ -82,8 +74,6 @@ renderer_x11_window_stream_t _ntLoadXWindowStream(const char *_window_name) {
     }
 
     for (int i = 0; i < items; i++) {
-        printf("list[i(%d)]=%d\n", i, list[i]);
-
         prop_status = XFetchName(stream.display, list[i], &window_name);
     
         if (prop_status < Success || !window_name) continue;

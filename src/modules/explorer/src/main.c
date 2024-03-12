@@ -108,8 +108,8 @@ bool explorer_command(void *data) {
 
     wnd.ctx = lst;
 
-    wnd.filled.state = false;
-    wnd.filled.ability = false;
+    wnd.filled.state = true;
+    wnd.filled.ability = true;
 
     wnd.position = (Vector2){50, 50};
 

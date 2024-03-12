@@ -20,18 +20,22 @@
 
 #include <nt5emul/renderer.h>
 
-void BeginTextureModeStacked(RenderTexture2D txt) {
+void _ntRendererDrawScreenPortion(Vector2 pos, Vector2 portion_pos, Vector2 portion_sz) {
+    Rectangle source = {
+        .x = portion_pos.x,
+        .y = portion_pos.y,
+        .width = portion_sz.x,
+        .height = portion_sz.y * -1.f
+    };
+
+    Rectangle dest = {
+        .x = pos.x,
+        .y = pos.y,
+        .width = portion_sz.x,
+        .height = portion_sz.y
+    };
+
     renderer_state_t *st = _ntRendererGetState();
 
-    if (st->r2dpointer > R2D_STACK_SIZE - 1 || st->r2dpointer < 0) {
-        return BeginTextureMode(txt);
-    }
-
-    st->r2dstack[st->r2dpointer] = txt;
-
-    if (st->r2dpointer >= 1) EndTextureMode();
-
-    st->r2dpointer++;
-
-    BeginTextureMode(txt);
+    DrawTexturePro(st->framebuffer.texture, source, dest, (Vector2){}, 0.f, WHITE);
 }

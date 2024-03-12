@@ -53,6 +53,8 @@ void _ntDwmDrawContext(struct dwm_context *ctx) {
     Vector2 mouse = GetMousePosition();
 
     if (ctx->selected_window != NULL) {
+        ctx->selected_window->post_moving.state = false;
+
         ctx->selected_window->titlebar_rect.x -= (24 * st->scaling);
 
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
@@ -61,6 +63,7 @@ void _ntDwmDrawContext(struct dwm_context *ctx) {
                     Vector2 mouse_delta = GetMouseDelta();
 
                     ctx->selected_window->moving.state = true;
+                    ctx->selected_window->post_moving.state = false;
 
                     ctx->selected_window->position.x += mouse_delta.x;
                     ctx->selected_window->position.y += mouse_delta.y;
@@ -69,6 +72,7 @@ void _ntDwmDrawContext(struct dwm_context *ctx) {
                 Vector2 mouse_delta = GetMouseDelta();
 
                 // ctx->selected_window->moving.state = true;
+                ctx->selected_window->post_moving.state = true;
 
                 ctx->selected_window->position.x += mouse_delta.x;
                 ctx->selected_window->position.y += mouse_delta.y;
@@ -78,5 +82,5 @@ void _ntDwmDrawContext(struct dwm_context *ctx) {
         }
 
         ctx->selected_window->titlebar_rect.x += (24 * st->scaling);
-    }
+    }    
 }
