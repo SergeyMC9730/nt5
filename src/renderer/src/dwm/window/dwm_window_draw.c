@@ -142,5 +142,6 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
         if (wnd->hidden.ability) wnd->hidden.state = true;
         wnd->moving.ability = !(btn_close.howered.state);
+        ctx->selected_window = NULL;
     }
 }
