@@ -77,16 +77,26 @@ void _ntUpdateXWindowStream(renderer_x11_window_stream_t *stream) {
 
     Color *color_data = (Color *)img->data;
 
-    for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++) {
-            int pos = h * y + x;
+    // for (int y = 0; y < h; y++) {
+    //     for (int x = 0; x < w; x++) {
+    //         int pos = h * y + x;
 
-            stream->window_framebuffer[pos].r = color_data[pos].b;
-            stream->window_framebuffer[pos].g = color_data[pos].g;
-            stream->window_framebuffer[pos].b = color_data[pos].r;
+    //         stream->window_framebuffer[pos].r = color_data[pos].b;
+    //         stream->window_framebuffer[pos].g = color_data[pos].g;
+    //         stream->window_framebuffer[pos].b = color_data[pos].r;
 
-            stream->window_framebuffer[pos].a = 0xFF;
-        }
+    //         stream->window_framebuffer[pos].a = 0xFF;
+    //     }
+    // }
+
+    int sz = w * h;
+    for (int i = 0; i < sz; i++) {
+        stream->window_framebuffer[i].r = color_data[i].b;
+        stream->window_framebuffer[i].g = color_data[i].g;
+        stream->window_framebuffer[i].b = color_data[i].r;
+
+        stream->window_framebuffer[i].a = 0xFF;
+
     }
 
     UpdateTexture(stream->texture, stream->window_framebuffer);

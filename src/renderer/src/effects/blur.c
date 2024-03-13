@@ -20,22 +20,15 @@
 
 #include <nt5emul/renderer.h>
 
-void _ntRendererDrawScreenPortion(Vector2 pos, Vector2 portion_pos, Vector2 portion_sz) {
-    Rectangle source = {
-        .x = portion_pos.x,
-        .y = -portion_pos.y,
-        .width = portion_sz.x,
-        .height = portion_sz.y * -1.f
-    };
+// run function  with blur enabled
+// if function is not called inside render thread nothing will happen
+void _ntRendererApplyBlurEffect(renderer_event_t on_draw) {
+    if (!_ntRendererInThread()) return;
 
-    Rectangle dest = {
-        .x = pos.x,
-        .y = pos.y,
-        .width = portion_sz.x,
-        .height = portion_sz.y
-    };
+    // get renderer state
+	renderer_state_t *st = _ntRendererGetState();
 
-    renderer_state_t *st = _ntRendererGetState();
-
-    DrawTexturePro(st->framebuffer.texture, source, dest, (Vector2){}, 0.f, WHITE);
+    BeginShaderMode(st->blur_shader);
+    on_draw.callback(on_draw.user);
+    EndShaderMode();
 }
