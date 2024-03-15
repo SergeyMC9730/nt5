@@ -24,7 +24,36 @@
 #include <string.h>
 #include <unistd.h>
 
-void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {
+void _ntRendererLoadShaders() {
+    // i hate stack.
+
+    // _ntRendererThread cannot handle this function
+    // and causes stack to work very strangely.
+    // in this case `sh` variable would be zeroed or
+    // have garbage data no matter what LoadShader
+    // would return.
+
+    // i literally had to move this function into the
+    // dwm loading routine so the shader value would
+    // not be broken by this pthread insanity.
+    // when i moved this piece of code into the dwm
+    // code it magically worked.
+
+    renderer_state_t *st = _ntRendererGetState();
+
+	// load blur effect
+	const char *fsFileName = "ntresources/blur/blur.fs";
+	const char *vsFileName = "ntresources/blur/blur.vs";
+
+	Shader sh = LoadShader(vsFileName, fsFileName);
+	
+	printf("---- SHADER ID = %d ----\n", sh.id);
+	printf("---- SHADER LOCS = %p ----\n", sh.locs);
+
+    st->blur_shader = sh;
+}
+
+void _ntDwmLoadFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {
     renderer_state_t *st = _ntRendererGetState();
     
     data->xp_size = xsz;
@@ -59,21 +88,21 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
     float font_div = 0.6f;
     
-    _ntLoadDwmFont(&ctx->fonts.tahoma8_std, 8, 0.5f, 8.f / font_div, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma8_bld, 8, 0.5f, 8.f / font_div, "nt/fonts/tahomabd.ttf");
+    _ntDwmLoadFont(&ctx->fonts.tahoma8_std, 8, 0.5f, 8.f / font_div, "nt/fonts/tahoma.ttf");
+    _ntDwmLoadFont(&ctx->fonts.tahoma8_bld, 8, 0.5f, 8.f / font_div, "nt/fonts/tahomabd.ttf");
 
-    _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9.f / font_div, "nt/fonts/tahomabd.ttf");
+    _ntDwmLoadFont(&ctx->fonts.tahoma9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/tahoma.ttf");
+    _ntDwmLoadFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9.f / font_div, "nt/fonts/tahomabd.ttf");
 
-    _ntLoadDwmFont(&ctx->fonts.tahoma12_std, 12, 0.5f, 12.f / font_div, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma12_bld, 12, 0.5f, 12.f / font_div, "nt/fonts/tahomabd.ttf");
+    _ntDwmLoadFont(&ctx->fonts.tahoma12_std, 12, 0.5f, 12.f / font_div, "nt/fonts/tahoma.ttf");
+    _ntDwmLoadFont(&ctx->fonts.tahoma12_bld, 12, 0.5f, 12.f / font_div, "nt/fonts/tahomabd.ttf");
 
-    _ntLoadDwmFont(&ctx->fonts.franklin24_std, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
-    _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
+    _ntDwmLoadFont(&ctx->fonts.franklin24_std, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
+    _ntDwmLoadFont(&ctx->fonts.franklin24_bld, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
     
-    _ntLoadDwmFont(&ctx->fonts.arial9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/arial.ttf");
+    _ntDwmLoadFont(&ctx->fonts.arial9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/arial.ttf");
 
-    _ntLoadDwmFont(&ctx->fonts.lucidacon10_std, 10, 0.5f, 10.f / font_div, "nt/fonts/lucon.ttf");
+    _ntDwmLoadFont(&ctx->fonts.lucidacon10_std, 10, 0.5f, 10.f / font_div, "nt/fonts/lucon.ttf");
 
     renderer_state_t *st = _ntRendererGetState();
 
@@ -84,6 +113,8 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
         ctx->sounds.audio_device_initialized = true;
     }
+
+    _ntRendererLoadShaders();
 
     ctx->loading_finished = true;
 }

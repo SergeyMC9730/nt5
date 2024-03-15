@@ -164,6 +164,9 @@ typedef struct renderer_state_t {
 
     // blur effect
     Shader blur_shader;
+
+    // current rendertexture
+    RenderTexture2D current_framebuffer;
 } renderer_state_t;
 
 #pragma pack(pop)

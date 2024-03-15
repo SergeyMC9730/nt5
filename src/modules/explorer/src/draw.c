@@ -65,6 +65,10 @@ void explorer_draw(struct dwm_window *wnd, void *user) {
 
     ClearBackground(BLACK);
 
+    // BeginShaderMode(st->blur_shader);
+    // explorer_draw_bg(wnd);
+    // EndShaderMode();
+
     _ntRendererApplyBlurEffect((renderer_event_t){explorer_draw_bg, wnd});
 
     // DrawRectangle(0, 0, sz.x, sz.y, col);
