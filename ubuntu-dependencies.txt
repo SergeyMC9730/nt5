@@ -1,0 +1,5 @@
+libglew-dev
+libglew2.2
+libcurl4
+libcurl4-openssl-dev
+doxygen

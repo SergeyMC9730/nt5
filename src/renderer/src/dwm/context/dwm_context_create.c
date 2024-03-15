@@ -23,6 +23,7 @@
 #include <ini.h>
 #include <string.h>
 #include <unistd.h>
+// #include <freetype-gl.h>
 
 void _ntRendererLoadShaders() {
     // i hate stack.
@@ -43,14 +44,20 @@ void _ntRendererLoadShaders() {
 
 	// load blur effect
 	const char *fsFileName = "ntresources/blur/blur.fs";
-	const char *vsFileName = "ntresources/blur/blur.vs";
+	const char *vsFileName = NULL;
 
 	Shader sh = LoadShader(vsFileName, fsFileName);
 	
 	printf("---- SHADER ID = %d ----\n", sh.id);
 	printf("---- SHADER LOCS = %p ----\n", sh.locs);
 
-    st->blur_shader = sh;
+    for (int i = 0; i < 5; i++) {
+        printf("loc %d = %d\n", i, sh.locs[i]);
+    }
+
+    st->blur_shader.id = sh.id;
+    st->blur_shader.locs = sh.locs;
+    st->blur_shader_ptr = sh.locs;
 }
 
 void _ntDwmLoadFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {

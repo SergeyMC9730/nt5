@@ -147,6 +147,10 @@ typedef struct renderer_state_t {
     // allows renderer to draw fps
     bool draw_fps;
 
+    // blur effect
+    Shader blur_shader;
+    void *blur_shader_ptr;
+
     // scales everything
     float scaling;
 
@@ -161,9 +165,6 @@ typedef struct renderer_state_t {
 
     // main framebuffer to the nt renderer instance
     RenderTexture2D framebuffer;
-
-    // blur effect
-    Shader blur_shader;
 
     // current rendertexture
     RenderTexture2D current_framebuffer;

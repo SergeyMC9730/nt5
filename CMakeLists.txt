@@ -5,12 +5,15 @@ project ("nt5")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # debug: address sanitizer
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address,leak")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,leak")
-set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=address,leak")
+# set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address,leak")
+# set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,leak")
+# set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=address,leak")
 
 # external:cJSON
 # add_subdirectory(src/external/cJSON)
+
+# external:freetype-gl
+add_subdirectory(src/external/freetype-gl)
 
 # external:libarchive
 add_subdirectory(src/external/libarchive)
@@ -104,6 +107,7 @@ target_include_directories(nt5renderer PRIVATE
     "src/external/raylib-video"
     "src/external/cJSON" 
     "src/global/include"
+    "src/external/freetype-gl"
 )
 target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language cjson)
 

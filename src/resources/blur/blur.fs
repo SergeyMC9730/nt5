@@ -1,30 +1,40 @@
-//---------------------------------------------------------------------------
-// Fragment
-//---------------------------------------------------------------------------
-#version 330 core
-//---------------------------------------------------------------------------
-in vec2 fragTexCoord;                    // screen position <-1,+1>
-out vec4 finalColor;          // fragment output color
-uniform sampler2D texture0;          // texture to blur
-uniform vec4 colDiffuse;
-uniform float xs,ys;            // texture resolution
-uniform float r;                // blur radius
+#version 330
+
 // Input vertex attributes (from vertex shader)
+in vec2 fragTexCoord;
 in vec4 fragColor;
 
-//---------------------------------------------------------------------------
-void main() {
-    float x,y,xx,yy,rr=r*r,dx,dy,w,w0;
-    w0=0.3780/pow(r,1.975);
-    vec2 p;
-    vec4 col=vec4(0.0,0.0,0.0,0.0);
-    for (dx=1.0/xs,x=-r,p.x=0.5+(fragTexCoord.x*0.5)+(x*dx);x<=r;x++,p.x+=dx){ xx=x*x;
-     for (dy=1.0/ys,y=-r,p.y=0.5+(fragTexCoord.y*0.5)+(y*dy);y<=r;y++,p.y+=dy){ yy=y*y;
-      if (xx+yy<=rr)
-        {
-        w=w0*exp((-xx-yy)/(2.0*rr));
-        col+=texture2D(texture0,p)*w;
-        }}}
-    finalColor=col;
+// Input uniform values
+uniform sampler2D texture0;
+uniform vec4 colDiffuse;
+
+// Output fragment color
+out vec4 finalColor;
+
+// NOTE: Add here your custom variables
+
+// NOTE: Render size values must be passed from code
+uniform float renderWidth = 800;
+uniform float renderHeight = 450;
+
+
+uniform vec2 center = vec2(200.0, 200.0);
+
+float offset[3] = float[](0.0, 1.3846153846, 3.2307692308);
+float weight[3] = float[](0.2270270270, 0.3162162162, 0.0702702703);
+
+void main()
+{
+    float center_sz = center.x * center.y;
+
+    // Texel color fetching from texture sampler
+    vec3 texelColor = texture(texture0, fragTexCoord).rgb*weight[0];
+
+    for (int i = 1; i < 3; i++)
+    {
+        texelColor += texture(texture0, fragTexCoord + vec2(offset[i])/renderWidth, 0.0).rgb*weight[i];
+        texelColor += texture(texture0, fragTexCoord - vec2(offset[i])/renderWidth, 0.0).rgb*weight[i];
     }
-//---------------------------------------------------------------------------
+
+    finalColor = vec4(texelColor, 1.0);
+}
