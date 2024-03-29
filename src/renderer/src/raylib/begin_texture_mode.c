@@ -34,5 +34,4 @@ void BeginTextureModeStacked(RenderTexture2D txt) {
     st->r2dpointer++;
 
     BeginTextureMode(txt);
-    st->current_framebuffer = txt;
 }

@@ -64,10 +64,10 @@ void _ntPVSelectFileDraw() {
 
     r.x = 0;
     r.y = 0;
-    r.width = GetRenderWidth();
-    r.height = GetRenderHeight();
+    r.width = GetRenderWidth() / 8 + 1;
+    r.height = GetRenderHeight() / 16 + 1;
 
-    DrawRectangleGradientV(r.x, r.y, r.width, r.height, BLACK, gray);
+    _ntTuiDrawRectangleGr(r, BLACK, gray);
 
     r.x = 2;
     r.y = 2;

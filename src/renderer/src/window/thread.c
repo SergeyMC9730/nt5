@@ -67,12 +67,15 @@ void *_ntRendererThread(void *ptr) {
 
 	// set window to be top most.
 	// useful during debugging;
-	// SetWindowState(FLAG_WINDOW_TOPMOST);
+	SetWindowState(FLAG_WINDOW_TOPMOST);
 
 	// load framebuffer
 	RenderTexture2D rt1 = LoadRenderTexture(wsz.x, wsz.y);
 	st->framebuffer = rt1;
-	
+
+	// load blur effect
+	st->blur_shader = LoadShader(0, "ntresources/blur/blur.fs");
+
 	// set status to READY
 	st->status = RENDERER_READY;
 

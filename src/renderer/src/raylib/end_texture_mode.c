@@ -34,7 +34,6 @@ void EndTextureModeStacked() {
 
     EndTextureMode();
     BeginTextureMode(target);
-    st->current_framebuffer = target;
 
     st->r2dpointer--;
 }
