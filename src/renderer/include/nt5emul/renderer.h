@@ -161,9 +161,6 @@ typedef struct renderer_state_t {
 
     // main framebuffer to the nt renderer instance
     RenderTexture2D framebuffer;
-
-    // blur effect
-    Shader blur_shader;
 } renderer_state_t;
 
 #pragma pack(pop)
@@ -292,7 +289,3 @@ void EndTextureModeStacked();
 // draw a portion of screen
 // it uses internal framebuffer as a source
 void _ntRendererDrawScreenPortion(Vector2 pos, Vector2 portion_pos, Vector2 portion_sz);
-
-// run function  with blur enabled
-// if function is not called inside render thread nothing will happen
-void _ntRendererApplyBlurEffect(renderer_event_t on_draw);

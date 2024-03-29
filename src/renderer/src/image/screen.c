@@ -23,7 +23,7 @@
 void _ntRendererDrawScreenPortion(Vector2 pos, Vector2 portion_pos, Vector2 portion_sz) {
     Rectangle source = {
         .x = portion_pos.x,
-        .y = -portion_pos.y,
+        .y = portion_pos.y,
         .width = portion_sz.x,
         .height = portion_sz.y * -1.f
     };
