@@ -129,6 +129,12 @@ RSB_ARRAY_DEF_GEN(Image, Image);
 
 #include <stdbool.h>
 
+#if RENDERER_ENABLE_LUA == 1
+#include <lua5.3/lua.h>
+#include <lua5.3/lualib.h>
+#include <lua5.3/lauxlib.h>
+#endif
+
 // renderer state
 
 typedef struct renderer_state_t {
@@ -161,6 +167,10 @@ typedef struct renderer_state_t {
 
     // main framebuffer to the nt renderer instance
     RenderTexture2D framebuffer;
+
+#if RENDERER_ENABLE_LUA == 1
+    lua_State* lua_interpreter;
+#endif
 } renderer_state_t;
 
 #pragma pack(pop)
@@ -289,3 +299,11 @@ void EndTextureModeStacked();
 // draw a portion of screen
 // it uses internal framebuffer as a source
 void _ntRendererDrawScreenPortion(Vector2 pos, Vector2 portion_pos, Vector2 portion_sz);
+
+void _ntRendererRunLuaScript(const char *path);
+
+// lua bindings
+#if RENDERER_ENABLE_LUA == 1
+int _ntRendererLuaDrawText(lua_State *L);
+int _ntRendererLuaClearBackground(lua_State *L);
+#endif

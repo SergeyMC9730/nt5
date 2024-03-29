@@ -59,4 +59,8 @@ void _ntRendererCloseEnvironment() {
     RSBDestroyEvent(st->close_events);
 
 	st->status = 0;
+
+    #if RENDERER_ENABLE_LUA == 1
+    lua_close(st->lua_interpreter);
+    #endif
 }

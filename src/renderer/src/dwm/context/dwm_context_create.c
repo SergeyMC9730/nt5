@@ -19,8 +19,8 @@
 */
 
 #include <nt5emul/dwm/context.h>
-#include <nt5emul/renderer.h>
 #include <ini.h>
+#include <nt5emul/renderer.h>
 #include <string.h>
 #include <unistd.h>
 

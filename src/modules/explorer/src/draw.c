@@ -31,40 +31,42 @@
 #include <stdio.h>
 
 void explorer_draw(struct dwm_window *wnd, void *user) {
-    struct dwm_context *ctx = _ntDwmGetGlobal();
-    struct local_module_state *lst = (struct local_module_state *)user;
+    // struct dwm_context *ctx = _ntDwmGetGlobal();
+    // struct local_module_state *lst = (struct local_module_state *)user;
 
-    // printf("Explorer draw! (%d)\n", lst->fs->base.items_total);
+    // // printf("Explorer draw! (%d)\n", lst->fs->base.items_total);
 
-    Vector2 sz;
-    sz.x = wnd->framebuffer.texture.width;
-    sz.y = wnd->framebuffer.texture.height;
+    // Vector2 sz;
+    // sz.x = wnd->framebuffer.texture.width;
+    // sz.y = wnd->framebuffer.texture.height;
 
-    // printf("y: %d\n", wnd->framebuffer.texture.height / 2);
+    // // printf("y: %d\n", wnd->framebuffer.texture.height / 2);
 
-    float offset = ((float)GetRenderHeight() * 181.f) / 420.f;
+    // float offset = ((float)GetRenderHeight() * 181.f) / 420.f;
 
-    Vector2 scr_pos;
-    scr_pos.x = (int)wnd->content_position.x;
-    scr_pos.y  = GetRenderHeight() - wnd->position.y + offset;
+    // Vector2 scr_pos;
+    // scr_pos.x = (int)wnd->content_position.x;
+    // scr_pos.y  = GetRenderHeight() - wnd->position.y + offset;
 
-    if (wnd->moving.state || wnd->post_moving.state) {
-        Vector2 delta = GetMouseDelta();
+    // if (wnd->moving.state || wnd->post_moving.state) {
+    //     Vector2 delta = GetMouseDelta();
         
-        scr_pos.x += delta.x;
-        scr_pos.y += delta.y;
-    }
+    //     scr_pos.x += delta.x;
+    //     scr_pos.y += delta.y;
+    // }
 
-    _ntRendererDrawScreenPortion((Vector2){}, scr_pos, sz);
+    // _ntRendererDrawScreenPortion((Vector2){}, scr_pos, sz);
 
-    Color col = BLACK;
-    col.a = 220;
+    // Color col = BLACK;
+    // col.a = 220;
 
-    DrawRectangle(0, 0, sz.x, sz.y, col);
+    // DrawRectangle(0, 0, sz.x, sz.y, col);
 
-    Vector2 m = _ntDwmGetLocalMousePosition(ctx);
+    // Vector2 m = _ntDwmGetLocalMousePosition(ctx);
 
-    DrawRectangle(m.x, m.y, 8, 8, RED);
+    // DrawRectangle(m.x, m.y, 8, 8, RED);
 
-    _ntTuiDrawMenu(lst->fs->base);
+    // _ntTuiDrawMenu(lst->fs->base);
+
+    _ntRendererRunLuaScript("test.lua");
 }

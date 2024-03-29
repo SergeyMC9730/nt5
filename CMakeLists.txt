@@ -4,6 +4,36 @@ project ("nt5")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# check for libraries
+find_library(SSL_LIB ssl)
+if(NOT SSL_LIB)
+    message(FATAL_ERROR "ssl library is not found")
+endif()
+
+find_library(AV_LIB1 avformat)
+find_library(AV_LIB2 avcodec)
+find_library(AV_LIB3 swscale)
+find_library(AV_LIB4 avutil)
+if(NOT AV_LIB1)
+    message(FATAL_ERROR "avformat library is not found")
+endif()
+if(NOT AV_LIB2)
+    message(FATAL_ERROR "avcodec library is not found")
+endif()
+if(NOT AV_LIB3)
+    message(FATAL_ERROR "swscale library is not found")
+endif()
+if(NOT AV_LIB4)
+    message(FATAL_ERROR "avutil library is not found")
+endif()
+
+# find_library(CJSON_LIB cjson)
+# if(NOT CJSON_LIB)
+#     message(FATAL_ERROR "cjson library not found")
+# endif()
+
+find_library(LUA_LIB lua5.3)
+
 # debug: address sanitizer
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address,leak")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address,leak")
@@ -70,7 +100,7 @@ target_include_directories(nt5language PRIVATE
 )
 
 # nt5arrays
-file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c", "src/arrays/include/*/*.c")
+file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c" "src/arrays/include/*/*.c")
 add_library(nt5arrays SHARED ${NTARRAYS_SRC})
 target_include_directories(nt5arrays PRIVATE 
     "src/arrays/include" 
@@ -106,6 +136,13 @@ target_include_directories(nt5renderer PRIVATE
     "src/global/include"
 )
 target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language cjson)
+
+if(NOT LUA_LIB)
+    message("-- Could NOT find lua. Lua support is disabled")
+else()
+    target_compile_definitions(nt5renderer PUBLIC HAS_LUA)
+    target_link_libraries(nt5renderer lua5.3)
+endif()
 
 # nt5tui
 file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/include/*/*.h")

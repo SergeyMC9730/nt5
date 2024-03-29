@@ -33,6 +33,14 @@ void _ntRendererCreateEnvironment() {
     st->tweaks = RSBCreateArrayMaxTweak();
     st->close_events = RSBCreateArrayEvent();
 
+    #if RENDERER_ENABLE_LUA == 1
+    st->lua_interpreter = luaL_newstate();
+    luaL_openlibs(st->lua_interpreter);
+
+    lua_register(st->lua_interpreter, "DrawText", _ntRendererLuaDrawText);
+    lua_register(st->lua_interpreter, "ClearBackground", _ntRendererLuaClearBackground);
+    #endif
+
 	if (st->thread != 0) {
 		_ntRendererCloseEnvironment();
 	}
