@@ -29,7 +29,7 @@
 
 void *_ntRendererThread(void *ptr) {
 	Vector2 wsz = {
-		640, 480
+		640 * 2, 480 * 2
 	};
 
 	// set highdpi
@@ -72,7 +72,7 @@ void *_ntRendererThread(void *ptr) {
 	// load framebuffer
 	RenderTexture2D rt1 = LoadRenderTexture(wsz.x, wsz.y);
 	st->framebuffer = rt1;
-
+	
 	// set status to READY
 	st->status = RENDERER_READY;
 
@@ -109,13 +109,6 @@ void *_ntRendererThread(void *ptr) {
 
 		// now draw internal framebuffer to the screen
 		_ntRendererDrawSizedTexture(rt1.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
-
-		const char *dpi_text = TextFormat("DPI: %d", GetWindowScaleDPI());
-
-		DrawText(dpi_text, 52, 52, 20, BLACK);
-		DrawText(dpi_text, 50, 50, 20, WHITE);
-
-		DrawRectangle(100, 100, 50, 50, RED);
 
 		// complete drawing
 		EndDrawing();

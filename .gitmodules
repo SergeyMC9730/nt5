@@ -25,6 +25,3 @@
 [submodule "src/external/reasings"]
 	path = src/external/reasings
 	url = https://github.com/raylib-extras/reasings.git
-[submodule "src/external/freetype-gl"]
-	path = src/external/freetype-gl
-	url = https://github.com/rougier/freetype-gl.git

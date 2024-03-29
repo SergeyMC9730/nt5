@@ -26,27 +26,24 @@
 void _ntRendererApplyBlurEffect(renderer_event_t on_draw) {
     if (!_ntRendererInThread() || !on_draw.callback) return;
 
-
     // get renderer state
 	renderer_state_t *st = _ntRendererGetState();
 
-    int width_loc = GetShaderLocation(st->blur_shader, "center");
-    int height_loc = GetShaderLocation(st->blur_shader, "renderHeight");
-    // int radius_loc = GetShaderLocation(st->blur_shader, "r");
+    int width_loc = GetShaderLocation(st->blur_shader, "xs");
+    int height_loc = GetShaderLocation(st->blur_shader, "ys");
+    int radius_loc = GetShaderLocation(st->blur_shader, "r");
 
-    // float w = st->current_framebuffer.texture.width;
-    // float h = st->current_framebuffer.texture.height;
+    float w = st->current_framebuffer.texture.width;
+    float h = st->current_framebuffer.texture.height;
 
-    // printf("sid=%d; wl=%d; hl=%d\n", st->blur_shader.id, width_loc, height_loc);
+    printf("w=%f; h=%f; wl=%d; hl=%d; rl=%d\n", w, h, width_loc, height_loc, radius_loc);
 
-    // printf("ptr1=%p; ptr2=%p\n", st->blur_shader_ptr, st->blur_shader.locs);
+    SetShaderValue(st->blur_shader, width_loc, &w, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(st->blur_shader, height_loc, &h, SHADER_UNIFORM_FLOAT);
 
-    // SetShaderValue(st->blur_shader, width_loc, &w, SHADER_UNIFORM_FLOAT);
-    // SetShaderValue(st->blur_shader, height_loc, &h, SHADER_UNIFORM_FLOAT);
+    float radius = 5.f;
 
-    // float radius = 5.f;
-
-    // SetShaderValue(st->blur_shader, radius_loc, &radius, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(st->blur_shader, radius_loc, &radius, SHADER_UNIFORM_FLOAT);
 
     BeginShaderMode(st->blur_shader);
     on_draw.callback(on_draw.user);
