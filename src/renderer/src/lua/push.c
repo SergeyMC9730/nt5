@@ -18,12 +18,13 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+#include <nt5emul/renderer.h>
 
-#define RENDERER_ENABLE_X11_CAPTURE 0
-
-#ifdef HAS_LUA
-#define RENDERER_ENABLE_LUA 1
-#else
-#define RENDERER_ENABLE_LUA 0
+#if RENDERER_ENABLE_LUA == 1
+int _ntRendererLuaPushVector2(lua_State *L, Vector2 val) {
+    lua_pushnumber(L, val.x);
+    lua_pushnumber(L, val.y);
+    
+    return 2;
+}
 #endif

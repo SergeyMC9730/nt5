@@ -19,12 +19,15 @@
 */
 
 #include <nt5emul/renderer.h>
+#include <nt5emul/renderer_lua_bindings.h>
 
 #include <unistd.h>
 
 #include <pthread.h>
 
 #include <nt5emul/timer.h>
+
+#define register_lua_func(func) lua_register(st->lua_interpreter, #func, _ntRendererLua##func);
 
 void _ntRendererCreateEnvironment() {
 	renderer_state_t *st = _ntRendererGetState();
@@ -39,6 +42,93 @@ void _ntRendererCreateEnvironment() {
 
     lua_register(st->lua_interpreter, "DrawText", _ntRendererLuaDrawText);
     lua_register(st->lua_interpreter, "ClearBackground", _ntRendererLuaClearBackground);
+    
+    register_lua_func(WindowShouldClose);
+    register_lua_func(IsWindowReady);
+    register_lua_func(IsWindowFullscreen);
+    register_lua_func(IsWindowHidden);
+    register_lua_func(IsWindowMinimized);
+    register_lua_func(IsWindowMaximized);
+    register_lua_func(IsWindowFocused);
+    register_lua_func(IsWindowResized);
+
+    register_lua_func(ToggleFullscreen);
+    register_lua_func(ToggleBorderlessWindowed);
+    register_lua_func(MaximizeWindow);
+    register_lua_func(MinimizeWindow);
+    register_lua_func(RestoreWindow);
+
+    register_lua_func(GetScreenWidth);
+    register_lua_func(GetScreenHeight);
+    register_lua_func(GetRenderWidth);
+    register_lua_func(GetRenderHeight);
+    register_lua_func(GetMonitorCount);
+    register_lua_func(GetCurrentMonitor);
+
+    register_lua_func(GetMonitorWidth);
+    register_lua_func(GetMonitorHeight);
+    register_lua_func(GetMonitorPhysicalWidth);
+    register_lua_func(GetMonitorPhysicalHeight);
+    register_lua_func(GetMonitorRefreshRate);
+
+    // Cursor-related functions
+    register_lua_func(ShowCursor);
+    register_lua_func(HideCursor);
+    register_lua_func(IsCursorHidden);
+    register_lua_func(EnableCursor);
+    register_lua_func(DisableCursor);
+    register_lua_func(IsCursorOnScreen);
+
+    // Drawing-related functions
+    register_lua_func(BeginDrawing);
+    register_lua_func(EndDrawing);
+    register_lua_func(EndMode2D);
+    register_lua_func(EndMode3D);
+    register_lua_func(EndBlendMode);
+    register_lua_func(EndShaderMode);
+    register_lua_func(EndTextureMode);
+    register_lua_func(EndScissorMode);
+    register_lua_func(EndTextureModeStacked);
+    register_lua_func(EndVrStereoMode);
+
+    // Timing-related functions
+    register_lua_func(SetTargetFPS);
+    register_lua_func(GetFrameTime);
+    register_lua_func(GetTime);
+    register_lua_func(GetFPS);
+
+    // Input-related functions: keyboard
+    register_lua_func(IsKeyPressed);
+    register_lua_func(IsKeyPressedRepeat);
+    register_lua_func(IsKeyDown);
+    register_lua_func(IsKeyReleased);
+    register_lua_func(IsKeyUp);
+    register_lua_func(GetKeyPressed);
+    register_lua_func(GetCharPressed);
+    register_lua_func(SetExitKey);
+
+    // Input-related functions: mouse
+    register_lua_func(IsMouseButtonDown);
+    register_lua_func(IsMouseButtonPressed);
+    register_lua_func(IsMouseButtonReleased);
+    register_lua_func(IsMouseButtonUp);
+    register_lua_func(GetMouseX);
+    register_lua_func(GetMouseY);
+    register_lua_func(SetMouseCursor);
+    register_lua_func(GetMousePosition);
+    register_lua_func(GetMouseDelta);
+
+    // Basic shapes drawing functions
+    register_lua_func(DrawPixel);
+    register_lua_func(DrawLine);
+    register_lua_func(DrawLineEx);
+    register_lua_func(DrawCircle);
+    register_lua_func(DrawCircleLines);
+    register_lua_func(DrawCircleGradient);
+    register_lua_func(DrawEllipse);
+    register_lua_func(DrawRectangle);
+    register_lua_func(DrawRectangleLines);
+    
     #endif
 
 	if (st->thread != 0) {

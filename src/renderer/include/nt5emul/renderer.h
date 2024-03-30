@@ -300,10 +300,10 @@ void EndTextureModeStacked();
 // it uses internal framebuffer as a source
 void _ntRendererDrawScreenPortion(Vector2 pos, Vector2 portion_pos, Vector2 portion_sz);
 
+// executes lua code
+// if lua isnt supported on this system, nothing would be executed.
 void _ntRendererRunLuaScript(const char *path);
 
-// lua bindings
 #if RENDERER_ENABLE_LUA == 1
-int _ntRendererLuaDrawText(lua_State *L);
-int _ntRendererLuaClearBackground(lua_State *L);
+int _ntRendererLuaPushVector2(lua_State *L, Vector2 val);
 #endif

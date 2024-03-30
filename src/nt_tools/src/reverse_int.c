@@ -18,12 +18,20 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
+int _ntReverseInt(int _val) {
+    // convert value into 4 chars
+    unsigned char *bytes;
+    bytes = &_val;
 
-#define RENDERER_ENABLE_X11_CAPTURE 0
+    // now create new array with reversed order
+    unsigned char _result[4];
+    _result[0] = bytes[3];
+    _result[1] = bytes[2];
+    _result[2] = bytes[1];
+    _result[3] = bytes[0];
 
-#ifdef HAS_LUA
-#define RENDERER_ENABLE_LUA 1
-#else
-#define RENDERER_ENABLE_LUA 0
-#endif
+    // convert it into int
+    int val = *((int *)_result);
+
+    return val;
+}
