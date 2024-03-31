@@ -71,7 +71,7 @@ void _ntModOobeDrawAPB(struct auto_progress_bar bar) {
 
     pos = base_pos;
 
-    struct dwm_context_font font = _state.dwm_ctx->fonts.tahoma9_std;
+    struct dwm_context_font font = _ntDwmGetFont(_state.dwm_ctx, "tahoma9");
     
     Vector2 text_sz = MeasureTextEx(font.font, bar.title, font.real_size, font.spacing);
 

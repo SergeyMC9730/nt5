@@ -42,7 +42,7 @@ int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) {
         Color text_color = WHITE;
         
         // get standard tahoma font from the DWM
-        struct dwm_context_font font = _state.dwm_ctx->fonts.tahoma9_std;
+        struct dwm_context_font font = _ntDwmGetFont(_state.dwm_ctx, "tahoma9");
 
         // check if this step is done
         if (step.done) {
@@ -50,7 +50,7 @@ int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) {
             txt = _state.radio_on_texture;
 
             // set font to be bold
-            font = _state.dwm_ctx->fonts.tahoma9_bld;
+            font = _ntDwmGetFont(_state.dwm_ctx, "tahomabd9");
         }
 
         // check if this step is selected
@@ -59,7 +59,7 @@ int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) {
             text_color = ORANGE;
 
             // set font to be bold
-            font = _state.dwm_ctx->fonts.tahoma9_bld;
+            font = _ntDwmGetFont(_state.dwm_ctx, "tahomabd9");
         }
 
         // draw texture

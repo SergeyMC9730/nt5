@@ -112,9 +112,9 @@ void msoobe_draw(void *ctx) {
     // draw logo    
     DrawTextureEx(_state.logo_texture, (Vector2){20 * st->scaling, 5 * st->scaling}, 0.f, 1.f, WHITE);
     
-    struct dwm_context_font big_font = _state.dwm_ctx->fonts.franklin24_bld;
-    struct dwm_context_font small_font = _state.dwm_ctx->fonts.tahoma9_std;
-    struct dwm_context_font small_fontar = _state.dwm_ctx->fonts.arial9_std;
+    struct dwm_context_font big_font = _ntDwmGetFont(_state.dwm_ctx, "framd24");
+    struct dwm_context_font small_font = _ntDwmGetFont(_state.dwm_ctx, "tahoma9");
+    struct dwm_context_font small_fontar = _ntDwmGetFont(_state.dwm_ctx, "arial9");
 
     Color shadow = {
         // 003399

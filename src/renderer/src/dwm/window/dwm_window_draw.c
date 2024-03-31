@@ -91,16 +91,18 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
     DrawRectangleGradientH(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height, gr[0], gr[1]);
 
-    float font_sz = ctx->fonts.tahoma8_bld.real_size;
-    float spacing = ctx->fonts.tahoma8_bld.spacing;
+    struct dwm_context_font tahoma8_bld = _ntDwmGetFont(ctx, "tahomabd8");
 
-    Vector2 text_sz = MeasureTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, font_sz, spacing);
+    float font_sz = tahoma8_bld.real_size;
+    float spacing = tahoma8_bld.spacing;
+
+    Vector2 text_sz = MeasureTextEx(tahoma8_bld.font, wnd->title, font_sz, spacing);
 
     int y_align = (title_bar_size - text_sz.y) / 2;
 
     BeginScissorMode(wnd->titlebar_rect.x, wnd->titlebar_rect.y, wnd->titlebar_rect.width, wnd->titlebar_rect.height);
 
-    DrawTextEx(ctx->fonts.tahoma8_bld.font, wnd->title, (Vector2){
+    DrawTextEx(tahoma8_bld.font, wnd->title, (Vector2){
         wnd->titlebar_rect.x + (2 * st->scaling), wnd->titlebar_rect.y + y_align
     }, font_sz, spacing, ctx->theme.basic.active_title_text_color);
 

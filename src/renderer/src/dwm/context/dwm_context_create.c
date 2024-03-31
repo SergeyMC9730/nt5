@@ -24,56 +24,25 @@
 #include <string.h>
 #include <unistd.h>
 
-void _ntLoadDwmFont(struct dwm_context_font *data, int xsz, float sp, int rsz, const char *font) {
-    renderer_state_t *st = _ntRendererGetState();
-    
-    data->xp_size = xsz;
-    data->spacing = sp *= st->scaling;
-    data->real_size = rsz *= st->scaling;
-    data->path = font;
-
-    const char *_ntTuiCodepoints =  "QWERTYUIOPASDFGHJKLZXCVBNM" // english alphabet with all upper case characters
-                                "qwertyuiopasdfghjklzxcvbnmzxcvbnm" // english alphabet with all lower case characters
-                                "[]{}()" // brackets
-                                "ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ" // cyrillic alphabet with all upper case characters
-                                "ёйцукенгшщзхъфывапролджэячсмитьбю" // cyrillic alphabet with all lower case chararcters
-                                ",.;!?:" // punctuation      
-                                "/\\|" // slashes
-                                "1234567890" // numbers
-                                "<>-=+~*^%№" // math signs
-                                "\"'`" // quotation marks
-                                "@#$&_"; // random characters
-
-    int codepointCount = 0;
-    int *codepoints = LoadCodepoints(_ntTuiCodepoints, &codepointCount);
-
-    data->font = LoadFontEx(font, data->real_size, codepoints, codepointCount);
-
-    SetTextureFilter(data->font.texture, TEXTURE_FILTER_BILINEAR);
-
-    free(codepoints);
-}
-
 void _ntCreateDwmContextMain(struct dwm_context *ctx) {
     // load fonts
 
     float font_div = 0.6f;
     
-    _ntLoadDwmFont(&ctx->fonts.tahoma8_std, 8, 0.5f, 8.f / font_div, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma8_bld, 8, 0.5f, 8.f / font_div, "nt/fonts/tahomabd.ttf");
+    _ntDwmLoadFont(ctx, 8, 0.5f, "nt/fonts/tahoma.ttf", "tahoma8");
+    _ntDwmLoadFont(ctx, 8, 0.5f, "nt/fonts/tahomabd.ttf", "tahomabd8");
 
-    _ntLoadDwmFont(&ctx->fonts.tahoma9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma9_bld, 9, 0.5f, 9.f / font_div, "nt/fonts/tahomabd.ttf");
+    _ntDwmLoadFont(ctx, 9, 0.5f, "nt/fonts/tahoma.ttf", "tahoma9");
+    _ntDwmLoadFont(ctx, 9, 0.5f, "nt/fonts/tahomabd.ttf", "tahomabd9");
 
-    _ntLoadDwmFont(&ctx->fonts.tahoma12_std, 12, 0.5f, 12.f / font_div, "nt/fonts/tahoma.ttf");
-    _ntLoadDwmFont(&ctx->fonts.tahoma12_bld, 12, 0.5f, 12.f / font_div, "nt/fonts/tahomabd.ttf");
+    _ntDwmLoadFont(ctx, 12, 0.5f, "nt/fonts/tahoma.ttf", "tahoma12");
+    _ntDwmLoadFont(ctx, 12, 0.5f, "nt/fonts/tahomabd.ttf", "tahomabd12");
 
-    _ntLoadDwmFont(&ctx->fonts.franklin24_std, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
-    _ntLoadDwmFont(&ctx->fonts.franklin24_bld, 24, 0.5f, 24.f / font_div, "nt/fonts/framd.ttf");
+    _ntDwmLoadFont(ctx, 24, 0.5f, "nt/fonts/framd.ttf", "framd24");
     
-    _ntLoadDwmFont(&ctx->fonts.arial9_std, 9, 0.5f, 9.f / font_div, "nt/fonts/arial.ttf");
+    _ntDwmLoadFont(ctx, 9, 0.5f, "nt/fonts/arial.ttf", "arial9");
 
-    _ntLoadDwmFont(&ctx->fonts.lucidacon10_std, 10, 0.5f, 10.f / font_div, "nt/fonts/lucon.ttf");
+    _ntDwmLoadFont(ctx, 10, 0.5f, "nt/fonts/lucon.ttf", "lucon10");
 
     renderer_state_t *st = _ntRendererGetState();
 

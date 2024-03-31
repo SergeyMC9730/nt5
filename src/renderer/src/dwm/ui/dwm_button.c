@@ -48,10 +48,12 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn)
 
     Rectangle sz = btn->button;
 
-    float font_sz = ctx->fonts.tahoma8_bld.real_size;
-    float spacing = ctx->fonts.tahoma8_bld.spacing;
+    struct dwm_context_font tahoma8_bld = _ntDwmGetFont(ctx, "tahomabd8");
 
-    Vector2 szText = MeasureTextEx(ctx->fonts.tahoma8_bld.font, btn->text, font_sz, spacing);
+    float font_sz = tahoma8_bld.real_size;
+    float spacing = tahoma8_bld.spacing;
+
+    Vector2 szText = MeasureTextEx(tahoma8_bld.font, btn->text, font_sz, spacing);
 
     int alignY = (sz.height - szText.y) / 2;
     int alignX = (sz.width - szText.x) / 2;
@@ -136,7 +138,7 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn)
 
         BeginScissorMode(btn->button.x, btn->button.y, btn->button.width, btn->button.height);
 
-        DrawTextEx(ctx->fonts.tahoma8_bld.font, btn->text, (Vector2){text_pos.x, text_pos.y}, font_sz, spacing, BLACK);
+        DrawTextEx(tahoma8_bld.font, btn->text, (Vector2){text_pos.x, text_pos.y}, font_sz, spacing, BLACK);
 
         EndScissorMode();
     }

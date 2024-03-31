@@ -32,21 +32,7 @@ RSB_ARRAY_DEF_GEN(struct dwm_window, DWMWindow);
 #include <nt5emul/dwm/font.h>
 
 struct dwm_context_fonts {
-    struct dwm_context_font tahoma8_std;
-    struct dwm_context_font tahoma8_bld;
-
-    struct dwm_context_font tahoma9_bld;
-    struct dwm_context_font tahoma9_std;
-
-    struct dwm_context_font lucidacon10_std;
-
-    struct dwm_context_font tahoma12_bld;
-    struct dwm_context_font tahoma12_std;
-
-    struct dwm_context_font franklin24_std;
-    struct dwm_context_font franklin24_bld;
-
-    struct dwm_context_font arial9_std;
+    struct dwm_context_font fonts[512];
 };
 
 struct dwm_context_sounds {
@@ -111,7 +97,17 @@ struct dwm_window *_ntDwmGetProcess(struct dwm_context *ctx, int pid);
 
 // global dwm
 void _ntDwmSetGlobal(struct dwm_context *ctx);
+// global dwm
 struct dwm_context *_ntDwmGetGlobal();
 
 // get local mouse position inside the dwm context
 Vector2 _ntDwmGetLocalMousePosition(struct dwm_context *ctx);
+
+// draw with loaded font
+void _ntDwmDrawWithFont(struct dwm_context *ctx, Vector2 pos, Color col, const char *text, const char *font_name);
+
+// load font into the dwm context
+void _ntDwmLoadFont(struct dwm_context *ctx, int xsz, float sp, const char *path, const char *name);
+
+// get loaded font
+struct dwm_context_font _ntDwmGetFont(struct dwm_context *ctx, const char *name);

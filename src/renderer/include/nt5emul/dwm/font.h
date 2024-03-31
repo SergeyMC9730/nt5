@@ -31,4 +31,5 @@ struct dwm_context_font {
     float spacing;
 
     const char *path;
+    const char *name;
 };

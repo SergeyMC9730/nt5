@@ -92,7 +92,7 @@ void draw_background(void *ctx) {
     _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f * st->scaling, line_top, (Vector2){});
 
     // get franklin font from the DWM
-    struct dwm_context_font font = _state.dwm_ctx->fonts.franklin24_bld;
+    struct dwm_context_font font = _ntDwmGetFont(_state.dwm_ctx, "framd24");
 
     // calculate text size
     Vector2 text_sz = MeasureTextEx(font.font, _state.cterm_logonui_welcome, font.real_size, font.spacing);

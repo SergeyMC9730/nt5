@@ -174,7 +174,7 @@ void draw_background(void *ctx) {
     // draw completion time
 
     // get bold tahoma font from the DWM
-    struct dwm_context_font font = _state.dwm_ctx->fonts.tahoma9_bld;
+    struct dwm_context_font font = _ntDwmGetFont(_state.dwm_ctx, "tahomabd9");
 
     // text position based on the steps length
     Vector2 text_pos = {

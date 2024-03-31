@@ -94,7 +94,7 @@ bool notepad_command(void *data) {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    struct dwm_context_font fnt = dwmctx->fonts.lucidacon10_std;
+    struct dwm_context_font fnt = _ntDwmGetFont(dwmctx, "lucon10");;
 
     Vector2 base_text_pos = {3, 3};
     Vector2 current_text_pos = base_text_pos;
@@ -166,7 +166,7 @@ void notepad_draw(struct dwm_window *wnd, void *ctx) {
     renderer_state_t *st = _ntRendererGetState();
     struct local_notepad_module_state *mod = (struct local_notepad_module_state *)ctx;
 
-    struct dwm_context_font fnt = dwmctx->fonts.lucidacon10_std;
+    struct dwm_context_font fnt = _ntDwmGetFont(dwmctx, "lucon10");
 
     Vector2 base_text_pos = {3, 3};
 

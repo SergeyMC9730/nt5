@@ -37,7 +37,7 @@ void explorer_intro_draw(struct dwm_window *wnd, void *user) {
 
     ClearBackground(BLANK);
 
-    struct dwm_context_font small_font = ctx->fonts.tahoma12_std;
+    struct dwm_context_font small_font = _ntDwmGetFont(ctx, "tahoma12");
 
     Color shadow = {
         .r = 0x00,
