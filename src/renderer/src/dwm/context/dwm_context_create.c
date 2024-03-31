@@ -59,6 +59,10 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
 #include <nt5emul/timer.h>
 
+#define register_lua_func(func) lua_register(st->lua_interpreter, #func, _ntDwmLua##func);
+
+#include <nt5emul/dwm/lua_bindings.h>
+
 // create dwm context
 struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
     // allocate context
@@ -94,6 +98,15 @@ struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
     }
 
     _ntRendererAddCloseEvent(_ntDwmDestroyContext, ctx, false);
+
+    #if RENDERER_ENABLE_LUA == 1
+    register_lua_func(DrawWithFont);
+    register_lua_func(LoadFont);
+    register_lua_func(GetLocalMousePosition);
+    register_lua_func(GetProcesses);
+    register_lua_func(GetProcesses1);
+    register_lua_func(GetProcessesRaw);
+    #endif
 
     // return context
     return ctx;

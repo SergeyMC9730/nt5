@@ -128,6 +128,12 @@ void _ntRendererCreateEnvironment() {
     register_lua_func(DrawEllipse);
     register_lua_func(DrawRectangle);
     register_lua_func(DrawRectangleLines);
+
+    // tools
+    register_lua_func(RgbaIntoInt);
+    register_lua_func(RgbIntoInt);
+    register_lua_func(FloatIntoInt);
+    register_lua_func(IntIntoFloat);
     
     #endif
 

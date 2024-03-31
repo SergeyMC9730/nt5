@@ -127,6 +127,12 @@ generate_luafunc(DrawRectangleLines);
 generate_luafunc(DrawText);
 generate_luafunc(ClearBackground);
 
+// tools
+generate_luafunc(RgbaIntoInt);
+generate_luafunc(RgbIntoInt);
+generate_luafunc(FloatIntoInt);
+generate_luafunc(IntIntoFloat);
+
 #undef generate_luafunc
 
 #endif
