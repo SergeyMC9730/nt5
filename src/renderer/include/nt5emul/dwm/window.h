@@ -36,6 +36,9 @@ struct dwm_window {
     Vector2 position;
     Vector2 size;
 
+    Vector2 orig_position;
+    Vector2 orig_size;
+
     Vector2 content_position;
 
     Rectangle titlebar_rect;
@@ -47,6 +50,7 @@ struct dwm_window {
     struct dwm_bool filled;
     struct dwm_bool moving;
     struct dwm_bool post_moving;
+    struct dwm_bool maximized;
 
     RenderTexture2D framebuffer;
 

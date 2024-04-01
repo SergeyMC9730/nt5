@@ -31,14 +31,18 @@ struct dwm_window _ntCreateWindow(const char *title, Vector2 size) {
     wnd.filled.ability = true;
     wnd.hidden.ability = true;
     wnd.moving.ability = true;
+    wnd.maximized.ability = true;
 
     wnd.closed.state = false;
     wnd.hidden.state = false;
     wnd.filled.state = true;
     wnd.moving.state = true;
+    wnd.maximized.state = false;
 
     // set size
     wnd.size = size;
+    wnd.orig_size = wnd.size;
+
     // set title
     wnd.title = title;
 

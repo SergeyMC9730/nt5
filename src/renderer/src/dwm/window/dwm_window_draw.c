@@ -136,6 +136,50 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
     btn_hide.button.x = btn_close.button.x - (2 * st->scaling) - btn_hide.button.width;
     btn_hide.button.y = btn_close.button.y;
 
+    if (wnd->maximized.ability) {
+        struct dwm_button btn_maximize = {};
+
+        if (!wnd->maximized.state) btn_maximize.text = "[ ]";
+        else {
+            btn_maximize.text = "[]";
+        }
+
+        btn_maximize.button.width = btn_hide.button.width;
+        btn_maximize.button.height = btn_hide.button.height;
+
+        btn_maximize.activated = btn_hide.activated;
+        btn_maximize.howered = btn_hide.howered;
+
+        btn_maximize.button.x = btn_hide.button.x - (2 * st->scaling) - btn_maximize.button.width;
+        btn_maximize.button.y = btn_hide.button.y;
+
+        if (_ntDrawDWMButton(ctx, &btn_maximize) && wnd == ctx->selected_window) {
+            printf("maximizing window\n");
+
+            wnd->maximized.state = !wnd->maximized.state;
+            wnd->moving.ability = !wnd->moving.ability;
+
+            if (wnd->maximized.state) {
+                wnd->orig_position = wnd->position;
+
+                wnd->position.x = 0;
+                wnd->position.y = 0;
+
+                wnd->orig_size = wnd->size;
+
+                wnd->size.x = GetRenderWidth();
+                wnd->size.y = GetRenderHeight();
+            } else {
+                wnd->position = wnd->orig_position;
+
+                wnd->size = wnd->orig_size;
+            }
+
+            UnloadRenderTexture(wnd->framebuffer);
+            wnd->framebuffer = LoadRenderTexture((wnd->size.x * st->scaling) - (2 * st->scaling), (wnd->size.y * st->scaling) - wnd->titlebar_rect.height - (4 * st->scaling ));
+        }
+    }
+
     if (_ntDrawDWMButton(ctx, &btn_close) && wnd == ctx->selected_window) {
         printf("closing window\n");
         _ntCloseWindow(wnd, ctx);
