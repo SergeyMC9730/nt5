@@ -59,6 +59,22 @@ void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elem
     // pos.y += 1.f * st->scaling;
 
     int _tempY = 78.f * st->scaling;
+
+    struct dwm_context_font fontstd = _ntDwmGetFont(ctx, "tahoma9");
+
+    if (elements != NULL) {
+        _tempY = (20.f * st->scaling);
+
+        int count = 0;
+        while (elements[count] != NULL) {
+            Vector2 sz = MeasureTextEx(fontstd.font, elements[count], fontstd.real_size, fontstd.spacing);
+
+            _tempY += sz.y + (4 * st->scaling);
+
+            count++;
+        };
+
+    }
     
     Color col2 = WHITE;
     col2.r = 214;
@@ -86,8 +102,41 @@ void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elem
 
     pos.x -= 85.f * st->scaling;
 
+    Rectangle titlebar = {
+        pos.x, pos.y, _bSzX, _bSzY
+    };
+
+    Vector2 m = _ntDwmGetLocalMousePosition(ctx);
+
+    if (CheckCollisionPointRec(m, titlebar)) {
+        titleColor.r += 50;
+        titleColor.g += 50;
+        titleColor.b += 50;
+    }
+
     BeginScissorMode(pos.x, pos.y, _bSzX, _bSzY);
     DrawTextEx(font.font, title, (Vector2){pos.x + (14.f * st->scaling), pos.y + titleY}, font.real_size, font.spacing, titleColor);
+    EndScissorMode();
+
+    if (elements == NULL) return;
+
+    int _y = pos.y + _b.height + (10 * st->scaling);
+
+    BeginScissorMode(pos.x, pos.y, _b.width, _b.height + _tempY);
+
+    int i = 0;
+    while (elements[i] != NULL) {
+        Vector2 sz = MeasureTextEx(fontstd.font, elements[i], fontstd.real_size, fontstd.spacing);
+
+        Color c = {33, 93, 198, 255};
+
+        DrawTextEx(fontstd.font, elements[i], (Vector2){pos.x + (16 * st->scaling), _y}, fontstd.real_size, fontstd.spacing, c);
+
+        _y += sz.y + (4 * st->scaling);
+
+        i++;
+    }
+
     EndScissorMode();
 }
 
@@ -96,7 +145,7 @@ void explorer_draw_sidebar1(struct dwm_window *wnd, void *user) {
     struct local_module_state *lst = (struct local_module_state *)user;
 
     Color _start = WHITE;
-    _start.r = 123;
+    _start.r = 123; 
     _start.g = 162;
     _start.b = 231;
 
@@ -120,7 +169,18 @@ void explorer_draw_sidebar1(struct dwm_window *wnd, void *user) {
     DrawRectangleGradientEx(r, _start, _end, _end, _end);
 
     int cX = (xsz - 185.f * st->scaling) / 2;
-    explorer_draw_sidebar_box((Vector2){cX, 13.f * st->scaling}, "Test", NULL);
+
+    const char *table[] = {
+        "View system information", "Add or remove programs", "Change a setting", NULL
+    };
+
+    explorer_draw_sidebar_box((Vector2){cX, 13.f * st->scaling}, "System Tasks", table);
+
+    const char *table2[] = {
+        "My Network Places ", "My Documents", "Shared Documents", "Control Panel", NULL
+    };
+
+    explorer_draw_sidebar_box((Vector2){cX, 125.f * st->scaling}, "Other Places", table2);
 }
 
 void explorer_draw(struct dwm_window *wnd, void *user) {
@@ -164,5 +224,5 @@ void explorer_draw(struct dwm_window *wnd, void *user) {
 
     explorer_draw_sidebar1(wnd, user);
 
-    _ntRendererRunLuaScript("test.lua");
+    // _ntRendererRunLuaScript("test.lua");
 }
