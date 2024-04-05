@@ -19,7 +19,7 @@
 */
 
 #include <nt5emul/modules/explorer/state.h>
-#include <nt5emul/modules/explorer/explorer_command.h>
+#include <nt5emul/modules/explorer/command.h>
 
 void init(cterm_t *info) {
     _state.runtime = info;

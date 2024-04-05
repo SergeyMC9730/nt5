@@ -18,21 +18,25 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-
-#pragma once
-
-#include <stdbool.h>
-
 #include <nt5emul/dwm/context.h>
+#include <nt5emul/modules/explorer/window.h>
+#include <nt5emul/modules/explorer/state.h>
 
-bool explorer_command(void *data);
+void explorer_window_create() {
+    struct local_module_state *lst = (struct local_module_state *)calloc(1, sizeof(struct local_module_state));
 
-void explorer_draw(struct dwm_window *ctx, void *data);
-void explorer_update(struct dwm_window *ctx, void *data);
+    struct dwm_window wnd = _ntCreateWindow(_state.cterm_explorer_title, (Vector2){500, 300});
+    
+    wnd.draw = explorer_window_draw;
+    wnd.update = explorer_window_update;
+    wnd.on_close = explorer_window_on_close;
 
-void explorer_shell_draw(void *ctx);
-void explorer_shell_update(void *ctx);
+    wnd.ctx = lst;
 
-void explorer_wnd_on_close(struct dwm_window *wnd, void *ctx);
+    wnd.filled.state = true;
+    wnd.filled.ability = true;
 
-const char *explorer_map_icon(int idx);
+    wnd.position = (Vector2){50, 50};
+
+    _ntDwmPushWindow(_ntDwmGetGlobal(), wnd);
+}

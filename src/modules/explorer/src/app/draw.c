@@ -183,7 +183,7 @@ void explorer_draw_sidebar1(struct dwm_window *wnd, void *user) {
     explorer_draw_sidebar_box((Vector2){cX, 125.f * st->scaling}, "Other Places", table2);
 }
 
-void explorer_draw(struct dwm_window *wnd, void *user) {
+void explorer_window_draw(struct dwm_window *wnd, void *user) {
     struct dwm_context *ctx = _ntDwmGetGlobal();
     struct local_module_state *lst = (struct local_module_state *)user;
 

@@ -63,6 +63,8 @@ struct dwm_context {
     bool loading_finished;
 
     int global_process_increment;
+
+    Vector2 size;
 };
 
 // draw dwm context
@@ -111,3 +113,9 @@ void _ntDwmLoadFont(struct dwm_context *ctx, int xsz, float sp, const char *path
 
 // get loaded font
 struct dwm_context_font _ntDwmGetFont(struct dwm_context *ctx, const char *name);
+
+// set size for this dwm instance
+void _ntDwmSetSize(struct dwm_context *ctx, Vector2 size);
+
+// get size for this dwm instance
+Vector2 _ntDwmGetSize(struct dwm_context *ctx);

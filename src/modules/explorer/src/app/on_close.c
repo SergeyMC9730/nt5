@@ -18,10 +18,16 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
+#include <nt5emul/modules/explorer/local_state.h>
 
-#pragma once
+#include <stdlib.h>
 
-#include <nt5emul/dwm/context.h>
-#include <raylib.h>
+struct dwm_window;
 
-void explorer_intro_draw(struct dwm_window *ctx, void *data);
+void explorer_window_on_close(struct dwm_window *wnd, void *ctx) {
+    // printf("bye!\n");
+
+    struct local_module_state *lst = (struct local_module_state *)ctx;
+    
+    free(lst);
+}

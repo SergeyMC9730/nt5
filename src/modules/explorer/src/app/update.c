@@ -23,14 +23,13 @@
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>
 
+#ifndef NULL
+#define NULL (void *)0
+#endif
+
 #include <stdio.h>
 
-void explorer_wnd_on_close(struct dwm_window *wnd, void *ctx) {
-    printf("bye!\n");
-
-    struct local_module_state *lst = (struct local_module_state *)ctx;
-
-    _ntUnloadFileSelector(lst->fs);
-    
-    free(lst);
+void explorer_window_update(struct dwm_window *wnd, void *user) {
+    struct dwm_context *ctx = _ntDwmGetGlobal();
+    struct local_module_state *lst = (struct local_module_state *)user;
 }

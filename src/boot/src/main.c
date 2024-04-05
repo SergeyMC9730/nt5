@@ -230,6 +230,8 @@ void _boot_begin(int argc, char **argv) {
 	bool logo_runned_before = false;
 
 	if (!skip_logo) {
+		_ntDwmSetSize(ctx, (Vector2){GetRenderWidth(), GetRenderHeight()});
+
 		_ntSetupTimerSync(1);
 		_boot_run_logo();
 	} else {
@@ -255,6 +257,8 @@ void _boot_begin(int argc, char **argv) {
 	st->layers[2].on_draw.callback = st->layers[0].on_draw.callback;
 
 	st->layers[0].on_draw.callback = NULL;
+
+	_ntDwmSetSize(ctx, (Vector2){GetRenderWidth(), GetRenderHeight()});
 
 	if (!config.graphical_setup_completed) {
 		// run setup with the dwm context

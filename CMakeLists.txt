@@ -282,7 +282,7 @@ target_include_directories(ntmod_logonui PRIVATE
 target_link_libraries(ntmod_logonui nt5renderer raylib)
 
 # explorer
-file (GLOB NTMOD_EXPLORER_SRC CONFIGURE_DEPENDS "src/modules/explorer/src/*.c")
+file (GLOB NTMOD_EXPLORER_SRC CONFIGURE_DEPENDS "src/modules/explorer/src/**/*.c" "src/modules/explorer/src/*.c")
 add_library(ntmod_explorer ${NTMOD_EXPLORER_SRC})
 target_include_directories(ntmod_explorer PRIVATE 
     "src/renderer/include" 

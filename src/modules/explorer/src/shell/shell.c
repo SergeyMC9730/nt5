@@ -15,7 +15,7 @@
 */
 
 #include <nt5emul/modules/explorer/state.h>
-#include <nt5emul/modules/explorer/explorer_command.h>
+#include <nt5emul/modules/explorer/shell.h>
 #include <nt5emul/renderer.h>
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>

@@ -21,35 +21,4 @@
 
 #pragma once
 
-#include <cterm/applications/api.h>
-#include <raylib.h>
-
-#include <nt5emul/renderer.h>
-
-struct module_state {
-    cterm_t *runtime;
-
-    bool execution_lock;
-
-    renderer_layer_t old_layer;
-
-    Texture2D background;
-
-    Texture2D icons[8];
-
-    const char *cterm_explorer_title;
-    const char *cterm_shell_start_classic;
-    const char *cterm_shell_intro_text;
-
-    int id;
-
-    int icon_pressed_times;
-    int icon_pressed_id;
-
-    Texture ico100;
-    Texture ico252;
-};
-
-extern struct module_state _state;
-
-#include <nt5emul/modules/explorer/local_state.h>
+bool explorer_command(void *data);

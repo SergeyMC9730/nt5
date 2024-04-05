@@ -18,22 +18,16 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/explorer/state.h>
-#include <nt5emul/renderer.h>
-#include <nt5emul/dwm/window.h>
-#include <nt5emul/dwm/context.h>
+#include <nt5emul/modules/explorer/local_state.h>
 
-#ifndef NULL
-#define NULL (void *)0
-#endif
+#include <stdlib.h>
 
-#include <stdio.h>
+struct dwm_window;
 
-void explorer_update(struct dwm_window *wnd, void *user) {
-    struct dwm_context *ctx = _ntDwmGetGlobal();
-    struct local_module_state *lst = (struct local_module_state *)user;
+void explorer_intro_on_close(struct dwm_window *wnd, void *ctx) {
+    // printf("bye!\n");
 
-    if (ctx->selected_window == wnd) {
-        _ntUpdateFileSelector(lst->fs);
-    }
+    struct local_module_state *lst = (struct local_module_state *)ctx;
+    
+    free(lst);
 }

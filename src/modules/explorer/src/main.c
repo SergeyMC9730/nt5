@@ -19,25 +19,17 @@
 */
 
 #include <nt5emul/modules/explorer/state.h>
-#include <nt5emul/modules/explorer/explorer_command.h>
+#include <nt5emul/modules/explorer/intro.h>
+#include <nt5emul/modules/explorer/command.h>
+#include <nt5emul/modules/explorer/shell.h>
+#include <nt5emul/modules/explorer/window.h>
 #include <nt5emul/renderer.h>
 #include <nt5emul/timer.h>
 #include <nt5emul/dwm/context.h>
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/nt_config.h>
-#include <nt5emul/modules/explorer/explorer_intro.h>
 
 #include <stdio.h>
-
-void _ntPVOnFileClick(struct nt_file_selector_menu *menu, const char *file_path) {
-    printf("file_path=%s\n", file_path);
-
-    cterm_command_reference_t ref_line = _state.runtime->find("CTERM_line_execute");
-    
-    if (ref_line.callback) {
-        ref_line.callback(TextFormat("notepad %s", file_path));
-    }
-}
 
 bool explorer_command(void *data) {
     struct nt_config cfg = _ntGetConfig("nt/config.json");
@@ -73,47 +65,12 @@ bool explorer_command(void *data) {
 
         _state.id++;
 
-        struct local_module_state *lst = (struct local_module_state *)calloc(1, sizeof(struct local_module_state));
-
-        struct dwm_window wnd = _ntCreateWindow("Intro", (Vector2){500, 150});
-        wnd.draw = explorer_intro_draw;
-        wnd.ctx = lst;
-
-        wnd.filled.state = true;
-        wnd.filled.ability = true;
-
-        wnd.position = (Vector2){50, 50};
-
-        _ntDwmPushWindow(_ntDwmGetGlobal(), wnd);
+        explorer_intro_create();
 
         return true;
     }
 
-    struct local_module_state *lst = (struct local_module_state *)calloc(1, sizeof(struct local_module_state));
-
-    lst->fs = _ntLoadFileSelector("./", 13);
-
-    _ntFileSelectorSetListing(lst->fs);
-    _ntUpdateMenu(&lst->fs->base);
-    
-    lst->fs->base.x = 1;
-    lst->fs->base.y = 1;
-    lst->fs->callback = _ntPVOnFileClick;
-
-    struct dwm_window wnd = _ntCreateWindow(_state.cterm_explorer_title, (Vector2){500, 300});
-    
-    wnd.draw = explorer_draw;
-    wnd.update = explorer_update;
-    wnd.on_close = explorer_wnd_on_close;
-
-    wnd.ctx = lst;
-
-    wnd.filled.state = true;
-    wnd.filled.ability = true;
-
-    wnd.position = (Vector2){50, 50};
-
-    _ntDwmPushWindow(_ntDwmGetGlobal(), wnd);
+    explorer_window_create();
 
     _state.id++;
 
