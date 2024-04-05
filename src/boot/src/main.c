@@ -107,6 +107,7 @@ void _boot_display_help() {
 		"--skip-logo", "skip XP logo",
 		"--skip-text-installation", "skip text-based installation process",
 		"--skip-logonui", "skip logonui",
+		"--set-2x-scale", "set window scale to be 2x",
 		"--help", "display help",
 		"-h", "display help"
 	};
@@ -116,7 +117,7 @@ void _boot_display_help() {
 	printf("@ help\n\n");
 
 	if ((sz % 2) == 1) {
-		printf("! help cannot be displayed: table is corrupted !\n");
+		printf("! help cannot be displayed: table size is not even !\n");
 
 		return;
 	}
@@ -131,6 +132,10 @@ void _boot_display_help() {
 #include <nt5emul/version.h>
 #include <time.h>
 
+void _boot_set2xscale(void *ctx) {
+	_ntRendererSetDpiScale(2.f);
+}
+
 void _boot_begin(int argc, char **argv) {
 	clock_t _cl_start = clock();
 
@@ -140,6 +145,7 @@ void _boot_begin(int argc, char **argv) {
 	bool skip_text_installation = false;
 	bool skip_logonui = false;
 	bool display_help = false;
+	bool set2xscale = false;
 	
 	if (argc >= 2) {
 		int count = argc - 1;
@@ -155,6 +161,9 @@ void _boot_begin(int argc, char **argv) {
 			}
 			else if (!strcmp(value, "--skip-logonui")) {
 				skip_logonui = true;
+			}
+			else if (!strcmp(value, "--set-2x-scale")) {
+				set2xscale = true;
 			}
 			else if (!strcmp(value, "--help")) {
 				display_help = true;
@@ -191,6 +200,15 @@ void _boot_begin(int argc, char **argv) {
 		// init NT renderer
 		_ntRendererCreateEnvironment();
 
+		if (set2xscale) {
+			_ntRendererPushQueue(_boot_set2xscale, NULL);
+			renderer_state_t * st = _ntRendererGetState();
+
+			while (st->scaling != 2.f) {
+				_ntSetupTimerSync(0.01);
+			}
+		}
+
 		_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
 		_ntRendererAddCloseEvent(_system_end, NULL, true);
 		
@@ -210,6 +228,14 @@ void _boot_begin(int argc, char **argv) {
 
 	// init NT renderer
 	_ntRendererCreateEnvironment();
+
+	if (set2xscale) {
+		_ntRendererPushQueue(_boot_set2xscale, NULL);
+
+		while (st->scaling != 2.f) {
+			_ntSetupTimerSync(0.01);
+		}
+	}
 
 	_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
 	_ntRendererAddCloseEvent(_system_end, NULL, true);

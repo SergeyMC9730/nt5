@@ -38,8 +38,12 @@ void *_ntRendererThread(void *ptr) {
 	// init raylib window
 	InitWindow(wsz.x, wsz.y, "NT5");
 
+	while (!IsWindowReady()) {}
+
 	// get renderer state
 	renderer_state_t *st = _ntRendererGetState();
+
+	st->current_window_size = wsz;
 
 	// check if layers already exists and free if they
 	if (st->layers != NULL) {
@@ -58,10 +62,7 @@ void *_ntRendererThread(void *ptr) {
 	// set window fps to main monitor's refresh rate
 	SetTargetFPS(GetMonitorRefreshRate(0));
 
-	st->scaling = GetWindowScaleDPI().x;
-
-	wsz.x *= st->scaling;
-	wsz.y *= st->scaling;
+	wsz = _ntRendererSetDpiScale(GetWindowScaleDPI().x);
 
 	SetWindowSize(wsz.x, wsz.y);
 
@@ -96,7 +97,7 @@ void *_ntRendererThread(void *ptr) {
 		if (st->status & RENDERER_REQUESTED_STOP || raylib_close) break;
 
 		// draw everything into the internal framebuffer
-		BeginTextureModeStacked(rt1);
+		BeginTextureModeStacked(st->framebuffer);
 
 		// begin drawing
 		BeginDrawing();
@@ -108,14 +109,14 @@ void *_ntRendererThread(void *ptr) {
 		EndTextureModeStacked();
 
 		// now draw internal framebuffer to the screen
-		_ntRendererDrawSizedTexture(rt1.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
+		_ntRendererDrawSizedTexture(st->framebuffer.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
 
 		// complete drawing
 		EndDrawing();
 	}
 
 	// unload rendertextures
-	UnloadRenderTexture(rt1);
+	UnloadRenderTexture(st->framebuffer);
 
 	if (raylib_close) {
 		_ntRendererCloseEnvironment();

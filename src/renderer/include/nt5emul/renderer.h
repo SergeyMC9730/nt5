@@ -168,6 +168,8 @@ typedef struct renderer_state_t {
     // main framebuffer to the nt renderer instance
     RenderTexture2D framebuffer;
 
+    Vector2 current_window_size;
+
 #if RENDERER_ENABLE_LUA == 1
     lua_State* lua_interpreter;
 #endif
@@ -203,6 +205,10 @@ bool _ntRendererInThread();
 
 // get renderer state
 renderer_state_t *_ntRendererGetState();
+
+// set window scale
+// as the result, it returns new window size
+Vector2 _ntRendererSetDpiScale(float scale);
 
 // queue functions
 
@@ -295,6 +301,11 @@ void BeginTextureModeStacked(RenderTexture2D txt);
 // 
 // made for making some routines easier in implementation
 void EndTextureModeStacked();
+
+// tries to find main framebuffer inside the rendertexture stack
+// if it fails, it returns -1
+// else it returns index inside the stack
+int _ntRendererGetMainIdxInStack();
 
 // draw a portion of screen
 // it uses internal framebuffer as a source

@@ -167,8 +167,8 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
 
                 wnd->orig_size = wnd->size;
 
-                wnd->size.x = GetRenderWidth();
-                wnd->size.y = GetRenderHeight();
+                wnd->size.x = GetRenderWidth() / st->scaling;
+                wnd->size.y = GetRenderHeight() / st->scaling;
             } else {
                 wnd->position = wnd->orig_position;
 

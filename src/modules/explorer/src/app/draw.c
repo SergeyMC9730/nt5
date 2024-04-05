@@ -29,8 +29,14 @@
 #endif
 
 #include <stdio.h>
+#include <math.h>
 
-void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elements) {
+Rectangle explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elements) {
+    Rectangle returned_rect = {};
+    
+    returned_rect.x = pos.x;
+    returned_rect.y = pos.y;
+    
     struct dwm_context *ctx = _ntDwmGetGlobal();
     
     // DrawRectangleRoundedLines()
@@ -46,6 +52,8 @@ void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elem
     _b.y = pos.y;
     _b.width = _bSzX - (1.f * st->scaling);
     _b.height = _bSzY;
+
+    returned_rect.width = _b.width;
 
     Color gr1 = WHITE;
     Color gr2 = WHITE;
@@ -73,8 +81,9 @@ void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elem
 
             count++;
         };
-
     }
+
+    returned_rect.height = _b.height + _tempY - (1.f * st->scaling);
     
     Color col2 = WHITE;
     col2.r = 214;
@@ -90,7 +99,7 @@ void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elem
 
     DrawRectangleGradientH(pos.x, pos.y, _b.width - (85.f * st->scaling), _b.height, gr1, gr2);
 
-    if (!title) return;
+    if (!title) return returned_rect;
 
     // get bold tahoma font from the DWM
     struct dwm_context_font font = _ntDwmGetFont(ctx, "tahomabd9");
@@ -118,7 +127,7 @@ void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elem
     DrawTextEx(font.font, title, (Vector2){pos.x + (14.f * st->scaling), pos.y + titleY}, font.real_size, font.spacing, titleColor);
     EndScissorMode();
 
-    if (elements == NULL) return;
+    if (elements == NULL) return returned_rect;
 
     int _y = pos.y + _b.height + (10 * st->scaling);
 
@@ -138,6 +147,8 @@ void explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elem
     }
 
     EndScissorMode();
+
+    return returned_rect;
 }
 
 void explorer_draw_sidebar1(struct dwm_window *wnd, void *user) {
@@ -174,52 +185,19 @@ void explorer_draw_sidebar1(struct dwm_window *wnd, void *user) {
         "View system information", "Add or remove programs", "Change a setting", NULL
     };
 
-    explorer_draw_sidebar_box((Vector2){cX, 13.f * st->scaling}, "System Tasks", table);
+    Rectangle r1 = explorer_draw_sidebar_box((Vector2){cX, 13.f * st->scaling}, "System Tasks", table);
 
     const char *table2[] = {
-        "My Network Places ", "My Documents", "Shared Documents", "Control Panel", NULL
+        "My Network Places", "My Documents", "Shared Documents", "Control Panel", NULL
     };
 
-    explorer_draw_sidebar_box((Vector2){cX, 125.f * st->scaling}, "Other Places", table2);
+    explorer_draw_sidebar_box((Vector2){r1.x, r1.y + r1.height + (15.f * st->scaling)}, "Other Places", table2);
 }
 
 void explorer_window_draw(struct dwm_window *wnd, void *user) {
     struct dwm_context *ctx = _ntDwmGetGlobal();
     struct local_module_state *lst = (struct local_module_state *)user;
-
-    // // printf("Explorer draw! (%d)\n", lst->fs->base.items_total);
-
-    // Vector2 sz;
-    // sz.x = wnd->framebuffer.texture.width;
-    // sz.y = wnd->framebuffer.texture.height;
-
-    // // printf("y: %d\n", wnd->framebuffer.texture.height / 2);
-
-    // float offset = ((float)GetRenderHeight() * 181.f) / 420.f;
-
-    // Vector2 scr_pos;
-    // scr_pos.x = (int)wnd->content_position.x;
-    // scr_pos.y  = GetRenderHeight() - wnd->position.y + offset;
-
-    // if (wnd->moving.state || wnd->post_moving.state) {
-    //     Vector2 delta = GetMouseDelta();
-        
-    //     scr_pos.x += delta.x;
-    //     scr_pos.y += delta.y;
-    // }
-
-    // _ntRendererDrawScreenPortion((Vector2){}, scr_pos, sz);
-
-    // Color col = BLACK;
-    // col.a = 220;
-
-    // DrawRectangle(0, 0, sz.x, sz.y, col);
-
-    // Vector2 m = _ntDwmGetLocalMousePosition(ctx);
-
-    // DrawRectangle(m.x, m.y, 8, 8, RED);
-
-    // _ntTuiDrawMenu(lst->fs->base);
+    
     ClearBackground(WHITE);
 
     explorer_draw_sidebar1(wnd, user);

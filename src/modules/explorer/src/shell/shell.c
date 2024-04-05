@@ -87,7 +87,7 @@ void explorer_shell_draw_icons() {
                 CheckCollisionPointRec(
                     GetMousePosition(), 
                     (Rectangle){
-                        current_pos.x, current_pos.y, _state.icons[i].width, _state.icons[i].height
+                        current_pos.x, current_pos.y, _state.icons[i].width * st->scaling, _state.icons[i].height * st->scaling
                     }
                 )
             )
