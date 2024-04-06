@@ -23,6 +23,7 @@
 #include <nt5emul/modules/explorer/command.h>
 #include <nt5emul/modules/explorer/shell.h>
 #include <nt5emul/modules/explorer/window.h>
+#include <nt5emul/modules/explorer/text.h>
 #include <nt5emul/renderer.h>
 #include <nt5emul/timer.h>
 #include <nt5emul/dwm/context.h>
@@ -32,20 +33,11 @@
 #include <stdio.h>
 
 bool explorer_command(void *data) {
-    struct nt_config cfg = _ntGetConfig("nt/config.json");
-
-    const char *lang = cfg.selected_lang;
-
-    // free config
-    _ntUnloadConfig(cfg);
+    load_text();
 
     struct dwm_context *ctx = _ntDwmGetGlobal();
 
     // get global dwm context
-
-    _state.cterm_explorer_title = _ntGetStringInLanguagePack(ctx->lpack, "cterm_explorer_title", lang);
-    _state.cterm_shell_start_classic = _ntGetStringInLanguagePack(ctx->lpack, "cterm_shell_start_classic", lang);
-    _state.cterm_shell_intro_text = _ntGetStringInLanguagePack(ctx->lpack, "cterm_shell_intro_text", lang);
 
     renderer_state_t *st = _ntRendererGetState();
 

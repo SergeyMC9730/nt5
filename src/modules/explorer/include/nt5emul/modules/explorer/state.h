@@ -48,6 +48,16 @@ struct module_state {
 
     Texture ico100;
     Texture ico252;
+
+    const char *cterm_explorer_system_tasks;
+    const char *cterm_explorer_other_places;
+    const char *cterm_explorer_st_vsi;
+    const char *cterm_explorer_st_arp;
+    const char *cterm_explorer_st_cs;
+    const char *cterm_explorer_op_nmp;
+    const char *cterm_explorer_op_md;
+    const char *cterm_explorer_op_sd;
+    const char *cterm_explorer_op_cp;
 };
 
 extern struct module_state _state;

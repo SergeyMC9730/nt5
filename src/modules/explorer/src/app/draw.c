@@ -182,16 +182,16 @@ void explorer_draw_sidebar1(struct dwm_window *wnd, void *user) {
     int cX = (xsz - 185.f * st->scaling) / 2;
 
     const char *table[] = {
-        "View system information", "Add or remove programs", "Change a setting", NULL
+        _state.cterm_explorer_st_vsi, _state.cterm_explorer_st_arp, _state.cterm_explorer_st_cs, NULL
     };
 
-    Rectangle r1 = explorer_draw_sidebar_box((Vector2){cX, 13.f * st->scaling}, "System Tasks", table);
+    Rectangle r1 = explorer_draw_sidebar_box((Vector2){cX, 13.f * st->scaling}, _state.cterm_explorer_system_tasks, table);
 
     const char *table2[] = {
-        "My Network Places", "My Documents", "Shared Documents", "Control Panel", NULL
+        _state.cterm_explorer_op_nmp, _state.cterm_explorer_op_md, _state.cterm_explorer_op_sd, _state.cterm_explorer_op_cp, NULL
     };
 
-    explorer_draw_sidebar_box((Vector2){r1.x, r1.y + r1.height + (15.f * st->scaling)}, "Other Places", table2);
+    explorer_draw_sidebar_box((Vector2){r1.x, r1.y + r1.height + (15.f * st->scaling)}, _state.cterm_explorer_other_places, table2);
 }
 
 void explorer_window_draw(struct dwm_window *wnd, void *user) {

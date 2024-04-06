@@ -153,6 +153,51 @@ rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
         .str_en = "Unnamed",
         .str_ru = "Безымянный"
     });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_system_tasks",
+        .str_en = "System Tasks",
+        .str_ru = "Системные задачи"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_other_places",
+        .str_en = "Other Places",
+        .str_ru = "Другие места"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_st_vsi",
+        .str_en = "View system information",
+        .str_ru = "Просмотр сведений о\nсистеме"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_st_arp",
+        .str_en = "Add or remove programs",
+        .str_ru = "Установка и удаление\nпрограмм"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_st_cs",
+        .str_en = "Change a setting",
+        .str_ru = "Изменение параметра"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_op_nmp",
+        .str_en = "My Network Places",
+        .str_ru = "Сетевое окружение"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_op_md",
+        .str_en = "My Documents",
+        .str_ru = "Мои документы"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_op_sd",
+        .str_en = "Shared Documents",
+        .str_ru = "Общие документы"
+    });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_explorer_op_cp",
+        .str_en = "Control Panel",
+        .str_ru = "Панель управления"
+    });
     
     return array;
 }
