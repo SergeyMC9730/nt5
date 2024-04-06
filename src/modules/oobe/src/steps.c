@@ -63,7 +63,7 @@ int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) {
         }
 
         // draw texture
-        DrawTextureV(txt, base_pos, WHITE);
+        DrawTextureEx(txt, base_pos, 0.f, 1.f * st->scaling, WHITE);
 
         // calculate text position based on the base position
         Vector2 text_pos = {

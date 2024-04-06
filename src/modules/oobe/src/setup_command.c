@@ -87,6 +87,16 @@ void setup_exit(void *ctx) {
 
     _state.execution_lock = false;
 
+    // period count
+    int times = 2;
+    // set minutes left value
+    _state.minutes_left = times * 10;
+
+    // reset progress bar value
+    _state.current_bar = 0;
+
+    setup_reset_bars();
+
     // stop title.wma (title.mp3)
     StopSound(_state.music_title);
 }
@@ -157,7 +167,7 @@ bool setup_command(void *data) {
         // install timer for time decrementing
         _ntInstallTimer(setup_decrement_time, (i + 1) * mul, NULL);
         // wait 0.1s
-        usleep(10000);
+        _ntSetupTimerSync(0.1);
     }
 
     // install unloading timer

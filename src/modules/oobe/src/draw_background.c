@@ -70,12 +70,10 @@ struct auto_progress_bar bars[] = {
     }
 };
 
-int current_bar = 0;
-
 void setup_process_bars() {
     int bars_length = sizeof(bars) / sizeof(struct auto_progress_bar);
 
-    struct auto_progress_bar *bar = bars + current_bar;
+    struct auto_progress_bar *bar = bars + _state.current_bar;
 
     bars[0].title = _state.cterm_setup_installing_devices;
     bars[1].title = _state.cterm_setup_installing_network;
@@ -90,9 +88,17 @@ void setup_process_bars() {
 
     if (
         bar->progress >= 1.f && 
-        ((current_bar + 1) < bars_length)
+        ((_state.current_bar + 1) < bars_length)
     ) {
-        current_bar++;
+        _state.current_bar++;
+    }
+}
+
+void setup_reset_bars() {
+    int bars_length = sizeof(bars) / sizeof(struct auto_progress_bar);
+
+    for (int i = 0; i < bars_length; i++) {
+        bars[i].progress = 0.f;
     }
 }
 
@@ -116,19 +122,19 @@ void draw_background(void *ctx) {
 
     // main background
 
-    _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){}); 
+    // _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){}); 
 
     // status background
 
-    float bg_y_mul = sz.y / (float)_state.main_bg_texture.height;
+    float bg_y_mul = sz.y / (float)_state.main_bg_texture.height * st->scaling;
 
     Vector2 bg_sz = {
         (float)_state.main_bg_texture.width * st->scaling,
         (float)_state.main_bg_texture.height * bg_y_mul * st->scaling
     };
     Vector2 bg_old_sz = {
-        _state.main_bg_texture.width * st->scaling,
-        _state.main_bg_texture.height * st->scaling
+        _state.main_bg_texture.width,
+        _state.main_bg_texture.height
     };
 
     _state.main_bg_texture.width = bg_sz.x;
@@ -154,11 +160,11 @@ void draw_background(void *ctx) {
 
     Vector2 line_btm = {
         .x = 0,
-        .y = sz.y - (_state.line_bottom_texture.height * 0.7f * st->scaling) + (4 * st->scaling)
+        .y = sz.y - (_state.line_bottom_texture.height / st->scaling)
     };
     Vector2 line_top = {
         .x = 0,
-        .y = -(_state.line_top_texture.height * st->scaling * 0.33f) 
+        .y = (_state.line_top_texture.height) 
     };
 
     // draw lines
@@ -194,6 +200,7 @@ void draw_background(void *ctx) {
     );
 
     // draw description
+    // not implemented lol
 
     // check if F2 key is pressed
 	if (IsKeyPressed(KEY_F2)) {

@@ -23,3 +23,5 @@
 #include <stdbool.h>
 
 bool setup_command(void *data);
+
+void setup_reset_bars();

@@ -63,6 +63,8 @@ struct module_state {
     
     Sound music_title;
 
+    int current_bar;
+
     const char *cterm_setup_installing_devices;
     const char *cterm_setup_installing_network;
     const char *cterm_setup_copying_files;
