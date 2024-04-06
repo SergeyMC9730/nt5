@@ -106,14 +106,17 @@ bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn)
 
     if (used_texture.width != 0 && used_texture.height != 0)
     {
-        int alignTY = (sz.height - used_texture.width) / 2;
-        int alignTX = (sz.width - used_texture.height) / 2;
+        int alignTY = (sz.height - ((float)used_texture.width * st->scaling)) / 2;
+        int alignTX = (sz.width - ((float)used_texture.height * st->scaling)) / 2;
 
         Vector2 texture_pos = {
             btn->button.x + alignTX,
             btn->button.y + alignTY};
 
-        DrawTexture(used_texture, texture_pos.x, texture_pos.y, WHITE);
+        float x_mul = btn->button.width / (float)used_texture.width;
+        float y_mul = btn->button.height / (float)used_texture.height;
+
+        _ntRendererDrawSizedTexture(used_texture, (Vector2){x_mul, y_mul}, (Vector2){texture_pos.x, texture_pos.y}, (Vector2){}, false);
     }
     else
     {

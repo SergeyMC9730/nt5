@@ -122,7 +122,7 @@ void draw_background(void *ctx) {
 
     // main background
 
-    // _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){}); 
+    _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){}); 
 
     // status background
 
@@ -130,7 +130,7 @@ void draw_background(void *ctx) {
 
     Vector2 bg_sz = {
         (float)_state.main_bg_texture.width * st->scaling,
-        (float)_state.main_bg_texture.height * bg_y_mul * st->scaling
+        (float)_state.main_bg_texture.height * bg_y_mul
     };
     Vector2 bg_old_sz = {
         _state.main_bg_texture.width,
@@ -158,18 +158,27 @@ void draw_background(void *ctx) {
     _state.main_bg_texture.width = bg_old_sz.x;
     _state.main_bg_texture.height = bg_old_sz.y;
 
+    // process lines
+
+    float logo_y = (float)_state.logo_texture.height * st->scaling;
+
     Vector2 line_btm = {
         .x = 0,
-        .y = sz.y - (_state.line_bottom_texture.height / st->scaling)
+        .y = sz.y - logo_y
     };
     Vector2 line_top = {
         .x = 0,
-        .y = (_state.line_top_texture.height) 
+        .y = -(float)(_state.line_top_texture.height * st->scaling) + logo_y
     };
 
+    float x_mul = sz.x / (float)_state.line_bottom_texture.width;
+
     // draw lines
-    _ntRendererDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
-    _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
+
+    _ntRendererDrawSizedTexture(_state.line_bottom_texture, (Vector2){x_mul, 1.f * st->scaling}, line_btm, (Vector2){}, false);
+
+    x_mul = sz.x / (float)_state.line_top_texture.width;
+    _ntRendererDrawSizedTexture(_state.line_top_texture, (Vector2){x_mul, 1.f * st->scaling}, line_top, (Vector2){}, false);
 
     // draw logo    
     DrawTextureEx(_state.logo_texture, (Vector2){10 * st->scaling, 2 * st->scaling}, 0.f, 0.7f * st->scaling, WHITE);

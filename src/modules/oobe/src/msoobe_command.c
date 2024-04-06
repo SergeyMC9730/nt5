@@ -96,21 +96,30 @@ void msoobe_draw(void *ctx) {
      // get renderer state
     renderer_state_t *st = _ntRendererGetState();
 
+    // process lines
+
+    float logo_y = (float)_state.logo_texture.height * st->scaling + (10 * st->scaling);
+
     Vector2 line_btm = {
         .x = 0,
-        .y = sz.y - (_state.line_bottom_texture.height * st->scaling)
+        .y = sz.y - logo_y
     };
     Vector2 line_top = {
         .x = 0,
-        .y = 0
+        .y = -(float)(_state.line_top_texture.height * st->scaling) + logo_y
     };
 
+    float x_mul = sz.x / (float)_state.line_bottom_texture.width;
+
     // draw lines
-    _ntRendererDrawStretchedTexture(_state.line_bottom_texture, true, false, 1.f, 1.f, line_btm, (Vector2){}); 
-    _ntRendererDrawStretchedTexture(_state.line_top_texture, true, false, 1.f, 1.f, line_top, (Vector2){});
+
+    _ntRendererDrawSizedTexture(_state.line_bottom_texture, (Vector2){x_mul, 1.f * st->scaling}, line_btm, (Vector2){}, false);
+
+    x_mul = sz.x / (float)_state.line_top_texture.width;
+    _ntRendererDrawSizedTexture(_state.line_top_texture, (Vector2){x_mul, 1.f * st->scaling}, line_top, (Vector2){}, false);
 
     // draw logo    
-    DrawTextureEx(_state.logo_texture, (Vector2){20 * st->scaling, 5 * st->scaling}, 0.f, 1.f, WHITE);
+    DrawTextureEx(_state.logo_texture, (Vector2){20 * st->scaling, 5 * st->scaling}, 0.f, 1.f * st->scaling, WHITE);
     
     struct dwm_context_font big_font = _ntDwmGetFont(_state.dwm_ctx, "framd24");
     struct dwm_context_font small_font = _ntDwmGetFont(_state.dwm_ctx, "tahoma9");
@@ -141,10 +150,10 @@ void msoobe_draw(void *ctx) {
         .howered.ability = true,
         .off = _state.square_next_texture_off,
         .on = _state.square_next_texture_on,
-        .button.width = _state.square_next_texture_off.width,
-        .button.height = _state.square_next_texture_off.height,
-        .button.x = GetRenderWidth() - ((24 + _state.square_next_texture_off.width) * st->scaling),
-        .button.y = GetRenderHeight() - ((14 + _state.square_next_texture_off.height) * st->scaling)
+        .button.width = _state.square_next_texture_off.width * st->scaling,
+        .button.height = _state.square_next_texture_off.height * st->scaling,
+        .button.x = GetRenderWidth() - (((24.f * st->scaling) + (_state.square_next_texture_off.width * st->scaling))),
+        .button.y = GetRenderHeight() - (((14.f * st->scaling) + (_state.square_next_texture_off.height * st->scaling)))
     };
 
     Vector2 btn_next_text_sz = MeasureTextEx(small_fontar.font, _state.cterm_msoobe_next, small_fontar.real_size, small_fontar.spacing);
@@ -163,8 +172,8 @@ void msoobe_draw(void *ctx) {
         .howered.ability = true,
         .off = _state.square_skip_texture_off,
         .on = _state.square_skip_texture_on,
-        .button.width = _state.square_skip_texture_off.width,
-        .button.height = _state.square_skip_texture_off.height,
+        .button.width = _state.square_skip_texture_off.width * st->scaling,
+        .button.height = _state.square_skip_texture_off.height * st->scaling,
         .button.x = btn_next_text.x - _state.square_skip_texture_off.width - (24 * st->scaling),
         .button.y = btn_next.button.y
     };
