@@ -198,6 +198,11 @@ rsb_array_LanguagePackCell *_ntGenerateLanguagePack() {
         .str_en = "Control Panel",
         .str_ru = "Панель управления"
     });
+    RSBAddElementLanguagePackCell(array, (struct language_pack_cell){
+        .internal_name = "cterm_shell_intro_title",
+        .str_en = "Intro",
+        .str_ru = "Вступление"
+    });
     
     return array;
 }

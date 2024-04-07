@@ -133,7 +133,7 @@ void _boot_display_help() {
 #include <time.h>
 
 void _boot_set2xscale(void *ctx) {
-	_ntRendererSetDpiScale(2.f);
+	_ntRendererSetDpiScale(2.0f);
 }
 
 void _boot_begin(int argc, char **argv) {

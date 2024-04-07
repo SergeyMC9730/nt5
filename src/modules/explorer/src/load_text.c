@@ -44,4 +44,5 @@ void load_text() {
     _state.cterm_explorer_op_md = _ntGetStringInLanguagePack(ctx->lpack, "cterm_explorer_op_md", lang);
     _state.cterm_explorer_op_sd = _ntGetStringInLanguagePack(ctx->lpack, "cterm_explorer_op_sd", lang);
     _state.cterm_explorer_op_cp = _ntGetStringInLanguagePack(ctx->lpack, "cterm_explorer_op_cp", lang);
+    _state.cterm_shell_intro_title = _ntGetStringInLanguagePack(ctx->lpack, "cterm_shell_intro_title", lang);
 }

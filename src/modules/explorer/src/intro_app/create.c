@@ -20,6 +20,7 @@
 
 #include <nt5emul/modules/explorer/intro.h>
 #include <nt5emul/modules/explorer/local_state.h>
+#include <nt5emul/modules/explorer/state.h>
 
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>
@@ -27,7 +28,7 @@
 void explorer_intro_create() {
     struct local_module_state *lst = (struct local_module_state *)calloc(1, sizeof(struct local_module_state));
 
-    struct dwm_window wnd = _ntCreateWindow("Intro", (Vector2){500, 150});
+    struct dwm_window wnd = _ntCreateWindow(_state.cterm_shell_intro_title, (Vector2){500, 150});
     wnd.draw = explorer_intro_draw;
     wnd.on_close = explorer_intro_on_close;
     wnd.ctx = lst;

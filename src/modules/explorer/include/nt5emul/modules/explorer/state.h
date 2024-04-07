@@ -37,8 +37,9 @@ struct module_state {
 
     Texture2D icons[8];
 
-    const char *cterm_explorer_title;
     const char *cterm_shell_start_classic;
+
+    const char *cterm_shell_intro_title;
     const char *cterm_shell_intro_text;
 
     int id;
@@ -49,6 +50,7 @@ struct module_state {
     Texture ico100;
     Texture ico252;
 
+    const char *cterm_explorer_title;
     const char *cterm_explorer_system_tasks;
     const char *cterm_explorer_other_places;
     const char *cterm_explorer_st_vsi;

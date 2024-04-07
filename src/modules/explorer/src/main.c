@@ -34,19 +34,11 @@
 
 bool explorer_command(void *data) {
     load_text();
-
-    struct dwm_context *ctx = _ntDwmGetGlobal();
-
-    // get global dwm context
-
+    
     renderer_state_t *st = _ntRendererGetState();
 
     if (_state.id == 0) {
         int index = 0;
-
-        // _state.old_draw = st->layers[index].draw;
-        // _state.old_update = st->layers[index].update;
-        // _state.old_ctx = st->layers[index].user;
 
         _state.old_layer = st->layers[index];
 
