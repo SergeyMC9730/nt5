@@ -32,8 +32,8 @@ void logo_draw(void *user) {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    int w = GetRenderWidth();
-    int h = GetRenderHeight();
+    int w = st->current_window_size.x;
+    int h = st->current_window_size.y;
 
     DrawRectangle(0, 0, w, h, BLACK);
 

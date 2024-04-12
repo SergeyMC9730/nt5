@@ -110,9 +110,11 @@ void _boot_install_draw_step10() {
     Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
     Color blue = (Color){0x00, 0x09, 0xAB, 0xFF};
 
+    renderer_state_t *st = _ntRendererGetState();
+
     // get render size in characters
-    int szX = GetRenderWidth() / __state.base_size.x;
-    int szY = GetRenderHeight() / __state.base_size.y;
+    int szX = st->current_window_size.x / __state.base_size.x;
+    int szY = st->current_window_size.y / __state.base_size.y;
 
     // restart information
     _ntTuiDrawText(__boot_install_strings[52], 3, 4, gray);

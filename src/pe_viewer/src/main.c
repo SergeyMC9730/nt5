@@ -29,7 +29,7 @@ int main() {
     int sx = 640;
     int sy = 480;
 
-    SetWindowSize(sx, sy);
+    _ntRendererSetWindowSize((Vector2){sx, sy});
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetWindowMinSize(sx, sy);
 

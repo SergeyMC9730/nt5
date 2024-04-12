@@ -39,7 +39,7 @@ void logo_update(void *user) {
 
         renderer_state_t *st = _ntRendererGetState();
 
-        SetWindowSize(640 * st->scaling, 480 * st->scaling);
+        _ntRendererSetWindowSize((Vector2){640 * st->scaling, 480 * st->scaling});
     }
 
     float speed = 1.15f;

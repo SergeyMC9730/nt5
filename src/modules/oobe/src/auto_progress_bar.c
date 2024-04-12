@@ -39,7 +39,7 @@ void _ntModOobeDrawAPB(struct auto_progress_bar bar) {
     renderer_state_t *st = _ntRendererGetState();
 
     Vector2 base_pos = {
-        26 * st->scaling, GetRenderHeight() - (110 * st->scaling)
+        26 * st->scaling, st->current_window_size.y - (110 * st->scaling)
     };
     Vector2 base_size = {
         127 * st->scaling, 16 * st->scaling
@@ -75,7 +75,7 @@ void _ntModOobeDrawAPB(struct auto_progress_bar bar) {
     
     Vector2 text_sz = MeasureTextEx(font.font, bar.title, font.real_size, font.spacing);
 
-    pos.y -= 1 + text_sz.y;
+    pos.y -= (1.f * st->scaling) + text_sz.y;
 
     DrawTextEx(font.font, bar.title, pos, font.real_size, font.spacing, WHITE);
 }

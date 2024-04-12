@@ -42,9 +42,11 @@ void _ntRendererDrawCroppedTexture(Texture2D texture, Vector2 crop, Vector2 pos)
 #include <nt5emul/middle.h>
 
 Vector2 _ntRendererCenterTexture(Texture2D texture, bool x, bool y) {
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 sz = {
-        GetRenderWidth(),
-        GetRenderHeight()
+        st->current_window_size.x,
+        st->current_window_size.y
     };
 
     Vector2 pos = {
@@ -90,9 +92,11 @@ void _ntRendererDrawSizedTexture(Texture2D texture, Vector2 size, Vector2 pos, V
 }
 
 void _ntRendererDrawStretchedTexture(Texture2D texture, bool x_stretched, bool y_stretched, float xstretchmul, float ysctretchmul, Vector2 pos, Vector2 origin) {
+    renderer_state_t *st = _ntRendererGetState();
+    
     Vector2 sz = {
-        .x = GetRenderWidth(),
-        .y = GetRenderHeight()
+        .x = st->current_window_size.x,
+        .y = st->current_window_size.y
     };
 
     Rectangle source = {

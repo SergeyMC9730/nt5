@@ -50,9 +50,11 @@ void _boot_install_beginstep4() {
     // format string
     snprintf(__state.buffers[3], 256, "     %s               %d MB", s1, 16 * 1024);
 
+    renderer_state_t *st = _ntRendererGetState();
+
     // get Render width in characters
-    int szX = GetRenderWidth() / __state.base_size.x; // 8
-    int szY = GetRenderHeight() / __state.base_size.y; // 16
+    int szX = st->current_window_size.x / __state.base_size.x; // 8
+    int szY = st->current_window_size.y / __state.base_size.y; // 16
 
     // check occupied space by this string 
     // and   process   math   calculations  

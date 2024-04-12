@@ -173,6 +173,8 @@ typedef struct renderer_state_t {
 #if RENDERER_ENABLE_LUA == 1
     lua_State* lua_interpreter;
 #endif
+
+    bool fake_scaling;
 } renderer_state_t;
 
 #pragma pack(pop)
@@ -181,6 +183,9 @@ typedef struct renderer_state_t {
 
 // creates environment for the renderer
 void _ntRendererCreateEnvironment();
+// creates environment for the renderer with extra arguments
+void _ntRendererCreateEnvironmentEx(bool fake_scaling);
+
 // closes the renderer environment
 void _ntRendererCloseEnvironment();
 
@@ -318,3 +323,11 @@ void _ntRendererRunLuaScript(const char *path);
 #if RENDERER_ENABLE_LUA == 1
 int _ntRendererLuaPushVector2(lua_State *L, Vector2 val);
 #endif
+
+// set window size
+// also modifies renderer state
+void _ntRendererSetWindowSize(Vector2 size);
+
+// get mouse position
+// if fake scaling is applied, mouse position would be scaled properly
+Vector2 _ntRendererGetMousePosition();

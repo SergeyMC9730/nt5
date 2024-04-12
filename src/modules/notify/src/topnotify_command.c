@@ -99,9 +99,11 @@ bool notify_command(void *data) {
         }
     }
 
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 rsz = {
-        GetRenderWidth(),
-        GetRenderHeight()
+        st->current_window_size.x,
+        st->current_window_size.y
     };
 
     rsb_array_String *str_array = RSBCreateArrayString();
@@ -123,8 +125,6 @@ bool notify_command(void *data) {
     for (int i = 0; i < strlen(_state.message); i++) {
         char c = _state.message[i];
         const char cs[] = {c, 0};
-
-        renderer_state_t *st = _ntRendererGetState();
 
         Vector2 csize = MeasureTextEx(_state.font, cs, 20 * st->scaling, 0.5f * st->scaling);
         

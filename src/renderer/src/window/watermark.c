@@ -33,8 +33,8 @@ void _ntRendererDrawWatermarkEx(Vector2 offset, Color col) {
     renderer_state_t *st = _ntRendererGetState();
     int sz = 20 * st->scaling;
 
-    int w = GetRenderWidth();
-    int h = GetRenderHeight();
+    int w = st->current_window_size.x;
+    int h = st->current_window_size.y;
 
     Vector2 textsz2 = MeasureTextEx(GetFontDefault(), str, sz, 1.f * st->scaling);
 

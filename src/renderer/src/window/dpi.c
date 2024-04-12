@@ -48,8 +48,7 @@ Vector2 _ntRendererSetDpiScale(float scale) {
 
     // SetTextLineSpacing((int)(15.f * scale));
 
-    SetWindowSize(new_sz.x, new_sz.y);
-    st->current_window_size = new_sz;
+    _ntRendererSetWindowSize((Vector2){new_sz.x, new_sz.y});
 
     if (st->framebuffer.texture.width == 0 || st->framebuffer.texture.height == 0) {
         st->scaling = scale;

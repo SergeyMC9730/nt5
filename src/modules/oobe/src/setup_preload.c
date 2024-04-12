@@ -43,7 +43,7 @@ void setup_preload(void *ctx) {
     renderer_state_t *st = _ntRendererGetState();
 
     // window settings
-    SetWindowSize(640 * st->scaling, 480 * st->scaling);
+    _ntRendererSetWindowSize((Vector2){640 * st->scaling, 480 * st->scaling});
 
     // texture filters
     Texture2D *texture_list[] = {

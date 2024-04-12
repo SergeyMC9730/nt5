@@ -19,6 +19,7 @@
 */
 
 #include <nt5emul/tui/environment.h>
+#include <nt5emul/renderer.h>
 
 extern struct nt_tui_environment _ntTuiEnvironment;
 
@@ -42,9 +43,11 @@ void _ntTuiDrawTextCentered(const char *str, signed char x, signed char y, Color
 
     Vector2 pos = {x, y};
 
+    renderer_state_t *st = _ntRendererGetState();
+
     if ((unsigned char)x == 0xFF) {
         // get render width in characters
-        int szX = GetRenderWidth() / _ntTuiEnvironment.base_font_size.x;
+        int szX = st->current_window_size.x / _ntTuiEnvironment.base_font_size.x;
 
         // get centered X position
         pos.x = (int)(((szX - len) / 2) + x);
@@ -53,7 +56,7 @@ void _ntTuiDrawTextCentered(const char *str, signed char x, signed char y, Color
         // TEMP
 
         // get render heigth in characters
-        int szY = GetRenderHeight() / _ntTuiEnvironment.base_font_size.y;
+        int szY = st->current_window_size.y / _ntTuiEnvironment.base_font_size.y;
 
         // get centered Y position
         pos.y = (int)(((szY - 1) / 2) + y);

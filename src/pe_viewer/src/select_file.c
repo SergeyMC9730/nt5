@@ -37,7 +37,9 @@ void _ntPVSelectFileUpdate() {
         return;
     }
 
-    int c = GetRenderHeight() / 16 - 7;
+    renderer_state_t *st = _ntRendererGetState();
+
+    int c = st->current_window_size.y / 16 - 7;
 
     if (__state.file_selector->items_per_page != c) {
         __state.file_selector->items_per_page = c;
@@ -62,17 +64,19 @@ void _ntPVSelectFileDraw() {
 
     Rectangle r;
 
+    renderer_state_t *st = _ntRendererGetState();
+
     r.x = 0;
     r.y = 0;
-    r.width = GetRenderWidth() / 8 + 1;
-    r.height = GetRenderHeight() / 16 + 1;
+    r.width = st->current_window_size.x / 8 + 1;
+    r.height = st->current_window_size.y / 16 + 1;
 
     _ntTuiDrawRectangleGr(r, BLACK, gray);
 
     r.x = 2;
     r.y = 2;
-    r.width = GetRenderWidth() / 8 - 6;
-    r.height = GetRenderHeight() / 16 - 4;
+    r.width = st->current_window_size.x / 8 - 6;
+    r.height = st->current_window_size.y / 16 - 4;
 
     _ntTuiDrawFrame(r, WHITE, NULL);
 
@@ -99,7 +103,9 @@ void _ntPVSelectFileDraw() {
 }
 
 void _ntPVSelectFileMain() {
-    int c = GetRenderHeight() / 16 - 7;
+    renderer_state_t *st = _ntRendererGetState();
+
+    int c = st->current_window_size.y / 16 - 7;
 
     __state.file_selector = _ntLoadFileSelector("./", c);
 
@@ -113,8 +119,6 @@ void _ntPVSelectFileMain() {
     __state.file_selector->base.y = 3;
     
     __state.file_selector->callback = _ntPVOnFileClick;
-
-    renderer_state_t *st = _ntRendererGetState();
 
     st->layers[0].on_draw.callback = _ntPVSelectFileDraw;
     st->layers[0].on_update.callback = _ntPVSelectFileUpdate1;

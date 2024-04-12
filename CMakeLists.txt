@@ -150,10 +150,11 @@ add_library(nt5tui SHARED ${NTTUI_SRC})
 target_include_directories(nt5tui PRIVATE 
     "src/ntldr_tui/include" 
     "src/renderer/raylib/src"
+    "src/renderer/include"
     "src/nt_tools/include"
     "src/arrays/include"
 )
-target_link_libraries(nt5tui raylib nt5tools)
+target_link_libraries(nt5tui nt5renderer nt5tools)
 
 # pe-viewer
 file(GLOB PEVIEWER_SRC CONFIGURE_DEPENDS "src/pe_viewer/src/*.c" "src/pe_viewer/include/*/*.h")

@@ -92,7 +92,9 @@ void _boot_install_thread8() {
 }
 
 void _boot_install_update_step8_1() {
-    int szX = GetRenderWidth() / __state.base_size.x;
+    renderer_state_t *st = _ntRendererGetState();
+
+    int szX = st->current_window_size.x / __state.base_size.x;
 
     int sz = 1024;
 
@@ -132,9 +134,11 @@ void _boot_install_draw_step8() {
     Color gray = (Color){0xA8, 0xA8, 0xA8, 0xFF};
     Color blue = (Color){0x00, 0x09, 0xAB, 0xFF};
 
+    renderer_state_t *st = _ntRendererGetState();
+
     // get render size in characters
-    int szX = GetRenderWidth() / __state.base_size.x;
-    int szY = GetRenderHeight() / __state.base_size.y;
+    int szX = st->current_window_size.x / __state.base_size.x;
+    int szY = st->current_window_size.y / __state.base_size.y;
 
     // Please wait while Setup copies files
     _ntTuiDrawTextCentered(__boot_install_strings[46], 0xFF, 5, gray);

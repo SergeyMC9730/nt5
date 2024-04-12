@@ -57,8 +57,10 @@ void _boot_install_draw_step4() {
     // %d MB Disk %d at Id %d on bus %d on atapi [MBR]
     snprintf(__state.buffers[4], 256, __boot_install_strings[20], 16 * 1024, __state.menu0.selected_item, 0, 0);
 
+    renderer_state_t *st = _ntRendererGetState();
+
     // get render width in characters
-    int szX = GetRenderWidth() / __state.base_size.x;
+    int szX = st->current_window_size.x / __state.base_size.x;
 
     _ntTuiDrawFrame((Rectangle){2, 14, szX - 5, 13}, gray, __state.buffers[4]);
 }

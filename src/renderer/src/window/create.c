@@ -149,3 +149,13 @@ void _ntRendererCreateEnvironment() {
         _ntSetupTimerSync(0.1);
 	}
 }
+
+void _ntRendererCreateEnvironmentEx(bool fake_scaling) {
+    renderer_state_t *st = _ntRendererGetState();
+    
+    st->fake_scaling = fake_scaling;
+
+    printf("st->fake_scaling = %d\n", st->fake_scaling);
+
+    _ntRendererCreateEnvironment();
+}

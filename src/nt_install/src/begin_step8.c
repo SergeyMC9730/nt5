@@ -101,8 +101,10 @@ void _boot_install_beginstep8() {
     // free array
     MemFree(lengths);
 
+    renderer_state_t *st = _ntRendererGetState();
+
     // get render width in characters
-    int szX = GetRenderWidth() / __state.base_size.x;
+    int szX = st->current_window_size.x / __state.base_size.x;
 
     // reallocate buffer 4
     __state.buffers[4] = MemRealloc(__state.buffers[4], szX);

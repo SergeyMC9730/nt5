@@ -26,6 +26,8 @@
 #include <nt5emul/tui/text.h>
 #include <nt5emul/tui/rectangle.h>
 
+#include <nt5emul/renderer.h>
+
 // expose internal values
 
 extern char *__boot_install_strings[BOOT_INSTALL_STRING_ARRAY_SIZE]; // all strings
@@ -34,8 +36,10 @@ extern ntinstall_t __state; // installation state
 void _biDrawBackgroundEx(const char *product_name, const char *help_shortcuts, Color bg_color, Color status_color, Color status_text_color) {    
     if (__state.buffers[0] == NULL) return;
     
-    int window_size_x = GetRenderWidth() / __state.base_size.x; // get x size in characters
-    int window_size_y = GetRenderHeight() / __state.base_size.y; // get y size in characters
+    renderer_state_t *st = _ntRendererGetState();
+    
+    int window_size_x = st->current_window_size.x / __state.base_size.x; // get x size in characters
+    int window_size_y = st->current_window_size.y / __state.base_size.y; // get y size in characters
     
     // clear background
     ClearBackground(bg_color);

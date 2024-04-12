@@ -46,7 +46,7 @@ void msoobe_new() {
     // get renderer state
     renderer_state_t *st = _ntRendererGetState();
 
-    SetWindowSize(800 * st->scaling, 600 * st->scaling);
+    _ntRendererSetWindowSize((Vector2){800 * st->scaling, 600 * st->scaling});
 
     st->draw_fps = true;
 }
@@ -88,13 +88,13 @@ void msoobe_setup_user_profile() {
 void msoobe_draw(void *ctx) {
     _ntRendererDrawStretchedTexture(_state.main_bg_texture, true, true, 1.f, 1.f, (Vector2){}, (Vector2){});
 
-    Vector2 sz = {
-        .x = GetRenderWidth(),
-        .y = GetRenderHeight()
-    };
-
-     // get renderer state
+    // get renderer state
     renderer_state_t *st = _ntRendererGetState();
+
+    Vector2 sz = {
+        .x = st->current_window_size.x,
+        .y = st->current_window_size.y
+    };
 
     // process lines
 
@@ -152,8 +152,8 @@ void msoobe_draw(void *ctx) {
         .on = _state.square_next_texture_on,
         .button.width = _state.square_next_texture_off.width * st->scaling,
         .button.height = _state.square_next_texture_off.height * st->scaling,
-        .button.x = GetRenderWidth() - (((24.f * st->scaling) + (_state.square_next_texture_off.width * st->scaling))),
-        .button.y = GetRenderHeight() - (((14.f * st->scaling) + (_state.square_next_texture_off.height * st->scaling)))
+        .button.x = st->current_window_size.x - (((24.f * st->scaling) + (_state.square_next_texture_off.width * st->scaling))),
+        .button.y = st->current_window_size.y - (((14.f * st->scaling) + (_state.square_next_texture_off.height * st->scaling)))
     };
 
     Vector2 btn_next_text_sz = MeasureTextEx(small_fontar.font, _state.cterm_msoobe_next, small_fontar.real_size, small_fontar.spacing);
@@ -225,7 +225,7 @@ void msoobe_preload(void *ctx) {
 
     renderer_state_t *st  = _ntRendererGetState();
 
-    SetWindowSize(800 * st->scaling, 600 * st->scaling);
+    _ntRendererSetWindowSize((Vector2){800 * st->scaling, 600 * st->scaling});
 }
 
 bool msoobe_command(void *data) {

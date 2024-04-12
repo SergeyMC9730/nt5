@@ -18,26 +18,22 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include <nt5emul/modules/logo/state.h>
 #include <nt5emul/renderer.h>
 
-void logo_unload_textures(void *ctx) {
-    UnloadTexture(_state.logo_texture);
-}
-
-#include <stdio.h>
-
-void logo_reset() {
+// set window size
+// also modifies renderer state
+void _ntRendererSetWindowSize(Vector2 size) {
     renderer_state_t *st = _ntRendererGetState();
 
-    int index = RENDERER_LAYERS - 2;
+    float mul = 1.f;
 
-    st->layers[index] = _state.old_layer;
+    if (st->fake_scaling){ 
+        mul = GetWindowScaleDPI().x;
+        size.x /= mul;
+        size.y /= mul;
+    }
 
-    _ntRendererPushQueue(logo_unload_textures, NULL);
+    // SetWindowSize(size.x * mul, size.y * mul);
 
-    _state.init_complete = false;
-    _state.execution_lock = false;
-
-    _ntRendererSetWindowSize((Vector2){_state.old_window_size.x, _state.old_window_size.y});
+    st->current_window_size = size;
 }

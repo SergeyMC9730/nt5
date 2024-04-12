@@ -70,8 +70,8 @@ void draw_background(void *ctx) {
     renderer_state_t *st = _ntRendererGetState();
 
     Vector2 sz = {
-        .x = GetRenderWidth(),
-        .y = GetRenderHeight()
+        .x = st->current_window_size.x,
+        .y = st->current_window_size.y
     };
 
     Vector2 line_btm = {
@@ -99,8 +99,8 @@ void draw_background(void *ctx) {
 
     // text position
     Vector2 text_pos = {
-        _ntGetMiddleValue(text_sz.x, GetRenderWidth()) * 1.3f,
-        _ntGetMiddleValue(text_sz.y, GetRenderHeight())
+        _ntGetMiddleValue(text_sz.x, st->current_window_size.x) * 1.3f,
+        _ntGetMiddleValue(text_sz.y, st->current_window_size.y)
     };
 
     Color shadow = {

@@ -116,8 +116,8 @@ void draw_background(void *ctx) {
     DrawText("AAAAAAA", 50 * st->scaling, 50 * st->scaling, 32 * st->scaling, WHITE);
 
     Vector2 sz = {
-        .x = GetRenderWidth(),
-        .y = GetRenderHeight()
+        .x = st->current_window_size.x,
+        .y = st->current_window_size.y
     };
 
     // main background

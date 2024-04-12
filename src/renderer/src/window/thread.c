@@ -43,6 +43,8 @@ void *_ntRendererThread(void *ptr) {
 	// get renderer state
 	renderer_state_t *st = _ntRendererGetState();
 
+	bool fake_scaling = st->fake_scaling;
+
 	st->current_window_size = wsz;
 
 	// check if layers already exists and free if they
@@ -62,7 +64,17 @@ void *_ntRendererThread(void *ptr) {
 	// set window fps to main monitor's refresh rate
 	SetTargetFPS(GetMonitorRefreshRate(0));
 
-	wsz = _ntRendererSetDpiScale(GetWindowScaleDPI().x);
+	// get window scaling
+	float _scaling = GetWindowScaleDPI().x;
+
+	if (!fake_scaling) {
+		wsz = _ntRendererSetDpiScale(_scaling);
+	} else {
+		wsz.x *= _scaling;
+		wsz.y *= _scaling;
+
+		st->scaling = 1.f;
+	}
 
 	SetWindowSize(wsz.x, wsz.y);
 
@@ -71,16 +83,31 @@ void *_ntRendererThread(void *ptr) {
 	SetWindowState(FLAG_WINDOW_TOPMOST);
 
 	// load framebuffer
-	RenderTexture2D rt1 = LoadRenderTexture(wsz.x, wsz.y);
+	RenderTexture2D rt1 = LoadRenderTexture(wsz.x / _scaling, wsz.y / _scaling);
 	st->framebuffer = rt1;
+
+	RenderTexture2D rt2;
+	if (fake_scaling) {
+		// create helper framebuffer
+
+		rt2 = LoadRenderTexture(wsz.x, wsz.y);
+	}
 
 	// set status to READY
 	st->status = RENDERER_READY;
 
 	bool raylib_close = false;
+
+	bool show_real_fb = false;
 	
 	while (true) {
 		raylib_close = WindowShouldClose();
+
+		if (IsKeyPressed(KEY_PRINT_SCREEN)) {
+			show_real_fb = !show_real_fb;
+		}
+
+		// printf("fake_scaling=%d\n", fake_scaling);
 
 		// update renderer
 		_ntRendererUpdate();
@@ -102,21 +129,43 @@ void *_ntRendererThread(void *ptr) {
 		// begin drawing
 		BeginDrawing();
 
+		ClearBackground(BLACK);
+
 		// draw everything
 		_ntRendererDraw();
 
 		// end
 		EndTextureModeStacked();
 
-		// now draw internal framebuffer to the screen
-		_ntRendererDrawSizedTexture(st->framebuffer.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
+		if (fake_scaling) {
+			// now draw internal framebuffer to the screen
+
+			if (fake_scaling && show_real_fb) {
+				_ntRendererDrawSizedTexture(st->framebuffer.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
+			}
+			if (fake_scaling && !show_real_fb) {
+				BeginTextureModeStacked(rt2);
+				ClearBackground(BLACK);
+				_ntRendererDrawStretchedTexture(st->framebuffer.texture, true, true, _scaling * 2, _scaling * 2, (Vector2){0, -st->current_window_size.y * _scaling}, (Vector2){});
+				EndTextureModeStacked();
+				_ntRendererDrawSizedTexture(rt2.texture, (Vector2){1, 1}, (Vector2){}, (Vector2){}, true);
+			}
+
+		} else {
+			_ntRendererDrawSizedTexture(st->framebuffer.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
+		}
 
 		// complete drawing
 		EndDrawing();
 	}
 
+
 	// unload rendertextures
 	UnloadRenderTexture(st->framebuffer);
+
+	if (fake_scaling) {
+		UnloadRenderTexture(rt2);
+	}
 
 	if (raylib_close) {
 		_ntRendererCloseEnvironment();

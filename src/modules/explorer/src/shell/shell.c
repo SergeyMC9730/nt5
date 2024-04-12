@@ -179,13 +179,14 @@ void explorer_shell_draw_watermark(Vector2 offset) {
 }
 
 Rectangle explorer_shell_draw_taskbar(void *ctx) {
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 sz = {
-        GetRenderWidth(),
-        GetRenderHeight()
+        st->current_window_size.x,
+        st->current_window_size.y
     };
 
     struct dwm_context *dctx = _ntDwmGetGlobal();
-    renderer_state_t *st = _ntRendererGetState();
 
     Color border1 = dctx->theme.basic.active_border_color;
     Color border2 = dctx->theme.basic.window_base_color;
@@ -250,9 +251,11 @@ Rectangle explorer_shell_draw_taskbar(void *ctx) {
 }
 
 void explorer_shell_draw_background(void *ctx) {
+    renderer_state_t *st = _ntRendererGetState();
+
     Vector2 sz = {
-        GetRenderWidth(),
-        GetRenderHeight()
+        st->current_window_size.x,
+        st->current_window_size.y
     };
 
     float ratio = 1.f;

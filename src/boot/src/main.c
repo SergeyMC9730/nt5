@@ -108,6 +108,7 @@ void _boot_display_help() {
 		"--skip-text-installation", "skip text-based installation process",
 		"--skip-logonui", "skip logonui",
 		"--set-2x-scale", "set window scale to be 2x",
+		"--fake-scaling", "main framebuffer would be scaled instead of an entire gui. press PrtSc to see unmodified framebuffer",
 		"--help", "display help",
 		"-h", "display help"
 	};
@@ -146,6 +147,7 @@ void _boot_begin(int argc, char **argv) {
 	bool skip_logonui = false;
 	bool display_help = false;
 	bool set2xscale = false;
+	bool fake_scaling = false;
 	
 	if (argc >= 2) {
 		int count = argc - 1;
@@ -165,6 +167,9 @@ void _boot_begin(int argc, char **argv) {
 			else if (!strcmp(value, "--set-2x-scale")) {
 				set2xscale = true;
 			}
+			else if (!strcmp(value, "--fake-scaling")) {
+				fake_scaling = true;
+			}
 			else if (!strcmp(value, "--help")) {
 				display_help = true;
 			}
@@ -174,7 +179,7 @@ void _boot_begin(int argc, char **argv) {
 			else {
 				printf("! invalid argument \"%s\". see --help\n", value);
 
-				return;
+				exit(1);
 			}
 		}
 	}
@@ -183,6 +188,12 @@ void _boot_begin(int argc, char **argv) {
 		_boot_display_help();
 
 		exit(0);
+	}
+
+	if (set2xscale && fake_scaling) {
+		printf("! --set-2x-scale is not compatible with --fake-scaling !\n");
+
+		exit(1);
 	}
 
 	// create "nt" folder
@@ -198,7 +209,7 @@ void _boot_begin(int argc, char **argv) {
 		_ntInitCores();
 
 		// init NT renderer
-		_ntRendererCreateEnvironment();
+		_ntRendererCreateEnvironmentEx(fake_scaling);
 
 		if (set2xscale) {
 			_ntRendererPushQueue(_boot_set2xscale, NULL);
@@ -227,7 +238,7 @@ void _boot_begin(int argc, char **argv) {
 	_ntInitCores();
 
 	// init NT renderer
-	_ntRendererCreateEnvironment();
+	_ntRendererCreateEnvironmentEx(fake_scaling);
 
 	if (set2xscale) {
 		_ntRendererPushQueue(_boot_set2xscale, NULL);
@@ -256,7 +267,7 @@ void _boot_begin(int argc, char **argv) {
 	bool logo_runned_before = false;
 
 	if (!skip_logo) {
-		_ntDwmSetSize(ctx, (Vector2){GetRenderWidth(), GetRenderHeight()});
+		_ntDwmSetSize(ctx, (Vector2){st->current_window_size.x, st->current_window_size.y});
 
 		_ntSetupTimerSync(1);
 		_boot_run_logo();
@@ -284,7 +295,7 @@ void _boot_begin(int argc, char **argv) {
 
 	st->layers[0].on_draw.callback = NULL;
 
-	_ntDwmSetSize(ctx, (Vector2){GetRenderWidth(), GetRenderHeight()});
+	_ntDwmSetSize(ctx, (Vector2){st->current_window_size.x, st->current_window_size.y});
 
 	if (!config.graphical_setup_completed) {
 		// run setup with the dwm context
