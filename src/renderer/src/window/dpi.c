@@ -46,7 +46,7 @@ Vector2 _ntRendererSetDpiScale(float scale) {
     printf("old scale val: %f\n", old_scale);
     printf("setting size to %f %f\n", new_sz.x, new_sz.y);
 
-    SetTextLineSpacing((int)(15.f * scale));
+    // SetTextLineSpacing((int)(15.f * scale));
 
     SetWindowSize(new_sz.x, new_sz.y);
     st->current_window_size = new_sz;
