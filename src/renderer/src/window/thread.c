@@ -74,6 +74,8 @@ void *_ntRendererThread(void *ptr) {
 		wsz.y *= _scaling;
 
 		st->scaling = 1.f;
+
+		SetTextLineSpacing((int)(15.f / _scaling));
 	}
 
 	SetWindowSize(wsz.x, wsz.y);
@@ -141,17 +143,26 @@ void *_ntRendererThread(void *ptr) {
 			// now draw internal framebuffer to the screen
 
 			if (fake_scaling && show_real_fb) {
+
 				_ntRendererDrawSizedTexture(st->framebuffer.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
+
+				DrawText("showing real fb", 5 * _scaling, 5 * _scaling + st->framebuffer.texture.height / 1, 20 * _scaling, BLACK);
+				DrawText("showing real fb", 3 * _scaling, 3 * _scaling + st->framebuffer.texture.height / 1, 20 * _scaling, WHITE);
 			}
 			if (fake_scaling && !show_real_fb) {
+				float x = (float)GetRenderWidth() / (float)st->framebuffer.texture.width;
+				float y = (float)GetRenderHeight() / (float)st->framebuffer.texture.height;
+
 				BeginTextureModeStacked(rt2);
 				ClearBackground(BLACK);
-				_ntRendererDrawStretchedTexture(st->framebuffer.texture, true, true, _scaling * 2, _scaling * 2, (Vector2){0, -st->current_window_size.y * _scaling}, (Vector2){});
+				_ntRendererDrawStretchedTexture(st->framebuffer.texture, true, true, _scaling * 2 / x, _scaling * 2 / y, (Vector2){0, -st->current_window_size.y * _scaling}, (Vector2){});
 				EndTextureModeStacked();
+				ClearBackground(BLACK);
 				_ntRendererDrawSizedTexture(rt2.texture, (Vector2){1, 1}, (Vector2){}, (Vector2){}, true);
 			}
 
 		} else {
+			ClearBackground(BLACK);
 			_ntRendererDrawSizedTexture(st->framebuffer.texture, (Vector2){1, -1}, (Vector2){}, (Vector2){}, true);
 		}
 

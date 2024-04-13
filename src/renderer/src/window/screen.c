@@ -22,6 +22,20 @@
 
 // set window size
 // also modifies renderer state
+struct resize_request {
+    int x;
+    int y;
+};
+
+void _ntRendererSetWindowSizeCallback(struct resize_request *req) {
+    renderer_state_t *st = _ntRendererGetState();
+
+    UnloadRenderTexture(st->framebuffer);
+    st->framebuffer = LoadRenderTexture(req->x, req->y);
+
+    free(req);
+}
+
 void _ntRendererSetWindowSize(Vector2 size) {
     renderer_state_t *st = _ntRendererGetState();
 
@@ -29,11 +43,18 @@ void _ntRendererSetWindowSize(Vector2 size) {
 
     if (st->fake_scaling){ 
         mul = GetWindowScaleDPI().x;
-        size.x /= mul;
-        size.y /= mul;
+        // size.x /= mul;
+        // size.y /= mul;
+    } else {
+        SetWindowSize(size.x, size.y);
     }
 
-    // SetWindowSize(size.x * mul, size.y * mul);
+    struct resize_request *request = (struct resize_request *)(MemAlloc(sizeof(struct resize_request)));
+    request->x = size.x;
+    request->y = size.y;
+
+    _ntRendererPushQueue(_ntRendererSetWindowSizeCallback, request);
+
 
     st->current_window_size = size;
 }

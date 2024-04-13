@@ -29,15 +29,12 @@ void logo_update(void *user) {
     if (_state.old_layer.on_update.callback) _state.old_layer.on_update.callback(_state.old_layer.on_update.user);
 
     if (!_state.init_complete) {
-        _state.old_window_size = (Vector2){
-            GetScreenWidth(),
-            GetScreenHeight()
-        };
+        renderer_state_t *st = _ntRendererGetState();
+
+        _state.old_window_size = st->current_window_size;
 
         _state.logo_texture = LoadTexture("nt/images/system/win32.bmp");
         _state.init_complete = true;
-
-        renderer_state_t *st = _ntRendererGetState();
 
         _ntRendererSetWindowSize((Vector2){640 * st->scaling, 480 * st->scaling});
     }
