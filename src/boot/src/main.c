@@ -109,6 +109,7 @@ void _boot_display_help() {
 		"--skip-logonui", "skip logonui",
 		"--set-2x-scale", "set window scale to be 2x",
 		"--fake-scaling", "main framebuffer would be scaled instead of an entire gui. press PrtSc to see unmodified framebuffer",
+		"--force-text-installation", "starts ntinstall even if system is already installed",
 		"--help", "display help",
 		"-h", "display help"
 	};
@@ -137,6 +138,10 @@ void _boot_set2xscale(void *ctx) {
 	_ntRendererSetDpiScale(2.0f);
 }
 
+void _boot_print_arginc(const char *cmd1, const char *cmd2) {
+	printf("! %s is not compatible with %s !\n", cmd1, cmd2);
+}
+
 void _boot_begin(int argc, char **argv) {
 	clock_t _cl_start = clock();
 
@@ -148,6 +153,7 @@ void _boot_begin(int argc, char **argv) {
 	bool display_help = false;
 	bool set2xscale = false;
 	bool fake_scaling = false;
+	bool force_text_installation = false;
 	
 	if (argc >= 2) {
 		int count = argc - 1;
@@ -170,6 +176,9 @@ void _boot_begin(int argc, char **argv) {
 			else if (!strcmp(value, "--fake-scaling")) {
 				fake_scaling = true;
 			}
+			else if (!strcmp(value, "--force-text-installation")) {
+				force_text_installation = true;
+			}
 			else if (!strcmp(value, "--help")) {
 				display_help = true;
 			}
@@ -191,9 +200,13 @@ void _boot_begin(int argc, char **argv) {
 	}
 
 	if (set2xscale && fake_scaling) {
-		printf("! --set-2x-scale is not compatible with --fake-scaling !\n");
+		_boot_print_arginc("--set-2x-scale", "--fake-scaling");
 
 		exit(1);
+	}
+
+	if (skip_text_installation && force_text_installation) {
+		_boot_print_arginc("--skip-text-installation", "--force-text-installation");
 	}
 
 	// create "nt" folder
@@ -205,7 +218,7 @@ void _boot_begin(int argc, char **argv) {
 
 	printf("config values: setup: %d; oobe; %d\n", config.setup_completed, config.oobe_completed);
 
-	if (!config.setup_completed && !skip_text_installation) {
+	if (!config.setup_completed && !skip_text_installation || force_text_installation) {
 		_ntInitCores();
 
 		// init NT renderer

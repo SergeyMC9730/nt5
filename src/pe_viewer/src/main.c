@@ -24,7 +24,7 @@
 
 int main() {
     // init NT renderer
-	_ntRendererCreateEnvironment();
+	_ntRendererCreateEnvironmentEx(false);
 
     int sx = 640;
     int sy = 480;

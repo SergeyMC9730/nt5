@@ -102,7 +102,26 @@ void setup_reset_bars() {
     }
 }
 
+struct xp_feature {
+    const char *name;
+    const char *description;
+};
+
+struct xp_feature _features[5] = {};
+bool _features_loaded = false;
+
+void draw_xp_features() {
+    Vector2 title_pos = {
+        
+    };
+}
+
 void draw_background(void *ctx) {
+    if (!_features_loaded) {
+        _features[0].name = "An exciting new look";
+        _features[0].description = "123";
+    }
+
     if (_state.old_layer.on_draw.callback) _state.old_layer.on_draw.callback(_state.old_layer.on_draw.user);
 
     oobe_steps[0].name = _state.cterm_setup_colinfo;
@@ -216,6 +235,10 @@ void draw_background(void *ctx) {
 		// dump core information
         _ntDumpCores();
 	}
-
+    
+    // draw progress bar
     setup_process_bars();
+
+    // draw xp features
+    draw_xp_features();
 }

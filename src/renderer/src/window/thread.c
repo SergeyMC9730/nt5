@@ -121,6 +121,8 @@ void *_ntRendererThread(void *ptr) {
 			UnloadRenderTexture(rt1);
 			rt1 = LoadRenderTexture(wsz.x, wsz.y);
 			st->framebuffer = rt1;
+
+			if (!fake_scaling) st->current_window_size = wsz;
 		}
 
 		if (st->status & RENDERER_REQUESTED_STOP || raylib_close) break;
