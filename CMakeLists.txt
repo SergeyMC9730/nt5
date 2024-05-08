@@ -137,7 +137,7 @@ target_include_directories(nt5renderer PRIVATE
 )
 target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language cjson)
 
-if(NOT LUA_LIB)
+if(TRUE)
     message("-- Could NOT find lua. Lua support is disabled")
 else()
     target_compile_definitions(nt5renderer PUBLIC HAS_LUA)

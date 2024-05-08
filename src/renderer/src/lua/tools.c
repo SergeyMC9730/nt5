@@ -21,6 +21,8 @@
 #include <nt5emul/renderer.h>
 #include <nt5emul/reverse_int.h>
 
+#if RENDERER_ENABLE_LUA == 1
+
 int _ntRendererLuaRgbaIntoInt(lua_State *L) {
     int r = lua_tointeger(L, 1);
     int g = lua_tointeger(L, 2);
@@ -67,3 +69,5 @@ int _ntRendererLuaIntIntoFloat(lua_State *L) {
 
     return 1;
 }
+
+#endif
