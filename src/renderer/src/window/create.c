@@ -33,7 +33,9 @@ void _ntRendererCreateEnvironment() {
 	renderer_state_t *st = _ntRendererGetState();
 
     st->queue = RSBCreateArrayRendererQueue();
+#if 0
     st->tweaks = RSBCreateArrayMaxTweak();
+#endif
     st->close_events = RSBCreateArrayEvent();
 
     #if RENDERER_ENABLE_LUA == 1

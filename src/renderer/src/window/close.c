@@ -48,7 +48,9 @@ void _ntRendererCloseEnvironment() {
     printf("close the window! 3!!\n");
 
     RSBDestroyRendererQueue(st->queue);
+#if 0
     RSBDestroyMaxTweak(st->tweaks);
+#endif
 
     for (int i = 0; i < st->close_events->len; i++) {
         renderer_event_t event = RSBGetAtIndexEvent(st->close_events, i);

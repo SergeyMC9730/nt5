@@ -39,6 +39,7 @@ void _ntRendererUpdate() {
     
     // process tweaks
 
+#if 0
     for (size_t i = 0; i < st->tweaks->len; i++) {
         // get object inside the queue
         renderer_max_tweak_object_t *tobj = st->tweaks->objects + i;
@@ -55,6 +56,7 @@ void _ntRendererUpdate() {
             }
         }
     }
+#endif
 
     // cleanup queue
     while (st->queue->len != 0) {

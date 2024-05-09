@@ -42,26 +42,7 @@ typedef struct renderer_queue_object_t {
     int fps;
 } renderer_queue_object_t;
 
-// value tweak object
-
-#define GEN_TWEAK(tweak) TOIn##tweak, TOOut##tweak, TOInOut##tweak 
-
-typedef enum renderer_tweak_type {
-    TOLinear = 0,
-
-    GEN_TWEAK(Sine),
-    GEN_TWEAK(Quad),
-    GEN_TWEAK(Cubic),
-    GEN_TWEAK(Quart),
-    GEN_TWEAK(Quint),
-    GEN_TWEAK(Expo),
-    GEN_TWEAK(Circ),
-    GEN_TWEAK(Back),
-    GEN_TWEAK(Elastic),
-    GEN_TWEAK(Bounce),
-
-    TOEnd
-} renderer_tweak_type;
+#if 0
 
 typedef struct renderer_value_tweak_object_t {
     double time;
@@ -95,6 +76,8 @@ typedef struct renderer_max_tweak_object_t {
     renderer_tweak_object_type type;
 } renderer_max_tweak_object_t;
 
+#endif
+
 // x11 capture struct
 
 #include <raylib.h>
@@ -124,7 +107,9 @@ typedef struct renderer_x11_window_stream_t {
 
 RSB_ARRAY_DEF_GEN(renderer_queue_object_t, RendererQueue);
 RSB_ARRAY_DEF_GEN(renderer_event_t, Event);
+#if 0
 RSB_ARRAY_DEF_GEN(renderer_max_tweak_object_t, MaxTweak);
+#endif
 RSB_ARRAY_DEF_GEN(Image, Image);
 
 #include <stdbool.h>
@@ -142,7 +127,9 @@ typedef struct renderer_state_t {
 	renderer_layer_t *layers;
 	pthread_t thread;
     rsb_array_RendererQueue *queue;
+#if 0
     rsb_array_MaxTweak *tweaks;
+#endif
     rsb_array_Event *close_events;
 
 #define RENDERER_REQUESTED_STOP 1
@@ -250,6 +237,7 @@ rsb_array_Image *_ntRendererLoadIco(const char *filename, int *count);
 // unload images and unload the array itself
 void _ntRendererUnloadImages(rsb_array_Image *images);
 
+#if 0
 // process float value
 void _ntRendererProcessTweakFloat(renderer_float_tweak_object_t *tweak);
 // process double value
@@ -272,6 +260,8 @@ void _ntRendererCreateTweakFloat(float *val, double time, double power, renderer
 // - `power` - how much it would modify
 // - `type` - easing
 void _ntRendererCreateTweakDouble(double *val, double time, double power, renderer_tweak_type type);
+
+#endif
 
 // add event that fires on window close
 void _ntRendererAddCloseEvent(void (*callback)(void *ctx), void *userdata, bool after_cleanup);

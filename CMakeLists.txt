@@ -4,6 +4,8 @@ project ("nt5")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(ENABLE_TEST 0)
+
 # check for libraries
 find_library(SSL_LIB ssl)
 if(NOT SSL_LIB)
@@ -169,6 +171,16 @@ target_include_directories(pe-viewer PRIVATE
 )
 target_link_libraries(pe-viewer nt5tui nt5renderer pe nt5arrays)
 
+# easings_test
+file(GLOB EASINGSTEST_SRC CONFIGURE_DEPENDS "src/easings_test/src/*.c" "src/easings_test/include/*/*.h")
+add_executable(easings_test ${EASINGSTEST_SRC})
+target_include_directories(easings_test PRIVATE 
+    "src/easings_test/include"
+    "src/renderer/include"
+    "src/renderer/raylib/src"
+    "src/arrays/include"
+)
+target_link_libraries(easings_test nt5renderer)
 
 # nt5install
 file(GLOB NTINSTALL_SRC CONFIGURE_DEPENDS "src/nt_install/src/*.c" "src/nt_install/include/*/*.h")
