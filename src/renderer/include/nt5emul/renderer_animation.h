@@ -47,6 +47,15 @@ struct renderer_animation {
 
     // animation id, useful for debugging
     int anim_id;
+
+    // indicates if animation has been completed or not
+    bool completed;
+
+    // indicates if animation has been completed locally or not
+    bool completed_local;
+
+    // indicates if animation is valid or not
+    bool valid;
 };
 
 void _ntRendererUpdateAnimation(struct renderer_animation *animation);

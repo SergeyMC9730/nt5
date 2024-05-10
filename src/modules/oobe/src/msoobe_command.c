@@ -33,7 +33,7 @@
 #include <nt5emul/dwm/button.h>
 
 void msoobe_new() {
-    SetTargetFPS(_state.old_fps);
+    _ntRendererSetFPS(_state.old_fps);
 
     _ntDwmUnloadVideo(_state.xp_vid);
     UnloadTexture(_state.xp_vid.texture);
@@ -221,7 +221,7 @@ void msoobe_preload(void *ctx) {
 
     SetTextureFilter(_state.xp_vid.texture, TEXTURE_FILTER_BILINEAR);
 
-    SetTargetFPS(15);
+    _ntRendererSetFPS(15);
 
     renderer_state_t *st  = _ntRendererGetState();
 

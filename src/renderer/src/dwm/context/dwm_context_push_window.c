@@ -101,5 +101,11 @@ int _ntDwmPushWindow(struct dwm_context *ctx, struct dwm_window wnd) {
 
     printf("window %d with pos %f:%f; size %f:%f\n",wnd2.process.pid, wnd2.position.x, wnd2.position.y, wnd2.size.x, wnd2.size.y);
 
+    for (int i = 0; i < ctx->window_create_event->len; i++) {
+        renderer_event_t ev = RSBGetAtIndexEvent(ctx->window_create_event, i);
+
+        if (ev.callback != NULL) ev.callback(wnd_ptr);
+    }
+
     return wnd_ptr->process.pid;
 }

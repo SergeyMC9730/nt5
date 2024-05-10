@@ -20,6 +20,26 @@
 
 #pragma once
 
+#include <nt5emul/renderer_animation.h>
+#include <nt5emul/renderer_keyframe.h>
+#include <raylib.h>
+
+struct sidebar_state {
+    Vector2 pos;
+    const char *title;
+    const char **elements;
+
+    struct renderer_animation anim;
+    struct renderer_keyframe frame;
+
+    bool closed;
+
+    float content_height;
+};
+
 struct local_module_state {
     int id;
+
+    struct sidebar_state bar1;
+    struct sidebar_state bar2;
 };

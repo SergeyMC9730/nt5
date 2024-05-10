@@ -25,3 +25,5 @@ void explorer_shell_draw(void *ctx);
 void explorer_shell_update(void *ctx);
 
 const char *explorer_map_icon(int idx);
+
+void explorer_shell_init();

@@ -31,11 +31,13 @@
 #include <stdio.h>
 #include <math.h>
 
-Rectangle explorer_draw_sidebar_box(Vector2 pos, const char *title, const char **elements) {
+Rectangle explorer_draw_sidebar_box(struct sidebar_state *bar) {
+    _ntRendererUpdateAnimation(&bar->anim);
+    
     Rectangle returned_rect = {};
     
-    returned_rect.x = pos.x;
-    returned_rect.y = pos.y;
+    returned_rect.x = bar->pos.x;
+    returned_rect.y = bar->pos.y;
     
     struct dwm_context *ctx = _ntDwmGetGlobal();
     
@@ -44,6 +46,8 @@ Rectangle explorer_draw_sidebar_box(Vector2 pos, const char *title, const char *
     
     int _bSzX = 185.f * st->scaling;
     int _bSzY = 25.f * st->scaling;
+
+    Vector2 pos = bar->pos;
 
     pos.x += (1.f * st->scaling);
     
@@ -70,17 +74,23 @@ Rectangle explorer_draw_sidebar_box(Vector2 pos, const char *title, const char *
 
     struct dwm_context_font fontstd = _ntDwmGetFont(ctx, "tahoma9");
 
-    if (elements != NULL) {
+    if (bar->elements != NULL) {
         _tempY = (20.f * st->scaling);
 
         int count = 0;
-        while (elements[count] != NULL) {
-            Vector2 sz = MeasureTextEx(fontstd.font, elements[count], fontstd.real_size, fontstd.spacing);
+        while (bar->elements[count] != NULL) {
+            Vector2 sz = MeasureTextEx(fontstd.font, bar->elements[count], fontstd.real_size, fontstd.spacing);
 
             _tempY += sz.y + (4 * st->scaling);
 
             count++;
         };
+
+        bar->content_height = _tempY;
+    }
+
+    if (bar->anim.keyframes != NULL) {
+        _tempY = bar->anim.current_value;
     }
 
     returned_rect.height = _b.height + _tempY - (1.f * st->scaling);
@@ -99,12 +109,12 @@ Rectangle explorer_draw_sidebar_box(Vector2 pos, const char *title, const char *
 
     DrawRectangleGradientH(pos.x, pos.y, _b.width - (85.f * st->scaling), _b.height, gr1, gr2);
 
-    if (!title) return returned_rect;
+    if (!bar->title) return returned_rect;
 
     // get bold tahoma font from the DWM
     struct dwm_context_font font = _ntDwmGetFont(ctx, "tahomabd9");
     
-    Vector2 titleSz = MeasureTextEx(font.font, title, font.real_size, font.spacing);
+    Vector2 titleSz = MeasureTextEx(font.font, bar->title, font.real_size, font.spacing);
 
     int titleY = (_bSzY - titleSz.y) / 2;
     Color titleColor = {33, 93, 198, 255};
@@ -121,25 +131,51 @@ Rectangle explorer_draw_sidebar_box(Vector2 pos, const char *title, const char *
         titleColor.r += 50;
         titleColor.g += 50;
         titleColor.b += 50;
+
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            bar->frame.easing = TOOutExpo;
+            bar->frame.length = 0.4;
+
+            if (bar->closed) {
+                bar->frame.ending_value = bar->content_height;
+                bar->anim.starting_value = 0;
+            } else {
+                bar->frame.ending_value = 0;
+                // bar->anim.starting_value = bar->content_height;
+            }
+
+            bar->anim.anim_id = rand();
+            bar->anim.completed = false;
+            bar->anim.completed_local = false;
+            bar->anim.count = 1;
+            bar->anim.current_keyframe = 0;
+            bar->anim.current_value = bar->anim.starting_value;
+            bar->anim.delta = (double)1 / (double)st->expected_fps;
+            bar->anim.keyframes = &bar->frame;
+            bar->anim.itime = 0;
+            bar->anim.time = 0;
+
+            bar->closed = !bar->closed;
+        }
     }
 
     BeginScissorMode(pos.x, pos.y, _bSzX, _bSzY);
-    DrawTextEx(font.font, title, (Vector2){pos.x + (14.f * st->scaling), pos.y + titleY}, font.real_size, font.spacing, titleColor);
+    DrawTextEx(font.font, bar->title, (Vector2){pos.x + (14.f * st->scaling), pos.y + titleY}, font.real_size, font.spacing, titleColor);
     EndScissorMode();
 
-    if (elements == NULL) return returned_rect;
+    if (bar->elements == NULL) return returned_rect;
 
     int _y = pos.y + _b.height + (10 * st->scaling);
 
     BeginScissorMode(pos.x, pos.y, _b.width, _b.height + _tempY);
 
     int i = 0;
-    while (elements[i] != NULL) {
-        Vector2 sz = MeasureTextEx(fontstd.font, elements[i], fontstd.real_size, fontstd.spacing);
+    while (bar->elements[i] != NULL) {
+        Vector2 sz = MeasureTextEx(fontstd.font, bar->elements[i], fontstd.real_size, fontstd.spacing);
 
         Color c = {33, 93, 198, 255};
 
-        DrawTextEx(fontstd.font, elements[i], (Vector2){pos.x + (16 * st->scaling), _y}, fontstd.real_size, fontstd.spacing, c);
+        DrawTextEx(fontstd.font, bar->elements[i], (Vector2){pos.x + (16 * st->scaling), _y}, fontstd.real_size, fontstd.spacing, c);
 
         _y += sz.y + (4 * st->scaling);
 
@@ -185,13 +221,21 @@ void explorer_draw_sidebar1(struct dwm_window *wnd, void *user) {
         _state.cterm_explorer_st_vsi, _state.cterm_explorer_st_arp, _state.cterm_explorer_st_cs, NULL
     };
 
-    Rectangle r1 = explorer_draw_sidebar_box((Vector2){cX, 13.f * st->scaling}, _state.cterm_explorer_system_tasks, table);
+    lst->bar1.pos = (Vector2){cX, 13.f * st->scaling};
+    lst->bar1.title = _state.cterm_explorer_system_tasks;
+    lst->bar1.elements = table;
+
+    Rectangle r1 = explorer_draw_sidebar_box(&lst->bar1);
 
     const char *table2[] = {
         _state.cterm_explorer_op_nmp, _state.cterm_explorer_op_md, _state.cterm_explorer_op_sd, _state.cterm_explorer_op_cp, NULL
     };
 
-    explorer_draw_sidebar_box((Vector2){r1.x, r1.y + r1.height + (15.f * st->scaling)}, _state.cterm_explorer_other_places, table2);
+    lst->bar2.pos = (Vector2){r1.x, r1.y + r1.height + (15.f * st->scaling)};
+    lst->bar2.title = _state.cterm_explorer_other_places;
+    lst->bar2.elements = table2;
+
+    explorer_draw_sidebar_box(&lst->bar2);
 }
 
 void explorer_window_draw(struct dwm_window *wnd, void *user) {

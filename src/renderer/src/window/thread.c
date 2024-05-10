@@ -61,8 +61,11 @@ void *_ntRendererThread(void *ptr) {
 	// make it empty
 	memset(st->layers, 0, layers_size);
 
+	// get main monitor's refresh rate
+	int _fps = GetMonitorRefreshRate(0);
+
 	// set window fps to main monitor's refresh rate
-	SetTargetFPS(GetMonitorRefreshRate(0));
+	_ntRendererSetFPS(_fps);
 
 	// get window scaling
 	float _scaling = GetWindowScaleDPI().x;

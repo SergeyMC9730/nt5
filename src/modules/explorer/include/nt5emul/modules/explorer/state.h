@@ -25,6 +25,7 @@
 #include <raylib.h>
 
 #include <nt5emul/renderer.h>
+#include <nt5emul/renderer_animation.h>
 
 struct module_state {
     cterm_t *runtime;
@@ -60,6 +61,11 @@ struct module_state {
     const char *cterm_explorer_op_md;
     const char *cterm_explorer_op_sd;
     const char *cterm_explorer_op_cp;
+
+#define STATE_ARRAYS_LEN 64
+
+    struct renderer_animation animations[STATE_ARRAYS_LEN];
+    // struct dwm_button taskbar_apps[STATE_ARRAYS_LEN];
 };
 
 extern struct module_state _state;

@@ -22,11 +22,64 @@
 #include <nt5emul/dwm/button.h>
 #include <nt5emul/timer.h>
 #include <nt5emul/version.h>
+#include <nt5emul/renderer_keyframe.h>
 
 #include <stdio.h>
 
 void explorer_shell_mouse_reset(void *ctx) {
     _state.icon_pressed_times = 0;
+}
+
+void explorer_window_created(struct dwm_window *wnd) {
+    printf("EXPLORER window created %d\n", wnd->process.pid);
+
+    struct renderer_animation *free_anim = NULL;
+    
+    for (int i = 0; i < STATE_ARRAYS_LEN; i++){
+        if (_state.animations[i].anim_id == -1) {
+            free_anim = _state.animations + i;
+
+            if (free_anim->keyframes != NULL) {
+                free(free_anim->keyframes);
+            }
+
+            break;
+        }
+    }
+
+    struct renderer_keyframe *frame = (struct renderer_keyframe *)calloc(1, sizeof(struct renderer_keyframe));
+
+    renderer_state_t *st = _ntRendererGetState();
+
+    frame->easing = TOOutExpo;
+    frame->length = 0.5;
+    frame->ending_value = (double)50 * (double)st->scaling;
+
+    free_anim->anim_id = wnd->process.pid;
+    free_anim->count = 1;
+    free_anim->keyframes = frame;
+
+    free_anim->starting_value = 1;
+    free_anim->itime = 0;
+    free_anim->time = 0;
+    free_anim->current_value = free_anim->starting_value;
+    free_anim->current_keyframe = 0;
+    free_anim->delta = (double)1 / (double)st->expected_fps;
+
+    if (!free_anim) return;
+}
+
+void explorer_shell_init() {
+    struct dwm_context *dctx = _ntDwmGetGlobal();
+
+    renderer_event_t ev;
+    ev.callback = explorer_window_created;
+
+    RSBAddElementEvent(dctx->window_create_event, ev);
+
+    for (int i = 0; i < STATE_ARRAYS_LEN; i++){
+        _state.animations[i].anim_id = -1;
+    }
 }
 
 bool explorer_pressed_on_window() {
@@ -222,6 +275,20 @@ Rectangle explorer_shell_draw_taskbar(void *ctx) {
         btn.button.width = btn_xsz;
         btn.button.height = taskbar.height - (4 * st->scaling);
 
+        struct renderer_animation *window_anim = NULL;
+    
+        for (int i = 0; i < STATE_ARRAYS_LEN; i++){
+            if (_state.animations[i].anim_id == _wnd->process.pid) {
+                window_anim = _state.animations + i;
+
+                break;
+            }
+        }
+
+        if (window_anim) {
+            btn.button.width = window_anim->current_value;
+        }
+
         btn.howered.ability = true;
         btn.activated.ability = true;
 
@@ -242,7 +309,7 @@ Rectangle explorer_shell_draw_taskbar(void *ctx) {
             _wnd->hidden.state = false;
         }
 
-        btn_x += btn_xsz + (4 * st->scaling);
+        btn_x += btn.button.width + (4 * st->scaling);
     }
 
     RSBDestroyInt(pids);
@@ -260,7 +327,7 @@ void explorer_shell_draw_background(void *ctx) {
 
     float ratio = 1.f;
 
-    if (_state.background.height > sz.y) {
+    if ((float)_state.background.height > sz.y) {
         ratio = sz.y / (float)_state.background.height;
     }
 
@@ -351,6 +418,10 @@ void explorer_shell_update(void *ctx) {
             // _state.icon_pressed_times = 0;
             // _state.icon_pressed_id = -1;
         }
+    }
+
+    for (int i = 0; i < STATE_ARRAYS_LEN; i++) {
+        _ntRendererUpdateAnimation(_state.animations + i);
     }
 
     if (_state.old_layer.on_update.callback) _state.old_layer.on_update.callback(_state.old_layer.on_update.user);

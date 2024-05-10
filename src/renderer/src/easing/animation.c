@@ -9,12 +9,21 @@
 #endif
 
 void _ntRendererUpdateAnimation(struct renderer_animation *animation) {
+    animation->valid = false;
+
     if (animation->count == 0) return;
+    if (animation->keyframes == NULL) return;
+
+    animation->valid = true;
 
     if (animation->linked_animation != NULL) {
         struct renderer_animation *anim = (struct renderer_animation *)animation->linked_animation;
 
         _ntRendererUpdateAnimation(anim);
+
+        animation->completed = animation->completed_local && anim->completed_local;
+    } else {
+        animation->completed = animation->completed_local;
     }
 
     struct renderer_keyframe *selected = animation->keyframes + animation->current_keyframe;
@@ -30,7 +39,7 @@ void _ntRendererUpdateAnimation(struct renderer_animation *animation) {
 #endif
 
             if (animation->current_keyframe >= animation->count) {
-                // animation->final_value = animation->current_value;
+                animation->completed_local = true;
 #if DEBUG == 1
                 printf("[%d] animation completed\n", animation->anim_id);
 #endif

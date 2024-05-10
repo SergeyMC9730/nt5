@@ -19,23 +19,11 @@
 */
 
 #include <nt5emul/renderer.h>
-#include <nt5emul/pv/select_file.h>
-#include <nt5emul/tui/environment.h>
 
-int main() {
-    // init NT renderer
-	_ntRendererCreateEnvironmentEx(false);
+void _ntRendererSetFPS(int fps) {
+    renderer_state_t *st = _ntRendererGetState();
 
-    int sx = 640;
-    int sy = 480;
+    st->expected_fps = fps;
 
-    _ntRendererSetWindowSize((Vector2){sx, sy});
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
-    SetWindowMinSize(sx, sy);
-
-    _ntRendererSetFPS(30);
-
-    _ntPVSelectFileMain();
-
-    _ntRendererJoin();
+    SetTargetFPS(fps);
 }

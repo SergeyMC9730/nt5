@@ -162,6 +162,8 @@ typedef struct renderer_state_t {
 #endif
 
     bool fake_scaling;
+
+    int expected_fps;
 } renderer_state_t;
 
 #pragma pack(pop)
@@ -321,3 +323,5 @@ void _ntRendererSetWindowSize(Vector2 size);
 // get mouse position
 // if fake scaling is applied, mouse position would be scaled properly
 Vector2 _ntRendererGetMousePosition();
+
+void _ntRendererSetFPS(int fps);

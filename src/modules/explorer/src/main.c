@@ -49,6 +49,8 @@ bool explorer_command(void *data) {
 
         _state.id++;
 
+        explorer_shell_init();
+
         explorer_intro_create();
 
         return true;

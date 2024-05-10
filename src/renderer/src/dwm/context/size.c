@@ -18,8 +18,6 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#pragma once
-
 #include <nt5emul/dwm/context.h>
 
 // set size for this dwm instance

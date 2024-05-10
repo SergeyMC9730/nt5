@@ -29,6 +29,8 @@
 
 RSB_ARRAY_DEF_GEN(struct dwm_window, DWMWindow);
 
+typedef struct rsb_array_Event rsb_array_Event;
+
 #include <nt5emul/dwm/font.h>
 
 struct dwm_context_fonts {
@@ -65,6 +67,8 @@ struct dwm_context {
     int global_process_increment;
 
     Vector2 size;
+
+    rsb_array_Event *window_create_event;
 };
 
 // draw dwm context
