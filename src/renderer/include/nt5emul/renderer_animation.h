@@ -20,8 +20,15 @@ struct renderer_animation {
     double starting_value;
 
     // current value
-    // it also would be incremented by current_value from linked animation but you can disable this behaviour
+    // it also can be incremented by current_value from linked animation but this behaviour is disabled by default
     double current_value;
+
+    // local current value
+    // it is not affected by the linked animation
+    double local_current_value;
+
+    // value on animation end
+    double final_value;
 
     // time spent on whole animation
     double time;
@@ -36,7 +43,10 @@ struct renderer_animation {
     struct render_animation *linked_animation;
 
     // if this flag is set to true then current_value also would include current_value from the linked_animation
-    bool influenced;    
+    bool influenced;
+
+    // animation id, useful for debugging
+    int anim_id;
 };
 
 void _ntRendererUpdateAnimation(struct renderer_animation *animation);

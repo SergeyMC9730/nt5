@@ -1,27 +1,46 @@
+#define DEBUG 0
+
 #include <nt5emul/renderer_keyframe.h>
 #include <nt5emul/renderer_animation.h>
 #include <nt5emul/renderer_ease.h>
 #include <stddef.h>
+#if DEBUG == 1
+#include <stdio.h>
+#endif
 
 void _ntRendererUpdateAnimation(struct renderer_animation *animation) {
     if (animation->count == 0) return;
-    if (animation->current_keyframe >= animation->count) return;
 
     if (animation->linked_animation != NULL) {
-        _ntRendererUpdateAnimation(animation->linked_animation);
+        struct renderer_animation *anim = (struct renderer_animation *)animation->linked_animation;
+
+        _ntRendererUpdateAnimation(anim);
     }
 
     struct renderer_keyframe *selected = animation->keyframes + animation->current_keyframe;
 
-    if (animation->itime >= selected->length) {
-        animation->itime = 0;
-        animation->current_keyframe++;
+    if (animation->current_keyframe < animation->count) {
+        if (animation->itime >= selected->length) {
+            animation->itime = 0;
+            animation->current_keyframe++;
+            animation->final_value = animation->starting_value + selected->ending_value;
 
-        if (animation->current_keyframe >= animation->count) return;
-    
-        animation->starting_value += selected->ending_value;
+#if DEBUG == 1
+            printf("[%d] keyframe %d completed\n", animation->anim_id, animation->current_keyframe);
+#endif
 
-        selected = animation->keyframes + animation->current_keyframe;
+            if (animation->current_keyframe >= animation->count) {
+                // animation->final_value = animation->current_value;
+#if DEBUG == 1
+                printf("[%d] animation completed\n", animation->anim_id);
+#endif
+                return;
+            }
+        
+            animation->starting_value += selected->ending_value;
+
+            selected = animation->keyframes + animation->current_keyframe;
+        }
     }
 
     static double (*easings[TOEnd])(double) = {
@@ -38,15 +57,36 @@ void _ntRendererUpdateAnimation(struct renderer_animation *animation) {
         _rendererInOutBounce 
     };
 
-    double (*selected_easing)(double) = easings[selected->easing];
+    double _res = 0;
+    double res = 0;
 
-    double res = selected_easing(animation->itime / selected->length);
+    if (animation->current_keyframe < animation->count) {
+#if DEBUG == 1
+        printf("[%d] processing keyframe %d\n", animation->anim_id, animation->current_keyframe);
+#endif
+        
+        double (*selected_easing)(double) = easings[selected->easing];
 
-    if (selected->easing == TOLinear) {
-        res = (double)1 - res;
+        _res = selected_easing(animation->itime / selected->length);
+
+        if (selected->easing == TOLinear) {
+            _res = (double)1 - _res;
+        }
+
+        res = animation->starting_value + (selected->ending_value * _res);
+    } else {
+        res = animation->final_value;
     }
 
-    animation->current_value = animation->starting_value + (selected->ending_value * res);    
+    animation->local_current_value = res;
+
+    if (animation->influenced && animation->linked_animation != NULL) {
+        struct renderer_animation *anim = (struct renderer_animation *)animation->linked_animation;
+
+        res += anim->current_value;
+    }
+
+    animation->current_value = res;    
 
     animation->time += animation->delta;
     animation->itime += animation->delta;
