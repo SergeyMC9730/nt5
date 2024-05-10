@@ -93,6 +93,7 @@ struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
     ctx->lpack = _ntGenerateLanguagePack();
     
     ctx->window_create_event = RSBCreateArrayEvent();
+    ctx->window_close_event = RSBCreateArrayEvent();
 
     while (ctx->loading_finished != true) {
         // wait 0.1 seconds before checking again

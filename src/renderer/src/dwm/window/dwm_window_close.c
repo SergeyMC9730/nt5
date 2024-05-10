@@ -21,10 +21,21 @@
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/dwm/context.h>
 
+#include <nt5emul/renderer.h>
+#include <nt5emul/renderer_event.h>
+
+#include <stdio.h>
+
 void _ntCloseWindow(struct dwm_window *wnd, void *ctx_ptr) {
     if (!wnd->closed.ability) return;
 
     struct dwm_context *ctx = (struct dwm_context *)ctx_ptr;
+
+    for (int i = 0; i < ctx->window_close_event->len; i++) {
+        renderer_event_t ev = RSBGetAtIndexEvent(ctx->window_close_event, i);
+
+        if (ev.callback != NULL) ev.callback(wnd);
+    }
 
     rsb_array_Int *list = _ntDwmGetProcessesRaw(ctx);
 

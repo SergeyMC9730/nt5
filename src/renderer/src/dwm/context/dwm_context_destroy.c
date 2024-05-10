@@ -39,6 +39,7 @@ void _ntDwmDestroyContext(struct dwm_context *ctx) {
     RSBDestroyInt(windows);
     RSBDestroyDWMWindow(ctx->windows);
     RSBDestroyEvent(ctx->window_create_event);
+    RSBDestroyEvent(ctx->window_close_event);
 
     // unload fonts
     // struct dwm_context_font *fonts[] = {

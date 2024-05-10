@@ -69,6 +69,7 @@ struct dwm_context {
     Vector2 size;
 
     rsb_array_Event *window_create_event;
+    rsb_array_Event *window_close_event;
 };
 
 // draw dwm context

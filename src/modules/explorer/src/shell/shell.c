@@ -41,10 +41,17 @@ void explorer_window_created(struct dwm_window *wnd) {
 
             if (free_anim->keyframes != NULL) {
                 free(free_anim->keyframes);
+                free_anim->keyframes = NULL;
             }
 
             break;
         }
+    }
+
+    if (!free_anim) {
+        printf("free_anim cannot be found (pid=%d)\n", wnd->process.pid);
+        
+        return;
     }
 
     struct renderer_keyframe *frame = (struct renderer_keyframe *)calloc(1, sizeof(struct renderer_keyframe));
@@ -69,13 +76,38 @@ void explorer_window_created(struct dwm_window *wnd) {
     if (!free_anim) return;
 }
 
+void explorer_window_closed(struct dwm_window *wnd) {
+    printf("EXPLORER window closed %d\n", wnd->process.pid);
+
+    struct renderer_animation *anim = NULL;
+    
+    for (int i = 0; i < STATE_ARRAYS_LEN; i++){
+        if (_state.animations[i].anim_id == wnd->process.pid) {
+            anim = _state.animations + i;
+
+            if (anim->keyframes != NULL) {
+                free(anim->keyframes);
+                anim->keyframes = NULL;
+            }
+
+            anim->anim_id = -1;
+
+            return;
+        }
+    }
+}
+
 void explorer_shell_init() {
     struct dwm_context *dctx = _ntDwmGetGlobal();
 
     renderer_event_t ev;
     ev.callback = explorer_window_created;
 
+    renderer_event_t ev2;
+    ev2.callback = explorer_window_closed;
+
     RSBAddElementEvent(dctx->window_create_event, ev);
+    RSBAddElementEvent(dctx->window_close_event, ev2);
 
     for (int i = 0; i < STATE_ARRAYS_LEN; i++){
         _state.animations[i].anim_id = -1;
@@ -352,6 +384,21 @@ void explorer_shell_draw(void *ctx) {
 
 #include <string.h>
 
+#include <nt5emul/modules/explorer/intro.h>
+
+void *explorer_shell_test_animation1_thread(void *user) {
+    for (int i = 0; i < 16; i++) {
+        explorer_intro_create();
+
+        _ntSetupTimerSync(0.05f);
+    }
+}
+void explorer_shell_test_animation1() {
+    pthread_t thr;
+
+    pthread_create(&thr, NULL, explorer_shell_test_animation1_thread, NULL);
+}
+
 void explorer_shell_update(void *ctx) {
     if (_state.background.width == 0) {
         _state.background = LoadTexture("nt/images/user/wallpapers/bliss.jpg");
@@ -422,6 +469,10 @@ void explorer_shell_update(void *ctx) {
 
     for (int i = 0; i < STATE_ARRAYS_LEN; i++) {
         _ntRendererUpdateAnimation(_state.animations + i);
+    }
+
+    if (IsKeyPressed(KEY_T)) {
+        explorer_shell_test_animation1();
     }
 
     if (_state.old_layer.on_update.callback) _state.old_layer.on_update.callback(_state.old_layer.on_update.user);
