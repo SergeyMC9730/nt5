@@ -28,6 +28,8 @@ struct bi_timer {
     void *userdata;
 
     void (*callback)(void *ctx);
+
+    bool allocated;
 };
 
 #include <time.h>
@@ -57,7 +59,7 @@ void _nt_timer_thread(struct ntcore core, void *arg) {
         timer->callback(timer->userdata);
     }
 
-    free(timer); 
+    if (timer->allocated) free(timer);
 
     return;
 }
@@ -77,6 +79,9 @@ void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata) 
     // set userdata
     timer->userdata = userdata;
 
+    // set allocated flag
+    timer->allocated = true;
+
     // create job
     _ntRequestCoreJob(_nt_timer_thread, timer);
     
@@ -85,8 +90,10 @@ void _ntInstallTimer(void(*callback)(void *ctx), float seconds, void *userdata) 
 }
 
 void _ntSetupTimerSync(float seconds) {
-    struct bi_timer *timer = (struct bi_timer *)calloc(1, sizeof(struct bi_timer));
-    timer->ms = seconds * 1000;
+    struct bi_timer timer = {};
+    
+    timer.ms = seconds * 1000;
+    timer.allocated = false;
 
-    _nt_timer_thread((struct ntcore){}, timer);
+    _nt_timer_thread((struct ntcore){}, &timer);
 }

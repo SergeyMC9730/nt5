@@ -387,10 +387,10 @@ void explorer_shell_draw(void *ctx) {
 #include <nt5emul/modules/explorer/intro.h>
 
 void *explorer_shell_test_animation1_thread(void *user) {
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 256 * 1.5; i++) {
         explorer_intro_create();
 
-        _ntSetupTimerSync(0.05f);
+        // _ntSetupTimerSync(0.05f);
     }
 }
 void explorer_shell_test_animation1() {
