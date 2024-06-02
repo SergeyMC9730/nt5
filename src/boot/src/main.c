@@ -18,6 +18,7 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
+#include "nt5emul/renderer_event.h"
 #include <stdio.h>
 
 #include <nt5emul/boot.h>
@@ -70,7 +71,7 @@ bool _boot_run_command(const char *command, void *userdata) {
 
 bool _boot_run_logo() {
 	bool result = true;
-	
+
 	#if SKIP_LOGO == 0
 	result = _boot_run_command("logo", NULL);
 	#endif
@@ -84,7 +85,7 @@ bool _boot_run_msoobe(struct dwm_context *ctx) {
 }
 bool _boot_run_setup(struct dwm_context *ctx) {
 	bool result = _boot_run_command("setup", ctx);
-	
+
 	return result;
 }
 
@@ -96,7 +97,7 @@ void _system_end(void *ctx) {
 	renderer_state_t * st = _ntRendererGetState();
 
 	RSBDestroyEvent(st->close_events);
-	
+
 	exit(0);
 }
 
@@ -154,7 +155,7 @@ void _boot_begin(int argc, char **argv) {
 	bool set2xscale = false;
 	bool fake_scaling = false;
 	bool force_text_installation = false;
-	
+
 	if (argc >= 2) {
 		int count = argc - 1;
 
@@ -211,7 +212,7 @@ void _boot_begin(int argc, char **argv) {
 
 	// create "nt" folder
 	mkdir("nt", 0777);
-	
+
 	const char *config_path = "nt/config.json";
 
 	struct nt_config config = _ntGetConfig(config_path);
@@ -235,7 +236,7 @@ void _boot_begin(int argc, char **argv) {
 
 		_ntRendererAddCloseEvent(_ntCloseCores, NULL, false);
 		_ntRendererAddCloseEvent(_system_end, NULL, true);
-		
+
 		_boot_install_begin();
 
 		return;
@@ -266,7 +267,7 @@ void _boot_begin(int argc, char **argv) {
 
 	// init Text UI environment
 	_ntRendererPushQueue(_ntTuiLoadEnvironmentDefault, NULL);
-	
+
 	struct dwm_context *ctx = _ntDwmCreateContext("ntresources/basic.theme");
 
 	_ntDwmSetGlobal(ctx);
@@ -287,10 +288,10 @@ void _boot_begin(int argc, char **argv) {
 	} else {
 		// _ntSetupTimerSync(0.1);
 	}
-	
+
 	// setup dwm layer
 	st->layers[0].on_draw.user = ctx;
-	st->layers[0].on_draw.callback = _ntDwmDrawContext;
+	st->layers[0].on_draw.callback = REVENT_CALLBACK_CAST(_ntDwmDrawContext);
 
 	if (!skip_logo){
 		// wait 5.5 seconds

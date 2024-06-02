@@ -14,6 +14,7 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
+#include "nt5emul/renderer_event.h"
 #include <nt5emul/modules/explorer/state.h>
 #include <nt5emul/modules/explorer/shell.h>
 #include <nt5emul/renderer.h>
@@ -34,7 +35,7 @@ void explorer_window_created(struct dwm_window *wnd) {
     printf("EXPLORER window created %d\n", wnd->process.pid);
 
     struct renderer_animation *free_anim = NULL;
-    
+
     for (int i = 0; i < STATE_ARRAYS_LEN; i++){
         if (_state.animations[i].anim_id == -1) {
             free_anim = _state.animations + i;
@@ -50,7 +51,7 @@ void explorer_window_created(struct dwm_window *wnd) {
 
     if (!free_anim) {
         printf("free_anim cannot be found (pid=%d)\n", wnd->process.pid);
-        
+
         return;
     }
 
@@ -80,7 +81,7 @@ void explorer_window_closed(struct dwm_window *wnd) {
     printf("EXPLORER window closed %d\n", wnd->process.pid);
 
     struct renderer_animation *anim = NULL;
-    
+
     for (int i = 0; i < STATE_ARRAYS_LEN; i++){
         if (_state.animations[i].anim_id == wnd->process.pid) {
             anim = _state.animations + i;
@@ -97,14 +98,15 @@ void explorer_window_closed(struct dwm_window *wnd) {
     }
 }
 
+
 void explorer_shell_init() {
     struct dwm_context *dctx = _ntDwmGetGlobal();
 
     renderer_event_t ev;
-    ev.callback = explorer_window_created;
+    ev.callback = REVENT_CALLBACK_CAST(explorer_window_created);
 
     renderer_event_t ev2;
-    ev2.callback = explorer_window_closed;
+    ev2.callback = REVENT_CALLBACK_CAST(explorer_window_closed);
 
     RSBAddElementEvent(dctx->window_create_event, ev);
     RSBAddElementEvent(dctx->window_close_event, ev2);
@@ -170,7 +172,7 @@ void explorer_shell_draw_icons() {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !explorer_pressed_on_window()) {
             if (
                 CheckCollisionPointRec(
-                    GetMousePosition(), 
+                    GetMousePosition(),
                     (Rectangle){
                         current_pos.x, current_pos.y, _state.icons[i].width * st->scaling, _state.icons[i].height * st->scaling
                     }
@@ -308,7 +310,7 @@ Rectangle explorer_shell_draw_taskbar(void *ctx) {
         btn.button.height = taskbar.height - (4 * st->scaling);
 
         struct renderer_animation *window_anim = NULL;
-    
+
         for (int i = 0; i < STATE_ARRAYS_LEN; i++){
             if (_state.animations[i].anim_id == _wnd->process.pid) {
                 window_anim = _state.animations + i;
@@ -392,6 +394,8 @@ void *explorer_shell_test_animation1_thread(void *user) {
 
         // _ntSetupTimerSync(0.05f);
     }
+
+    return NULL;
 }
 void explorer_shell_test_animation1() {
     pthread_t thr;
@@ -484,7 +488,7 @@ const char *explorer_map_icon(int idx) {
         case 0:
         case 1:
         case 2:
-        case 3: 
+        case 3:
         case 4: {
             return "explorer";
         }

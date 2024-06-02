@@ -159,6 +159,23 @@ target_include_directories(nt5tui PRIVATE
 )
 target_link_libraries(nt5tui nt5renderer nt5tools)
 
+# panic
+file(GLOB NTPANIC_SRC CONFIGURE_DEPENDS "src/panic/src/*.c" "src/panic/include/*/*.h")
+add_library (nt5panic SHARED ${NTPANIC_SRC})
+target_include_directories(nt5panic PRIVATE
+    "src/panic/include"
+    "src/renderer/include"
+    "src/nt_install/include"
+    "src/renderer/raylib/src"
+    "src/ntldr_tui/include"
+    "src/external/cJSON"
+    "src/arrays/include"
+    "src/external"
+    "src/nt_tools/include"
+    "src/global/include"
+)
+target_link_libraries(nt5panic nt5renderer nt5tools nt5tui)
+
 # pe-viewer
 file(GLOB PEVIEWER_SRC CONFIGURE_DEPENDS "src/pe_viewer/src/*.c" "src/pe_viewer/include/*/*.h")
 add_executable(pe-viewer ${PEVIEWER_SRC})
@@ -227,7 +244,7 @@ target_include_directories(nt5 PRIVATE
     "src/renderer/include"
     "src/arrays/include"
 )
-target_link_libraries(nt5 nt5boot)
+target_link_libraries(nt5 nt5boot nt5panic)
 
 # cterm modules
 
@@ -309,8 +326,9 @@ target_include_directories(ntmod_explorer PRIVATE
     "src/nt_tools/include"
     "src/language/include"
     "src/ntldr_tui/include"
+    "src/panic/include"
 )
-target_link_libraries(ntmod_explorer nt5renderer raylib nt5tui)
+target_link_libraries(ntmod_explorer nt5renderer raylib nt5tui nt5panic)
 
 # notepad
 file (GLOB NTMOD_NOTEPAD_SRC CONFIGURE_DEPENDS "src/modules/notepad/src/*.c")

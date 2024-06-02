@@ -24,6 +24,10 @@
 
 #include <stdbool.h>
 
+typedef void renderer_event_callback_t(void*);
+
+#define REVENT_CALLBACK_CAST(func) (renderer_event_callback_t *)(func)
+
 typedef struct renderer_event_t {
 	void (*callback)(void *user);
 	void *user;

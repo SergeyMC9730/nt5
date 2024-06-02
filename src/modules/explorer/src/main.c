@@ -32,9 +32,15 @@
 
 #include <stdio.h>
 
+#include <nt5emul/panic/setup.h>
+
 bool explorer_command(void *data) {
+    _ntPanic("idk", 1234);
+
+    return false;
+
     load_text();
-    
+
     renderer_state_t *st = _ntRendererGetState();
 
     if (_state.id == 0) {

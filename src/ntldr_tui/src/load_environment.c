@@ -31,12 +31,12 @@ const char *_ntTuiCodepoints =  "QWERTYUIOPASDFGHJKLZXCVBNMZXCVBNM" // english a
                                 "[]{}()" // brackets
                                 "ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ" // cyrillic alphabet with all upper case characters
                                 "ёйцукенгшщзхъфывапролджэячсмитьбю" // cyrillic alphabet with all lower case chararcters
-                                ",.;!?:" // punctuation      
+                                ",.;!?:" // punctuation
                                 "/\\|" // slashes
                                 "1234567890" // numbers
                                 "<>-=+~*^%№" // math signs
                                 "\"'`" // quotation marks
-                                "@#$&_" // random characters 
+                                "@#$&_" // random characters
                                 "═ • │ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐ └ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ █ ▄ ▌ ▐ ▀ "; // lines
 
 extern void _ntUpdatePointer();
@@ -45,6 +45,12 @@ extern void _ntUpdatePointer();
 
 // load text ui environment
 void _ntTuiLoadEnvironment(const char *font_path, Vector2 base_font_size) {
+    // check if env has been created
+    if (_ntTuiEnvironment.exists) {
+        // dont do anything
+        return;
+    }
+
     // load codepoints
     int codepointCount = 0;
     int *codepoints = LoadCodepoints(_ntTuiCodepoints, &codepointCount);

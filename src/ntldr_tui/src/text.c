@@ -18,6 +18,7 @@
     Contact SergeyMC9730 -- @dogotrigger in Discord
 */
 
+#include "raylib.h"
 #include <nt5emul/tui/environment.h>
 #include <nt5emul/renderer.h>
 
@@ -32,13 +33,15 @@ extern struct nt_tui_environment _ntTuiEnvironment;
 
 void _ntTuiDrawText(const char *str, unsigned char x, unsigned char y, Color col) {
     if (str == NULL) return;
-    
-    DrawTextEx(_ntTuiEnvironment.font, str, (Vector2){x * _ntTuiEnvironment.base_font_size.x, y * _ntTuiEnvironment.base_font_size.y}, 16, 0.f, col);
+
+    float scale = GetWindowScaleDPI().x;
+
+    DrawTextEx(_ntTuiEnvironment.font, str, (Vector2){x * _ntTuiEnvironment.base_font_size.x * scale, y * _ntTuiEnvironment.base_font_size.y * scale}, 16.f * scale, 0.f, col);
 }
 
 void _ntTuiDrawTextCentered(const char *str, signed char x, signed char y, Color col) {
     if (str == NULL) return;
-    
+
     size_t len = strlen(str);
 
     Vector2 pos = {x, y};

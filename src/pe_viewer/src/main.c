@@ -18,6 +18,7 @@
     Contact SergeyMC9730 -- @dogotrigger in Discord
 */
 
+#include "raylib.h"
 #include <nt5emul/renderer.h>
 #include <nt5emul/pv/select_file.h>
 #include <nt5emul/tui/environment.h>
@@ -26,14 +27,16 @@ int main() {
     // init NT renderer
 	_ntRendererCreateEnvironmentEx(false);
 
-    int sx = 640;
-    int sy = 480;
+	float scale = GetWindowScaleDPI().x;
+
+    int sx = 640 * scale;
+    int sy = 480 * scale;
 
     _ntRendererSetWindowSize((Vector2){sx, sy});
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetWindowMinSize(sx, sy);
 
-    _ntRendererSetFPS(30);
+    // _ntRendererSetFPS(30);
 
     _ntPVSelectFileMain();
 
