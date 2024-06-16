@@ -40,7 +40,7 @@ struct renderer_animation {
     double delta;
 
     // linked animation
-    struct render_animation *linked_animation;
+    struct renderer_animation *linked_animation;
 
     // if this flag is set to true then current_value also would include current_value from the linked_animation
     bool influenced;
