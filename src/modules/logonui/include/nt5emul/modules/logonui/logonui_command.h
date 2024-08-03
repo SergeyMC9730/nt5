@@ -20,4 +20,6 @@
 
 #include <stdbool.h>
 
-bool logonui_command(void *data);
+struct cterm_command;
+
+bool logonui_command(struct cterm_command *data);

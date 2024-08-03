@@ -19,6 +19,7 @@
 */
 
 #include <nt5emul/renderer.h>
+#include <stdio.h>
 
 // set window scale
 Vector2 _ntRendererSetDpiScale(float scale) {
@@ -46,7 +47,7 @@ Vector2 _ntRendererSetDpiScale(float scale) {
     printf("old scale val: %f\n", old_scale);
     printf("setting size to %f %f\n", new_sz.x, new_sz.y);
 
-    SetTextLineSpacing((int)(15.f * scale / 2.f));
+    SetTextLineSpacing((int)(30.f * scale / 2.f));
 
     _ntRendererSetWindowSize((Vector2){new_sz.x, new_sz.y});
 

@@ -19,15 +19,13 @@
 */
 
 #include <nt5emul/modules/logonui/state.h>
-
+#include <cterm/cterm.h>
 #include <nt5emul/modules/logonui/logonui_command.h>
 
-void init(cterm_t *info) {
-    _state.runtime = info;
-    
-    info->register_command("logonui", "Logon UI", false, logonui_command);
+void on_init(struct cterm_module *info) {
+    _ctermRegisterCommand(info->cterm_instance, "logonui", "Logon UI", logonui_command);
 
     return;
 }
 
-SET_INFORMATION("logonui", "Logon UI", "1.00")
+CTERM_INIT_MODULE("logonui", "Logon UI", "2.0.0")

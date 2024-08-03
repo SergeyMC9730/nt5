@@ -21,10 +21,12 @@
 
 #pragma once
 
-#include <cterm/applications/api.h>
+struct cterm_instance;
+
+#include <stdbool.h>
 
 struct module_state {
-    cterm_t *runtime;
+    struct cterm_instance *runtime;
 
     bool execution_lock;
 
@@ -35,7 +37,8 @@ struct module_state {
 
 extern struct module_state _state;
 
-#include <nt5emul/arrays/rsb_array_char.h>
+// #include <nt5emul/arrays/rsb_array_char.h>
+typedef struct rsb_array_String rsb_array_String;
 
 struct local_notepad_module_state {
     int id;

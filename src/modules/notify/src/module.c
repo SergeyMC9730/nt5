@@ -19,15 +19,13 @@
 */
 
 #include <nt5emul/modules/notify/state.h>
-
+#include <cterm/cterm.h>
 #include <nt5emul/modules/notify/notify_command.h>
 
-void init(cterm_t *info) {
-    _state.runtime = info;
-    
-    info->register_command("notify", "Notify NT5 renderer", false, notify_command);
+void on_init(struct cterm_module *module) {
+    _ctermRegisterCommand(module->cterm_instance, "notify", "Notify NT5 renderer", notify_command);
 
     return;
 }
 
-SET_INFORMATION("notify", "NT5 Notifications", "1.00")
+CTERM_INIT_MODULE("notify", "NT5 Notifications", "2.0.0")

@@ -21,4 +21,7 @@
 
 #pragma once
 
-bool explorer_command(void *data);
+#include <stdbool.h>
+struct cterm_command;
+
+bool explorer_command(struct cterm_command *data);

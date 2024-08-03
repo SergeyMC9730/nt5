@@ -33,8 +33,8 @@
 
 #include <sys/stat.h>
 
-#include <cterm/libcterm.h>
-#include <cterm/applications/api.h>
+#include <cterm/cterm.h>
+#include <cterm/cterm_command_line.h>
 
 #include <nt5emul/nt_config.h>
 
@@ -47,46 +47,37 @@
 
 #define SKIP_LOGO 0
 
-
 rsb_array_String *str_test;
 char *str_test2;
-
-bool _boot_run_command(const char *command, void *userdata) {
-	// printf("running command %s\n", command);
-	// load bootscreen
-	cterm_command_reference_t ref = cterm_find_command((char *)command);
-
-	// check if bootscreen module exist
-	if (ref.callback) {
-		// run it
-		ref.callback(userdata);
-
-		return true;
-	}
-
-	return false;
-}
+struct cterm_instance ct_instance = {0};
 
 #include <unistd.h>
 
+void *_boot_cterm_thread(void *data) {
+	ct_instance = _ctermInit(true);
+	_ctermInitCommandLine(&ct_instance, stdin, stdout);
+}
+
 bool _boot_run_logo() {
-	bool result = true;
+	struct cterm_execute_result result;
 
 	#if SKIP_LOGO == 0
-	result = _boot_run_command("logo", NULL);
+	_ctermExecute(&ct_instance, "logo", &result);
 	#endif
 
-	return result;
+	return result.execute_successful;
 }
-bool _boot_run_msoobe(struct dwm_context *ctx) {
-	bool result = _boot_run_command("msoobe", ctx);
+bool _boot_run_msoobe() {
+	struct cterm_execute_result result;
+	_ctermExecute(&ct_instance, "msoobe", &result);
 
-	return result;
+	return result.execute_successful;
 }
 bool _boot_run_setup(struct dwm_context *ctx) {
-	bool result = _boot_run_command("setup", ctx);
+	struct cterm_execute_result result;
+	_ctermExecute(&ct_instance, "setup", &result);
 
-	return result;
+	return result.execute_successful;
 }
 
 bool __boot_ended = false;
@@ -219,6 +210,12 @@ void _boot_begin(int argc, char **argv) {
 
 	printf("config values: setup: %d; oobe; %d\n", config.setup_completed, config.oobe_completed);
 
+	pthread_t thr;
+	pthread_create(&thr, NULL, _boot_cterm_thread, NULL);
+	while (ct_instance.ready != true) {
+		_ntSetupTimerSync(0.01);
+	}
+
 	if (!config.setup_completed && !skip_text_installation || force_text_installation) {
 		_ntInitCores();
 
@@ -247,8 +244,6 @@ void _boot_begin(int argc, char **argv) {
 
 	renderer_state_t * st = _ntRendererGetState();
 
-	_cterm_init();
-
 	_ntInitCores();
 
 	// init NT renderer
@@ -271,10 +266,6 @@ void _boot_begin(int argc, char **argv) {
 	struct dwm_context *ctx = _ntDwmCreateContext("ntresources/basic.theme");
 
 	_ntDwmSetGlobal(ctx);
-
-	while (_cterm_ready != true) {
-		_ntSetupTimerSync(0.01);
-	}
 
 	printf("argc=%d\n", argc);
 
@@ -327,7 +318,7 @@ void _boot_begin(int argc, char **argv) {
 			_ntSetupTimerSync(5.5);
 		}
 
-		_boot_run_msoobe(ctx);
+		_boot_run_msoobe();
 
 		for (;;) {
 			_ntUnloadConfig(config);
@@ -341,13 +332,16 @@ void _boot_begin(int argc, char **argv) {
 	}
 
 	if (!skip_logonui) {
-		_boot_run_command("logonui", NULL);
+		struct cterm_execute_result r;
+		_ctermExecute(&ct_instance, "logonui", &r);
 
 		_ntSetupTimerSync(0.1);
 	}
 
 	for (int i = 0; i < 2; i++) {
-		_boot_run_command("explorer", NULL);
+		struct cterm_execute_result r;
+		_ctermExecute(&ct_instance, "explorer", &r);
+
 		// _ntSetupTimerSync(0.2);
 	}
 

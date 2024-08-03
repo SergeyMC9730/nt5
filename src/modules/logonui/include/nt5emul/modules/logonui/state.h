@@ -20,13 +20,14 @@
 
 #pragma once
 
-#include <cterm/applications/api.h>
 #include <raylib.h>
-#include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
 
+struct cterm_instance;
+struct dwm_context;
+
 struct module_state {
-    cterm_t *runtime;
+    struct cterm_instance *runtime;
 
     const char *cterm_logonui_welcome;
 

@@ -21,6 +21,7 @@
 #include <nt5emul/modules/oobe/auto_progress_bar.h>
 #include <nt5emul/modules/oobe/state.h>
 #include <raylib.h>
+#include <nt5emul/dwm/context.h>
 
 #include <nt5emul/renderer.h>
 

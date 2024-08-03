@@ -25,3 +25,6 @@
 [submodule "src/external/reasings"]
 	path = src/external/reasings
 	url = https://github.com/raylib-extras/reasings.git
+[submodule "src/external/cterm2"]
+	path = src/external/cterm2
+	url = https://github.com/SergeyMC9730/cterm2

@@ -20,4 +20,6 @@
 
 #include <stdbool.h>
 
-bool logo_command(void *data);
+struct cterm_command;
+
+bool logo_command(struct cterm_command *command);

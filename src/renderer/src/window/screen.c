@@ -36,6 +36,8 @@ void _ntRendererSetWindowSizeCallback(struct resize_request *req) {
     free(req);
 }
 
+#define CTERM_FPTR_CAST(ret, ...) ret (*)(__VA_ARGS__)
+
 void _ntRendererSetWindowSize(Vector2 size) {
     renderer_state_t *st = _ntRendererGetState();
 
@@ -53,8 +55,7 @@ void _ntRendererSetWindowSize(Vector2 size) {
     request->x = size.x;
     request->y = size.y;
 
-    _ntRendererPushQueue(_ntRendererSetWindowSizeCallback, request);
-
+    _ntRendererPushQueue((CTERM_FPTR_CAST(void, void *))(_ntRendererSetWindowSizeCallback), request);
 
     st->current_window_size = size;
 }

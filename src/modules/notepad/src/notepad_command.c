@@ -33,16 +33,19 @@
 #include <stdio.h>
 #include <string.h>
 
-bool notepad_command(void *data) {
+#include <cterm/cterm.h>
+#include <nt5emul/arrays/rsb_array_char.h>
+
+bool notepad_command(struct cterm_command *data) {
     const char **strs;
     char *msg = NULL;
 
     bool create_new_file = false;
 
-    if (!data) {
+    if (data->argc < 2) {
         create_new_file = true;
     } else {
-        strs = (const char **)data;
+        strs = (const char **)data->argc;
         msg = strs[1];
 
         if (!msg) {

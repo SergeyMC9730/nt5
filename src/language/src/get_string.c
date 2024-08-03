@@ -19,6 +19,8 @@
 */
 
 #include <nt5emul/language_pack.h>
+#include <stdio.h>
+#include <string.h>
 
 const char *_ntGetStringInLanguagePack(rsb_array_LanguagePackCell *pack, const char *i_name, const char *language) {
     int lang_offset = 1;
@@ -31,7 +33,7 @@ const char *_ntGetStringInLanguagePack(rsb_array_LanguagePackCell *pack, const c
 
     struct language_pack_cell cell = _ntFindInLanguagePack(pack, i_name);
     
-    const char **ptr = &cell;
+    const char **ptr = (const char **)(&cell);
 
     const char *string = ptr[lang_offset];
 

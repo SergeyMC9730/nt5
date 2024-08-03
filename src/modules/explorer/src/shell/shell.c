@@ -149,6 +149,9 @@ bool explorer_pressed_on_window() {
     return false;
 }
 
+#include <cterm/cterm.h>
+#include <cterm/cterm_command_line.h>
+
 void explorer_shell_draw_icons() {
     renderer_state_t *st = _ntRendererGetState();
 
@@ -213,15 +216,13 @@ void explorer_shell_draw_icons() {
         if (_state.icon_pressed_times == 2) {
             _state.icon_pressed_times = 1;
 
-            cterm_command_reference_t ref_line = _state.runtime->find("CTERM_line_execute");
-
             const char *cmd_name = explorer_map_icon(_state.icon_pressed_id);
 
-            cterm_command_reference_t ref = _state.runtime->find((char *)cmd_name);
-            if (ref.callback) {
-                ref.callback(NULL);
-            } else {
-                ref_line.callback("notify Selected command doesn't exist");
+            struct cterm_execute_result r;
+            _ctermExecute(_state.runtime, cmd_name, &r);
+
+            if (r.command_not_found) {
+                _ctermExecute(_state.runtime, "notify Selected command doesn't exist", &r);
             }
         }
     }
@@ -244,15 +245,10 @@ int explorer_shell_draw_start(Rectangle taskbar) {
     struct dwm_context *dctx = _ntDwmGetGlobal();
 
     if (_ntDrawDWMButton(dctx, &btn)) {
-        cterm_command_reference_t ref = _state.runtime->find("CTERM_line_execute");
-        if (ref.callback) {
-            ref.callback("notify Not implemented yet!\nRunning explorer");
-        }
+        struct cterm_execute_result r;
 
-        ref = _state.runtime->find("explorer");
-        if (ref.callback) {
-            ref.callback(NULL);
-        }
+        _ctermExecute(_state.runtime, "notify Not implemented yet!\nRunning explorer", &r);
+        _ctermExecute(_state.runtime, "explorer", &r);
     }
 
     return btn.button.x + btn.button.width + (1 * st->scaling);

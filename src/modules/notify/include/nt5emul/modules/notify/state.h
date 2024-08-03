@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include <cterm/applications/api.h>
 #include <raylib.h>
 #include <nt5emul/renderer.h>
 
+struct cterm_instance;
 struct module_state {
-    cterm_t *runtime;
+    struct cterm_instance *runtime;
 
     bool running;
 

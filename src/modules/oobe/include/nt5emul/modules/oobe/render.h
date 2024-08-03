@@ -23,10 +23,7 @@
 void draw_background(void *ctx);
 void setup_preload(void *ctx);
 
-#include <raylib.h>
-#include <nt5emul/modules/oobe/oobe_install_step.h>
-
-#include <nt5emul/dwm/context.h>
+struct oobe_install_step;
 
 // returns steps length by Y
 int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size);

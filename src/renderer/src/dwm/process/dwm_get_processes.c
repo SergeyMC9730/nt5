@@ -23,6 +23,8 @@
 
 #include <stdio.h>
 
+#define CTERM_FPTR_CAST(ret, ...) ret (*)(__VA_ARGS__)
+
 rsb_array_Int *_ntDwmGetProcesses1(struct dwm_context *ctx) {
     rsb_array_Int *a = RSBCreateArrayInt();
     
@@ -45,7 +47,7 @@ rsb_array_Int *_ntDwmGetProcesses1(struct dwm_context *ctx) {
     }
 
     // sort array from the lowest pid to the highest one
-    qsort(a->objects, a->len, sizeof(int), _ntSortComparisonInt);
+    qsort(a->objects, a->len, sizeof(int), (CTERM_FPTR_CAST(int, const void *, const void *))(_ntSortComparisonInt));
 
     return a;
 }
@@ -114,7 +116,7 @@ rsb_array_Int *_ntDwmGetProcesses(struct dwm_context *ctx) {
     }
 
     // sort array from the lowest pid to the highest one
-    qsort(a->objects, a->len, sizeof(int), _ntSortComparisonInt);
+    qsort(a->objects, a->len, sizeof(int), (CTERM_FPTR_CAST(int, const void *, const void *))(_ntSortComparisonInt));
 
     if (current_pid != -1) RSBAddElementInt(a, current_pid);
     

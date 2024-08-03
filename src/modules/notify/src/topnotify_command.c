@@ -69,17 +69,20 @@ void notify_scheduled(void *ctx) {
     _state.font = LoadFontEx("ntresources/SpaceMono-Regular.ttf", 20.f * st->scaling, NULL, 0);
 }
 
-bool notify_command(void *data) {
-    const char **strs = (const char **)data;
-    const char *msg = strs[1];
+#include <cterm/cterm.h>
 
-    bool update_message_only = _state.running;
-
-    if (!msg) {
+bool notify_command(struct cterm_command *data) {
+    const char **strs = (const char **)(data->argv);
+    
+    if (data->argc < 2) {
         printf("error: message should be provided\n");
 
         return false;
     }
+
+    const char *msg = strs[1];
+
+    bool update_message_only = _state.running;
 
     _state.running = true;
     _state.opacity = 1.f;
@@ -113,7 +116,7 @@ bool notify_command(void *data) {
 
     memset((void *)_state.message, 0, sz);
 
-    for (int i = 0; i < 255; i++) {
+    for (int i = 0; i < data->argc - 1; i++) {
         const char *msg2 = strs[1 + i];
 
         if (msg2 == NULL) break;

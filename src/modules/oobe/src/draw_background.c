@@ -22,8 +22,9 @@
 #include <nt5emul/modules/oobe/render.h>
 #include <nt5emul/middle.h>
 #include <nt5emul/renderer.h>
-
+#include <nt5emul/modules/oobe/oobe_install_step.h>
 #include <nt5emul/ntcore.h>
+#include <nt5emul/dwm/context.h>
 
 #ifndef NULL
 #define NULL (void *)0

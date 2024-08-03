@@ -21,9 +21,10 @@
 
 #pragma once
 
-#include <nt5emul/dwm/window.h>
+struct dwm_window;
+struct cterm_command;
     
-bool notepad_command(void *data);
+bool notepad_command(struct cterm_command *data);
 void notepad_update(struct dwm_window *wnd, void *ctx);
 void notepad_draw(struct dwm_window *wnd, void *ctx);
 void notepad_on_close(struct dwm_window *wnd, void *ctx);

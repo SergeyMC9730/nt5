@@ -21,14 +21,15 @@
 
 #pragma once
 
-#include <cterm/applications/api.h>
 #include <raylib.h>
 
 #include <nt5emul/renderer.h>
 #include <nt5emul/renderer_animation.h>
 
+struct cterm_instance;
+
 struct module_state {
-    cterm_t *runtime;
+    struct cterm_instance *runtime;
 
     bool execution_lock;
 

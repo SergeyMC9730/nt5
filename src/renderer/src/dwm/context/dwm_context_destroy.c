@@ -19,7 +19,7 @@
 */
 
 #include <nt5emul/dwm/context.h>
-
+#include <nt5emul/renderer.h>
 #include <string.h>
 
 // destroy dwm context

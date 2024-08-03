@@ -63,6 +63,8 @@ void _ntCreateDwmContextMain(struct dwm_context *ctx) {
 
 #include <nt5emul/dwm/lua_bindings.h>
 
+#define CTERM_FPTR_CAST(ret, ...) ret (*)(__VA_ARGS__)
+
 // create dwm context
 struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
     // allocate context
@@ -88,7 +90,7 @@ struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
     ctx->theme.basic.title_bar_size = 18 * st->scaling;
 
     st->layers[0].on_update.user = ctx;
-    st->layers[0].on_update.callback = _ntCreateDwmContextMain;
+    st->layers[0].on_update.callback = (CTERM_FPTR_CAST(void, void *))(_ntCreateDwmContextMain);
 
     ctx->lpack = _ntGenerateLanguagePack();
     
@@ -100,7 +102,7 @@ struct dwm_context *_ntDwmCreateContext(const char *theme_path) {
 		_ntSetupTimerSync(0.01);
     }
 
-    _ntRendererAddCloseEvent(_ntDwmDestroyContext, ctx, false);
+    _ntRendererAddCloseEvent((CTERM_FPTR_CAST(void, void *))(_ntDwmDestroyContext), ctx, false);
 
     #if RENDERER_ENABLE_LUA == 1
     register_lua_func(DrawWithFont);

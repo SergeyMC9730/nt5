@@ -21,15 +21,13 @@
 
 #include <nt5emul/modules/notepad/state.h>
 #include <nt5emul/modules/notepad/notepad_command.h>
+#include <cterm/cterm.h>
 
 
-void init(cterm_t *info) {
-    _state.runtime = info;
-
-    info->register_command("notepad", "Codegenned notepad command", false, notepad_command);
-
+void on_init(struct cterm_module *module) {
+    _ctermRegisterCommand(module->cterm_instance, "notepad", "View text files", notepad_command);
 
     return;
 }
 
-SET_INFORMATION("notepad", "Codegenned project", "1.00")
+CTERM_INIT_MODULE("notepad", "Standard implementation of Notepad", "2.0.0")

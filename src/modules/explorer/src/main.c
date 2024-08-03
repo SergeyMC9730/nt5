@@ -29,15 +29,13 @@
 #include <nt5emul/dwm/context.h>
 #include <nt5emul/dwm/window.h>
 #include <nt5emul/nt_config.h>
-
+#include <cterm/cterm.h>
 #include <stdio.h>
 
 #include <nt5emul/panic/setup.h>
 
-bool explorer_command(void *data) {
-    _ntPanic("idk", 1234);
-
-    return false;
+bool explorer_command(struct cterm_command *data) {
+    _state.runtime = data->linked_instance;
 
     load_text();
 

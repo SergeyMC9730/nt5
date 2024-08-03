@@ -152,6 +152,8 @@ void _ntRendererCreateEnvironment() {
 	}
 }
 
+#include <stdio.h>
+
 void _ntRendererCreateEnvironmentEx(bool fake_scaling) {
     renderer_state_t *st = _ntRendererGetState();
     

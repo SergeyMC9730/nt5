@@ -51,8 +51,10 @@ void msoobe_new() {
     st->draw_fps = true;
 }
 
+extern void setup_exit(void *ctx);
+
 void msoobe_exit() {
-    setup_exit();
+    setup_exit(NULL);
 
     const char *config_path = "nt/config.json";
 
@@ -203,7 +205,7 @@ void msoobe_update(void *ctx) {
 
     if (_state.frame_1 != -1) {
         _state.frame_2 = _state.frame_1;
-        _state.frame_1 = _state.xp_vid.stream->codecContext->frame_number;
+        _state.frame_1 = _state.xp_vid.stream->codecContext->frame_num;
     }
 
     if (_state.frame_1 == _state.frame_2) {
@@ -228,7 +230,7 @@ void msoobe_preload(void *ctx) {
     _ntRendererSetWindowSize((Vector2){800 * st->scaling, 600 * st->scaling});
 }
 
-bool msoobe_command(void *data) {
+bool msoobe_command(struct cterm_command *data) {
     if (_state.execution_lock) {
         printf("error: only a single msoobe process can be run at the same time\n");
 

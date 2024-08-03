@@ -22,6 +22,8 @@
 
 #include <stdbool.h>
 
-bool setup_command(void *data);
+struct cterm_command;
+
+bool setup_command(struct cterm_command *data);
 
 void setup_reset_bars();

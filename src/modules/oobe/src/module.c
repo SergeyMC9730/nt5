@@ -19,17 +19,15 @@
 */
 
 #include <nt5emul/modules/oobe/state.h>
-
+#include <cterm/cterm.h>
 #include <nt5emul/modules/oobe/setup_command.h>
 #include <nt5emul/modules/oobe/msoobe_command.h>
 
-void init(cterm_t *info) {
-    _state.runtime = info;
-    
-    info->register_command("setup", "NT5 Graphical Setup", false, setup_command);
-    info->register_command("msoobe", "Out of Box Experience", false, msoobe_command);
+void on_init(struct cterm_module *info) {
+    _ctermRegisterCommand(info->cterm_instance, "setup", "NT5 Graphical Setup", setup_command);
+    _ctermRegisterCommand(info->cterm_instance, "msoobe", "Out of Box Experience", msoobe_command);
 
     return;
 }
 
-SET_INFORMATION("oobe", "Out of Box Experience", "1.00")
+CTERM_INIT_MODULE("oobe", "Out of Box Experience", "2.0.0")

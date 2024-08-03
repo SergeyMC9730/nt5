@@ -20,13 +20,12 @@
 
 #include <nt5emul/modules/explorer/state.h>
 #include <nt5emul/modules/explorer/command.h>
+#include <cterm/cterm.h>
 
-void init(cterm_t *info) {
-    _state.runtime = info;
-    
-    info->register_command("explorer", "Run Explorer", true, explorer_command);
+void on_init(struct cterm_module *info) {
+    _ctermRegisterCommand(info->cterm_instance, "explorer", "Run Explorer", explorer_command);
 
     return;
 }
 
-SET_INFORMATION("explorer", "XP Explorer", "1.0")
+CTERM_INIT_MODULE("explorer", "XP Explorer", "2.0.0")

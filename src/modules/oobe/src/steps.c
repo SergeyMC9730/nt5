@@ -20,7 +20,8 @@
 
 #include <nt5emul/modules/oobe/state.h>
 #include <nt5emul/modules/oobe/render.h>
-
+#include <nt5emul/modules/oobe/oobe_install_step.h>
+#include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
 
 int _ntModOobeDrawSteps(struct oobe_install_step *steps, unsigned long size) { 

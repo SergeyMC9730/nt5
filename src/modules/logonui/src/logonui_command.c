@@ -21,7 +21,7 @@
 #include <nt5emul/modules/logonui/logonui_command.h>
 #include <nt5emul/modules/logonui/state.h>
 #include <nt5emul/middle.h>
-
+#include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
 
 #include <nt5emul/timer.h>
@@ -153,7 +153,7 @@ void logonui_exit_queue(void *ctx) {
     _ntRendererPushQueue(logonui_exit, NULL);
 }
 
-bool logonui_command(void *data) {
+bool logonui_command(struct cterm_command *data) {
     if (_state.execution_lock) {
         printf("error: only a single logonui process can be run at the same time\n");
 

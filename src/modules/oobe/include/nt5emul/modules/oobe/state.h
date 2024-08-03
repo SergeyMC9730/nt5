@@ -20,15 +20,16 @@
 
 #pragma once
 
-#include <cterm/applications/api.h>
 #include <raylib.h>
 
-#include <nt5emul/dwm/context.h>
 #include <nt5emul/dwm/video.h>
 #include <nt5emul/renderer.h>
 
+struct dwm_context;
+struct cterm_instance;
+
 struct module_state {
-    cterm_t *runtime;
+    struct cterm_instance *runtime;
 
     Texture2D logo_texture;
     Texture2D main_bg_texture;

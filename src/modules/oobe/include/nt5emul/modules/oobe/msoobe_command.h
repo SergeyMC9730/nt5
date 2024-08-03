@@ -22,7 +22,9 @@
 
 #include <stdbool.h>
 
-bool msoobe_command(void *data);
+struct cterm_command;
+
+bool msoobe_command(struct cterm_command *data);
 void msoobe_preload(void *ctx);
 
 void msoobe_draw(void *ctx);

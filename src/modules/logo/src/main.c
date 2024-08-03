@@ -25,7 +25,7 @@
 
 #include <stdio.h>
 
-bool logo_command(void *data) {
+bool logo_command(struct cterm_command *command) {
     if (_state.execution_lock) {
         printf("error: only a single logo process can be executed at the same time!\n");
 

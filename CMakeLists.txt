@@ -48,7 +48,13 @@ set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=add
 add_subdirectory(src/external/libarchive)
 
 # external:cterm
-add_subdirectory(src/external/cterm)
+# add_subdirectory(src/external/cterm)
+
+# external:cterm2
+add_subdirectory(src/external/cterm2)
+
+# cterm include path shortcut
+set(CTERM_INCLUDE_PATH src/external/cterm2/src/loader/include)
 
 # external:libfuzzy
 file(GLOB LIBFUZZY_SRC CONFIGURE_DEPENDS "src/external/libpe/libfuzzy/*.c")
@@ -233,8 +239,9 @@ target_include_directories(nt5boot PRIVATE
     "src/nt_tools/include"
     "src/global/include"
     "src/language/include"
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterm nt5tools)
+target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterml nt5tools)
 
 # nt5
 file(GLOB NT_SRC CONFIGURE_DEPENDS "src/launcher/*.c")
@@ -250,8 +257,8 @@ target_link_libraries(nt5 nt5boot nt5panic)
 
 # logo
 file (GLOB NTMOD_LOGO_SRC CONFIGURE_DEPENDS "src/modules/logo/src/*.c")
-add_library(ntmod_logo ${NTMOD_LOGO_SRC})
-target_include_directories(ntmod_logo PRIVATE
+add_library(cterm_ext_ntmod_logo ${NTMOD_LOGO_SRC})
+target_include_directories(cterm_ext_ntmod_logo PRIVATE
     "src/renderer/include"
     "src/modules/logo/include"
     "src/external"
@@ -260,13 +267,14 @@ target_include_directories(ntmod_logo PRIVATE
     "src/global/include"
     "src/arrays/include"
     "src/language/include"
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(ntmod_logo nt5renderer raylib)
+target_link_libraries(cterm_ext_ntmod_logo nt5renderer raylib)
 
 # oobe
 file (GLOB NTMOD_OOBE_SRC CONFIGURE_DEPENDS "src/modules/oobe/src/*.c")
-add_library(ntmod_oobe ${NTMOD_OOBE_SRC})
-target_include_directories(ntmod_oobe PRIVATE
+add_library(cterm_ext_ntmod_oobe ${NTMOD_OOBE_SRC})
+target_include_directories(cterm_ext_ntmod_oobe PRIVATE
     "src/renderer/include"
     "src/modules/oobe/include"
     "src/external"
@@ -277,13 +285,14 @@ target_include_directories(ntmod_oobe PRIVATE
     "src/nt_tools/include"
     "src/external/raylib-video"
     "src/language/include"
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(ntmod_oobe nt5renderer raylib)
+target_link_libraries(cterm_ext_ntmod_oobe nt5renderer raylib)
 
 # notify
 file (GLOB NTMOD_NOTIFY_SRC CONFIGURE_DEPENDS "src/modules/notify/src/*.c")
-add_library(ntmod_notify ${NTMOD_NOTIFY_SRC})
-target_include_directories(ntmod_notify PRIVATE
+add_library(cterm_ext_ntmod_notify ${NTMOD_NOTIFY_SRC})
+target_include_directories(cterm_ext_ntmod_notify PRIVATE
     "src/renderer/include"
     "src/modules/notify/include"
     "src/external"
@@ -293,13 +302,14 @@ target_include_directories(ntmod_notify PRIVATE
     "src/arrays/include"
     "src/nt_tools/include"
     "src/external/raylib-video"
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(ntmod_notify nt5renderer raylib)
+target_link_libraries(cterm_ext_ntmod_notify nt5renderer raylib)
 
 # logonui
 file (GLOB NTMOD_LOGONUI_SRC CONFIGURE_DEPENDS "src/modules/logonui/src/*.c")
-add_library(ntmod_logonui ${NTMOD_LOGONUI_SRC})
-target_include_directories(ntmod_logonui PRIVATE
+add_library(cterm_ext_ntmod_logonui ${NTMOD_LOGONUI_SRC})
+target_include_directories(cterm_ext_ntmod_logonui PRIVATE
     "src/renderer/include"
     "src/modules/logonui/include"
     "src/external"
@@ -309,13 +319,14 @@ target_include_directories(ntmod_logonui PRIVATE
     "src/arrays/include"
     "src/nt_tools/include"
     "src/language/include"
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(ntmod_logonui nt5renderer raylib)
+target_link_libraries(cterm_ext_ntmod_logonui nt5renderer raylib)
 
 # explorer
 file (GLOB NTMOD_EXPLORER_SRC CONFIGURE_DEPENDS "src/modules/explorer/src/**/*.c" "src/modules/explorer/src/*.c")
-add_library(ntmod_explorer ${NTMOD_EXPLORER_SRC})
-target_include_directories(ntmod_explorer PRIVATE
+add_library(cterm_ext_ntmod_explorer ${NTMOD_EXPLORER_SRC})
+target_include_directories(cterm_ext_ntmod_explorer PRIVATE
     "src/renderer/include"
     "src/modules/explorer/include"
     "src/external"
@@ -327,13 +338,14 @@ target_include_directories(ntmod_explorer PRIVATE
     "src/language/include"
     "src/ntldr_tui/include"
     "src/panic/include"
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(ntmod_explorer nt5renderer raylib nt5tui nt5panic)
+target_link_libraries(cterm_ext_ntmod_explorer nt5renderer raylib nt5tui nt5panic)
 
 # notepad
 file (GLOB NTMOD_NOTEPAD_SRC CONFIGURE_DEPENDS "src/modules/notepad/src/*.c")
-add_library(ntmod_notepad ${NTMOD_NOTEPAD_SRC})
-target_include_directories(ntmod_notepad PRIVATE
+add_library(cterm_ext_ntmod_notepad ${NTMOD_NOTEPAD_SRC})
+target_include_directories(cterm_ext_ntmod_notepad PRIVATE
     "src/renderer/include"
     "src/modules/notepad/include"
     "src/external"
@@ -343,35 +355,36 @@ target_include_directories(ntmod_notepad PRIVATE
     "src/arrays/include"
     "src/nt_tools/include"
     "src/language/include"
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(ntmod_notepad nt5renderer raylib)
+target_link_libraries(cterm_ext_ntmod_notepad nt5renderer raylib)
 
 # copy nt resources
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/ntresources
 )
 
-# copy cterm binaries
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/src/external/cterm/applications $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications
-)
+# # copy cterm binaries
+# add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/src/external/cterm/cterm_ext* $<TARGET_FILE_DIR:${PROJECT_NAME}>
+# )
 
 # copy nt modules to cterm folder
-add_custom_command(TARGET ntmod_logo POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_logo.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_logo.so
-)
-add_custom_command(TARGET ntmod_oobe POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_oobe.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_oobe.so
-)
-add_custom_command(TARGET ntmod_notify POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_notify.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_notify.so
-)
-add_custom_command(TARGET ntmod_logonui POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_logonui.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_logonui.so
-)
-add_custom_command(TARGET ntmod_explorer POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_explorer.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_explorer.so
-)
-add_custom_command(TARGET ntmod_notepad POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_notepad.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_notepad.so
-)
+# add_custom_command(TARGET ntmod_logo POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_logo.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_logo.so
+# )
+# add_custom_command(TARGET ntmod_oobe POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_oobe.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_oobe.so
+# )
+# add_custom_command(TARGET ntmod_notify POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_notify.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_notify.so
+# )
+# add_custom_command(TARGET ntmod_logonui POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_logonui.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_logonui.so
+# )
+# add_custom_command(TARGET ntmod_explorer POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_explorer.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_explorer.so
+# )
+# add_custom_command(TARGET ntmod_notepad POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:${PROJECT_NAME}>/libntmod_notepad.so $<TARGET_FILE_DIR:${PROJECT_NAME}>/applications/libntmod_notepad.so
+# )

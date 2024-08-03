@@ -20,4 +20,6 @@
 
 #include <stdbool.h>
 
-bool notify_command(void *data);
+struct cterm_command;
+
+bool notify_command(struct cterm_command *data);

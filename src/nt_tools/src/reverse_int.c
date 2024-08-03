@@ -20,8 +20,7 @@
 
 int _ntReverseInt(int _val) {
     // convert value into 4 chars
-    unsigned char *bytes;
-    bytes = &_val;
+    unsigned char *bytes = (unsigned char *)(&_val);
 
     // now create new array with reversed order
     unsigned char _result[4];

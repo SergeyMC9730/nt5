@@ -20,15 +20,14 @@
 
 #include <nt5emul/modules/logo/state.h>
 #include <nt5emul/modules/logo/logo_command.h>
+#include <cterm/cterm.h>
 
-void init(cterm_t *info) {
-    _state.runtime = info;
-    
-    info->register_command("logo", "Run XP logo animation", true, logo_command);
+void on_init(struct cterm_module *module) {
+    _ctermRegisterCommand(module->cterm_instance, "logo", "Run XP logo animation", logo_command);
 
     // info->load_module("applications/libntmod_oobe.so", "init");
 
     return;
 }
 
-SET_INFORMATION("logo", "XP Logo", "1.10")
+CTERM_INIT_MODULE("logo", "XP Logo", "2.0.0")

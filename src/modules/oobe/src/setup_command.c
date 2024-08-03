@@ -21,10 +21,11 @@
 #include <nt5emul/modules/oobe/setup_command.h>
 #include <nt5emul/modules/oobe/state.h>
 #include <nt5emul/modules/oobe/render.h>
-
+#include <cterm/cterm_command_line.h>
 #include <nt5emul/renderer.h>
-
+#include <cterm/cterm.h>
 #include <nt5emul/timer.h>
+#include <nt5emul/dwm/context.h>
 
 void setup_decrement_time(void *ctx) {
     _state.minutes_left -= 10;
@@ -77,13 +78,8 @@ void setup_exit(void *ctx) {
 
     // send notification
 
-    // find api command
-    cterm_command_reference_t ref = _state.runtime->find("CTERM_line_execute");
-
-    // run notify command if CTERM_line_execute command has been found
-    if (ref.callback) {
-        ref.callback("notify Restarting...");
-    }
+    struct cterm_execute_result result;
+    _ctermExecute(_state.runtime, "notify Restarting...", &result);
 
     _state.execution_lock = false;
 
@@ -106,7 +102,7 @@ void setup_exit_queue(void *ctx) {
     _ntRendererPushQueue(setup_exit, NULL);
 }
 
-bool setup_command(void *data) {
+bool setup_command(struct cterm_command *data) {
     if (_state.execution_lock) {
         printf("error: only a single setup process can be run at the same time\n");
 
@@ -114,6 +110,7 @@ bool setup_command(void *data) {
     }
 
     _state.execution_lock = true;
+    _state.runtime = data->linked_instance;
 
     // get renderer state
     renderer_state_t *st = _ntRendererGetState();
