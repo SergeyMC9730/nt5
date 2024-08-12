@@ -40,4 +40,4 @@ struct dwm_button {
 };
 
 // if user clicks to button function returns true
-bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn);
+bool _ntDwmDrawButton(struct dwm_context *ctx, struct dwm_button *btn);

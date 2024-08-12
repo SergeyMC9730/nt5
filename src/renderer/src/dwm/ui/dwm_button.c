@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -24,7 +24,7 @@
 #include <math.h>
 
 // if user clicks to button function returns true
-bool _ntDrawDWMButton(struct dwm_context *ctx, struct dwm_button *btn)
+bool _ntDwmDrawButton(struct dwm_context *ctx, struct dwm_button *btn)
 {
     renderer_state_t *st = _ntRendererGetState();
 

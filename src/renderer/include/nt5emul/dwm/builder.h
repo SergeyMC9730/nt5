@@ -24,66 +24,42 @@
 #include <nt5emul/dwm/context_menu.h>
 #include <nt5emul/dwm/font.h>
 
+enum DwmGuiObjectType {
+    BuilderText = 0,
+    BuilderImage,
+    BuilderButton
+};
+
+#pragma pack(push, 1)
+
+// base structure for all gui objects
+struct dwm_gui_object {
+    Vector2 position;
+    float scale;
+
+    enum DwmGuiObjectType type;
+    void *object_reference;
+};
+
 struct dwm_gui_text {
     struct dwm_context_font font;
     const char *text;
-
-    Vector2 position;
-    float scale;
 };
 
 struct dwm_gui_image {
     Texture2D texture;
     
     const char *path;
-
-    Vector2 position;
-    float scale;
 };
 
+#pragma pack(pop)
+
 struct dwm_gui_objects {
-    struct dwm_button *buttons;
-    int buttons_count;
-
-    struct dwm_context_menu menu;
-    bool menu_created;
-
-    struct dwm_gui_text *text_objects;
-    int text_objects_count;
-
-    struct dwm_gui_image *images;
-    int images_count;
+    struct dwm_gui_object *objects;
+    unsigned int objects_count;
 
     void *cJSON_instance;
 };
 
 // builds from json file
 struct dwm_gui_objects *_ntDwmBuildGui(const char *ui_path);
-
-// builds from raygui project
-struct dwm_gui_objects *_ntDwmBuildGuiFromRaygui(const char *layout_path);
-
-void _ntDwmUpdateGui(struct dwm_gui_objects *ui);
-void _ntDwmDrawGui(struct dwm_gui_objects *ui);
-
-void _ntDwmDestroyGui(struct dwm_gui_objects *ui);
-
-// returns cjson handle
-void * _ntDwmBuilderCreateButton(struct dwm_button btn);
-
-// returns cjson handle
-void * _ntDwmBuilderCreateImage(struct dwm_gui_image image);
-
-// returns cjson handle
-void *_ntDwmBuilderCreateTemplateGui();
-
-// returns cjson handle
-void *_ntDwmBuilderCreateGui(struct dwm_gui_objects *ui);
-
-// returns cjson handle
-void *_ntDwmBuilderCreateContextMenu(struct dwm_context_menu *menu);
-
-// returns cjson handle
-void *_ntDwmBuilderCreateText(struct dwm_gui_text *text);
-
-const char *_ntDwmTranslateKeyToStr(int key);

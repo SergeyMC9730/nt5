@@ -21,11 +21,21 @@
 #include <nt5emul/dwm/context.h>
 #include <nt5emul/renderer.h>
 
+#define DEBUG 1
+
+#ifdef DEBUG
+#include <stdio.h>
+#endif
+
 #include <string.h>
 
 // draw dwm context
 void _ntDwmDrawContext(struct dwm_context *ctx) {
     if (ctx->theme.basic.background_color.a != 0x00) ClearBackground(ctx->theme.basic.background_color);
+
+#ifdef DEBUG
+    printf("_ntDwmDrawContext: called\n");
+#endif
 
     rsb_array_Int *pids = _ntDwmGetProcesses(ctx);
 

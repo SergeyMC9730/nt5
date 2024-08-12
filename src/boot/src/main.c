@@ -100,7 +100,7 @@ void _boot_display_help() {
 		"--skip-text-installation", "skip text-based installation process",
 		"--skip-logonui", "skip logonui",
 		"--set-2x-scale", "set window scale to be 2x",
-		"--fake-scaling", "main framebuffer would be scaled instead of an entire gui. press PrtSc to see unmodified framebuffer",
+		"--fake-scaling", "main framebuffer would be scaled instead of an entire gui. press PrintScreen to see unmodified framebuffer",
 		"--force-text-installation", "starts ntinstall even if system is already installed",
 		"--help", "display help",
 		"-h", "display help"

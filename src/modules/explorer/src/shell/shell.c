@@ -1,16 +1,20 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
+
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
@@ -233,7 +237,7 @@ int explorer_shell_draw_start(Rectangle taskbar) {
 
     struct dwm_button btn = {};
 
-    btn.text =  _state.cterm_shell_start_classic;
+    btn.text =  _state.cterm_explorer_system_tasks;
     btn.button.x = 2 * st->scaling;
     btn.button.y = taskbar.y + (0 * st->scaling);
     btn.button.width = 56 * st->scaling;
@@ -244,7 +248,7 @@ int explorer_shell_draw_start(Rectangle taskbar) {
 
     struct dwm_context *dctx = _ntDwmGetGlobal();
 
-    if (_ntDrawDWMButton(dctx, &btn)) {
+    if (_ntDwmDrawButton(dctx, &btn)) {
         struct cterm_execute_result r;
 
         _ctermExecute(_state.runtime, "notify Not implemented yet!\nRunning explorer", &r);
@@ -334,7 +338,7 @@ Rectangle explorer_shell_draw_taskbar(void *ctx) {
             btn.dark.state = true;
         }
 
-        if (_ntDrawDWMButton(dctx, &btn)) {
+        if (_ntDwmDrawButton(dctx, &btn)) {
             dctx->selected_window = _wnd;
             _wnd->hidden.state = false;
         }

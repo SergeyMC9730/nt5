@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -153,7 +153,7 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
         btn_maximize.button.x = btn_hide.button.x - (2 * st->scaling) - btn_maximize.button.width;
         btn_maximize.button.y = btn_hide.button.y;
 
-        if (_ntDrawDWMButton(ctx, &btn_maximize) && wnd == ctx->selected_window) {
+        if (_ntDwmDrawButton(ctx, &btn_maximize) && wnd == ctx->selected_window) {
             printf("maximizing window\n");
 
             wnd->maximized.state = !wnd->maximized.state;
@@ -180,11 +180,11 @@ void _ntDrawWindow(struct dwm_window *wnd, void *ctx_ptr) {
         }
     }
 
-    if (_ntDrawDWMButton(ctx, &btn_close) && wnd == ctx->selected_window) {
+    if (_ntDwmDrawButton(ctx, &btn_close) && wnd == ctx->selected_window) {
         printf("closing window\n");
         _ntCloseWindow(wnd, ctx);
     }
-    if (_ntDrawDWMButton(ctx, &btn_hide) && wnd == ctx->selected_window) {
+    if (_ntDwmDrawButton(ctx, &btn_hide) && wnd == ctx->selected_window) {
         printf("hiding window\n");\
 
         if (wnd->hidden.ability) wnd->hidden.state = true;

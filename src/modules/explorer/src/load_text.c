@@ -22,6 +22,7 @@
 #include <nt5emul/language_pack.h>
 #include <nt5emul/nt_config.h>
 #include <nt5emul/dwm/context.h>
+#include <stdio.h>
 
 void load_text() {
     struct nt_config cfg = _ntGetConfig("nt/config.json");
@@ -45,4 +46,8 @@ void load_text() {
     _state.cterm_explorer_op_sd = _ntGetStringInLanguagePack(ctx->lpack, "cterm_explorer_op_sd", lang);
     _state.cterm_explorer_op_cp = _ntGetStringInLanguagePack(ctx->lpack, "cterm_explorer_op_cp", lang);
     _state.cterm_shell_intro_title = _ntGetStringInLanguagePack(ctx->lpack, "cterm_shell_intro_title", lang);
+
+    printf("--- %s\n", _state.cterm_explorer_title);
+    printf("--- %s\n", _state.cterm_shell_start_classic);
+    printf("--- %s\n", _state.cterm_shell_intro_text);
 }

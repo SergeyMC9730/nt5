@@ -20,7 +20,8 @@ struct renderer_animation {
     double starting_value;
 
     // current value
-    // it also can be incremented by current_value from linked animation but this behaviour is disabled by default
+    // it also can be incremented by current_value from linked animation 
+    // but this behaviour is disabled by default
     double current_value;
 
     // local current value
@@ -59,3 +60,4 @@ struct renderer_animation {
 };
 
 void _ntRendererUpdateAnimation(struct renderer_animation *animation);
+struct renderer_animation *_ntRendererLoadAnimation(const char *path);

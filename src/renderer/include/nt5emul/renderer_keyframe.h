@@ -33,3 +33,5 @@ struct renderer_keyframe {
 
     renderer_tweak_type easing;
 };
+
+struct renderer_keyframe _ntRendererLoadKeyframe(void *cjson_object);

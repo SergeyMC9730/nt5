@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -167,7 +167,7 @@ void msoobe_draw(void *ctx) {
     };
 
     DrawTextEx(small_fontar.font, _state.cterm_msoobe_next, btn_next_text, small_fontar.real_size, small_fontar.spacing, WHITE);
-    _ntDrawDWMButton(_state.dwm_ctx, &btn_next);
+    _ntDwmDrawButton(_state.dwm_ctx, &btn_next);
 
     struct dwm_button btn_skip = {
         .activated.ability = true,
@@ -189,7 +189,7 @@ void msoobe_draw(void *ctx) {
     };
 
     DrawTextEx(small_fontar.font, _state.cterm_msoobe_skip, btn_skip_text, small_fontar.real_size, small_fontar.spacing, WHITE);
-    if (_ntDrawDWMButton(_state.dwm_ctx, &btn_skip) && _state.xp_vid.texture.width == 0) {
+    if (_ntDwmDrawButton(_state.dwm_ctx, &btn_skip) && _state.xp_vid.texture.width == 0) {
         msoobe_exit();
     }
 
