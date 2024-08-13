@@ -32,6 +32,8 @@
 
 #include <stdio.h>
 
+static int _layerIndex = 2;
+
 void logonui_exit(void *ctx) {
     // get renderer state
     renderer_state_t *st = _ntRendererGetState();
