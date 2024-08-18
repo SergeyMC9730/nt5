@@ -1,0 +1,16 @@
+{
+  "anim_id": 1,
+  "linked_animation_path": "anim_test_4.json",
+  "keyframes": [
+    {
+      "length": 1,
+      "ending_value": 200,
+      "easing": 9
+    },
+    {
+      "length": 1,
+      "ending_value": -200,
+      "easing": 23
+    }
+  ]
+}

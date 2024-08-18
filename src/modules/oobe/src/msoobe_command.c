@@ -205,7 +205,7 @@ void msoobe_update(void *ctx) {
 
     if (_state.frame_1 != -1) {
         _state.frame_2 = _state.frame_1;
-        _state.frame_1 = _state.xp_vid.stream->codecContext->frame_num;
+        _state.frame_1 = _state.xp_vid.stream->codecContext->frame_number;
     }
 
     if (_state.frame_1 == _state.frame_2) {

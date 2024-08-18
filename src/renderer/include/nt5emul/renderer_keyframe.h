@@ -2,21 +2,21 @@
 
 // value tweak object
 
-#define GEN_TWEAK(tweak) TOIn##tweak, TOOut##tweak, TOInOut##tweak 
+#define GEN_TWEAK(tweak) TOIn##tweak, TOOut##tweak, TOInOut##tweak
 
 typedef enum renderer_tweak_type {
-    TOLinear = 0,
+    TOLinear = 0,       // in0  out0  inout0
 
-    GEN_TWEAK(Sine),
-    GEN_TWEAK(Quad),
-    GEN_TWEAK(Cubic),
-    GEN_TWEAK(Quart),
-    GEN_TWEAK(Quint),
-    GEN_TWEAK(Expo),
-    GEN_TWEAK(Circ),
-    GEN_TWEAK(Back),
-    GEN_TWEAK(Elastic),
-    GEN_TWEAK(Bounce),
+    GEN_TWEAK(Sine),    // in1  out2  inout3
+    GEN_TWEAK(Quad),    // in4  out5  inout6
+    GEN_TWEAK(Cubic),   // in7  out8  inout9
+    GEN_TWEAK(Quart),   // in10 out11 inout12
+    GEN_TWEAK(Quint),   // in13 out14 inout15
+    GEN_TWEAK(Expo),    // in16 out17 inout18
+    GEN_TWEAK(Circ),    // in19 out20 inout21
+    GEN_TWEAK(Back),    // in22 out23 inout24
+    GEN_TWEAK(Elastic), // in25 out26 inout27
+    GEN_TWEAK(Bounce),  // in28 out29 inout30
 
     TOEnd
 } renderer_tweak_type;

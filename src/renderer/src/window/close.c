@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -33,7 +33,7 @@ void _ntRendererCloseEnvironment() {
 
     for (int i = 0; i < st->close_events->len; i++) {
         renderer_event_t event = RSBGetAtIndexEvent(st->close_events, i);
-        
+
         if (event.callback && !event.user2) event.callback(event.user);
     }
 
@@ -44,8 +44,10 @@ void _ntRendererCloseEnvironment() {
     } else {
         CloseWindow();
     }
-        
-    printf("close the window! 3!!\n");
+
+	if (!st->options.renderer_quiet) {
+        printf("close the window! 3!!\n");
+    }
 
     RSBDestroyRendererQueue(st->queue);
 #if 0
@@ -54,7 +56,7 @@ void _ntRendererCloseEnvironment() {
 
     for (int i = 0; i < st->close_events->len; i++) {
         renderer_event_t event = RSBGetAtIndexEvent(st->close_events, i);
-        
+
         if (event.callback && event.user2) event.callback(event.user);
     }
 

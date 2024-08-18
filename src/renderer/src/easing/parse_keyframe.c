@@ -47,6 +47,8 @@ struct renderer_keyframe _ntRendererLoadKeyframe(void *cjson_object_ptr) {
         // check if length can be parsed or not
         if (cJSON_IsNumber(tmp_obj)) {
             frame.length = cJSON_GetNumberValue(tmp_obj);
+        } else {
+            printf("parse_keyframe.c: length is not a number (NAN)\n");
         }
     }
 
@@ -56,6 +58,8 @@ struct renderer_keyframe _ntRendererLoadKeyframe(void *cjson_object_ptr) {
         // check if ending value can be parsed or not
         if (cJSON_IsNumber(tmp_obj)) {
             frame.ending_value = cJSON_GetNumberValue(tmp_obj);
+        } else {
+            printf("parse_keyframe.c: ending_value is not a number (NAN)\n");
         }
     }
 
@@ -68,6 +72,8 @@ struct renderer_keyframe _ntRendererLoadKeyframe(void *cjson_object_ptr) {
         
             // easing should not be set beyond the TOEnd
             frame.easing = easing % TOEnd;
+        } else {
+            printf("parse_keyframe.c: easing is not a number (NAN)\n");
         }
     }
 

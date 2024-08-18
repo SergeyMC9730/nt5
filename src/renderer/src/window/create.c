@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -44,7 +44,7 @@ void _ntRendererCreateEnvironment() {
 
     lua_register(st->lua_interpreter, "DrawText", _ntRendererLuaDrawText);
     lua_register(st->lua_interpreter, "ClearBackground", _ntRendererLuaClearBackground);
-    
+
     register_lua_func(WindowShouldClose);
     register_lua_func(IsWindowReady);
     register_lua_func(IsWindowFullscreen);
@@ -136,7 +136,7 @@ void _ntRendererCreateEnvironment() {
     register_lua_func(RgbIntoInt);
     register_lua_func(FloatIntoInt);
     register_lua_func(IntIntoFloat);
-    
+
     #endif
 
 	if (st->thread != 0) {
@@ -156,10 +156,12 @@ void _ntRendererCreateEnvironment() {
 
 void _ntRendererCreateEnvironmentEx(bool fake_scaling) {
     renderer_state_t *st = _ntRendererGetState();
-    
+
     st->fake_scaling = fake_scaling;
 
-    printf("st->fake_scaling = %d\n", st->fake_scaling);
+    if (!st->options.renderer_quiet) {
+        printf("st->fake_scaling = %d\n", st->fake_scaling);
+    }
 
     _ntRendererCreateEnvironment();
 }

@@ -1,0 +1,11 @@
+{
+  "linked_animation_path": "anim_test_3.json",
+  "influenced": true,
+  "keyframes": [
+    {
+      "length": 2,
+      "ending_value": 200,
+      "easing": 9
+    }
+  ]
+}

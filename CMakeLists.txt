@@ -359,9 +359,25 @@ target_include_directories(cterm_ext_ntmod_notepad PRIVATE
 )
 target_link_libraries(cterm_ext_ntmod_notepad nt5renderer raylib)
 
-# copy nt resources
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/ntresources
+add_custom_command(
+  OUTPUT touch.txt
+  COMMAND touch touch.txt
+  DEPENDS touch touch.txt
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_custom_command(
+   OUTPUT file1
+   COMMAND touch file1
+   DEPENDS file2
+)
+add_custom_target(copy_resources ALL DEPENDS file1 file2)
+
+# this command re-touches file2 after dep target is "built"
+# and thus forces its rebuild
+ADD_CUSTOM_COMMAND(TARGET copy_resources
+    POST_BUILD
+    COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/install_ntresources.sh ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # # copy cterm binaries

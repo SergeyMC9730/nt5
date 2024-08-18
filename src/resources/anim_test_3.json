@@ -1,0 +1,11 @@
+{
+  "linked_animation_path": "anim_test_2.json",
+  "anim_id": 2,
+  "keyframes": [
+    {
+      "length": 2,
+      "ending_value": 400,
+      "easing": 2
+    }
+  ]
+}

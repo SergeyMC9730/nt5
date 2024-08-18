@@ -122,6 +122,16 @@ RSB_ARRAY_DEF_GEN(Image, Image);
 
 // renderer state
 
+typedef struct renderer_base_opts_t {
+    // if enabled only warnings and errors generated
+    // by raylib are gonna be shown
+    bool raylib_quiet;
+
+    // if enabled only warnings and errors generated
+    // by nt renderer are gonna be shown
+    bool renderer_quiet;
+} renderer_base_opts_t;
+
 typedef struct renderer_state_t {
 #define RENDERER_LAYERS 6
 	renderer_layer_t *layers;
@@ -164,6 +174,8 @@ typedef struct renderer_state_t {
     bool fake_scaling;
 
     int expected_fps;
+
+    renderer_base_opts_t options;
 } renderer_state_t;
 
 #pragma pack(pop)
@@ -174,6 +186,9 @@ typedef struct renderer_state_t {
 void _ntRendererCreateEnvironment();
 // creates environment for the renderer with extra arguments
 void _ntRendererCreateEnvironmentEx(bool fake_scaling);
+
+// changes some preinit options for the renderer
+void _ntRendererModifyPreinitOptions(bool raylib_quiet, bool renderer_quiet);
 
 // closes the renderer environment
 void _ntRendererCloseEnvironment();
@@ -288,14 +303,14 @@ void _ntUpdateXWindowStream(renderer_x11_window_stream_t *stream);
 //
 // - stack mode means that rendertextures can be pushed and pulled out of the stack
 // - if there are gonna be more than R2D_STACK_SIZE textures inside this stack, this function would behave like a standard `BeginTextureMode` function
-// 
+//
 // made for making some routines easier in implementation
 void BeginTextureModeStacked(RenderTexture2D txt);
 
 // move from the texture mode in stack mode
 //
 // - stack mode means that rendertextures can be pushed and pulled out of the stack
-// 
+//
 // made for making some routines easier in implementation
 void EndTextureModeStacked();
 

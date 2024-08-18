@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2024  SergeyMC9730
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -35,13 +35,18 @@ void *_ntRendererThread(void *ptr) {
 	// set highdpi
 	SetWindowState(FLAG_WINDOW_HIGHDPI);
 
+	// get renderer state
+	renderer_state_t *st = _ntRendererGetState();
+
+	// check if we should make raylib silent or not
+	if (st->options.raylib_quiet) {
+	   SetTraceLogLevel(LOG_WARNING);
+	}
+
 	// init raylib window
 	InitWindow(wsz.x, wsz.y, "NT5");
 
 	while (!IsWindowReady()) {}
-
-	// get renderer state
-	renderer_state_t *st = _ntRendererGetState();
 
 	bool fake_scaling = st->fake_scaling;
 
@@ -104,7 +109,7 @@ void *_ntRendererThread(void *ptr) {
 	bool raylib_close = false;
 
 	bool show_real_fb = false;
-	
+
 	while (true) {
 		raylib_close = WindowShouldClose();
 
@@ -186,11 +191,15 @@ void *_ntRendererThread(void *ptr) {
 	if (raylib_close) {
 		_ntRendererCloseEnvironment();
 	} else {
-		printf("close the window!!!\n");
+	    if (!st->options.renderer_quiet) {
+			printf("close the window!!!\n");
+		}
 		CloseWindow();
 	}
 
-	printf("close the window! 2!!\n");
+	if (!st->options.renderer_quiet) {
+        printf("close the window!!! 2\n");
+    }
 
 	return NULL;
 }

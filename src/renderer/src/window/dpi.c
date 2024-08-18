@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -41,11 +41,13 @@ Vector2 _ntRendererSetDpiScale(float scale) {
     new_sz.x *= scale;
     new_sz.y *= scale;
 
-    printf("current wsize: %f %f\n", st->current_window_size.x, st->current_window_size.y);
-    printf("wsize in stack: %f %f\n", sz.x, sz.y);
-    printf("scale val: %f\n", scale);
-    printf("old scale val: %f\n", old_scale);
-    printf("setting size to %f %f\n", new_sz.x, new_sz.y);
+    if (!st->options.renderer_quiet) {
+        printf("current wsize: %f %f\n", st->current_window_size.x, st->current_window_size.y);
+        printf("wsize in stack: %f %f\n", sz.x, sz.y);
+        printf("scale val: %f\n", scale);
+        printf("old scale val: %f\n", old_scale);
+        printf("setting size to %f %f\n", new_sz.x, new_sz.y);
+    }
 
     SetTextLineSpacing((int)(30.f * scale / 2.f));
 
@@ -53,7 +55,7 @@ Vector2 _ntRendererSetDpiScale(float scale) {
 
     if (st->framebuffer.texture.width == 0 || st->framebuffer.texture.height == 0) {
         st->scaling = scale;
-        
+
         return new_sz;
     }
 

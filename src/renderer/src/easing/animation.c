@@ -18,7 +18,7 @@
     Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#define DEBUG 0
+#define DEBUG 1
 
 #include <nt5emul/renderer_keyframe.h>
 #include <nt5emul/renderer_animation.h>
@@ -38,6 +38,7 @@ void _ntRendererUpdateAnimation(struct renderer_animation *animation) {
 
     if (animation->linked_animation != NULL) {
         struct renderer_animation *anim = (struct renderer_animation *)animation->linked_animation;
+        anim->delta = animation->delta;
 
         _ntRendererUpdateAnimation(anim);
 
@@ -90,7 +91,7 @@ void _ntRendererUpdateAnimation(struct renderer_animation *animation) {
     double res = 0;
 
     if (animation->current_keyframe < animation->count) {
-#if DEBUG == 1
+#if false
         printf("[%d] processing keyframe %d\n", animation->anim_id, animation->current_keyframe);
 #endif
         
