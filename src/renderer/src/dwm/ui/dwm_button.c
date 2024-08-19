@@ -21,7 +21,12 @@
 #include <nt5emul/dwm/button.h>
 #include <nt5emul/renderer.h>
 
+#define DEBUG 0
+
 #include <math.h>
+#if DEBUG == 1
+#include <stdio.h>
+#endif
 
 // if user clicks to button function returns true
 bool _ntDwmDrawButton(struct dwm_context *ctx, struct dwm_button *btn)
@@ -120,6 +125,10 @@ bool _ntDwmDrawButton(struct dwm_context *ctx, struct dwm_button *btn)
     }
     else
     {
+#if DEBUG == 1
+        printf("drawing lines\n");
+#endif
+
         DrawLine(sz.x, sz.y, sz.x + sz.width - 1, sz.y, border1);
         DrawLine(sz.x, sz.y, sz.x, sz.y + sz.height, border1);
 

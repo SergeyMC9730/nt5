@@ -93,12 +93,12 @@ void _ntPVSelectFileDraw() {
 }
 
 void _ntPVSelectFileMain() {
-    _ntRendererSetDpiScale(2.f);
+    // _ntRendererSetDpiScale(2.f);
     _ntRendererSetFPS(30);
 
     renderer_state_t *st = _ntRendererGetState();
 
-    printf("scaling=%f\n", st->scaling);
+    // printf("scaling=%f\n", st->scaling);
 
     int c = st->current_window_size.y / (16 * st->scaling) - 7;
 

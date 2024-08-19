@@ -339,4 +339,5 @@ void _ntRendererSetWindowSize(Vector2 size);
 // if fake scaling is applied, mouse position would be scaled properly
 Vector2 _ntRendererGetMousePosition();
 
+// set fps
 void _ntRendererSetFPS(int fps);

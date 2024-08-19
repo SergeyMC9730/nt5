@@ -90,3 +90,14 @@ struct dwm_context_font _ntDwmGetFont(struct dwm_context *ctx, const char *name)
 
     return (struct dwm_context_font){};
 }
+
+struct dwm_context_font *_ntDwmGetFontRef(struct dwm_context *ctx, const char *name) {
+    for (int i = 0; i < 512; i++) {
+        struct dwm_context_font fnt = ctx->fonts.fonts[i];
+        if (fnt.name != NULL && !strcmp(fnt.name, name)) {
+            return ctx->fonts.fonts + i;
+        }
+    }
+
+    return NULL;
+}

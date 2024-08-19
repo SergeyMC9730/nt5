@@ -38,6 +38,7 @@ extern "C" {
 } RSB_ARRAY_NAME(funname)
 
 #define RSB_ARRAY_FUNC_CREATE_DEF(funname) RSB_ARRAY_NAME(funname) *RSBCreateArray##funname()
+#define RSB_ARRAY_FUNC_CREATEFL_DEF(type, funname) RSB_ARRAY_NAME(funname) *RSBCreateArrayFromList##funname(type *object_list, unsigned int size)
 #define RSB_ARRAY_FUNC_ADDELEMENT_DEF(type, funname) void RSBAddElement##funname(RSB_ARRAY_NAME(funname) *array, type object)
 #define RSB_ARRAY_FUNC_POPELEMENT_DEF(funname) void RSBPopElement##funname(RSB_ARRAY_NAME(funname) *array)
 #define RSB_ARRAY_FUNC_DESTROY_DEF(funname) void RSBDestroy##funname(RSB_ARRAY_NAME(funname) *array)
@@ -48,6 +49,7 @@ extern "C" {
 
 #define RSB_ARRAY_DEF_GEN(type, funname) RSB_ARRAY_STRUCT(type, funname); \
 RSB_ARRAY_FUNC_CREATE_DEF(funname);                 \
+RSB_ARRAY_FUNC_CREATEFL_DEF(type, funname);         \
 RSB_ARRAY_FUNC_DESTROY_DEF(funname);                \
                                                     \
 RSB_ARRAY_FUNC_ADDELEMENT_DEF(type, funname);       \
@@ -70,6 +72,18 @@ RSB_ARRAY_FUNC_POPELEMENTATINDEX_DEF(type, funname);
     array->objects = NULL;                                                                                  \
                                                                                                             \
     return array;                                                                                           \
+}
+
+#define RSB_ARRAY_FUNC_CREATEFL_IMPL(type, funname) RSB_ARRAY_FUNC_CREATEFL_DEF(type, funname) { \
+    RSB_ARRAY_NAME(funname) *array = RSBCreateArray##funname(); \
+                                                                \
+    if (object_list == NULL) return array;                      \
+                                                                \
+    for (unsigned int i = 0; i < size; i++) {                   \
+        RSBAddElement##funname(array, object_list[i]);          \
+    }                                                           \
+                                                                \
+    return array;                                               \
 }
 
 #define RSB_ARRAY_FUNC_ADDELEMENT_IMPL(type, funname) RSB_ARRAY_FUNC_ADDELEMENT_DEF(type, funname) {                        \
@@ -193,6 +207,7 @@ RSB_ARRAY_FUNC_POPELEMENTATINDEX_DEF(type, funname);
 
 #define RSB_ARRAY_IMPL_GEN(type, funname)            \
 RSB_ARRAY_FUNC_CREATE_IMPL(funname);                 \
+RSB_ARRAY_FUNC_CREATEFL_IMPL(type, funname);         \
 RSB_ARRAY_FUNC_DESTROY_IMPL(funname);                \
                                                      \
 RSB_ARRAY_FUNC_ADDELEMENT_IMPL(type, funname);       \

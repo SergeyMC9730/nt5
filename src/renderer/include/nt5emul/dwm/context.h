@@ -119,6 +119,9 @@ void _ntDwmLoadFont(struct dwm_context *ctx, int xsz, float sp, const char *path
 // get loaded font
 struct dwm_context_font _ntDwmGetFont(struct dwm_context *ctx, const char *name);
 
+// get reference to the loaded font
+struct dwm_context_font *_ntDwmGetFontRef(struct dwm_context *ctx, const char *name);
+
 // set size for this dwm instance
 void _ntDwmSetSize(struct dwm_context *ctx, Vector2 size);
 

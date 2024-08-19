@@ -209,6 +209,8 @@ void _boot_begin(int argc, char **argv) {
 		_boot_print_arginc("--skip-text-installation", "--force-text-installation");
 	}
 
+	_ntRendererModifyPreinitOptions(true, true);
+
 	// create "nt" folder
 	mkdir("nt", 0777);
 
