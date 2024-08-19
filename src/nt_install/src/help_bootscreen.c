@@ -93,7 +93,7 @@ void _boot_install_update_step1() {
     // // scroll help shortcuts
     // _boot_install_update_step1_text();
 
-    _ntTuiLoadEnvironmentDefault();
+    _ntTuiLoadEnvironmentDefault(_renderer_state.scaling);
 
     struct nt_tui_environment * tui_e = _ntGetTuiEnvironment();
 

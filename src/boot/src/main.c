@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  Sergei Baigerov
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -56,6 +56,8 @@ struct cterm_instance ct_instance = {0};
 void *_boot_cterm_thread(void *data) {
 	ct_instance = _ctermInit(true);
 	_ctermInitCommandLine(&ct_instance, stdin, stdout);
+
+	return NULL;
 }
 
 bool _boot_run_logo() {
@@ -132,6 +134,12 @@ void _boot_set2xscale(void *ctx) {
 
 void _boot_print_arginc(const char *cmd1, const char *cmd2) {
 	printf("! %s is not compatible with %s !\n", cmd1, cmd2);
+}
+
+void _boot_init_tui(void *ptr) {
+	renderer_state_t * st = _ntRendererGetState();
+
+	_ntTuiLoadEnvironmentDefault(st->scaling);
 }
 
 void _boot_begin(int argc, char **argv) {
@@ -261,7 +269,7 @@ void _boot_begin(int argc, char **argv) {
 	_ntRendererAddCloseEvent(_system_end, NULL, true);
 
 	// init Text UI environment
-	_ntRendererPushQueue(_ntTuiLoadEnvironmentDefault, NULL);
+	_ntRendererPushQueue(_boot_init_tui, NULL);
 
 	struct dwm_context *ctx = _ntDwmCreateContext("ntresources/basic.theme");
 

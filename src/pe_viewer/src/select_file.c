@@ -39,7 +39,7 @@ void _ntPVSelectFileUpdate() {
 
     renderer_state_t *st = _ntRendererGetState();
 
-    int c = st->current_window_size.y / 16 - 7;
+    int c = st->current_window_size.y / (16 * st->scaling) - 7;
 
     if (__state.file_selector->items_per_page != c) {
         __state.file_selector->items_per_page = c;
@@ -47,16 +47,6 @@ void _ntPVSelectFileUpdate() {
     }        
 
     _ntUpdateFileSelector(__state.file_selector);
-}
-
-
-void _ntPVSelectFileUpdate1() {
-    renderer_state_t *st = _ntRendererGetState();
-
-    // init text ui environment
-    _ntTuiLoadEnvironmentDefault();
-
-    st->layers[0].on_update.callback = _ntPVSelectFileUpdate;
 }
 
 void _ntPVSelectFileDraw() {
@@ -68,15 +58,15 @@ void _ntPVSelectFileDraw() {
 
     r.x = 0;
     r.y = 0;
-    r.width = st->current_window_size.x / 8 + 1;
-    r.height = st->current_window_size.y / 16 + 1;
+    r.width = st->current_window_size.x / (8 * st->scaling) + 1;
+    r.height = st->current_window_size.y / (16 * st->scaling) + 1;
 
     _ntTuiDrawRectangleGr(r, BLACK, gray);
 
     r.x = 2;
     r.y = 2;
-    r.width = st->current_window_size.x / 8 - 6;
-    r.height = st->current_window_size.y / 16 - 4;
+    r.width = st->current_window_size.x / (8 * st->scaling) - 6;
+    r.height = st->current_window_size.y / (16 * st->scaling) - 4;
 
     _ntTuiDrawFrame(r, WHITE, NULL);
 
@@ -103,9 +93,14 @@ void _ntPVSelectFileDraw() {
 }
 
 void _ntPVSelectFileMain() {
+    _ntRendererSetDpiScale(2.f);
+    _ntRendererSetFPS(30);
+
     renderer_state_t *st = _ntRendererGetState();
 
-    int c = st->current_window_size.y / 16 - 7;
+    printf("scaling=%f\n", st->scaling);
+
+    int c = st->current_window_size.y / (16 * st->scaling) - 7;
 
     __state.file_selector = _ntLoadFileSelector("./", c);
 
@@ -121,5 +116,9 @@ void _ntPVSelectFileMain() {
     __state.file_selector->callback = _ntPVOnFileClick;
 
     st->layers[0].on_draw.callback = _ntPVSelectFileDraw;
-    st->layers[0].on_update.callback = _ntPVSelectFileUpdate1;
+    
+    // init text ui environment
+    _ntTuiLoadEnvironmentDefault(st->scaling);
+
+    st->layers[0].on_update.callback = _ntPVSelectFileUpdate;
 }

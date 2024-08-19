@@ -34,9 +34,9 @@ struct nt_tui_environment {
 };
 
 // load text ui environment
-void _ntTuiLoadEnvironment(const char *font_path, Vector2 base_font_size);
+void _ntTuiLoadEnvironment(const char *font_path, Vector2 base_font_size, float scaling);
 
 // load text ui environment with default parameters
-void _ntTuiLoadEnvironmentDefault();
+void _ntTuiLoadEnvironmentDefault(float scaling);
 
 struct nt_tui_environment *_ntGetTuiEnvironment();

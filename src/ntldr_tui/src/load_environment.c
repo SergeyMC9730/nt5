@@ -44,19 +44,22 @@ extern void _ntUpdatePointer();
 #include <stdlib.h>
 
 // load text ui environment
-void _ntTuiLoadEnvironment(const char *font_path, Vector2 base_font_size) {
+void _ntTuiLoadEnvironment(const char *font_path, Vector2 base_font_size, float scaling) {
     // check if env has been created
     if (_ntTuiEnvironment.exists) {
         // dont do anything
         return;
     }
 
+    base_font_size.x *= scaling;
+    base_font_size.y *= scaling;
+
     // load codepoints
     int codepointCount = 0;
     int *codepoints = LoadCodepoints(_ntTuiCodepoints, &codepointCount);
 
     // load font with them
-    _ntTuiEnvironment.font = LoadFontEx(font_path, 16, codepoints, codepointCount);
+    _ntTuiEnvironment.font = LoadFontEx(font_path, 16 * scaling, codepoints, codepointCount);
     // set base font size
     _ntTuiEnvironment.base_font_size = base_font_size;
     // free allocation done by LoadCodepoints
@@ -65,6 +68,6 @@ void _ntTuiLoadEnvironment(const char *font_path, Vector2 base_font_size) {
     _ntInstallTimer(_ntUpdatePointer, 0.5f, NULL);
 }
 
-void _ntTuiLoadEnvironmentDefault() {
-    return _ntTuiLoadEnvironment("ntresources/Px437_IBM_VGA_8x16.ttf", (Vector2){8, 16});
+void _ntTuiLoadEnvironmentDefault(float scaling) {
+    return _ntTuiLoadEnvironment("ntresources/Px437_IBM_VGA_8x16.ttf", (Vector2){8, 16}, scaling);
 }

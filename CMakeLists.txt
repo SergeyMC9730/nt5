@@ -99,19 +99,28 @@ target_include_directories(rvideo PRIVATE
 )
 target_link_libraries(rvideo avformat avcodec swscale avutil)
 
+set(NT_BASE_INCLUDES
+    "src/arrays/include"
+    "src/nt_tools/include"
+    "src/language/include"
+    "src/global/include"
+    "src/renderer/include"
+    "src/renderer/raylib/src"
+    "src/external"
+)
+
 # nt5language
 file (GLOB NTLANGUAGE_SRC CONFIGURE_DEPENDS "src/language/src/*.c")
 add_library(nt5language SHARED ${NTLANGUAGE_SRC})
 target_include_directories(nt5language PRIVATE
-    "src/arrays/include"
-    "src/language/include"
+    ${NT_BASE_INCLUDES}
 )
 
 # nt5arrays
 file (GLOB NTARRAYS_SRC CONFIGURE_DEPENDS "src/arrays/src/*.c" "src/arrays/include/*/*.c")
 add_library(nt5arrays SHARED ${NTARRAYS_SRC})
 target_include_directories(nt5arrays PRIVATE
-    "src/arrays/include"
+    ${NT_BASE_INCLUDES}
     "src/renderer/raylib/src"
 )
 
@@ -119,8 +128,7 @@ target_include_directories(nt5arrays PRIVATE
 file(GLOB NTTOOLS_SRC CONFIGURE_DEPENDS "src/nt_tools/src/*.c" "src/nt_tools/include/*/*.h")
 add_library (nt5tools SHARED ${NTTOOLS_SRC})
 target_include_directories(nt5tools PRIVATE
-    "src/nt_tools/include"
-    "src/global/include"
+    ${NT_BASE_INCLUDES}
     "src/external/cJSON"
 )
 target_link_libraries(nt5tools cjson)
@@ -134,14 +142,11 @@ add_library(nt5renderer SHARED ${NTRENDERER_SRC})
 target_include_directories(nt5renderer PRIVATE
     "src/renderer/include"
     "src/renderer/raylib/src"
-    "src/nt_tools/include"
-    "src/arrays/include"
-    "src/language/include"
     "src/external/reasings/src"
     "src/external/inih"
     "src/external/raylib-video"
     "src/external/cJSON"
-    "src/global/include"
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(nt5renderer raylib rvideo nt5arrays inih nt5tools nt5language cjson)
 
@@ -158,10 +163,7 @@ file(GLOB NTTUI_SRC CONFIGURE_DEPENDS "src/ntldr_tui/src/*.c" "src/ntldr_tui/inc
 add_library(nt5tui SHARED ${NTTUI_SRC})
 target_include_directories(nt5tui PRIVATE
     "src/ntldr_tui/include"
-    "src/renderer/raylib/src"
-    "src/renderer/include"
-    "src/nt_tools/include"
-    "src/arrays/include"
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(nt5tui nt5renderer nt5tools)
 
@@ -170,15 +172,10 @@ file(GLOB NTPANIC_SRC CONFIGURE_DEPENDS "src/panic/src/*.c" "src/panic/include/*
 add_library (nt5panic SHARED ${NTPANIC_SRC})
 target_include_directories(nt5panic PRIVATE
     "src/panic/include"
-    "src/renderer/include"
     "src/nt_install/include"
-    "src/renderer/raylib/src"
     "src/ntldr_tui/include"
     "src/external/cJSON"
-    "src/arrays/include"
-    "src/external"
-    "src/nt_tools/include"
-    "src/global/include"
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(nt5panic nt5renderer nt5tools nt5tui)
 
@@ -188,10 +185,8 @@ add_executable(pe-viewer ${PEVIEWER_SRC})
 target_include_directories(pe-viewer PRIVATE
     "src/pe_viewer/include"
     "src/ntldr_tui/include"
-    "src/renderer/include"
-    "src/renderer/raylib/src"
     "src/external/libpe/include"
-    "src/arrays/include"
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(pe-viewer nt5tui nt5renderer pe nt5arrays)
 
@@ -200,9 +195,7 @@ file(GLOB EASINGSTEST_SRC CONFIGURE_DEPENDS "src/easings_test/src/*.c" "src/easi
 add_executable(easings_test ${EASINGSTEST_SRC})
 target_include_directories(easings_test PRIVATE
     "src/easings_test/include"
-    "src/renderer/include"
-    "src/renderer/raylib/src"
-    "src/arrays/include"
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(easings_test nt5renderer)
 
@@ -211,15 +204,10 @@ file(GLOB NTINSTALL_SRC CONFIGURE_DEPENDS "src/nt_install/src/*.c" "src/nt_insta
 add_library(nt5install SHARED ${NTINSTALL_SRC})
 target_include_directories(nt5install PRIVATE
     "src/nt_install/include"
-    "src/nt_tools/include"
-    "src/renderer/include"
-    "src/renderer/raylib/src"
     "src/external/cJSON"
     "src/external/libarchive/libarchive"
     "src/ntldr_tui/include"
-    "src/arrays/include"
-    "src/global/include"
-    "src/language/include"
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(nt5install nt5renderer nt5tui cjson archive nt5tools nt5arrays)
 
@@ -228,18 +216,12 @@ file(GLOB NTBOOT_SRC CONFIGURE_DEPENDS "src/boot/src/*.c" "src/boot/include/*/*.
 add_library (nt5boot SHARED ${NTBOOT_SRC})
 target_include_directories(nt5boot PRIVATE
     "src/boot/include"
-    "src/renderer/include"
     "src/nt_install/include"
-    "src/renderer/raylib/src"
     "src/ntldr_tui/include"
     "src/external/cJSON"
-    "src/arrays/include"
     "src/external/libpe/include"
-    "src/external"
-    "src/nt_tools/include"
-    "src/global/include"
-    "src/language/include"
     ${CTERM_INCLUDE_PATH}
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(nt5boot nt5renderer cjson nt5install pe cterml nt5tools)
 
@@ -248,8 +230,7 @@ file(GLOB NT_SRC CONFIGURE_DEPENDS "src/launcher/*.c")
 add_executable(nt5 ${NT_SRC})
 target_include_directories(nt5 PRIVATE
     "src/boot/include"
-    "src/renderer/include"
-    "src/arrays/include"
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(nt5 nt5boot nt5panic)
 
@@ -259,14 +240,8 @@ target_link_libraries(nt5 nt5boot nt5panic)
 file (GLOB NTMOD_LOGO_SRC CONFIGURE_DEPENDS "src/modules/logo/src/*.c")
 add_library(cterm_ext_ntmod_logo ${NTMOD_LOGO_SRC})
 target_include_directories(cterm_ext_ntmod_logo PRIVATE
-    "src/renderer/include"
     "src/modules/logo/include"
-    "src/external"
-    "src/renderer/raylib/src"
-    "src/nt_tools/include"
-    "src/global/include"
-    "src/arrays/include"
-    "src/language/include"
+    ${NT_BASE_INCLUDES}
     ${CTERM_INCLUDE_PATH}
 )
 target_link_libraries(cterm_ext_ntmod_logo nt5renderer raylib)
@@ -275,16 +250,9 @@ target_link_libraries(cterm_ext_ntmod_logo nt5renderer raylib)
 file (GLOB NTMOD_OOBE_SRC CONFIGURE_DEPENDS "src/modules/oobe/src/*.c")
 add_library(cterm_ext_ntmod_oobe ${NTMOD_OOBE_SRC})
 target_include_directories(cterm_ext_ntmod_oobe PRIVATE
-    "src/renderer/include"
     "src/modules/oobe/include"
-    "src/external"
-    "src/renderer/raylib/src"
-    "src/nt_tools/include"
-    "src/global/include"
-    "src/arrays/include"
-    "src/nt_tools/include"
     "src/external/raylib-video"
-    "src/language/include"
+    ${NT_BASE_INCLUDES}
     ${CTERM_INCLUDE_PATH}
 )
 target_link_libraries(cterm_ext_ntmod_oobe nt5renderer raylib)
@@ -293,16 +261,10 @@ target_link_libraries(cterm_ext_ntmod_oobe nt5renderer raylib)
 file (GLOB NTMOD_NOTIFY_SRC CONFIGURE_DEPENDS "src/modules/notify/src/*.c")
 add_library(cterm_ext_ntmod_notify ${NTMOD_NOTIFY_SRC})
 target_include_directories(cterm_ext_ntmod_notify PRIVATE
-    "src/renderer/include"
     "src/modules/notify/include"
-    "src/external"
-    "src/renderer/raylib/src"
-    "src/nt_tools/include"
-    "src/global/include"
-    "src/arrays/include"
-    "src/nt_tools/include"
     "src/external/raylib-video"
     ${CTERM_INCLUDE_PATH}
+    ${NT_BASE_INCLUDES}
 )
 target_link_libraries(cterm_ext_ntmod_notify nt5renderer raylib)
 
@@ -310,15 +272,8 @@ target_link_libraries(cterm_ext_ntmod_notify nt5renderer raylib)
 file (GLOB NTMOD_LOGONUI_SRC CONFIGURE_DEPENDS "src/modules/logonui/src/*.c")
 add_library(cterm_ext_ntmod_logonui ${NTMOD_LOGONUI_SRC})
 target_include_directories(cterm_ext_ntmod_logonui PRIVATE
-    "src/renderer/include"
     "src/modules/logonui/include"
-    "src/external"
-    "src/renderer/raylib/src"
-    "src/nt_tools/include"
-    "src/global/include"
-    "src/arrays/include"
-    "src/nt_tools/include"
-    "src/language/include"
+    ${NT_BASE_INCLUDES}
     ${CTERM_INCLUDE_PATH}
 )
 target_link_libraries(cterm_ext_ntmod_logonui nt5renderer raylib)
@@ -327,17 +282,10 @@ target_link_libraries(cterm_ext_ntmod_logonui nt5renderer raylib)
 file (GLOB NTMOD_EXPLORER_SRC CONFIGURE_DEPENDS "src/modules/explorer/src/**/*.c" "src/modules/explorer/src/*.c")
 add_library(cterm_ext_ntmod_explorer ${NTMOD_EXPLORER_SRC})
 target_include_directories(cterm_ext_ntmod_explorer PRIVATE
-    "src/renderer/include"
     "src/modules/explorer/include"
-    "src/external"
-    "src/renderer/raylib/src"
-    "src/nt_tools/include"
-    "src/global/include"
-    "src/arrays/include"
-    "src/nt_tools/include"
-    "src/language/include"
     "src/ntldr_tui/include"
     "src/panic/include"
+    ${NT_BASE_INCLUDES}
     ${CTERM_INCLUDE_PATH}
 )
 target_link_libraries(cterm_ext_ntmod_explorer nt5renderer raylib nt5tui nt5panic)
@@ -346,18 +294,21 @@ target_link_libraries(cterm_ext_ntmod_explorer nt5renderer raylib nt5tui nt5pani
 file (GLOB NTMOD_NOTEPAD_SRC CONFIGURE_DEPENDS "src/modules/notepad/src/*.c")
 add_library(cterm_ext_ntmod_notepad ${NTMOD_NOTEPAD_SRC})
 target_include_directories(cterm_ext_ntmod_notepad PRIVATE
-    "src/renderer/include"
     "src/modules/notepad/include"
-    "src/external"
-    "src/renderer/raylib/src"
-    "src/nt_tools/include"
-    "src/global/include"
-    "src/arrays/include"
-    "src/nt_tools/include"
-    "src/language/include"
+    ${NT_BASE_INCLUDES}
     ${CTERM_INCLUDE_PATH}
 )
 target_link_libraries(cterm_ext_ntmod_notepad nt5renderer raylib)
+
+# animation editor
+file (GLOB ANIM_EDITOR_SRC CONFIGURE_DEPENDS "src/animation_editor/src/*.c")
+add_executable(animation_editor ${ANIM_EDITOR_SRC})
+target_include_directories(animation_editor PRIVATE
+    "src/ntldr_tui/include"
+    "src/external/cJSON"
+    ${NT_BASE_INCLUDES}
+)
+target_link_libraries(animation_editor nt5tui cjson)
 
 add_custom_command(
   OUTPUT touch.txt

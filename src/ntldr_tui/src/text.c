@@ -34,9 +34,11 @@ extern struct nt_tui_environment _ntTuiEnvironment;
 void _ntTuiDrawText(const char *str, unsigned char x, unsigned char y, Color col) {
     if (str == NULL) return;
 
-    float scale = GetWindowScaleDPI().x;
+    renderer_state_t *st = _ntRendererGetState();
 
-    DrawTextEx(_ntTuiEnvironment.font, str, (Vector2){x * _ntTuiEnvironment.base_font_size.x * scale, y * _ntTuiEnvironment.base_font_size.y * scale}, 16.f * scale, 0.f, col);
+    float scale = st->scaling;
+
+    DrawTextEx(_ntTuiEnvironment.font, str, (Vector2){x * _ntTuiEnvironment.base_font_size.x, y * _ntTuiEnvironment.base_font_size.y}, 16.f * scale, 0.f, col);
 }
 
 void _ntTuiDrawTextCentered(const char *str, signed char x, signed char y, Color col) {

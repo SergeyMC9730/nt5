@@ -64,10 +64,11 @@ void _ntPanicSetupDraw(void *ptr) {
 }
 
 void _ntPanicLoadFont(void *ptr) {
-    _ntTuiLoadEnvironmentDefault();
-    _ntRendererPushQueue(_ntPanicSetupDraw, ptr);
+    renderer_state_t *st = _ntRendererGetState();
+    float scale = st->scaling;
 
-    float scale = GetWindowScaleDPI().x;
+    _ntTuiLoadEnvironmentDefault(scale);
+    _ntRendererPushQueue(_ntPanicSetupDraw, ptr);
 
     SetTextLineSpacing((int)(8.f * scale));
 

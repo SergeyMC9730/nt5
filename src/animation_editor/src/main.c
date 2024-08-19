@@ -1,6 +1,6 @@
 /*
     nt5 -- Windows XP simulator.
-    Copyright (C) 2023  SergeyMC9730
+    Copyright (C) 2024  Sergei Baigerov
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -15,37 +15,16 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-    Contact SergeyMC9730 -- @dogotrigger in Discord
+    Contact Sergei Baigerov -- @dogotrigger in Discord
 */
 
-#include "raylib.h"
 #include <nt5emul/renderer.h>
-#include <nt5emul/pv/select_file.h>
 #include <nt5emul/tui/environment.h>
-#include <stdio.h>
-
-void rendererInit(void *arg) {
-    _ntPVSelectFileMain();
-}
 
 int main() {
     // init NT renderer
-    _ntRendererModifyPreinitOptions(true, true);
-	_ntRendererCreateEnvironmentEx(false);
-    renderer_state_t *st = _ntRendererGetState();
+    _ntRendererModifyPreinitOptions(true, false);
+	_ntRendererCreateEnvironment();
 
-	float scale = st->scaling;
-
-    int sx = 640 * scale;
-    int sy = 480 * scale;
-
-    _ntRendererSetWindowSize((Vector2){sx, sy});
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
-    SetWindowMinSize(sx, sy);
-
-    _ntRendererPushQueue(rendererInit, NULL);
-
-    // _ntPVSelectFileMain();
-
-    _ntRendererJoin();
+    return 0;
 }
