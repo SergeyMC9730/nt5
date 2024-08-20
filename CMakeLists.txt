@@ -307,8 +307,9 @@ target_include_directories(animation_editor PRIVATE
     "src/ntldr_tui/include"
     "src/external/cJSON"
     ${NT_BASE_INCLUDES}
+    ${CTERM_INCLUDE_PATH}
 )
-target_link_libraries(animation_editor nt5tui cjson)
+target_link_libraries(animation_editor nt5tui cjson cterml)
 
 add_custom_command(
   OUTPUT touch.txt
